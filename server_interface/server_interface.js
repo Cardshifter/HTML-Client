@@ -4,7 +4,7 @@
     }
     window.CardshifterServerAPI = {
         ws: null,
-        types: {
+        messageTypes: {
             LoginMessage: function(username) {
                 this.username = username;
             },
