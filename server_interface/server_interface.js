@@ -3,6 +3,7 @@
         this.command = command;
     }
     window.CardshifterServerInterface = {
+        ws: null,
         types: {
             LoginMessage: function(username) {
                 this.username = username;
@@ -38,7 +39,7 @@
                 };
             }
         },
-        init: function() {
+        init: function(server, isSecure) {
             var types = this.types;
             
             types.LoginMessage.prototype = new Message("login");
@@ -47,6 +48,12 @@
             types.StartGameRequest.prototype = new Message("startgame");
             types.TransformerMessage.prototype = new Message("serial");
             types.UseAbilityMessage.prototype = new Message("use");
+            
+            var ws = new WebSocket("ws" + (isSecure ? "s" : "") + "://" + server);
+            this.ws = ws;
+        },
+        sendMessage: function(message) {
+            this.ws.send(JSON.stringify(message));
         }
     };
 })(Function("return this")());
