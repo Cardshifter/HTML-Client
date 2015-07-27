@@ -14,7 +14,7 @@
             }
         },
         init: function() {
-            var tyeps = this.types;
+            var types = this.types;
             
             types.LoginMessage.prototype = new Message("login");
             types.RequestTargetsMessage.prototype = new Message("requestTargets");
