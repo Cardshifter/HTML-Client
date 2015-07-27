@@ -9,4 +9,4 @@
         console.log("Username: " + username.value);
     }
     
-})(Function("return this"));
+})(Function("return this")());
