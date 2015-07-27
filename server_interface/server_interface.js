@@ -2,7 +2,7 @@
     function Message(command) {
         this.command = command;
     }
-    window.CardshifterServerInterface = {
+    window.CardshifterServerAPI = {
         ws: null,
         types: {
             LoginMessage: function(username) {
