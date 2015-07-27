@@ -3,7 +3,7 @@
         this.command = command;
     }
     window.CardshifterServerAPI = {
-        ws: null,
+        socket: null,
         messageTypes: {
             LoginMessage: function(username) {
                 this.username = username;
@@ -80,11 +80,11 @@
             types.InviteResponse.prototype = new Message("inviteResponse");
             types.PlayerConfigMessage = new Message("playerconfig");
             
-            var ws = new WebSocket("ws" + (isSecure ? "s" : "") + "://" + server);
-            this.ws = ws;
+            var socket = new WebSocket("ws" + (isSecure ? "s" : "") + "://" + server);
+            this.socket = socket;
         },
         sendMessage: function(message) {
-            this.ws.send(JSON.stringify(message));
+            this.socket.send(JSON.stringify(message));
         }
     };
 })(Function("return this")());
