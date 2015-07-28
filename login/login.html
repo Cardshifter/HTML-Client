@@ -1,32 +1,123 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Cardshifter -- Login</title>
-        <link rel = "stylesheet" type = "text/css" href = "login.css">
-    </head>
-    <body>
-        <noscript>To play CardShifter, please either enable JavaScript or use a JavaScript-enabled browser.</noscript>
-        <form name = "login_information">
-            Server:
-            <select name = "server">
-                <option value = "127.0.0.1">Local host</option>
-                <option value = "dwarftowers.com">dwarftowers.com</option>
-                <option value = "other">Other...</option>
-            </select>
+
+<head>
+    <title>Cardshifter -- Login</title>
+    <link rel="stylesheet" type="text/css" href="login.css">
+</head>
+
+<body>
+    <noscript>To play CardShifter, please either enable JavaScript or use a JavaScript-enabled browser.</noscript>
+    <h1>Cardshifter login</h1>
+    <form name="login_information">
+        Server:
+        <select name="server">
+            <option value="127.0.0.1">Local host</option>
+            <option value="dwarftowers.com">dwarftowers.com</option>
+            <option value = "ws://echo.websocket.org/">WebSocket.org echo test</option>
+            <option value="other">Other...</option>
+        </select>
+        <br/>
+        <div id="server_other">
+            Other Server:
+            <input name="server_other" type="text" />
             <br/>
-            <div id = "server_other">
-                Other Server:
-                <input name = "server_other" type = "text"/>
-                <br/>
-            </div>
-            Username:
-            <input name = "username" type = "text" placeholder = "John Smith" />
-            <br/>
-            Is secure server:
-            <input name = "secure" type = "checkbox"/>
-            <br/>
-            <input name = "submit" type = "button" value = "Log in" />
-        </form>
-        <script src = "login.js"></script>
-    </body>
+        </div>
+        Username:
+        <input name="username" type="text" placeholder="Enter name..." />
+        <br/> Is secure server:
+        <input name="secure" type="checkbox" />
+        <br/>
+        Test message to server (for testing only):
+        <input name = "testMessage" type = "test" placeholder = "Hello, World!" />
+        <br/>
+        <input name="submit" type="button" value="Log in" />
+        <input name ="test_websocket" type="button" value="Test WebSocket" />
+    </form>
+    <script src="login.js"></script>
+
+    <!-- Temporary WebSocket connection test prints result to document -->
+
+    <!-- EXTERNAL SCRIP DOESN'T WORK YET | 2015-07-28 @Phrancis
+    <script src="connection-test.js">
+    -->
+
+    <script "type="text/javascript">
+    // @TODO: Extract this functionality to external file.
+
+    loginForm = document.forms['login_information'];
+    
+    loginForm.elements['test_websocket'].addEventListener("click", init);
+    
+    var wsUri = "ws://echo.websocket.org/";
+    var output;
+    
+    function init() {
+      output = document.getElementById("output");
+      testWebSocket();
+    }
+    
+    function testWebSocket() {
+
+      // Message to append input values to document prior to printing test results
+      var wsInfo = document.createElement("h3");
+      wsInfo.innerHTML = "Testing WebSocket connection...";
+      output.appendChild(wsInfo);
+
+      // Begin WebSocket test
+
+      websocket = new WebSocket(wsUri);
+      websocket.onopen = function(evt) {
+        onOpen(evt)
+      };
+      websocket.onclose = function(evt) {
+        onClose(evt)
+      };
+      websocket.onmessage = function(evt) {
+        onMessage(evt)
+      };
+      websocket.onerror = function(evt) {
+        onError(evt)
+      };
+    }
+    
+    function onOpen(evt) {
+      writeToScreen("CONNECTED");
+      doSend("TEST");
+    }
+    
+    function onClose(evt) {
+      writeToScreen("DISCONNECTED");
+    }
+    
+    function onMessage(evt) {
+      writeToScreen('<span style="color: blue;">RESPONSE: ' + evt.data + '</span>');
+      websocket.close();
+    }
+    
+    function onError(evt) {
+      writeToScreen('<span style="color: red;">ERROR:</span> ' + evt.data);
+    }
+    
+    function doSend(message) {
+      writeToScreen("SENT: " + message);
+      websocket.send(message);
+    }
+    
+    function writeToScreen(message) {
+
+      var pre = document.createElement("p");
+      pre.style.wordWrap = "break-word";
+      pre.innerHTML = message;
+      output.appendChild(pre);
+    }
+
+    </script>
+    <!-- <h2>WebSocket Test</h2> -->
+    <div id="output"></div>
+
+    <!-- end temporary connection test -->
+
+</body>
+
 </html>
