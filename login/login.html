@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+        <noscript>To play CardShifter, please either enable JavaScript or use a JavaScript-enabled browser.</noscript>
+        <form name = "login_information">
+            Server:
+            <select name = "server">
+                <option value = "127.0.0.1">Local host</option>
+                <option value = "dwarftowers.com">dwarftowers.com</option>
+                <option value = "other">Other...</option>
+            </select>
+            <br/>
+            <div id = "server_other">
+                Other Server:
+                <input name = "server_other" type = "text"/>
+                <br/>
+            </div>
+            Username:
+            <input name = "username" type = "text" placeholder = "John Smith" />
+            <br/>
+            Is secure server:
+            <input name = "secure" type = "checkbox"/>
+            <br/>
+            <input name = "submit" type = "button" value = "Log in" />
+        </form>
+    </body>
+</html>
