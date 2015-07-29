@@ -82,7 +82,7 @@
 			types.InviteResponse.prototype = new Message("inviteResponse");
 			types.PlayerConfigMessage = new Message("playerconfig");
 			
-			var secureAddon = (isSecure ? : "s" : ""); // secure websocket is wss://, rather than ws://
+			var secureAddon = (isSecure ? "s" : ""); // secure websocket is wss://, rather than ws://
 			var protocolAddon = (wsProtocolFinder.test(server) ? "" : "ws" + secureAddon + "://"); // if the protocl is not found in the string, store the correct protocol (is secure?)
 			var socket = new WebSocket(protocolAddon + server);
 			this.socket = socket;
