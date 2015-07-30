@@ -9,51 +9,51 @@ var server
 
 function init() {
 
-  server = document.getElementById("server").value.toString();
-  if (server === "other") {
-    server = document.getElementById("server_other_input").value.toString();
-  }
-  username = document.getElementById("username").value.toString();
-  testMessage = document.getElementById("test_message").value.toString();
-  if (!testMessage) {
-    testMessage = '{ "command": "login", "username": "' + username + '" }';
-  }
+    server = document.getElementById("server").value.toString();
+    if (server === "other") {
+        server = document.getElementById("server_other_input").value.toString();
+    }
+    username = document.getElementById("username").value.toString();
+    testMessage = document.getElementById("test_message").value.toString();
+    if (!testMessage) {
+        testMessage = '{ "command": "login", "username": "' + username + '" }';
+    }
 
-  websocketOutput = document.getElementById("websocket_output");
+    websocketOutput = document.getElementById("websocket_output");
 
-  testWebSocket();
+    testWebSocket();
 }
 
 function testWebSocket() {
 
-  // Message to append input values to document prior to printing test results
-  var wsHeader = document.createElement("h3");
-  wsHeader.innerHTML = "Testing WebSocket connection...";
-  websocketOutput.appendChild(wsHeader);
+    // Message to append input values to document prior to printing test results
+    var wsHeader = document.createElement("h3");
+    wsHeader.innerHTML = "Testing WebSocket connection...";
+    websocketOutput.appendChild(wsHeader);
 
-  var wsInput = document.createElement("p");
-  wsInput.innerHTML =
-    "Server: " + server + "<br/>" +
-    "Username: " + username +  "<br/>" +
-    "Message: " + testMessage;
+    var wsInput = document.createElement("p");
+    wsInput.innerHTML =
+        "Server: " + server + "<br/>" +
+        "Username: " + username +  "<br/>" +
+        "Message: " + testMessage;
 
-  websocketOutput.appendChild(wsInput);
+    websocketOutput.appendChild(wsInput);
 
-  // Begin WebSocket test
+    // Begin WebSocket test
 
-  websocket = new WebSocket(server);
-  websocket.onopen = function(evt) {
-    onOpen(evt)
-  };
-  websocket.onclose = function(evt) {
-    onClose(evt)
-  };
-  websocket.onmessage = function(evt) {
-    onMessage(evt)
-  };
-  websocket.onerror = function(evt) {
-    onError(evt)
-  };
+    websocket = new WebSocket(server);
+    websocket.onopen = function(evt) {
+        onOpen(evt)
+    };
+    websocket.onclose = function(evt) {
+        onClose(evt)
+    };
+    websocket.onmessage = function(evt) {
+        onMessage(evt)
+    };
+    websocket.onerror = function(evt) {
+        onError(evt)
+    };
 }
 
 function onOpen(evt) {
