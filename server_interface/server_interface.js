@@ -38,7 +38,14 @@
 				this.action = action;
 			},
             
-            
+            		/**
+			* Make a specific type of request to the server. 
+			* <p>
+			* This is used to request an action from the server which requires server-side information.
+			* @constructor
+			* @param request  This request
+			* @param message  The message accompanying this request
+			*/
 			ServerQueryMessage: function(request, message) {
 				this.request = request;
 				this.message = message;
@@ -47,10 +54,35 @@
 					return "ServerQueryMessage: Request" + this.request + " message: " + this.message;
 				};
 			},
+			
+			
+			/**
+			* Request to start a new game.
+			* <p>
+			* This is sent from the Client to the Server when this player invites another player (including AI) to start a new game of a chosen type.
+			* @constructor
+			* @param opponent  The Id of the player entity being invited by this player
+			* @param gameType  The type / mod of the game chosen by this player
+			*/
 			StartGameRequest: function(opponent, gameType) {
 				this.opponent = opponent;
 				this.gameType = gameType;
 			},
+			
+			/**
+			* Message for a game entity to use a certain ability.
+			* <p>
+			* Game entities (e.g., cards, players) may have one or more ability actions that they can perform.
+			* Certain abilities can have multiple targets, hence the use of an array.
+			* @constructor. (multiple targets)
+			* <p>
+			* Used for multiple target actions.
+			* 
+			* @param gameId  This current game
+			* @param entity  This game entity performing an action
+			* @param action  This action
+			* @param targets  The set of multiple targets affected by this action
+			*/
 			TransformerMessage: function(type) {
 				this.type = type;
 			},
