@@ -8,30 +8,30 @@
 	window.CardshifterServerAPI = {
 		socket: null,
 		messageTypes: {
-                /** 
-                * Incoming login message.
-                * <p>
-                * A login message from a client to add a user to the available users on the server.
-                * This login message is required before any other action or message can be performed between a client and a server.
-                * @constructor
-                * @param username  the incoming user name passed from client to server, not null
-                * @example Message: <code>{ "command":"login","username":"JohnDoe" }</code>
-                */
+	                /** 
+	                * Incoming login message.
+	                * <p>
+	                * A login message from a client to add a user to the available users on the server.
+	                * This login message is required before any other action or message can be performed between a client and a server.
+	                * @constructor
+	                * @param username  the incoming user name passed from client to server, not null
+	                * @example Message: <code>{ "command":"login","username":"JohnDoe" }</code>
+	                */
 			LoginMessage: function(username) {
 				this.username = username;
 			},
             
-                /**
-                * Request available targets for a specific action to be performed by an entity.
-                * <p>
-                * These in-game messages request a list of al available targets for a given action and entity.
-                * The client uses this request in order to point out targets (hopefully with a visual aid such as highlighting targets)
-                * that an entity (such as a creature card, or a player) can perform an action on (for example attack or enchant a card.
-                * @constructor
-                * @param gameId  The Id of this game currently being played
-                * @param id  The Id of this entity which requests to perform an action
-                * @param action  The name of this action requested to be performed
-                */
+	                /**
+	                * Request available targets for a specific action to be performed by an entity.
+	                * <p>
+	                * These in-game messages request a list of al available targets for a given action and entity.
+	                * The client uses this request in order to point out targets (hopefully with a visual aid such as highlighting targets)
+	                * that an entity (such as a creature card, or a player) can perform an action on (for example attack or enchant a card.
+	                * @constructor
+	                * @param gameId  The Id of this game currently being played
+	                * @param id  The Id of this entity which requests to perform an action
+	                * @param action  The name of this action requested to be performed
+	                */
 			RequestTargetsMessage: function(gameId, id, action) {
 				this.gamdId = gameId;
 				this.id = id;
@@ -103,6 +103,16 @@
 						"]";
 				};
 			},
+			
+			/**
+			* Chat message in game lobby.
+			* <p>
+			* These are messages printed to the game lobby which are visible to all users present at the time the message is posted.
+			* @constructor
+			* @param chatId  The Id of this chat message
+			* @param from  The Id of the sender of this message
+			* @param message  The content of this chat message
+			*/
 			ChatMessage: function(chatId, from, message) {
 				this.chatId = chatId;
 				this.from = from;
@@ -112,15 +122,38 @@
 					return "ChatMessage [chatId=" + chatId + ", message=" + message + ", from=" + from + "]";
 				};
 			},
+			
+			/**
+			* Request to invite a player to start a new game.
+			* @constructor
+			* @param id  The Id of this invite request
+			* @param name  The name of the player being invited
+			* @param gameType  The game type of this invite request
+			*/
 			InviteRequest: function(id, name, gameType) {
 				this.id = id;
 				this.name = name;
 				this.gameType = gameType;
 			},
+			
+			/**
+			* Response to an InviteRequest message.
+			* @constructor
+			* @param inviteId  Id of this incoming InviteRequest message
+			* @param accepted  Whether or not the InviteRequest is accepted
+			*/
 			InviteResponse: function(inviteId, accepted) {
 				this.inviteId = inviteId;
 				this.accepted = accepted;
 			},
+			
+			/**
+			* Player configuration for a given game.
+			* Constructor.
+			* @param gameId  This game
+			* @param modName  The mod name for this game
+			* @param configs  Map of player name and applicable player configuration
+			*/
 			PlayerConfigMessage: function(gameId, modName, configs) {
 				this.gameId = gameId;
 				this.modName = modName;
