@@ -37,7 +37,12 @@
 				this.targets = targets;
 				
 				this.toString = function() {
-					return "UseAbilityMessage [id=" + this.id + ", action=" + this.action + ", gameId=" + this.gameId + ", targets=" + this.targets.toString() + "]";
+					return "UseAbilityMessage" +
+						"[id=" + this.id + 
+						", action=" + this.action + 
+						", gameId=" + this.gameId + 
+						", targets=" + this.targets.toString() + 
+						"]";
 				};
 			},
 			ChatMessage: function(chatId, from, message) {
@@ -64,7 +69,11 @@
 				this.configs = configs;
 				
 				this.toString = function() {
-					return "PlayerConfigMessage{ configs=" + configs + ", gameId=" + gameId + ", modName='" + modName + '\'' + '}';
+					return "PlayerConfigMessage{" +
+						"configs=" + configs + 
+						", gameId=" + gameId + 
+						", modName='" + modName + '\'' + 
+						'}';
 				};
 			}
 		},
