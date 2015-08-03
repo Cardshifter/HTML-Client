@@ -13,7 +13,7 @@
              * <p>
              * A login message from a client to add a user to the available users on the server.
              * This login message is required before any other action or message can be performed between a client and a server.
-             * Constructor.
+             * @constructor
              * @param username  the incoming user name passed from client to server, not null
              * @example Message: <code>{ "command":"login","username":"JohnDoe" }</code>
              */
@@ -27,7 +27,7 @@
              * These in-game messages request a list of al available targets for a given action and entity.
              * The client uses this request in order to point out targets (hopefully with a visual aid such as highlighting targets)
              * that an entity (such as a creature card, or a player) can perform an action on (for example attack or enchant a card.
-             * Constructor.
+             * @constructor
              * @param gameId  The Id of this game currently being played
              * @param id  The Id of this entity which requests to perform an action
              * @param action  The name of this action requested to be performed
