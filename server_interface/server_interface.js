@@ -69,6 +69,11 @@
 				this.gameType = gameType;
 			},
 			
+			
+			TransformerMessage: function(type) {
+				this.type = type;
+			},
+			
 			/**
 			* Message for a game entity to use a certain ability.
 			* <p>
@@ -83,9 +88,6 @@
 			* @param action  This action
 			* @param targets  The set of multiple targets affected by this action
 			*/
-			TransformerMessage: function(type) {
-				this.type = type;
-			},
 			UseAbilityMessage: function(gameId, id, action, targets) {
 				this.gameId = gameId;
 				this.id = id;
