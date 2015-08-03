@@ -1,5 +1,6 @@
 (function(window, undefined) {
-	var wsProtocolFinder = /ws(s)*:\/\//; // checks if the string begins with either ws:// or wss://, as user may enter it that way
+	// checks if the string begins with either ws:// or wss://
+	var wsProtocolFinder = /ws(s)*:\/\//; 
 
 	function Message(command) {
 		this.command = command;
@@ -91,8 +92,10 @@
 			types.InviteResponse.prototype = new Message("inviteResponse");
 			types.PlayerConfigMessage = new Message("playerconfig");
 			
-			var secureAddon = (isSecure ? "s" : ""); // secure websocket is wss://, rather than ws://
-			var protocolAddon = (wsProtocolFinder.test(server) ? "" : "ws" + secureAddon + "://"); // if the protocl is not found in the string, store the correct protocol (is secure?)
+			 // secure websocket is wss://, rather than ws://
+			var secureAddon = (isSecure ? "s" : "");
+			 // if the protocol is not found in the string, store the correct protocol (is secure?)
+			var protocolAddon = (wsProtocolFinder.test(server) ? "" : "ws" + secureAddon + "://");
 			var socket = new WebSocket(protocolAddon + server);
 			this.socket = socket;
 		},
