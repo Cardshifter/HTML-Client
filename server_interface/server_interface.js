@@ -1,14 +1,22 @@
 (function(window, undefined) {
 	// checks if the string begins with either ws:// or wss://
-	var wsProtocolFinder = /ws(s)*:\/\//; 
+	var wsProtocolFinder = /ws(s)*:\/\//;
+	var SOCKET_OPEN = 1;
 
 	function Message(command) {
 		this.command = command;
 	}
+
 	function NotInitializedException(message) {
 		this.name = "NotInitializedException";
 		this.message = message;
 	}
+	function SocketNotReadyException(message, readyState) {
+		this.name = "SocketNotReadyException"
+		this.message = message;
+		this.readyState = readyState;
+	}
+
 	window.CardshifterServerAPI = {
 		socket: null,
 		messageTypes: {
@@ -208,6 +216,8 @@
 			 // if the protocol is not found in the string, store the correct protocol (is secure?)
 			var protocolAddon = (wsProtocolFinder.test(server) ? "" : "ws" + secureAddon + "://");
 			var socket = new WebSocket(protocolAddon + server);
+
+
 			this.socket = socket;
 		},
 		
@@ -220,8 +230,13 @@
 		 * This will use websocket setup by `this.init` to send a message to the server.
 		 */
 		sendMessage: function(message) {
-			if(this.socket) {
-				this.socket.send(JSON.stringify(message));
+			var socket = this.socket;
+			if(socket) {
+				if(socket.readyState === SOCKET_OPEN) {
+					this.socket.send(JSON.stringify(message));
+				} else {
+					throw new SocketNotReadyException("The Websocket is not yet ready to be used", socket.readyState);
+				}
 			} else {
 				throw new NotInitializedException("The API has not yet been initialized.");
 			}
