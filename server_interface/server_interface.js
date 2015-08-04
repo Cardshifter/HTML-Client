@@ -67,7 +67,7 @@
             }
         },
         init: function(server, isSecure) {
-            var types = this.types;
+            var types = this.messageTypes;
             
             types.LoginMessage.prototype = new Message("login");
             types.RequestTargetsMessage.prototype = new Message("requestTargets");
