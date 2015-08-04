@@ -39,8 +39,23 @@
             "Username: " + username.value + "<br/>" +
             "Message: " + printTestMessage;
         websocketOutput.appendChild(wsInput);
+
+        // attempt connection to websocket server using input values
+
+        connect(finalServer, username.value, isSecure.value, testMessage.value);
     }
     
+    function connect(server, username, isSecure, testMessage) {
+        CardshifterServerAPI.init(server, isSecure);
+        webSocket = new WebSocket(server);
+
+        var loginMessage = new CardshifterServerAPI.messageTypes.LoginMessage(username);
+        CardshifterServerAPI.sendMessage(loginMessage);
+        if (!testMessage) { 
+            testMessage = "Hello, Cardshifter!";
+        }
+        CardshifterServerAPI.sendMessage(testMessage);
+    }
 
     server.onclick = function() {
         console.log("Select server:" + this.value);
