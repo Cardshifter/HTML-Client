@@ -200,7 +200,7 @@
 			types.ChatMessage.prototype = new Message("chat");
 			types.InviteRequest.prototype = new Message("inviteRequest");
 			types.InviteResponse.prototype = new Message("inviteResponse");
-			types.PlayerConfigMessage = new Message("playerconfig");
+			types.PlayerConfigMessage.prototype = new Message("playerconfig");
 			NotInitializedException.prototype = new Error();
 			
 			 // secure websocket is wss://, rather than ws://
