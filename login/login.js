@@ -1,21 +1,27 @@
 (function(window, undefined) {
-    var login_information = document.login_information;
+
+    /* Login information data obtained from user input in HTML form */
+    var loginInformation = document.login_information;
     
     var server = login_information.server;
-    var serverOther = login_information.server_other;
-    var serverOtherContainer = document.getElementById("server_other");
-    var username = login_information.username;
-    var isSecure = login_information.secure;
-    var submit = login_information.submit;
+    var serverOther = loginInformation.server_other_input;
+    var serverOtherContainer = document.getElementById("server_other_input");
+    var username = loginInformation.username;
+    var isSecure = loginInformation.secure;
+    var submit = loginInformation.submit;
     var isOther = false;
     
+
     submit.onclick = function() {
+        /* Verify if user selected one of the provided servers, or entered another server of their choosing */
         var finalServer = (isOther ? serverOther.value : server.value);
         console.log(finalServer);
     }
     
+
     server.onclick = function() {
         console.log(this.value);
+        /* Display a text input field if user select "other" as server so that server can be entered manually */
         if(this.value === "other") {
             serverOtherContainer.style.display = "block";
             isOther = true;
