@@ -10,12 +10,12 @@ var server,
 
 function init() {
 
-    server = document.getElementById("server").value.toString();
+    server = document.getElementById("server").value;
     if (server === "other") {
-        server = document.getElementById("server_other_input").value.toString();
+        server = document.getElementById("server_other_input").value;
     }
-    username = document.getElementById("username").value.toString();
-    testMessage = document.getElementById("test_message").value.toString();
+    username = document.getElementById("username").value;
+    testMessage = document.getElementById("test_message").value;
     if (!testMessage) {
         testMessage = '{ "command": "login", "username": "' + username + '" }';
     }
