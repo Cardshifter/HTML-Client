@@ -19,7 +19,7 @@
         </select>
         <br/>
         <div id="server_other">
-            <label for="server_other">Other Server:</label>
+            <label for="server_other_input">Other Server:</label>
             <input name="server_other_input" id="server_other_input" type="text" />
             <br/>
         </div>
@@ -33,8 +33,11 @@
         <br/>
         <input name="test_message" id="test_message" type="text" size="100" placeholder="Optional... Leave blank unless using for testing." />
         <br/>
-        <input name="submit" id=submit" type="button" value="Log in" />
-        <input name ="test_websocket" id="test_websocket "type="button" value="Test WebSocket" />
+        <input name="submit" id="submit" type="button" value="Log in" />
+        <br/>
+        <br/>
+        <input name ="test_websocket" id="test_websocket" type="button" value="Test WebSocket" />
+        <input name ="disconnect_websocket" id="disconnect_websocket" type="button" value="Disconnect WebSocket" />
     </form>
     <script src="login.js"></script>
 
