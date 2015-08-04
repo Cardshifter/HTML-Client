@@ -68,5 +68,5 @@
             isOther = false;
         }
     }
-    
+
 })(Function("return this")());
