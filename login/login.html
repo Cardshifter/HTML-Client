@@ -2,11 +2,13 @@
 <html>
 
 <head>
-	<title>Cardshifter -- Login</title>
-	<link rel="stylesheet" type="text/css" href="login.css">
+	<title>Cardshifter Login</title>
+
         <!-- Link external libraries for page design via CDN -->
-        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css" />
+        <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet"/>
+        <!-- <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css" rel="stylesheet" /> -->
+
+	<link rel="stylesheet" type="text/css" href="login.css">
 
         <!-- load angular and angular route via CDN -->
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
@@ -15,40 +17,46 @@
 </head>
 
 <body>
+    <div class="col-sm-9 col-md-10 main csh-body">
 	<noscript>To play CardShifter, please either enable JavaScript or use a JavaScript-enabled browser.</noscript>
 	<h1>Cardshifter login</h1>
-	<form name="login_information" id="login_information">
-		<label for="server">Server:</label>
-		<select name="server" id="server">
+	<form name="login_information" id="login_information" class="login-form">
+            <div class="form-group">
+		<label for="server" aria-label="Server">Server:</label>
+		<select name="server" id="server" class="form-control">
 			<option value="ws://127.0.0.1:4243">Local host</option>
 			<option value="ws://dwarftowers.com:4243">dwarftowers.com</option>
 			<option value="ws://echo.websocket.org/">WebSocket.org echo test</option>
 			<option value="other">Other...</option>
 		</select>
-		<br/>
+            </div>
+            <div class="form-group">
 		<div id="server_other">
 			<label for="server_other_input">Other Server:</label>
-			<input name="server_other_input" id="server_other_input" type="text" />
+			<input name="server_other_input" id="server_other_input" type="text" class="form-control" />
 			<br/>
 			<!-- Could localhost be secure too? (SirPython)-->
 			<label for="secure">Is secure server:</label>
 			<input name="secure" id="secure" type="checkbox" value="secure" />
 			<br/>
 		</div>
+            </div>
+            <div class="form-group">
 		<label for="username">Username:</label>
-		<input name="username" id="username" type="text" placeholder="Enter name..." />
-		<br/>
+		<input name="username" id="username" type="text" class="form-control" placeholder="Enter name..." />
+            </div>
+            <div class="form-group">
 		<label for="test_message">Test message to server:</label>
-		<br/>
-		<input name="test_message" id="test_message" type="text" size="100" placeholder="Optional... Leave blank unless using for 
-
-testing." />
-		<br/>
-		<input name="submit" id="submit" type="button" value="Log in" />
-		<input name="test_websocket" id="test_websocket" type="button" value="Test WebSocket" />
+		<input name="test_message" id="test_message" type="text" size="100" class="form-control" placeholder="Optional... Leave blank unless using for testing." />
+            </div>
+            <div class="form-group">
+		<input name="submit" id="submit" type="button" value="Log in" class="btn btn-success" />
+		<input name="test_websocket" id="test_websocket" type="button" value="Test WebSocket" class="btn btn-primary" />
+		<input name="disconnect_websocket" id="disconnect_websocket" type="button" value="Disconnect WebSocket" class="btn btn-danger" />
+            </div>
 	</form>
 	<script src="login.js"></script>
-
+    </div>
 </body>
 
 </html>
