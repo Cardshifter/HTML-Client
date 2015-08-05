@@ -5,17 +5,8 @@ CardshifterApp.config(function($routeProvider) {
 		.when("/", { // default page is Login
 			controller: "LoginController",
 			// file name might change
-			templateUrl: "login/login_angular.html"
+			templateUrl: "login/login_angular.html",
+			css: "login/login.css"
 		})
-		/*.when("/login", {
-			controller: "LoginController",
-			// file name might change
-			templateUrl: "login/login_angular.html"
-		})*/
-		/*.when("/lobby", {
-
-		})
-		.when("/game", {
-
-		})*/
+		
 });
