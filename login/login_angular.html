@@ -9,7 +9,7 @@
 			<option value="other">Other...</option>
 		</select>
 		<br/>
-		<div ng-class="{'hidden': server=='other'}">
+		<div ng-show="server=='other'">
 			<label for="server_other_input">Other Server:</label>
 			<input ng-model="other_server" name="server_other_input" type="text" />
 			<br/>
