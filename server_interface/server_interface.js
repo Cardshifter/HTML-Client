@@ -19,6 +19,7 @@
 
 	window.CardshifterServerAPI = {
 		socket: null,
+		incomingMessages: [],
 		messageTypes: {
 	                /** 
 	                * Incoming login message.
@@ -198,6 +199,7 @@
 		*/
 		init: function(server, isSecure) {
 			var types = this.messageTypes;
+			var self = this; // for the events
 			
 			types.LoginMessage.prototype = new Message("login");
 			types.RequestTargetsMessage.prototype = new Message("requestTargets");
@@ -210,6 +212,7 @@
 			types.InviteResponse.prototype = new Message("inviteResponse");
 			types.PlayerConfigMessage.prototype = new Message("playerconfig");
 			NotInitializedException.prototype = new Error();
+			SocketNotReadyException.prototype = new Error();
 			
 			 // secure websocket is wss://, rather than ws://
 			var secureAddon = (isSecure ? "s" : "");
@@ -217,18 +220,21 @@
 			var protocolAddon = (wsProtocolFinder.test(server) ? "" : "ws" + secureAddon + "://");
 			var socket = new WebSocket(protocolAddon + server);
 
+			socket.onmessage = function(message) {
+				self.incomingMessages.push(message);
+			}
 
 			this.socket = socket;
 		},
 		
 		/**
-		 * Sends a message to the server.
-		 * 
-		 * @param message:Message -- The message to send.
-		 * @error NotInitializedException -- If the API has not been initialized yet.
-		 * 
-		 * This will use websocket setup by `this.init` to send a message to the server.
-		 */
+		* Sends a message to the server.
+		* 
+		* @param message:Message -- The message to send.
+		* @error NotInitializedException -- If the API has not been initialized yet.
+		* 
+		* This will use websocket setup by `this.init` to send a message to the server.
+		*/
 		sendMessage: function(message) {
 			var socket = this.socket;
 			if(socket) {
@@ -240,6 +246,22 @@
 			} else {
 				throw new NotInitializedException("The API has not yet been initialized.");
 			}
+		},
+
+		/**
+		* Gets a message from the recieved message queue.
+		*
+		* @return Message -- The first message in the incoming messages queue
+		*
+		* This will .shift() the incomingMessages queue and return the value. 
+		* This allows the API to handle the messages from the server so the
+		* main game code can access the messages as it needs to.
+		*
+		* Although the function is very simple, the name make is clear what is
+		* happening.
+		*/
+		getMessage: function() {
+			return this.incomingMessages.shift();
 		}
 	};
 })(Function("return this")());
