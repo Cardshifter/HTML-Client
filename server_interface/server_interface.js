@@ -1,16 +1,25 @@
 (function(window, undefined) {
 	// checks if the string begins with either ws:// or wss://
-	var wsProtocolFinder = /ws(s)*:\/\//; 
+	var wsProtocolFinder = /ws(s)*:\/\//;
+	var SOCKET_OPEN = 1;
 
 	function Message(command) {
 		this.command = command;
 	}
+
 	function NotInitializedException(message) {
 		this.name = "NotInitializedException";
 		this.message = message;
 	}
+	function SocketNotReadyException(message, readyState) {
+		this.name = "SocketNotReadyException"
+		this.message = message;
+		this.readyState = readyState;
+	}
+
 	window.CardshifterServerAPI = {
 		socket: null,
+		incomingMessages: [],
 		messageTypes: {
 	                /** 
 	                * Incoming login message.
@@ -190,6 +199,7 @@
 		*/
 		init: function(server, isSecure) {
 			var types = this.messageTypes;
+			var self = this; // for the events
 			
 			types.LoginMessage.prototype = new Message("login");
 			types.RequestTargetsMessage.prototype = new Message("requestTargets");
@@ -202,29 +212,56 @@
 			types.InviteResponse.prototype = new Message("inviteResponse");
 			types.PlayerConfigMessage.prototype = new Message("playerconfig");
 			NotInitializedException.prototype = new Error();
+			SocketNotReadyException.prototype = new Error();
 			
 			 // secure websocket is wss://, rather than ws://
 			var secureAddon = (isSecure ? "s" : "");
 			 // if the protocol is not found in the string, store the correct protocol (is secure?)
 			var protocolAddon = (wsProtocolFinder.test(server) ? "" : "ws" + secureAddon + "://");
 			var socket = new WebSocket(protocolAddon + server);
+
+			socket.onmessage = function(message) {
+				self.incomingMessages.push(message);
+			}
+
 			this.socket = socket;
 		},
 		
 		/**
-		 * Sends a message to the server.
-		 * 
-		 * @param message:Message -- The message to send.
-		 * @error NotInitializedException -- If the API has not been initialized yet.
-		 * 
-		 * This will use websocket setup by `this.init` to send a message to the server.
-		 */
+		* Sends a message to the server.
+		* 
+		* @param message:Message -- The message to send.
+		* @error NotInitializedException -- If the API has not been initialized yet.
+		* 
+		* This will use websocket setup by `this.init` to send a message to the server.
+		*/
 		sendMessage: function(message) {
-			if(this.socket) {
-				this.socket.send(JSON.stringify(message));
+			var socket = this.socket;
+			if(socket) {
+				if(socket.readyState === SOCKET_OPEN) {
+					this.socket.send(JSON.stringify(message));
+				} else {
+					throw new SocketNotReadyException("The Websocket is not yet ready to be used", socket.readyState);
+				}
 			} else {
 				throw new NotInitializedException("The API has not yet been initialized.");
 			}
+		},
+
+		/**
+		* Gets a message from the recieved message queue.
+		*
+		* @return Message -- The first message in the incoming messages queue
+		*
+		* This will .shift() the incomingMessages queue and return the value. 
+		* This allows the API to handle the messages from the server so the
+		* main game code can access the messages as it needs to.
+		*
+		* Although the function is very simple, the name make is clear what is
+		* happening.
+		*/
+		getMessage: function() {
+			return this.incomingMessages.shift();
 		}
 	};
 })(Function("return this")());
