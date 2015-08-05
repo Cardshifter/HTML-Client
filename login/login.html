@@ -4,6 +4,14 @@
 <head>
 	<title>Cardshifter -- Login</title>
 	<link rel="stylesheet" type="text/css" href="login.css">
+        <!-- Link external libraries for page design via CDN -->
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css" />
+
+        <!-- load angular and angular route via CDN -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+            <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
+        <script src="script.js"></script>
 </head>
 
 <body>
@@ -32,7 +40,9 @@
 		<br/>
 		<label for="test_message">Test message to server:</label>
 		<br/>
-		<input name="test_message" id="test_message" type="text" size="100" placeholder="Optional... Leave blank unless using for testing." />
+		<input name="test_message" id="test_message" type="text" size="100" placeholder="Optional... Leave blank unless using for 
+
+testing." />
 		<br/>
 		<input name="submit" id="submit" type="button" value="Log in" />
 		<input name="test_websocket" id="test_websocket" type="button" value="Test WebSocket" />
