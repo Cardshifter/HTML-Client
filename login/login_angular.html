@@ -1,0 +1,31 @@
+<div ng-controller="LoginController">
+	<h1>Cardshifter login</h1>
+	<form name="login_information">
+		<label for="server">Server:</label>
+		<select ng-model="server" ng-click="update_server_other()" name="server">
+			<option value="ws://127.0.0.1:4243">Local host</option>
+			<option value="ws://dwarftowers.com:4243">dwarftowers.com</option>
+			<option value="ws://echo.websocket.org/">WebSocket.org echo test</option>
+			<option value="other">Other...</option>
+		</select>
+		<br/>
+		<div ng-class="{'hidden': server=='other'}">
+			<label for="server_other_input">Other Server:</label>
+			<input ng-model="other_server" name="server_other_input" type="text" />
+			<br/>
+			<!-- Could localhost be secure too? (SirPython)-->
+			<label for="secure">Is secure server:</label>
+			<input ng-model="is_secure" name="secure" type="checkbox" value="secure" />
+			<br/>
+		</div>
+		<label for="username">Username:</label>
+		<input ng-model="username" name="username" type="text" placeholder="Enter name..." />
+		<br/>
+		<label for="test_message">Test message to server:</label>
+		<br/>
+		<input ng-model="test_message" name="test_message" type="text" size="100" placeholder="Optional... Leave blank unless using for testing." />
+		<br/>
+		<input ng-click="login()" type="button" value="Log in" />
+		<input ng-click="testWebsocket()" type="button" value="Test WebSocket" />
+	</form>
+</div>
