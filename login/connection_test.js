@@ -8,6 +8,10 @@ var server,
   testMessage, 
   websocketOutput;
 
+/**
+ * Get elements from web form to connect to WebSocket.
+ * @deprecated  See login.js
+ */
 function init() {
 
     server = document.getElementById("server").value;
@@ -24,6 +28,10 @@ function init() {
     testWebSocket();
 }
 
+/**
+ * Pass elements from web form to WebSocket and append messages to document.
+ * @deprecated  See login.js
+ */
 function testWebSocket() {
 
     // Append input values to document prior to printing test results

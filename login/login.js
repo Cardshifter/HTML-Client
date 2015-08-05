@@ -11,6 +11,7 @@
     var testMessage = loginInformation.test_message;
     var submit = loginInformation.submit;
     var isOther = false;
+    var websocketOutput;
     
 
     submit.onclick = function() {
@@ -46,15 +47,24 @@
     }
     
     function connect(server, username, isSecure, testMessage) {
+
         CardshifterServerAPI.init(server, isSecure);
-        webSocket = new WebSocket(server);
 
         var loginMessage = new CardshifterServerAPI.messageTypes.LoginMessage(username);
-        CardshifterServerAPI.sendMessage(loginMessage);
+        try {
+            CardshifterServerAPI.sendMessage(loginMessage);
+        } catch (e) {
+            console.log(e);
+        }
+
         if (!testMessage) { 
             testMessage = "Hello, Cardshifter!";
         }
-        CardshifterServerAPI.sendMessage(testMessage);
+        try {
+            CardshifterServerAPI.sendMessage(testMessage);
+        } catch(e) {
+            console.log(e);
+        }
     }
 
     server.onclick = function() {
