@@ -9,6 +9,24 @@ body {
     display: none;
 }
 
+.login-form {
+    font-size: 1.2em;
+    font-weight: normal;
+    width: 50%;
+}
+
+label {
+   font-size: 1.0em;
+}
+
+button, input, select, textarea {
+    font-size: 1.0em;
+    font-family: Verdana, Geneva, sans-serif;
+    padding-bottom; 0px;
+}
+
+
+
 
 /* FORMATTING FOR TOP NAV BAR */
 
