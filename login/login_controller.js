@@ -1,5 +1,4 @@
 CardshifterApp.controller("LoginController", function($scope) {
-	$scope.title = "Login";
 	$scope.login = function() {
 		var finalServer = ($scope.server === "other" ? $scope.other_server : $scope.server);
 
