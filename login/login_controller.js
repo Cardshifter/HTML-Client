@@ -4,6 +4,10 @@ CardshifterApp.controller("LoginController", function($scope) {
 
 		CardshifterServerAPI.init(finalServer, $scope.is_secure);
 		var login =  new CardshifterServerAPI.messageTypes.LoginMessage($scope.username);
-		//CardshifterServerAPI.sendMessage(login);
+		try {
+			CardshifterServerAPI.sendMessage(login);
+		} catch (e) {
+			console.log(e);
+		}
 	}
 });
