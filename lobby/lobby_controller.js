@@ -1,20 +1,23 @@
-CardshifterApp.controller("LobbyController", function($scope) {
-    $scope.users = [];
-    function pollUsers() {
-        console.log("starting to poll users");
-        $scope.users = []; // reset list in case a user left
-        var queryMessage = CardshifterServerAPI.messageTypes.ServerQueryMessage("USERS", "");
-        CardshifterServerAPI.sendMessage(queryMessage);
+CardshifterApp.controller("LobbyController", function($scope, $interval) {
+	$scope.users = [];
+	$scope.chatMessages = [];
+	var getUsersMessage = new CardshifterServerAPI.messageTypes.ServerQueryMessage("USERS", "");
 
-        console.log(CardshifterServerAPI.incomingMessages);
+	$interval(function() { // update chat and users
+		CardshifterServerAPI.sendMessage(getUsersMessage);
 
-        var user;
-        while(user = CardshifterServerAPI.getMessage()) {
-            $scope.users.push(user);
-        }
-
-        window.setTimeout(pollUsers, 5000); // refresh every 5 seconds
-    }
-
-    window.setTimeout(pollUsers, 5000);
+        console.log("messageS: " + CardshifterServerAPI.incomingMessages);
+		while(message = CardshifterServerAPI.getMessage()) {
+		    console.log("message: " + message);
+			switch(message.command) {
+				case "userstatus":
+                    // do conditional checking if user is offline
+                    $scope.users.push(message);
+					break;
+		        case "chat":
+		            $scope.chatMessages.push(message);
+		            break;
+			}
+		}
+	}, 2000);
 });
