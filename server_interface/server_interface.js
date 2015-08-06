@@ -17,6 +17,23 @@
 		this.readyState = readyState;
 	}
 
+	/**
+		Returns all the keys of obj and it's inherited keys
+
+		@param obj:Object -- The object
+		@return Object -- a new Object, containing obj's keys and inherited keys
+		@source http://stackoverflow.com/questions/8779249/how-to-stringify-inherited-objects-to-json
+
+		This is used so JSON.stringify can get the .command of a message.
+	*/
+	function flatten(obj) {
+        var result = Object.create(obj);
+        for(var key in result) {
+            result[key] = result[key];
+        }
+        return result;
+    }
+
 	window.CardshifterServerAPI = {
 		socket: null,
 		incomingMessages: [],
@@ -247,7 +264,7 @@
 			var socket = this.socket;
 			if(socket) {
 				if(socket.readyState === SOCKET_OPEN) {
-					this.socket.send(JSON.stringify(message));
+					this.socket.send(JSON.stringify(flatten(message)));
 				} else {
 					throw new SocketNotReadyException("The Websocket is not yet ready to be used", socket.readyState);
 				}
