@@ -196,6 +196,9 @@
 		* This sets up all the message types to inherit the main `Message` class, and sets
 		* up the websocket that will be used to communicate to the server, and to recieve
 		* information from the server.
+		*
+		* @TODO: Implement an onError argument and feature so the client
+		* can notify the user of an error if one occurs.
 		*/
 		init: function(server, isSecure, onReady) {
 			var types = this.messageTypes;
