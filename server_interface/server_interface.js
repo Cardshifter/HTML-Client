@@ -197,10 +197,8 @@
 		* up the websocket that will be used to communicate to the server, and to recieve
 		* information from the server.
 		*
-		* @TODO: Implement an onError argument and feature so the client
-		* can notify the user of an error if one occurs.
 		*/
-		init: function(server, isSecure, onReady) {
+		init: function(server, isSecure, onReady, onError) {
 			var types = this.messageTypes;
 			var self = this; // for the events
 			
@@ -230,6 +228,7 @@
 			socket.onopen = onReady;
 
 			socket.onerror = function() {
+				onError();
 				this.socket = null;
 			}
 
