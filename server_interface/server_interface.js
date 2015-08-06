@@ -197,7 +197,7 @@
 		* up the websocket that will be used to communicate to the server, and to recieve
 		* information from the server.
 		*/
-		init: function(server, isSecure) {
+		init: function(server, isSecure, onReady) {
 			var types = this.messageTypes;
 			var self = this; // for the events
 			
@@ -222,6 +222,12 @@
 
 			socket.onmessage = function(message) {
 				self.incomingMessages.push(message);
+			}
+
+			socket.onopen = onReady;
+
+			socket.onerror = function() {
+				this.socket = null;
 			}
 
 			this.socket = socket;
