@@ -22,9 +22,7 @@ CardshifterApp.controller("LobbyController", function($scope, $interval, $timeou
 
 	$scope.sendMessage = function() {
 		$scope.sending = true;
-		var chatMessage = new CardshifterServerAPI.messageTypes.ChatMessage(thisUser.userId,
-																		thisUser.username,
-																		$scope.user_chat_message);
+		var chatMessage = new CardshifterServerAPI.messageTypes.ChatMessage($scope.user_chat_message);
 		CardshifterServerAPI.sendMessage(chatMessage);
 
 		$scope.user_chat_message = ""; // clear the input box

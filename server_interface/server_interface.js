@@ -145,13 +145,11 @@
 			* <p>
 			* These are messages printed to the game lobby which are visible to all users present at the time the message is posted.
 			* @constructor
-			* @param chatId  The Id of this chat message
-			* @param from  The Id of the sender of this message
 			* @param message  The content of this chat message
 			*/
-			ChatMessage: function(chatId, from, message) {
-				this.chatId = chatId;
-				this.from = from;
+			ChatMessage: function(message) {
+				this.chatId = 1;
+				this.from = "unused";
 				this.message = message;
 				
 				this.toString = function() {
