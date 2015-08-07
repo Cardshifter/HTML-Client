@@ -239,7 +239,7 @@
 			var socket = new WebSocket(protocolAddon + server);
 
 			socket.onmessage = function(message) {
-				self.incomingMessages.push(message);
+				self.incomingMessages.push(JSON.parse(message.data));
 			}
 
 			socket.onopen = onReady;
@@ -256,15 +256,28 @@
 		* Sends a message to the server.
 		* 
 		* @param message:Message -- The message to send.
+		* @param onReceive:Function (OPTIONAL) -- A function to run when a message has returned
 		* @error NotInitializedException -- If the API has not been initialized yet.
 		* 
 		* This will use websocket setup by `this.init` to send a message to the server.
+		*
+		* NOTE: The onReceive function will NOT NECESSARILY be run when the desired request
+		* is received. However, it is likely.
 		*/
-		sendMessage: function(message) {
+		sendMessage: function(message, onReceive) {
 			var socket = this.socket;
+			var self = this;
 			if(socket) {
 				if(socket.readyState === SOCKET_OPEN) {
 					this.socket.send(JSON.stringify(flatten(message)));
+					if(onReceive) {
+						this.socket.onmessage = function(msg) {
+							onReceive(JSON.parse(msg.data));
+							this.onmessage = function(msg2) {
+								self.incomingMessages.push(JSON.parse(msg2.data));
+							}
+						}
+					}
 				} else {
 					throw new SocketNotReadyException("The Websocket is not yet ready to be used", socket.readyState);
 				}
