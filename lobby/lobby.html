@@ -3,9 +3,10 @@
         <h2>Online users:</h2>
         <ul>
             <li ng-repeat="user in users">
-                {{user.name}}
+                {{user.name}} <input ng-model="$parent.$parent.selected_opponent" ng-if="user.userId!=currentUser.id" type="radio" value="{{$parent.user.userId}}" name="user_selection" />
             </li>
         </ul>
+        <input ng-click="startGame()" type="button" value="Invite to game"/>
         <h2>Chat:</h2>
         <ul>
             <li ng-repeat="message in chatMessages">
@@ -13,7 +14,7 @@
             </li>
         </ul>
         <div ng-repeat="mod in mods">
-            {{mod}}: <input ng-model="selected_mod" type="radio" value="mod" name="mod_selection"/>
+            {{mod}}: <input ng-model="$parent.selected_mod" type="radio" value="{{mod}}" name="mod_selection"/>
         </div>
         <form>
             <textarea ng-model="user_chat_message" ng-keyup="sendMessage($event)" rows="4" cols="50"></textarea>
