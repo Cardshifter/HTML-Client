@@ -12,5 +12,9 @@
                 {{message.from}}: {{message.message}}
             </li>
         </ul>
+        <form>
+            <input ng-model="user_chat_message" type="text"/>
+            <input ng-click="sendMessage()" ng-disabled="sending" type="button" value="Send Message"/>
+        </form>
     </div>
 </div>
