@@ -1,4 +1,6 @@
 CardshifterApp.controller("LoginController", function($scope, $location, $rootScope) {
+	var SUCCESS = 200;
+
 	$scope.login = function() {
 		$scope.loggedIn = true;
 		var finalServer = ($scope.server === "other" ? $scope.other_server : $scope.server);
@@ -8,7 +10,7 @@ CardshifterApp.controller("LoginController", function($scope, $location, $rootSc
 
 			try {
 				CardshifterServerAPI.sendMessage(login, function(serverResponse) {
-					if(serverResponse.status === 200 && serverResponse.message === "OK") {
+					if(serverResponse.status === SUCCESS && serverResponse.message === "OK") {
 						$rootScope.$apply(function() {
 							$location.path("/lobby");
 						});
