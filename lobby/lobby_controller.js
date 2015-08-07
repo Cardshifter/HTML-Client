@@ -31,6 +31,12 @@ CardshifterApp.controller("LobbyController", function($scope, $interval, $timeou
                         // remove the latest (opposite of earliest) chat message
                         $scope.chatMessages.shift();
                     }
+
+                    var now = new Date();
+                    var YMD = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate();
+                    var HMS = now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds();
+                    message.timestamp = YMD + " " + HMS;
+
                     $scope.chatMessages.push(message);
                     break;
             }
