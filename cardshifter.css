@@ -21,15 +21,39 @@ button, input, select, textarea {
     padding-bottom; 0px;
 }
 
-
-
-
 /* FORMATTING FOR TOP NAV BAR */
 
 .csh-top-link {
     font-family: Georgia, Times, "Times New Roman", serif;
     color: #FFFFFF;
     font-size: 2em;
+}
+
+a.csh-dropdown-link,
+a.csh-dropdown-link:visited {
+    color: #DDDDDD;
+    font-size: 1.4em;
+    font-family: Georgia, Times, "Times New Roman", serif;
+}
+
+a.csh-dropdown-link:hover,
+a.csh-dropdown-link:active  {
+    color: #DDDDDD;
+    text-decoration: underline;
+    font-family: Georgia, Times, "Times New Roman", serif;
+}
+
+.btn.btn-navbar {
+    color: #DDDDDD;
+    background-color: #000000;
+    /* background-image: linear-gradient(to bottom, #8f8f8f, #4a4a49); */
+    border-color: #DDDDDD #DDDDDD #DDDDDD;
+}
+.btn.btn-navbar:hover {
+        color: #FFFFFF;
+        background-color: #DDDDDD;
+        background-image: linear-gradient(to bottom, #4a4a49, #4a4a49);
+        border-color: #FFFFFF #FFFFFF #FFFFFF;
 }
 
 .csh-twitter-top-bar {
@@ -128,7 +152,7 @@ body {
   border-bottom: 1px solid #eee;
 }
 
-h1, h2, h3, blockquote {
+h1, h2, h3, h4, blockquote {
     font-family: Georgia, Times, "Times New Roman", serif;
 }
 
@@ -158,6 +182,16 @@ div.contributor {
   margin-bottom: 10px;
   margin-top: 10px;
   width: 350px;
+}
+
+/* MOD-SPECIFIC FORMATTING */
+
+.cyborg-font {
+    font-family: Consolas, Monaco, "Courier New", monospace;
+}
+
+.mythos-font {
+    font-family: Copperplate, Copperplate Gothic Light, fantasy;
 }
 
 /* FORMATTING FOR ARTICLES */

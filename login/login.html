@@ -1,24 +1,27 @@
+<!-- LOGIN PAGE -->
+
 <div class="col-sm-9 col-md-10 main csh-body">
-    <h1>Cardshifter login</h1>
+
+    <!-- LOGIN FORM -->
+
+    <h4>Please log in to continue, or see below for instructions and assistance.</h4>
+
     <form name="login_information" id="login_information" class="login-form">
         <div class="form-group">
             <label for="server" aria-label="Server">Server:</label>
             <select ng-model="server" name="server" id="server" class="form-control">
                 <option value="ws://127.0.0.1:4243">Local host</option>
                 <option value="ws://dwarftowers.com:4243">dwarftowers.com</option>
-                <option value="ws://echo.websocket.org/">WebSocket.org echo test</option>
+                <option value="ws://stats.zomis.net:4243">zomis.net</option>
                 <option value="other">Other...</option>
             </select>
+            <label for="secure">Is secure server:</label>
+            <input ng-model="is_secure" name="secure" id="secure" type="checkbox" value="secure" />
         </div>
         <div class="form-group">
             <div ng-show="server=='other'" id="server_other">
                 <label for="server_other_input">Other Server:</label>
                 <input ng-model="other_server" name="server_other_input" id="server_other_input" type="text" class="form-control" />
-                <br/>
-                <!-- Could localhost be secure too? (SirPython)-->
-                <label for="secure">Is secure server:</label>
-                <input ng-model="is_secure" name="secure" id="secure" type="checkbox" value="secure" />
-                <br/>
             </div>
         </div>
         <div class="form-group">
@@ -26,13 +29,41 @@
             <input ng-model="username" name="username" id="username" type="text" class="form-control" placeholder="Enter name..." />
         </div>
         <div class="form-group">
-            <label for="test_message">Test message to server:</label>
-            <input name="test_message" id="test_message" type="text" size="100" class="form-control" placeholder="Optional... Leave blank unless using for testing." />
-        </div>
-        <div class="form-group">
-            <input ng-click="login()" ng-disabled="loggedIn" name="submit" id="submit" type="submit" value="Log in" class="btn btn-success" />
-            <input name="test_websocket" id="test_websocket" type="button" value="Test WebSocket" class="btn btn-primary" />
-            <input name="disconnect_websocket" id="disconnect_websocket" type="button" value="Disconnect WebSocket" class="btn btn-danger" />
+            <input ng-click="login()" ng-disabled="loggedIn" name="submit" id="submit" type="button" value="Log in" class="btn btn-success" />
         </div>
     </form>
+
+    <!-- WELCOME AND HELP LINK -->
+
+    <h3>Getting started</h3>
+
+    <p>To begin playing, first select the server you would like to connect to:</p>
+    <ul>
+      <li><strong>Local Host: </strong>Select this if you are hosting a local game server on your own machine.</li>
+      <li><strong>dwarftowers.com: </strong><a href="http://www.dwarftowers.com">dwarftowers.com</a> server hosted by our development team.</li>
+      <li><strong>zomis.net: </strong><a href="http://www.zomis.net/">Zomis Productions</a> server hosted by our development team.</li>
+      <li><strong>Other: </strong> Enter a server address manually.</li>
+    </ul>
+    <p>Then enter a user name and click <strong>Log in</strong>.</p>
+    <p style="font-style: italic;">Note: You can expand the Server Console below if you would like to see server messages.</p>
+
+      <h3 class="cyborg-font" style="font-weight: bold;">Cyborg Chronicles</h3>
+        <p class="cyborg-font">A dystopian, cyberpunk themed game featuring human factions, war machines and interplanetary conflict.</p>
+        <ul>
+          <li><h4 class="cyborg-font"><a href=#>Game rules</a></h4></li>
+          <li><h4 class="cyborg-font"><a href=#>Cards</a></h4></li>
+        </ul>
+
+      <h3 class="mythos-font" style="font-weight: bold;">Mythos</h3>
+        <p class="mythos-font">Magical and Mythical Creatures clash while Gods, Goddesses and Heroes of Legend fight for human worship.</p>
+        <ul>
+          <li><h4 class="mythos-font"><a href=#>Game rules</a></h4></li>
+          <li><h4 class="mythos-font"><a href=#>Cards</a></h4></li>
+        </ul>
+    <h3 style="text-decoration: underline;">About Cardshifter</h3>
+
+    <ul>
+      <li><h4><a href="http://stats.zomis.net/io-web">Official Website</a></h4></li>
+      <li><h4><a href="https://github.com/Cardshifter">On GitHub</a></h4></li>
+    </ul>
 </div>
