@@ -7,6 +7,7 @@ CardshifterApp.controller("LobbyController", function($scope, $interval, $timeou
     $scope.users = [];
     $scope.chatMessages = [];
     $scope.mods = [];
+    $scope.currentUser = window.currentUser;
 
     var getUsersMessage = new CardshifterServerAPI.messageTypes.ServerQueryMessage("USERS", "");
     CardshifterServerAPI.sendMessage(getUsersMessage); // get all online users
@@ -18,8 +19,8 @@ CardshifterApp.controller("LobbyController", function($scope, $interval, $timeou
                     // do conditional checking if user is offline
                     if(message.status === "OFFLINE") {
                         for(var i = 0, length = $scope.users.length; i < length; i++) {
-                            // if the user described in the message is the user in this iteration
-                            if($scope.users[i].name === message.name) {
+
+                            if($scope.users[i].userId === message.userId) {
                                 $scope.users.splice(i, 1); // remove that user from the array
                             }
                         }
@@ -60,5 +61,17 @@ CardshifterApp.controller("LobbyController", function($scope, $interval, $timeou
         $timeout(function() { // allow another message to be sent in 3 seconds
             $scope.sending = false;
         }, MESSAGE_DELAY);
+    }
+
+    $scope.startGame = function() {
+        if($scope.selected_mod && $scope.selected_opponent) {
+            var startGameMessage = new CardshifterServerAPI.messageTypes.StartGameRequest($scope.selected_opponent,
+                                                                                          $scope.selected_mod);
+            CardshifterServerAPI.sendMessage(startGameMessage, function(returnMessage) {
+            });
+        } else {
+            // user needs to choose an opponent and/or a mod
+            console.log("need to choose mod and/or opponent");
+        }
     }
 });
