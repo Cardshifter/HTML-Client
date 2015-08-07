@@ -1,4 +1,4 @@
-CardshifterApp.controller("LobbyController", function($scope, $interval) {
+CardshifterApp.controller("LobbyController", function($scope, $interval, $timeout) {
 	$scope.users = [];
 	$scope.chatMessages = [];
 	var getUsersMessage = new CardshifterServerAPI.messageTypes.ServerQueryMessage("USERS", "");
@@ -19,4 +19,17 @@ CardshifterApp.controller("LobbyController", function($scope, $interval) {
 			}
 		}
 	}, 2000);
+
+	$scope.sendMessage = function() {
+		$scope.sending = true;
+		var chatMessage = new CardshifterServerAPI.messageTypes.ChatMessage(thisUser.userId,
+																		thisUser.username,
+																		$scope.user_chat_message);
+		CardshifterServerAPI.sendMessage(chatMessage);
+
+		$scope.user_chat_message = ""; // clear the input box
+		$timeout(function() { // allow another message to be sent in 3 seconds
+			$scope.sending = false;
+		}, 3000);
+	}
 });
