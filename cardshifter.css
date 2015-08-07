@@ -1,0 +1,234 @@
+body {
+    font-size: 120%;
+    font-family: Verdana, Geneva, sans-serif;
+}
+
+/* FORMATTING SPECIFIC TO LOGIN FORM */
+
+#server_other {
+    display: none;
+}
+
+.login-form {
+    font-size: 1.2em;
+    font-weight: normal;
+    width: 50%;
+}
+
+label {
+   font-size: 1.0em;
+}
+
+button, input, select, textarea {
+    font-size: 1.0em;
+    font-family: Verdana, Geneva, sans-serif;
+    padding-bottom; 0px;
+}
+
+
+
+
+/* FORMATTING FOR TOP NAV BAR */
+
+.csh-top-link {
+    font-family: Georgia, Times, "Times New Roman", serif;
+    color: #FFFFFF;
+    font-size: 2em;
+}
+
+.csh-twitter-top-bar {
+    list-style: none;
+    margin: 0;
+}
+
+.csh-twitter-top-bar > li {
+    display: inline-block !important;
+}
+
+.twitter-logo {
+    height: 25px;
+    width: 30px;
+    margin-top: 10px;
+    -left: 5px;
+}
+
+
+/* FORMATTING FOR LEFT SIDE NAV MENU */
+
+.csh-left-menu-main {
+    font-size: 1.4em;
+    font-weight: bold;
+    padding-top: 3px;
+    color: #000000;
+    margin: 0px;
+}
+
+.csh-left-menu-sub {
+    font-size: 1.2em;
+    font-weight: normal;
+    padding-left: 15px;
+    padding-top: 3px;
+    color: #000000;
+    margin: 0px;
+}
+
+
+.csh-nav-link {
+    color: #000000;
+}
+
+.csh-nav-link:hover
+.csh-nav-link:active  {
+    color: #000000;
+    text-decoration: underline;
+}
+
+.csh-side-nav {
+  margin-top: 25px;
+  background-color: #EEEEEE;
+  padding-bottom: 5px;
+}
+
+
+.csh-margin-top {
+  margin-top: 50px;
+}
+
+/* FORMATTING FOR PAGE BODY */
+
+.csh-body {
+    padding-left: 15px;
+}
+
+/* FORMATTING FOR FOOTER */
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+body {
+    margin-bottom: 60px;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    margin-top: 15px;
+    padding: 5px 0 5px 15px;
+    border-top: 1px solid #eaeaea;
+    color: #777;
+    width: 100%;
+    text-align: center;
+    /* Set the fixed height of the footer here */
+    height: 30px;
+    background-color: #f5f5f5;
+    position: absolute;
+    bottom: 0px;
+}
+
+/* FORMATTING FOR COMMON PAGE ELEMENTS */
+
+.header-border {
+  border-bottom: 1px solid #eee;
+}
+
+h1, h2, h3, blockquote {
+    font-family: Georgia, Times, "Times New Roman", serif;
+}
+
+p, span, table, ul, ol {
+    font-size: 1.2em;
+    font-weight: normal;
+}
+
+pre {
+    font-family: Consolas, Monaco, "Courier New", monospace;
+    font-size: 1.1em;
+    font-weight: normal;
+}
+
+code {
+    font-family: Consolas, Monaco, "Courier New", monospace;
+    font-size: 1.1em;
+    color: #336699;
+    background-color: #EEEEEE;
+}
+
+blockquote {
+    font-size: 1.4em;
+}
+
+div.contributor {
+  margin-bottom: 10px;
+  margin-top: 10px;
+  width: 350px;
+}
+
+/* FORMATTING FOR ARTICLES */
+
+article {}
+
+h2.csh-article {
+    font-size: 2.4em;
+    text-decoration: underline;
+}
+
+h3.csh-article {
+    font-size: 2.0em;
+}
+
+a.csh-article {
+    text-decoration: underline;
+}
+
+section.csh-article {
+    padding-left: 5px;
+}
+
+p.csh-article-header {
+    font-size: 1.2em;
+    font-style: italic;
+    font-family: Georgia, Times, "Times New Roman", serif;
+}
+
+p.csh-article-content {
+    padding-left: 10px;
+    font-size: 1.2em;
+}
+
+p.csh-article-footer {
+    font-size: 1.2em;
+    padding-left: 5px;
+    font-style: italic;
+    font-family: Georgia, Times, "Times New Roman", serif;
+}
+
+ul.csh-article-list,
+ol.csh-article-list {
+    font-size: 1.2em;
+}
+
+
+/* FORMATTING FOR TABLES */
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 5px;
+}
+
+th {
+    background-color: #EEEEEE;
+    color: #000000;
+}
+
+/* FORMATTING FOR BUTTONS, ALERTS, ETC. */
+
+.csh-button {
+    font-size: 1.1em;
+    font-weight: normal;
+}
+
