@@ -7,6 +7,11 @@
             </li>
         </ul>
         <input ng-click="startGame()" type="button" value="Invite to game"/>
+        <div ng-show="gotInvite">
+            Game invite from {{invite.name}} to play {{invite.type}}
+            <input ng-click="acceptInvite(true)" type="button" value="Accept"/>
+            <input ng-click="acceptInvite(false)" type="button" value="Decline"/>
+        </div>
         <h2>Chat:</h2>
         <ul>
             <li ng-repeat="message in chatMessages">
