@@ -1,17 +1,26 @@
 CardshifterApp.controller("LobbyController", function($scope, $interval, $timeout) {
 	$scope.users = [];
 	$scope.chatMessages = [];
+
 	var getUsersMessage = new CardshifterServerAPI.messageTypes.ServerQueryMessage("USERS", "");
+	CardshifterServerAPI.sendMessage(getUsersMessage);
 
 	$interval(function() { // update chat and users
-		$scope.users = []; // reset the list in case a user left
-		CardshifterServerAPI.sendMessage(getUsersMessage);
-
 		while(message = CardshifterServerAPI.getMessage()) {
 			switch(message.command) {
 				case "userstatus":
                     // do conditional checking if user is offline
-                    $scope.users.push(message);
+                    if(message.status === "OFFLINE") {
+						for(var i = 0, length = $scope.users.length; i < length; i++) {
+							// if the user described in the message is the user in this iteration
+							if($scope.users[i].name === message.name) {
+								$scope.users.splice(i, 1); // remove that user from the array
+							}
+						}
+                    } else {
+                    	$scope.users.push(message);
+                    }
+
 					break;
 		        case "chat":
 		            $scope.chatMessages.push(message);
