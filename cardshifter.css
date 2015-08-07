@@ -29,6 +29,20 @@ button, input, select, textarea {
     font-size: 2em;
 }
 
+a.csh-dropdown-link,
+a.csh-dropdown-link:visited {
+    color: #DDDDDD;
+    font-size: 1.4em;
+    font-family: Georgia, Times, "Times New Roman", serif;
+}
+
+a.csh-dropdown-link:hover,
+a.csh-dropdown-link:active  {
+    color: #DDDDDD;
+    text-decoration: underline;
+    font-family: Georgia, Times, "Times New Roman", serif;
+}
+
 .btn.btn-navbar {
     color: #DDDDDD;
     background-color: #000000;
@@ -172,12 +186,12 @@ div.contributor {
 
 /* MOD-SPECIFIC FORMATTING */
 
-h1#cyborg-chronicles, h2#cyborg-chronicles, h3#cyborg-chronicles, h4#cyborg-chronicles {
+.cyborg-font {
     font-family: Consolas, Monaco, "Courier New", monospace;
 }
 
-h1#mythos, h2#mythos, h3#mythos, h4#mythos, blockquote {
-    font-family: Copperplate,Copperplate Gothic Light,fantasy;
+.mythos-font {
+    font-family: Copperplate, Copperplate Gothic Light, fantasy;
 }
 
 /* FORMATTING FOR ARTICLES */
