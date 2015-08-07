@@ -11,6 +11,13 @@ CardshifterApp.controller("LoginController", function($scope, $location, $rootSc
             try {
                 CardshifterServerAPI.sendMessage(login, function(serverResponse) {
                     if(serverResponse.status === SUCCESS && serverResponse.message === "OK") {
+
+                        // taking the easy way out
+                        window.currentUser = {
+                            username: $scope.username,
+                            id: serverResponse.userId
+                        }
+
                         $rootScope.$apply(function() {
                             $location.path("/lobby");
                         });
