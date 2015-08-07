@@ -3,18 +3,27 @@
         <h2>Online users:</h2>
         <ul>
             <li ng-repeat="user in users">
-                {{user.name}}
+                {{user.name}} <input ng-model="$parent.$parent.selected_opponent" ng-if="user.userId!=currentUser.id" type="radio" value="{{$parent.user.userId}}" name="user_selection" />
             </li>
         </ul>
+        <input ng-click="startGame()" type="button" value="Invite to game"/>
+        <div ng-show="gotInvite">
+            Game invite from {{invite.name}} to play {{invite.type}}
+            <input ng-click="acceptInvite(true)" type="button" value="Accept"/>
+            <input ng-click="acceptInvite(false)" type="button" value="Decline"/>
+        </div>
         <h2>Chat:</h2>
         <ul>
             <li ng-repeat="message in chatMessages">
-                {{message.from}}: {{message.message}}
+                [{{message.timestamp}}] {{message.from}}: {{message.message}}
             </li>
         </ul>
+        <div ng-repeat="mod in mods">
+            {{mod}}: <input ng-model="$parent.selected_mod" type="radio" value="{{mod}}" name="mod_selection"/>
+        </div>
         <form>
-            <input ng-model="user_chat_message" type="text"/>
-            <input ng-click="sendMessage()" ng-disabled="sending" type="button" value="Send Message"/>
+            <textarea ng-model="user_chat_message" ng-keyup="sendMessage($event)" rows="4" cols="50"></textarea>
+            <input ng-click="sendMessage()" ng-disabled="sending" type="submit" value="Send Message"/>
         </form>
     </div>
 </div>
