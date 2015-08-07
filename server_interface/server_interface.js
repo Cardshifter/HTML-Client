@@ -17,6 +17,23 @@
 		this.readyState = readyState;
 	}
 
+	/**
+		Returns all the keys of obj and it's inherited keys
+
+		@param obj:Object -- The object
+		@return Object -- a new Object, containing obj's keys and inherited keys
+		@source http://stackoverflow.com/questions/8779249/how-to-stringify-inherited-objects-to-json
+
+		This is used so JSON.stringify can get the .command of a message.
+	*/
+	function flatten(obj) {
+        var result = Object.create(obj);
+        for(var key in result) {
+            result[key] = result[key];
+        }
+        return result;
+    }
+
 	window.CardshifterServerAPI = {
 		socket: null,
 		incomingMessages: [],
@@ -128,13 +145,11 @@
 			* <p>
 			* These are messages printed to the game lobby which are visible to all users present at the time the message is posted.
 			* @constructor
-			* @param chatId  The Id of this chat message
-			* @param from  The Id of the sender of this message
 			* @param message  The content of this chat message
 			*/
-			ChatMessage: function(chatId, from, message) {
-				this.chatId = chatId;
-				this.from = from;
+			ChatMessage: function(message) {
+				this.chatId = 1;
+				this.from = "unused";
 				this.message = message;
 				
 				this.toString = function() {
@@ -196,8 +211,9 @@
 		* This sets up all the message types to inherit the main `Message` class, and sets
 		* up the websocket that will be used to communicate to the server, and to recieve
 		* information from the server.
+		*
 		*/
-		init: function(server, isSecure, onReady) {
+		init: function(server, isSecure, onReady, onError) {
 			var types = this.messageTypes;
 			var self = this; // for the events
 			
@@ -221,12 +237,13 @@
 			var socket = new WebSocket(protocolAddon + server);
 
 			socket.onmessage = function(message) {
-				self.incomingMessages.push(message);
+				self.incomingMessages.push(JSON.parse(message.data));
 			}
 
 			socket.onopen = onReady;
 
 			socket.onerror = function() {
+				onError();
 				this.socket = null;
 			}
 
@@ -237,15 +254,28 @@
 		* Sends a message to the server.
 		* 
 		* @param message:Message -- The message to send.
+		* @param onReceive:Function (OPTIONAL) -- A function to run when a message has returned
 		* @error NotInitializedException -- If the API has not been initialized yet.
 		* 
 		* This will use websocket setup by `this.init` to send a message to the server.
+		*
+		* NOTE: The onReceive function will NOT NECESSARILY be run when the desired request
+		* is received. However, it is likely.
 		*/
-		sendMessage: function(message) {
+		sendMessage: function(message, onReceive) {
 			var socket = this.socket;
+			var self = this;
 			if(socket) {
 				if(socket.readyState === SOCKET_OPEN) {
-					this.socket.send(JSON.stringify(message));
+					this.socket.send(JSON.stringify(flatten(message)));
+					if(onReceive) {
+						this.socket.onmessage = function(msg) {
+							onReceive(JSON.parse(msg.data));
+							this.onmessage = function(msg2) {
+								self.incomingMessages.push(JSON.parse(msg2.data));
+							}
+						}
+					}
 				} else {
 					throw new SocketNotReadyException("The Websocket is not yet ready to be used", socket.readyState);
 				}

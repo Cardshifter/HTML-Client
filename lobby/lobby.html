@@ -1,0 +1,20 @@
+<div>
+    <div>
+        <h2>Online users:</h2>
+        <ul>
+            <li ng-repeat="user in users">
+                {{user.name}}
+            </li>
+        </ul>
+        <h2>Chat:</h2>
+        <ul>
+            <li ng-repeat="message in chatMessages">
+                {{message.from}}: {{message.message}}
+            </li>
+        </ul>
+        <form>
+            <input ng-model="user_chat_message" type="text"/>
+            <input ng-click="sendMessage()" ng-disabled="sending" type="button" value="Send Message"/>
+        </form>
+    </div>
+</div>
