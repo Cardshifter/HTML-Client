@@ -1,38 +1,38 @@
 <div class="col-sm-9 col-md-10 main csh-body">
-	<h1>Cardshifter login</h1>
-	<form name="login_information" id="login_information" class="login-form">
-		<div class="form-group">
-			<label for="server" aria-label="Server">Server:</label>
-			<select ng-model="server" name="server" id="server" class="form-control">
-				<option value="ws://127.0.0.1:4243">Local host</option>
-				<option value="ws://dwarftowers.com:4243">dwarftowers.com</option>
-				<option value="ws://echo.websocket.org/">WebSocket.org echo test</option>
-				<option value="other">Other...</option>
-			</select>
-		</div>
-		<div class="form-group">
-			<div ng-show="server=='other'" id="server_other">
-				<label for="server_other_input">Other Server:</label>
-				<input ng-model="other_server" name="server_other_input" id="server_other_input" type="text" class="form-control" />
-				<br/>
-				<!-- Could localhost be secure too? (SirPython)-->
-				<label for="secure">Is secure server:</label>
-				<input ng-model="is_secure" name="secure" id="secure" type="checkbox" value="secure" />
-				<br/>
-			</div>
-		</div>
-		<div class="form-group">
-			<label for="username">Username:</label>
-			<input ng-model="username" name="username" id="username" type="text" class="form-control" placeholder="Enter name..." />
-		</div>
-		<div class="form-group">
-			<label for="test_message">Test message to server:</label>
-			<input name="test_message" id="test_message" type="text" size="100" class="form-control" placeholder="Optional... Leave blank unless using for testing." />
-		</div>
-		<div class="form-group">
-			<input ng-click="login()" ng-disabled="loggedIn" name="submit" id="submit" type="button" value="Log in" class="btn btn-success" />
-			<input name="test_websocket" id="test_websocket" type="button" value="Test WebSocket" class="btn btn-primary" />
-			<input name="disconnect_websocket" id="disconnect_websocket" type="button" value="Disconnect WebSocket" class="btn btn-danger" />
-		</div>
-	</form>
+    <h1>Cardshifter login</h1>
+    <form name="login_information" id="login_information" class="login-form">
+        <div class="form-group">
+            <label for="server" aria-label="Server">Server:</label>
+            <select ng-model="server" name="server" id="server" class="form-control">
+                <option value="ws://127.0.0.1:4243">Local host</option>
+                <option value="ws://dwarftowers.com:4243">dwarftowers.com</option>
+                <option value="ws://echo.websocket.org/">WebSocket.org echo test</option>
+                <option value="other">Other...</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <div ng-show="server=='other'" id="server_other">
+                <label for="server_other_input">Other Server:</label>
+                <input ng-model="other_server" name="server_other_input" id="server_other_input" type="text" class="form-control" />
+                <br/>
+                <!-- Could localhost be secure too? (SirPython)-->
+                <label for="secure">Is secure server:</label>
+                <input ng-model="is_secure" name="secure" id="secure" type="checkbox" value="secure" />
+                <br/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input ng-model="username" name="username" id="username" type="text" class="form-control" placeholder="Enter name..." />
+        </div>
+        <div class="form-group">
+            <label for="test_message">Test message to server:</label>
+            <input name="test_message" id="test_message" type="text" size="100" class="form-control" placeholder="Optional... Leave blank unless using for testing." />
+        </div>
+        <div class="form-group">
+            <input ng-click="login()" ng-disabled="loggedIn" name="submit" id="submit" type="button" value="Log in" class="btn btn-success" />
+            <input name="test_websocket" id="test_websocket" type="button" value="Test WebSocket" class="btn btn-primary" />
+            <input name="disconnect_websocket" id="disconnect_websocket" type="button" value="Disconnect WebSocket" class="btn btn-danger" />
+        </div>
+    </form>
 </div>
