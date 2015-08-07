@@ -29,6 +29,19 @@ button, input, select, textarea {
     font-size: 2em;
 }
 
+.btn.btn-navbar {
+    color: #DDDDDD;
+    background-color: #000000;
+    /* background-image: linear-gradient(to bottom, #8f8f8f, #4a4a49); */
+    border-color: #DDDDDD #DDDDDD #DDDDDD;
+}
+.btn.btn-navbar:hover {
+        color: #FFFFFF;
+        background-color: #DDDDDD;
+        background-image: linear-gradient(to bottom, #4a4a49, #4a4a49);
+        border-color: #FFFFFF #FFFFFF #FFFFFF;
+}
+
 .csh-twitter-top-bar {
     list-style: none;
     margin: 0;
