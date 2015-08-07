@@ -8,6 +8,12 @@ CardshifterApp.controller("LobbyController", function($scope, $interval, $timeou
     $scope.chatMessages = [];
     $scope.mods = [];
     $scope.currentUser = window.currentUser;
+    $scope.invite = {
+        id: null,
+        name: null,
+        type: null
+    };
+    $scope.gotInvite = false;
 
     var getUsersMessage = new CardshifterServerAPI.messageTypes.ServerQueryMessage("USERS", "");
     CardshifterServerAPI.sendMessage(getUsersMessage); // get all online users
@@ -42,8 +48,18 @@ CardshifterApp.controller("LobbyController", function($scope, $interval, $timeou
 
                     $scope.chatMessages.push(message);
                     break;
+
+                case "inviteRequest":
+                    console.log("got invite");
+                    $scope.invite.id = message.id;
+                    $scope.invite.name = message.name;
+                    $scope.invite.type = message.gameType;
+                    $scope.gotInvite = true;
+
+                    break;
                 case "availableMods":
                     $scope.mods = message.mods;
+                    break;
             }
         }
     }, POLL_FREQ);
@@ -68,10 +84,24 @@ CardshifterApp.controller("LobbyController", function($scope, $interval, $timeou
             var startGameMessage = new CardshifterServerAPI.messageTypes.StartGameRequest($scope.selected_opponent,
                                                                                           $scope.selected_mod);
             CardshifterServerAPI.sendMessage(startGameMessage, function(returnMessage) {
+                if(returnMessage.command !== "wait") {
+                    console.log("server didn't like that")
+                }
             });
         } else {
             // user needs to choose an opponent and/or a mod
             console.log("need to choose mod and/or opponent");
+        }
+    }
+
+    $scope.acceptInvite = function(accept) {
+
+        var inviteResponse = new CardshifterServerAPI.messageTypes.InviteResponse($scope.invite.id, accept);
+        CardshifterServerAPI.sendMessage(inviteResponse);
+        $scope.gotInvite = false;
+
+        if(accept) {
+            // switch to game page
         }
     }
 });
