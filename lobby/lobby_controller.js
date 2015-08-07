@@ -2,6 +2,7 @@ CardshifterApp.controller("LobbyController", function($scope, $interval, $timeou
     var CHAT_FEED_LIMIT = 10;
     var POLL_FREQ = 2000;
     var MESSAGE_DELAY = 3000;
+    var ENTER_KEY = 13;
 
     $scope.users = [];
     $scope.chatMessages = [];
@@ -43,7 +44,11 @@ CardshifterApp.controller("LobbyController", function($scope, $interval, $timeou
         }
     }, POLL_FREQ);
 
-    $scope.sendMessage = function() {
+    $scope.sendMessage = function(e) {
+        if(e && e.keyCode !== ENTER_KEY) { // user may hit "enter" key
+            return;
+        }
+
         $scope.sending = true;
         var chatMessage = new CardshifterServerAPI.messageTypes.ChatMessage($scope.user_chat_message);
         CardshifterServerAPI.sendMessage(chatMessage);

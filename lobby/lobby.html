@@ -13,8 +13,8 @@
             </li>
         </ul>
         <form>
-            <input ng-model="user_chat_message" type="text"/>
-            <input ng-click="sendMessage()" ng-disabled="sending" type="button" value="Send Message"/>
+            <textarea ng-model="user_chat_message" ng-keyup="sendMessage($event)" rows="4" cols="50"></textarea>
+            <input ng-click="sendMessage()" ng-disabled="sending" type="submit" value="Send Message"/>
         </form>
     </div>
 </div>
