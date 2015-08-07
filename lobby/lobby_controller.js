@@ -6,9 +6,10 @@ CardshifterApp.controller("LobbyController", function($scope, $interval, $timeou
 
     $scope.users = [];
     $scope.chatMessages = [];
+    $scope.mods = [];
 
     var getUsersMessage = new CardshifterServerAPI.messageTypes.ServerQueryMessage("USERS", "");
-    CardshifterServerAPI.sendMessage(getUsersMessage);
+    CardshifterServerAPI.sendMessage(getUsersMessage); // get all online users
 
     $interval(function() { // update chat and users
         while(message = CardshifterServerAPI.getMessage()) {
@@ -40,6 +41,8 @@ CardshifterApp.controller("LobbyController", function($scope, $interval, $timeou
 
                     $scope.chatMessages.push(message);
                     break;
+                case "availableMods":
+                    $scope.mods = message.mods;
             }
         }
     }, POLL_FREQ);

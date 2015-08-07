@@ -12,6 +12,9 @@
                 [{{message.timestamp}}] {{message.from}}: {{message.message}}
             </li>
         </ul>
+        <div ng-repeat="mod in mods">
+            {{mod}}: <input ng-model="selected_mod" type="radio" value="mod" name="mod_selection"/>
+        </div>
         <form>
             <textarea ng-model="user_chat_message" ng-keyup="sendMessage($event)" rows="4" cols="50"></textarea>
             <input ng-click="sendMessage()" ng-disabled="sending" type="submit" value="Send Message"/>
