@@ -39,7 +39,7 @@ a.csh-dropdown-link:visited {
 a.csh-dropdown-link:hover,
 a.csh-dropdown-link:active  {
     color: #DDDDDD;
-    text-decoration: underline;
+    /*text-decoration: underline;*/
     font-family: Georgia, Times, "Times New Roman", serif;
 }
 

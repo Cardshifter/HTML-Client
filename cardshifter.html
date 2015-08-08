@@ -1,101 +1,120 @@
 <!DOCTYPE html>
 <html ng-app="CardshifterApp">
-    <head>
-        <title>Cardshifter</title>
+<head>
+    <title>Cardshifter</title>
 
-        <!-- Boostrap -->
-        <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet"/>
+    <!-- Boostrap -->
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet"/>
 
-        <!-- The main CSS file -->
-        <link href="cardshifter.css" rel="stylesheet"/>
+    <!-- The main CSS file -->
+    <link href="cardshifter.css" rel="stylesheet"/>
 
-        <!-- AngularJS libraries -->
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
-        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
+    <!-- AngularJS libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
 
-        <!-- The API for communicating with the server -->
-        <script src="server_interface/server_interface.js"></script>
+    <!-- The API for communicating with the server -->
+    <script src="server_interface/server_interface.js"></script>
 
-        <!-- Controllers -->
-        <script src="cardshifter.js"></script>
-        <script src="login/login_controller.js"></script>
-        <script src="lobby/lobby_controller.js"></script>
-    </head>
-    <body>
-
-
-
-        <!-- Top Navbar will be injected here -->
+    <!-- Controllers -->
+    <script src="cardshifter.js"></script>
+    <script src="login/login_controller.js"></script>
+    <script src="lobby/lobby_controller.js"></script>
+</head>
+<body>
 
 
 
-<nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    
-  <!-- BRAND -->
-    <div class="navbar-header">
-      <div class="navbar-brand csh-top-link">Cardshifter | {{username}} </div>
-    </div> 
+    <!-- TOP NAV BAR -->
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
 
-    <form class="navbar-form">
+      <!-- BRAND -->
+        <div class="navbar-header">
+          <div class="navbar-brand csh-top-link">Cardshifter | {{username}} </div>
+        </div>
 
-  <!-- DROPDOWNS -->
+        <form class="navbar-form">
 
-    <!-- MODS -->
-    <ul class ="navbar-form navbar-left" style="margin-top: 8px;">
-      <li class="dropdown">
-        <a href="#" class="dropdown-toggle csh-dropdown-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-          Mods
-        <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <!-- CYBORG CHRONICLES -->
-            <li class="cyborg-font"><a href=#>Cyborg Chronicles</a></li>
-            <li role="separator" class="divider"></li>
-            <li class="cyborg-font"><a href=#>Game rules</a></li>
-            <li class="cyborg-font"><a href=#>Cards</a></li>
-            <!-- MYTHOS -->
-            <li class="mythos-font"><a href=#>Mythos</a></li>
-            <li role="separator" class="divider"></li>
-            <li class="mythos-font"><a href=#>Game rules</a></li>
-            <li class="mythos-font"><a href=#>Cards</a></li>
-          </ul>
-      </li>
-    </ul>
-    <!-- HELP -->
-    <ul class ="navbar-form navbar-left" style="margin-top: 8px;">
-      <li class="dropdown">
-        <a href="#" class="dropdown-toggle csh-dropdown-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-          Help
-        <span class="caret"></span></a>
-      </li>
-    </ul>
-    <!-- ABOUT -->
-    <ul class ="navbar-form navbar-left" style="margin-top: 8px;">
-      <li class="dropdown">
-        <a href="#" class="dropdown-toggle csh-dropdown-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-          About
-        <span class="caret"></span></a>
-      </li>
-    </ul>
+      <!-- DROPDOWNS -->
+
+        <!-- MODS -->
+        <ul class ="navbar-form navbar-left" style="margin-top: 8px;">
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle csh-dropdown-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              Mods
+            <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <!-- CYBORG CHRONICLES -->
+                <li class="cyborg-font"><a href=#>Cyborg Chronicles</a></li>
+                <li role="separator" class="divider"></li>
+                <li class="cyborg-font"><a href=#>Game rules</a></li>
+                <li class="cyborg-font"><a href=#>Cards</a></li>
+                <!-- MYTHOS -->
+                <li class="mythos-font"><a href=#>Mythos</a></li>
+                <li role="separator" class="divider"></li>
+                <li class="mythos-font"><a href=#>Game rules</a></li>
+                <li class="mythos-font"><a href=#>Cards</a></li>
+              </ul>
+          </li>
+        </ul>
+        <!-- HELP -->
+        <ul class ="navbar-form navbar-left" style="margin-top: 8px;">
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle csh-dropdown-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              Help
+            <span class="caret"></span></a>
+          </li>
+        </ul>
+        <!-- ABOUT -->
+        <ul class ="navbar-form navbar-left" style="margin-top: 8px;">
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle csh-dropdown-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              About
+            <span class="caret"></span></a>
+          </li>
+        </ul>
+
+      <!-- BUTTONS -->
+          <div class="form-group navbar-form navbar-left">
+            <input name="disconnect_websocket" id="disconnect_websocket" type="button" value="Log Out" class="btn btn-navbar csh-button" />
+          </div>
+
+        </form>  <!-- /.navbar-form -->
+
+      </div>  <!-- /.container-fluid -->
+    </nav>
+    <!-- / TOP NAV BAR -->
+
+<div class="col-sm-9 col-md-10 main csh-body">
+
+    <!-- Application pages will be injected here -->
+    <div ng-view></div>
 
 
-  <!-- BUTTONS -->
-      <div class="form-group navbar-form navbar-left">
-        <input name="disconnect_websocket" id="disconnect_websocket" type="button" value="Log Out" class="btn btn-navbar csh-button" />
-      </div>
+    <!-- SERVER OUTPUT CONSOLE -->
 
-    </form>  <!-- /.navbar-form -->
+    <div class="panel-group" id="accordion">
 
-  </div>  <!-- /.container-fluid -->
-</nav>
+        <div class="panel panel-default">
+
+            <div class="panel-heading">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse_console">
+                    <h1 class="panel-title">Server Console</h1>
+                </a>
+            </div>
+
+            <div id="collapse_console" class="panel-collapse collapse in">
+                <div class="panel-body server-console">
+                    Hello, world!
+                </div>  <!-- /.panel-body /.server-console -->
+            </div>  <!-- /.panel-collapse -->
+
+        </div>  <!-- /.panel-default -->
+
+    </div>  <!-- /.panel-group /.accordion -->
 
 
-
-
-        <!-- Application pages will be injected here -->
-        <div ng-view></div>
-
-
-
-    </body>
+</div>
+</body>
 </html>
