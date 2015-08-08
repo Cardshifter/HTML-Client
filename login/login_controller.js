@@ -9,6 +9,7 @@ CardshifterApp.controller("LoginController", function($scope, $location, $rootSc
             var login = new CardshifterServerAPI.messageTypes.LoginMessage($scope.username);
 
             try {
+<<<<<<< HEAD
                 CardshifterServerAPI.sendMessage(login, function(serverResponse) {
                     if(serverResponse.status === SUCCESS && serverResponse.message === "OK") {
 
@@ -16,29 +17,38 @@ CardshifterApp.controller("LoginController", function($scope, $location, $rootSc
                         window.currentUser = {
                             username: $scope.username,
                             id: serverResponse.userId
+=======
+                CardshifterServerAPI.setMessageListener(function(welcome) {
+                    if(welcome.status === SUCCESS && welcome.message === "OK") {
+                        // taking the easy way out
+                        window.currentUser = {
+                            username: $scope.username,
+                            id: welcome.userId
+>>>>>>> origin/master
                         }
 
                         $rootScope.$apply(function() {
                             $location.path("/lobby");
                         });
                     } else {
-                        // I don't actually know what the server will respond with
-                        // notify the user that there was an issue logging in (custom server issue ???)
-
-                        console.log("server message: " + serverResponse.message);
+                        console.log("server messsage: " + welcome.message);
                         $scope.loggedIn = false;
+                        $scope.$apply();
                     }
-                });
+                }, ["loginresponse"]);
+                CardshifterServerAPI.sendMessage(login);
 
             } catch(e) {
                 // notify the user that there was an issue logging in (loginmessage issue)
                 console.log("LoginMessage error(error 2): " + e);
                 $scope.loggedIn = false;
+                $scope.$apply();
             }
         }, function() {
             // notify the user that there was an issue logging in (websocket issue)
             console.log("Websocket error(error 1)");
             $scope.loggedIn = false;
+            $scope.$apply();
         });
     }
 });
