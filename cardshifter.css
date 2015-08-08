@@ -73,45 +73,16 @@ a.csh-dropdown-link:active  {
 }
 
 
-/* FORMATTING FOR LEFT SIDE NAV MENU */
+/* FORMATTING FOR SERVER CONSOLE */
 
-.csh-left-menu-main {
-    font-size: 1.4em;
-    font-weight: bold;
-    padding-top: 3px;
-    color: #000000;
-    margin: 0px;
-}
-
-.csh-left-menu-sub {
-    font-size: 1.2em;
+div#server-console {
+    font-family: Monaco, Consolas, "Courier New", monospace;
+    font-size: 1.0em;
     font-weight: normal;
-    padding-left: 15px;
-    padding-top: 3px;
-    color: #000000;
-    margin: 0px;
-}
-
-
-.csh-nav-link {
-    color: #000000;
-}
-
-.csh-nav-link:hover
-.csh-nav-link:active  {
-    color: #000000;
-    text-decoration: underline;
-}
-
-.csh-side-nav {
-  margin-top: 25px;
-  background-color: #EEEEEE;
-  padding-bottom: 5px;
-}
-
-
-.csh-margin-top {
-  margin-top: 50px;
+    color: #AAAAAA;
+    background-color: #222222;
+    height: 250px;
+    overflow: scroll;
 }
 
 /* FORMATTING FOR PAGE BODY */
@@ -162,13 +133,13 @@ p, span, table, ul, ol {
 }
 
 pre {
-    font-family: Consolas, Monaco, "Courier New", monospace;
+    font-family: Monaco, Consolas, "Courier New", monospace;
     font-size: 1.1em;
     font-weight: normal;
 }
 
 code {
-    font-family: Consolas, Monaco, "Courier New", monospace;
+    font-family: Monaco, Consolas, "Courier New", monospace;
     font-size: 1.1em;
     color: #336699;
     background-color: #EEEEEE;
@@ -187,7 +158,7 @@ div.contributor {
 /* MOD-SPECIFIC FORMATTING */
 
 .cyborg-font {
-    font-family: Consolas, Monaco, "Courier New", monospace;
+    font-family: Monaco, Consolas, "Courier New", monospace;
 }
 
 .mythos-font {
