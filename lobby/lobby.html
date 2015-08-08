@@ -8,7 +8,7 @@
     <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet"/>
 
     <!-- The main CSS file -->
-    <link href="cardshifter.css" rel="stylesheet"/>
+    <link href="../cardshifter.css" rel="stylesheet"/>
 
     <!-- The Lobby CSS file -->
     <link href="lobby.css" rel="stylesheet">
@@ -32,8 +32,8 @@
 
 <table id="lobby" width="100%">
     <tr id="lobby-headers">
-        <td id="lobby-title" width="60%">Lobby</td>
-        <td id="lobby-deck-builder-button" width="40%"><button>Deck Builder</button></td>
+        <td id="lobby-title" >Lobby</td>
+        <td id="lobby-deck-builder" width="20%"><button>Deck Builder</button></td>
     </tr>
     <tr id="lobby-list-headers">
         <th id="lobby-message-list-header">Messages</th>
@@ -57,7 +57,7 @@
     </tr>
     <tr>
         <td id="lobby-message">
-            <input type="text" />
+            <textarea rows="2" cols="75" placeholder="Enter message..."></textarea>
             <button>Send</button>
         </td>
         <td id="lobby-invite">
@@ -65,7 +65,7 @@
         </td>
     </tr>
     <tr id="lobby-mods">
-        <td rowspan="2" id="lobby-mod-selection">
+        <td colspan="2" id="lobby-mod-selection">
             Select game type:
         </td>
     </tr>
