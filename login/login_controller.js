@@ -9,26 +9,25 @@ CardshifterApp.controller("LoginController", function($scope, $location, $rootSc
             var login = new CardshifterServerAPI.messageTypes.LoginMessage($scope.username);
 
             try {
-                CardshifterServerAPI.sendMessage(login, function(serverResponse) {
-                    if(serverResponse.status === SUCCESS && serverResponse.message === "OK") {
-
+                CardshifterServerAPI.setMessageListener(function(welcome) {
+                    console.log("was a login response");
+                    console.log(welcome);
+                    if(welcome.status === SUCCESS && welcome.message === "OK") {
                         // taking the easy way out
                         window.currentUser = {
                             username: $scope.username,
-                            id: serverResponse.userId
+                            id: welcome.userId
                         }
 
                         $rootScope.$apply(function() {
                             $location.path("/lobby");
                         });
                     } else {
-                        // I don't actually know what the server will respond with
-                        // notify the user that there was an issue logging in (custom server issue ???)
-
-                        console.log("server message: " + serverResponse.message);
+                        console.log("server messsage: " + welcome.message);
                         $scope.loggedIn = false;
                     }
-                });
+                }, ["loginresponse"]);
+                CardshifterServerAPI.sendMessage(login);
 
             } catch(e) {
                 // notify the user that there was an issue logging in (loginmessage issue)
