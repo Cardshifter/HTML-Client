@@ -1,3 +1,80 @@
+<!-- TEMPORARY -->
+<!DOCTYPE html>
+<html ng-app="CardshifterApp">
+<head>
+    <title>Cardshifter</title>
+
+    <!-- Boostrap -->
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- The main CSS file -->
+    <link href="cardshifter.css" rel="stylesheet"/>
+
+    <!-- The Lobby CSS file -->
+    <link href="lobby.css" rel="stylesheet">
+
+    <!-- AngularJS libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
+
+    <!-- The API for communicating with the server -->
+    <script src="server_interface/server_interface.js"></script>
+
+    <!-- Controllers -->
+    <script src="cardshifter.js"></script>
+    <script src="login/login_controller.js"></script>
+    <script src="lobby/lobby_controller.js"></script>
+</head>
+<body>
+
+<div class="col-sm-9 col-md-10 main csh-body">
+<!-- /TEMPORARY -->
+
+<table id="lobby" width="100%">
+    <tr id="lobby-headers">
+        <td id="lobby-title" width="60%">Lobby</td>
+        <td id="lobby-deck-builder-button" width="40%"><button>Deck Builder</button></td>
+    </tr>
+    <tr id="lobby-list-headers">
+        <th id="lobby-message-list-header">Messages</th>
+        <th id="lobby-users-list-header">Online Users</th>
+    </tr>
+    <tr id="lobby-lists" height="400px">
+        <td id="lobby-message-list">
+            [15:45] Server: Phrancis has entered the lobby.<br/>
+            [15:46] Phrancis: Hello World!<br/>
+            [15:48] Phrancis and AI Fighter are now playing Game 1.<br/>
+            [15:55] Phrancis ended Game 1.
+        </td>
+        </td>
+        <td id="lobby-users-list">
+            Phrancis<br/>
+            AI Loser<br/>
+            AI Idiot<br/>
+            AI Medium<br/>
+            AI Fighter
+        </td>
+    </tr>
+    <tr>
+        <td id="lobby-message">
+            <input type="text" />
+            <button>Send</button>
+        </td>
+        <td id="lobby-invite">
+            <button>Invite to game</button>
+        </td>
+    </tr>
+    <tr id="lobby-mods">
+        <td rowspan="2" id="lobby-mod-selection">
+            Select game type:
+        </td>
+    </tr>
+
+</table>
+
+
+
+<!-- LOBBY SECTIONS -->
 <div>
     <div>
         <h2>Online users:</h2>
@@ -27,3 +104,8 @@
         </form>
     </div>
 </div>
+
+<!-- TEMPORARY -->
+</div>
+</body>
+</html>
