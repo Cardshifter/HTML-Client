@@ -36,7 +36,7 @@
 
     window.CardshifterServerAPI = {
         socket: null,
-        incomingMessages: [],
+        eventTypes: [],
         messageTypes: {
                     /**
                     * Incoming login message.
@@ -270,16 +270,36 @@
         * TODO: Maybe a timeout will be needed? Pass in a function and a MS count.
         */
         setMessageListener: function(listener, types) {
+            this.eventTypes = types;
             this.socket.onmessage = function(message) {
                 var data = JSON.parse(message.data);
-                if(types) {
-                    if(types.indexOf(data.command) !== -1) { // if contains
+                if(this.eventTypes) {
+                    if(this.eventTypes.indexOf(data.command) !== -1) { // if contains
                         listener(data);
                     }
                 } else {
                     listener(data);
                 }
             }
+            this.eventTypes = types;
+            console.log(this.eventTypes);
+        },
+
+        /**
+        * Adds types to the types to listen for in the message event listener
+        *
+        * @param types:[string] -- The types to add
+        */
+        addEventTypes: function(types) {
+            this.eventTypes = this.eventTypes.concat(types);
+            console.log(this.eventTypes);
+        },
+
+        /**
+        * Removes the message event listener
+        */
+        removeMessageListener: function() {
+            this.socket.onmessage = null;
         }
     };
 })(Function("return this")());
