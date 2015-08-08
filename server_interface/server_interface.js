@@ -258,7 +258,7 @@
             } else {
                 throw new NotInitializedException("The API has not yet been initialized.");
             }
-        }
+        },
 
         /**
         * Sets an event listener for when the server sends a message and
@@ -267,16 +267,17 @@
         * @param listener:Function -- The function to fire when a message of types is received
         * @param types:[string] (OPTIONAL) -- Only fire the listener when the message type is in this array
         *
+        * TODO: Maybe a timeout will be needed? Pass in a function and a MS count.
         */
         setMessageListener: function(listener, types) {
-            this.socket.onmessage(message) {
+            this.socket.onmessage = function(message) {
                 var data = JSON.parse(message.data);
                 if(types) {
-                    if(data.command in types) {
-                        listener(message);
+                    if(types.indexOf(data.command) !== -1) { // if contains
+                        listener(data);
                     }
                 } else {
-                    listener(message);
+                    listener(data);
                 }
             }
         }
