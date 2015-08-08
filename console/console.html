@@ -1,39 +1,41 @@
-<!DOCTYPE html>
-<html ng-app="CardshifterApp">
-<head>
-  <title>Cardshifter</title>
-
-  <!-- Boostrap -->
-  <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet"/>
-
-  <!-- The main CSS file -->
-  <link href="../cardshifter.css" rel="stylesheet"/>
-
-</head>
-<body>
-
-
-
-<!-- SERVER OUTPUT CONSOLE -->
-
+<!-- SERVER CONSOLE
+  -- To be injected optionally into `cardshifter.html` if the "Console" button is pressed in `top_navbar`.
+  -- Should also be removed if the "Console" button is pressed again.
+  -- Marker has been added into `cardshifter.html` below the ng-view for the main page sections.
+  -->
 
 <div class="panel panel-default">
 
   <div class="panel-heading">
-      <h1 class="panel-title">Server Console</h1>
+    <h1 class="panel-title">Server Console</h1>
   </div>
 
-  <div id="collapse_console" class="panel-collapse collapse">
-    <div class="panel-body server-console">
-        Hello, world!
-    </div>  <!-- /.panel-body /.server-console -->
-  </div>  <!-- /.panel-collapse -->
+  <!-- SERVER MESSAGES WILL BE APPENDED INSIDE THIS DIV -->
+  <div class="panel-body" id="server-console">
+    <!-- "Hello, world!" messages added only for testing purposes, remove once appending actual messages is implemented. -->
+    1 Hello, world!<br>
+    2 Hello, world!<br>
+    3 Hello, world!<br>
+    4 Hello, world!<br>
+    5 Hello, world!<br>
+    6 Hello, world!<br>
+    7 Hello, world!<br>
+    8 Hello, world!<br>
+    9 Hello, world!<br>
+    0 Hello, world!<br>
+    1 Hello, world!<br>
+    2 Hello, world!<br>
+    3 Hello, world!<br>
+    4 Hello, world!<br>
+    5 Hello, world!<br>
+    6 Hello, world!<br>
+    7 Hello, world!<br>
+    8 Hello, world!<br>
+    9 Hello, world!<br>
+    0 Hello, world!<br>
+    1 Hello, world!<br>
+    2 Hello, world!<br>
+    3 Hello, world!<br>
+  </div>
 
-</div>  <!-- /.panel-default -->
-
-
-
-
-
-
-</body></html>
+</div>
