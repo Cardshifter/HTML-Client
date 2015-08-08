@@ -36,7 +36,7 @@
 
     window.CardshifterServerAPI = {
         socket: null,
-        incomingMessages: [],
+        eventTypes: [],
         messageTypes: {
                     /**
                     * Incoming login message.
@@ -236,10 +236,6 @@
             var protocolAddon = (wsProtocolFinder.test(server) ? "" : "ws" + secureAddon + "://");
             var socket = new WebSocket(protocolAddon + server);
 
-            socket.onmessage = function(message) {
-                self.incomingMessages.push(JSON.parse(message.data));
-            }
-
             socket.onopen = onReady;
 
             socket.onerror = function() {
@@ -250,34 +246,14 @@
             this.socket = socket;
         },
 
-        /**
-        * Sends a message to the server.
-        *
-        * @param message:Message -- The message to send.
-        * @param onReceive:Function (OPTIONAL) -- A function to run when a message has returned
-        * @error NotInitializedException -- If the API has not been initialized yet.
-        *
-        * This will use websocket setup by `this.init` to send a message to the server.
-        *
-        * NOTE: The onReceive function will NOT NECESSARILY be run when the desired request
-        * is received. However, it is likely.
-        */
-        sendMessage: function(message, onReceive) {
+        sendMessage: function(message) {
             var socket = this.socket;
             var self = this;
             if(socket) {
                 if(socket.readyState === SOCKET_OPEN) {
                     this.socket.send(JSON.stringify(flatten(message)));
-                    if(onReceive) {
-                        this.socket.onmessage = function(msg) {
-                            onReceive(JSON.parse(msg.data));
-                            this.onmessage = function(msg2) {
-                                self.incomingMessages.push(JSON.parse(msg2.data));
-                            }
-                        }
-                    }
                 } else {
-                    throw new SocketNotReadyException("The Websocket is not yet ready to be used", socket.readyState);
+                    throw new SocketNotReadyException("The Websocket is not ready to be used.", socket.readyState);
                 }
             } else {
                 throw new NotInitializedException("The API has not yet been initialized.");
@@ -285,19 +261,45 @@
         },
 
         /**
-        * Gets a message from the recieved message queue.
+        * Sets an event listener for when the server sends a message and
+        * the message type is one of the types in types
         *
-        * @return Message -- The first message in the incoming messages queue
+        * @param listener:Function -- The function to fire when a message of types is received
+        * @param types:[string] (OPTIONAL) -- Only fire the listener when the message type is in this array
         *
-        * This will .shift() the incomingMessages queue and return the value.
-        * This allows the API to handle the messages from the server so the
-        * main game code can access the messages as it needs to.
-        *
-        * Although the function is very simple, the name make is clear what is
-        * happening.
+        * TODO: Maybe a timeout will be needed? Pass in a function and a MS count.
         */
-        getMessage: function() {
-            return this.incomingMessages.shift();
+        setMessageListener: function(listener, types) {
+            this.eventTypes = types;
+            this.socket.onmessage = function(message) {
+                var data = JSON.parse(message.data);
+                if(this.eventTypes) {
+                    if(this.eventTypes.indexOf(data.command) !== -1) { // if contains
+                        listener(data);
+                    }
+                } else {
+                    listener(data);
+                }
+            }
+            this.eventTypes = types;
+            console.log(this.eventTypes);
+        },
+
+        /**
+        * Adds types to the types to listen for in the message event listener
+        *
+        * @param types:[string] -- The types to add
+        */
+        addEventTypes: function(types) {
+            this.eventTypes = this.eventTypes.concat(types);
+            console.log(this.eventTypes);
+        },
+
+        /**
+        * Removes the message event listener
+        */
+        removeMessageListener: function() {
+            this.socket.onmessage = null;
         }
     };
 })(Function("return this")());
