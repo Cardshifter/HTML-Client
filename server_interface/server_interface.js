@@ -270,11 +270,12 @@
         * TODO: Maybe a timeout will be needed? Pass in a function and a MS count.
         */
         setMessageListener: function(listener, types) {
+            var self = this;
             this.eventTypes = types;
             this.socket.onmessage = function(message) {
                 var data = JSON.parse(message.data);
-                if(this.eventTypes) {
-                    if(this.eventTypes.indexOf(data.command) !== -1) { // if contains
+                if(self.eventTypes) {
+                    if(self.eventTypes.indexOf(data.command) !== -1) { // if contains
                         listener(data);
                     }
                 } else {
@@ -282,7 +283,6 @@
                 }
             }
             this.eventTypes = types;
-            console.log(this.eventTypes);
         },
 
         /**
@@ -292,7 +292,6 @@
         */
         addEventTypes: function(types) {
             this.eventTypes = this.eventTypes.concat(types);
-            console.log(this.eventTypes);
         },
 
         /**
