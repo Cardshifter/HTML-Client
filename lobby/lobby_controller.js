@@ -1,8 +1,7 @@
-CardshifterApp.controller("LobbyController", function($scope, $interval, $timeout) {
+CardshifterApp.controller("LobbyController", function($scope, $timeout) {
     var CHAT_FEED_LIMIT = 10;
-    var POLL_FREQ = 2000;
-    var MESSAGE_DELAY = 3000;
     var ENTER_KEY = 13;
+    var MESSAGE_DELAY = 3000;
 
     $scope.users = [];
     $scope.chatMessages = [];
@@ -15,54 +14,21 @@ CardshifterApp.controller("LobbyController", function($scope, $interval, $timeou
     };
     $scope.gotInvite = false;
 
-    var getUsersMessage = new CardshifterServerAPI.messageTypes.ServerQueryMessage("USERS", "");
-    CardshifterServerAPI.sendMessage(getUsersMessage); // get all online users
+    var commandMap = {
+        "userstatus": updateUserList,
+        "chat": addChatMessage,
+        "inviteRequest": displayInvite,
+        "availableMods": displayMods,
+        "newgame": enterNewGame
+    };
 
-    $interval(function() { // update chat and users
-        while(message = CardshifterServerAPI.getMessage()) {
-            switch(message.command) {
-                case "userstatus":
-                    // do conditional checking if user is offline
-                    if(message.status === "OFFLINE") {
-                        for(var i = 0, length = $scope.users.length; i < length; i++) {
+    var getUsers = new CardshifterServerAPI.messageTypes.ServerQueryMessage("USERS", "");
+    CardshifterServerAPI.sendMessage(getUsers);
 
-                            if($scope.users[i].userId === message.userId) {
-                                $scope.users.splice(i, 1); // remove that user from the array
-                            }
-                        }
-                    } else {
-                        $scope.users.push(message);
-                    }
-
-                    break;
-                case "chat":
-                    if($scope.chatMessages.length === CHAT_FEED_LIMIT) {
-                        // remove the latest (opposite of earliest) chat message
-                        $scope.chatMessages.shift();
-                    }
-
-                    var now = new Date();
-                    var YMD = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate();
-                    var HMS = now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds();
-                    message.timestamp = YMD + " " + HMS;
-
-                    $scope.chatMessages.push(message);
-                    break;
-
-                case "inviteRequest":
-                    console.log("got invite");
-                    $scope.invite.id = message.id;
-                    $scope.invite.name = message.name;
-                    $scope.invite.type = message.gameType;
-                    $scope.gotInvite = true;
-
-                    break;
-                case "availableMods":
-                    $scope.mods = message.mods;
-                    break;
-            }
-        }
-    }, POLL_FREQ);
+    CardshifterServerAPI.setMessageListener(function(message) {
+        commandMap[message.command](message);
+        $scope.$apply(); // needs to manually updated since this is an event
+    }, ["userstatus", "chat", "inviteRequest", "availableMods", "newgame"]);
 
     $scope.sendMessage = function(e) {
         if(e && e.keyCode !== ENTER_KEY) { // user may hit "enter" key
@@ -78,30 +44,81 @@ CardshifterApp.controller("LobbyController", function($scope, $interval, $timeou
             $scope.sending = false;
         }, MESSAGE_DELAY);
     }
-
     $scope.startGame = function() {
         if($scope.selected_mod && $scope.selected_opponent) {
-            var startGameMessage = new CardshifterServerAPI.messageTypes.StartGameRequest($scope.selected_opponent,
-                                                                                          $scope.selected_mod);
-            CardshifterServerAPI.sendMessage(startGameMessage, function(returnMessage) {
-                if(returnMessage.command !== "wait") {
-                    console.log("server didn't like that")
-                }
-            });
+            var startGame = new CardshifterServerAPI.messageTypes.StartGameRequest($scope.selected_opponent,
+                                                                                   $scope.selected_mod);
+            CardshifterServerAPI.sendMessage(startGame);
         } else {
             // user needs to choose an opponent and/or a mod
             console.log("need to choose mod and/or opponent");
         }
     }
-
     $scope.acceptInvite = function(accept) {
-
-        var inviteResponse = new CardshifterServerAPI.messageTypes.InviteResponse($scope.invite.id, accept);
-        CardshifterServerAPI.sendMessage(inviteResponse);
+        var accept = new CardshifterServerAPI.messageTypes.InviteResponse($scope.invite.id, accept);
+        CardshifterServerAPI.sendMessage(accept);
         $scope.gotInvite = false;
+    }
 
-        if(accept) {
-            // switch to game page
+
+    // The command map functions:
+    /**
+    * Based on the content of message, will add or remove
+    * a user from the user list.
+    */
+    function updateUserList(message) {
+        if(message.status === "OFFLINE") {
+            for(var i = 0, length = $scope.users.length; i < length; i++) {
+                if($scope.users[i].userId === message.userId) {
+                    $scope.users.splice(i, 1); // remove that user from the array
+                    break;
+                }
+            }
+        } else {
+            $scope.users.push(message);
         }
+    }
+    /**
+    * Adds a chat message to the message feed. If the message
+    * feed is at the maximum limit of messages, deletes the oldest
+    * message.
+    */
+    function addChatMessage(message) {
+        if($scope.chatMessages.length === CHAT_FEED_LIMIT) {
+            // remove the oldest chat message
+            $scope.chatMessages.shift();
+        }
+
+        var now = new Date();
+        var YMD = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate();
+        var HMS = now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds();
+        message.timestamp = YMD + " " + HMS;
+
+        $scope.chatMessages.push(message);
+    }
+    /**
+    * Shows buttons and a message to this client for accepting
+    * or declining a game request.
+    */
+    function displayInvite(message) {
+        $scope.invite.id = message.id;
+        $scope.invite.name = message.name;
+        $scope.invite.type = message.gameType;
+        $scope.gotInvite = true;
+    }
+    /**
+    * Shows to the user a list of all available mods.
+    */
+    function displayMods(message) {
+        $scope.mods = message.mods;
+    }
+    /**
+    * Stores the game ID in currentUser for other controllers
+    * to use and navigates to the deck-builder page for the
+    * user to select a deck.
+    */
+    function enterNewGame(message) {
+        currentUser.currentGameId = message.gameId;
+        console.log("change to game");
     }
 });
