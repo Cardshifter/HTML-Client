@@ -9,6 +9,6 @@ CardshifterApp.config(function($routeProvider) {
         .when("/lobby", {
             controller: "LobbyController",
             templateUrl: "lobby/lobby.html",
-            css: "lobby/lobby.css" // @Phrancis needs this
+            css: "lobby/lobby.css"
         })
 });
