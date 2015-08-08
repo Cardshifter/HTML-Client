@@ -1,6 +1,7 @@
 CardshifterApp.controller("LobbyController", function($scope, $timeout) {
     var CHAT_FEED_LIMIT = 10;
     var ENTER_KEY = 13;
+    var MESSAGE_DELAY = 3000;
 
     $scope.users = [];
     $scope.chatMessages = [];
@@ -17,7 +18,8 @@ CardshifterApp.controller("LobbyController", function($scope, $timeout) {
         "userstatus": updateUserList,
         "chat": addChatMessage,
         "inviteRequest": displayInvite,
-        "availableMods": displayMods
+        "availableMods": displayMods,
+        "newgame": enterNewGame
     };
 
     var getUsers = new CardshifterServerAPI.messageTypes.ServerQueryMessage("USERS", "");
@@ -26,7 +28,7 @@ CardshifterApp.controller("LobbyController", function($scope, $timeout) {
     CardshifterServerAPI.setMessageListener(function(message) {
         commandMap[message.command](message);
         $scope.$apply(); // needs to manually updated since this is an event
-    }, ["userstatus", "chat", "inviteRequest", "availableMods"]);
+    }, ["userstatus", "chat", "inviteRequest", "availableMods", "newgame"]);
 
     $scope.sendMessage = function(e) {
         if(e && e.keyCode !== ENTER_KEY) { // user may hit "enter" key
@@ -44,14 +46,18 @@ CardshifterApp.controller("LobbyController", function($scope, $timeout) {
     }
     $scope.startGame = function() {
         if($scope.selected_mod && $scope.selected_opponent) {
-            console.log("start");
+            var startGame = new CardshifterServerAPI.messageTypes.StartGameRequest($scope.selected_opponent,
+                                                                                   $scope.selected_mod);
+            CardshifterServerAPI.sendMessage(startGame);
         } else {
             // user needs to choose an opponent and/or a mod
             console.log("need to choose mod and/or opponent");
         }
     }
     $scope.acceptInvite = function(accept) {
-        console.log("accept");
+        var accept = new CardshifterServerAPI.messageTypes.InviteResponse($scope.invite.id, accept);
+        CardshifterServerAPI.sendMessage(accept);
+        $scope.gotInvite = false;
     }
 
 
@@ -105,5 +111,14 @@ CardshifterApp.controller("LobbyController", function($scope, $timeout) {
     */
     function displayMods(message) {
         $scope.mods = message.mods;
+    }
+    /**
+    * Stores the game ID in currentUser for other controllers
+    * to use and navigates to the deck-builder page for the
+    * user to select a deck.
+    */
+    function enterNewGame(message) {
+        currentUser.currentGameId = message.gameId;
+        console.log("change to game");
     }
 });

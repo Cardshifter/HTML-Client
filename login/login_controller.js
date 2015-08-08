@@ -23,6 +23,7 @@ CardshifterApp.controller("LoginController", function($scope, $location, $rootSc
                     } else {
                         console.log("server messsage: " + welcome.message);
                         $scope.loggedIn = false;
+                        $scope.$apply();
                     }
                 }, ["loginresponse"]);
                 CardshifterServerAPI.sendMessage(login);
@@ -31,11 +32,13 @@ CardshifterApp.controller("LoginController", function($scope, $location, $rootSc
                 // notify the user that there was an issue logging in (loginmessage issue)
                 console.log("LoginMessage error(error 2): " + e);
                 $scope.loggedIn = false;
+                $scope.$apply();
             }
         }, function() {
             // notify the user that there was an issue logging in (websocket issue)
             console.log("Websocket error(error 1)");
             $scope.loggedIn = false;
+            $scope.$apply();
         });
     }
 });
