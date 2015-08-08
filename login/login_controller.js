@@ -10,8 +10,6 @@ CardshifterApp.controller("LoginController", function($scope, $location, $rootSc
 
             try {
                 CardshifterServerAPI.setMessageListener(function(welcome) {
-                    console.log("was a login response");
-                    console.log(welcome);
                     if(welcome.status === SUCCESS && welcome.message === "OK") {
                         // taking the easy way out
                         window.currentUser = {
