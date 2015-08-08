@@ -11,4 +11,8 @@ CardshifterApp.config(function($routeProvider) {
             templateUrl: "lobby/lobby.html",
             css: "lobby/lobby.css"
         })
+        .when("/deck_builder", {
+            controller: "DeckbuilderController",
+            templateUrl: "deck_builder/deck_builder.html"
+        })
 });
