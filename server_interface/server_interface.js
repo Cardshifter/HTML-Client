@@ -3,6 +3,8 @@
     var wsProtocolFinder = /ws(s)*:\/\//;
     var SOCKET_OPEN = 1;
 
+    var eventTypes = [];
+
     function Message(command) {
         this.command = command;
     }
@@ -36,7 +38,6 @@
 
     window.CardshifterServerAPI = {
         socket: null,
-        eventTypes: [],
         messageTypes: {
                     /**
                     * Incoming login message.
@@ -266,23 +267,23 @@
         *
         * @param listener:Function -- The function to fire when a message of types is received
         * @param types:[string] (OPTIONAL) -- Only fire the listener when the message type is in this array
+        * @param timeout:Object (OPTIONAL) -- The function(.ontimeout) to call after MS(.ms) of no reply
         *
         * TODO: Maybe a timeout will be needed? Pass in a function and a MS count.
         */
         setMessageListener: function(listener, types) {
-            var self = this;
-            this.eventTypes = types;
+            eventTypes = types;
+
             this.socket.onmessage = function(message) {
                 var data = JSON.parse(message.data);
-                if(self.eventTypes) {
-                    if(self.eventTypes.indexOf(data.command) !== -1) { // if contains
+                if(eventTypes) {
+                    if(eventTypes.indexOf(data.command) !== -1) { // if contains
                         listener(data);
                     }
                 } else {
                     listener(data);
                 }
             }
-            this.eventTypes = types;
         },
 
         /**
@@ -291,7 +292,7 @@
         * @param types:[string] -- The types to add
         */
         addEventTypes: function(types) {
-            this.eventTypes = this.eventTypes.concat(types);
+            eventTypes = eventTypes.concat(types);
         },
 
         /**
