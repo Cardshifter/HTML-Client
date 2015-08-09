@@ -1,18 +1,24 @@
 <div>
+    <h1>{{getTotalSelected()}} / {{maxCards}}</h1>
     <ul>
-        <div>
-            {{getTotalSelected()}} / {{maxCards}}
-        </div>
-        <div>
-            <pre>
-                {{cardInformation}}
-            </pre>
-        </div>
-        <li ng-repeat="card in cards">
-            <a ng-click="showDetails(card)">{{card.properties.name}}</a>
-            <input ng-click="decrement(card)" type="button" value="-" />
-            {{$parent.cardChoices[card.properties.name]}} / {{card.max}}
-            <input ng-click="increment(card)" type="button" value="+" />
+        <li ng-repeat="(name, value) in cardInfo" ng-show="value">
+            <b>{{name}}</b>: {{value}}
         </li>
     </ul>
+    <table>
+        <tr ng-repeat="card in cards">
+            <td>
+                <a ng-click="showDetails(card)">{{card.properties.name}}</a>
+            </td>
+            <td>
+                <input ng-click="decrement(card)" type="button" value="-" />
+            </td>
+            <td>
+                {{$parent.currentDeck[card.id]}} / {{card.max}}
+            </td>
+            <td>
+                <input ng-click="increment(card)" type="button" value="+" />
+            </td>
+        </tr>
+    </table>
 </div>
