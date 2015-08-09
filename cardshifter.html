@@ -93,6 +93,25 @@
 
 <div class="col-sm-9 col-md-10 main csh-body">
 
+    <!-- Needed for IE8 and older -->
+    <!--[if lt IE 9]>
+    <script>
+    document.createElement("header" );
+    document.createElement("footer" );
+    document.createElement("section");
+    document.createElement("aside"  );
+    document.createElement("nav"    );
+    document.createElement("article");
+    document.createElement("hgroup" );
+    document.createElement("time"   );
+  </script>
+    <noscript>
+        <strong>Warning !</strong>
+        Because your browser does not support HTML5, some elements are created using JavaScript.
+        Unfortunately your browser has disabled scripting. Please enable it in order to display this page.
+    </noscript>
+    <![endif]-->
+
     <!-- Application pages will be injected here -->
     <div data-ng-view></div>
 
