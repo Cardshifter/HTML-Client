@@ -9,27 +9,27 @@
     <form name="login_information" id="login_information" class="login-form">
         <div class="form-group">
             <label for="server" aria-label="Server">Server:</label>
-            <select ng-model="server" name="server" id="server" class="form-control">
+            <select data-ng-model="server" name="server" id="server" class="form-control">
                 <option value="ws://127.0.0.1:4243">Local host</option>
                 <option value="ws://dwarftowers.com:4243">dwarftowers.com</option>
                 <option value="ws://stats.zomis.net:4243">zomis.net</option>
                 <option value="other">Other...</option>
             </select>
             <label for="secure">Is secure server:</label>
-            <input ng-model="is_secure" name="secure" id="secure" type="checkbox" value="secure" />
+            <input data-ng-model="is_secure" name="secure" id="secure" type="checkbox" value="secure" />
         </div>
         <div class="form-group">
-            <div ng-show="server=='other'" id="server_other">
+            <div data-ng-show="server=='other'" id="server_other">
                 <label for="server_other_input">Other Server:</label>
-                <input ng-model="other_server" name="server_other_input" id="server_other_input" type="text" class="form-control" />
+                <input data-ng-model="other_server" name="server_other_input" id="server_other_input" type="text" class="form-control" />
             </div>
         </div>
         <div class="form-group">
             <label for="username">Username:</label>
-            <input ng-model="username" name="username" id="username" type="text" class="form-control" placeholder="Enter name..." />
+            <input data-ng-model="username" name="username" id="username" type="text" class="form-control" placeholder="Enter name..." />
         </div>
         <div class="form-group">
-            <input ng-click="login()" ng-disabled="loggedIn" name="submit" id="submit" type="button" value="Log in" class="btn btn-success" />
+            <input data-ng-click="login()" data-ng-disabled="loggedIn" name="submit" id="submit" type="button" value="Log in" class="btn btn-success" />
         </div>
     </form>
 
