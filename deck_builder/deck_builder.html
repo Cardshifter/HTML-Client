@@ -1,1 +1,18 @@
-<div></div>
+<div>
+    <ul>
+        <div>
+            {{getTotalSelected()}} / {{maxCards}}
+        </div>
+        <div>
+            <pre>
+                {{cardInformation}}
+            </pre>
+        </div>
+        <li ng-repeat="card in cards">
+            <a ng-click="showDetails(card)">{{card.properties.name}}</a>
+            <input ng-click="increment(card)" type="button" value="+" />
+            {{$parent.cardChoices[card.properties.name]}}
+            <input ng-click="decrement(card)" type="button" value="-" />
+        </li>
+    </ul>
+</div>
