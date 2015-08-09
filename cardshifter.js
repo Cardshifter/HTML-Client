@@ -1,4 +1,4 @@
-var CardshifterApp = angular.module("CardshifterApp", ["ngRoute"]);
+var CardshifterApp = angular.module("CardshifterApp", ["ngRoute", "ngFitText"]);
 
 CardshifterApp.config(function($routeProvider) {
     $routeProvider
