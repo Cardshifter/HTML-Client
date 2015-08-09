@@ -29,8 +29,9 @@ CardshifterApp.controller("LobbyController", function($scope, $timeout, $rootSco
     CardshifterServerAPI.sendMessage(getUsers);
 
     CardshifterServerAPI.setMessageListener(function(message) {
-        commandMap[message.command](message);
-        $scope.$apply(); // needs to manually updated since this is an event
+        $scope.$apply(function() {
+            commandMap[message.command](message);
+        })
     }, ["userstatus", "chat", "inviteRequest", "availableMods", "newgame"]);
 
     $scope.sendMessage = function(e) {
@@ -59,13 +60,24 @@ CardshifterApp.controller("LobbyController", function($scope, $timeout, $rootSco
             console.log("need to choose mod and/or opponent");
         }
     }
-
     $scope.acceptInvite = function(accept) {
         var accept = new CardshifterServerAPI.messageTypes.InviteResponse($scope.invite.id, accept);
         CardshifterServerAPI.sendMessage(accept);
 
         gameMod = $scope.invite.type;
         $scope.gotInvite = false;
+    }
+
+    $scope.openDeckBuilder = function() {
+        if($scope.selected_mod) {
+            currentUser.game.mod = $scope.selected_mod;
+
+            var getCards = new CardshifterServerAPI.messageTypes.ServerQueryMessage("DECK_BUILDER", currentUser.game.mod);
+            CardshifterServerAPI.sendMessage(getCards);
+            $location.path("/deck_builder");
+        } else {
+            console.log("pick a mod pl0x");
+        }
     }
 
 
