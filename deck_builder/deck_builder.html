@@ -3,12 +3,14 @@
         <h1>Loading...</h1>
     </div>
     <div ng-show="doneLoading">
-        <h1>{{getTotalSelected()}} / {{maxCards}}</h1>
+        <h1>{{deckName}}</h1>
+        <h2>{{getTotalSelected()}} / {{maxCards}}</h2>
         <ul>
             <li ng-repeat="(name, value) in cardInfo" ng-show="value">
                 <b>{{name}}</b>: {{value}}
             </li>
         </ul>
+
         <table>
             <tr ng-repeat="card in cards">
                 <td>
@@ -35,5 +37,7 @@
                 <input ng-click="deleteDeck(deck.name)" type="button" value="Delete"/>
             </li>
         </ul>
+        <input ng-show="enteringGame" ng-click="enterGame()" type="button" value = "Start game" />
+        <input ng-hide="enteringGame" ng-click="goBack()" type="button" value="Go back to lobby" />
     </div>
 </div>
