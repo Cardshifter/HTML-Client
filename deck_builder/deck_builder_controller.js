@@ -121,9 +121,7 @@ CardshifterApp.controller("DeckbuilderController", function($scope, $rootScope, 
         }
     };
     $scope.goBack = function() {
-        $rootScope.$apply(function() {
-            $location.path("/lobby");
-        });
+        $location.path("/lobby");
     };
 
     function updateSavedDecks() {
