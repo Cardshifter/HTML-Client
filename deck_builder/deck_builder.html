@@ -21,4 +21,13 @@
             </td>
         </tr>
     </table>
+    <form>
+        <input ng-model="deckName" type="text" />
+        <input ng-click="saveDeck()" type="submit" value="Save Deck"/>
+    </form>
+    <ul>
+        <li ng-repeat="deck in savedDecks">
+            <a ng-click="switchDeck(deck)">{{deck.name}}</a>
+        </li>
+    </ul>
 </div>
