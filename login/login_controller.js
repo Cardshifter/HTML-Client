@@ -14,8 +14,12 @@ CardshifterApp.controller("LoginController", function($scope, $location, $rootSc
                         // taking the easy way out
                         window.currentUser = {
                             username: $scope.username,
-                            id: welcome.userId
-                        }
+                            id: welcome.userId,
+                            game: {
+                                id: null,
+                                mod: null
+                            }
+                        };
 
                         $rootScope.$apply(function() {
                             $location.path("/lobby");
