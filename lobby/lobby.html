@@ -4,7 +4,7 @@
         <!--
           -- TODO: Implement function to open deck builder without starting a game with this button.
           -->
-        <td id="lobby-deck-builder" width="20%"><button class="btn btn-navbar csh-button">Deck Builder</button></td>
+        <td id="lobby-deck-builder"><button class="btn btn-navbar csh-button">Deck Builder</button></td>
     </tr>
     <tr id="lobby-invite-request" data-ng-show="gotInvite">
         <td colspan="2">
@@ -19,7 +19,7 @@
         <th id="lobby-message-list-header">Messages</th>
         <th id="lobby-users-list-header">Users Online</th>
     </tr>
-    <tr id="lobby-lists" height="400px">
+    <tr id="lobby-lists">
         <td id="lobby-message-list">
             <ul id="lobby-chat-messages">
                 <li data-ng-repeat="message in chatMessages" id="lobby-chat-message">
@@ -39,7 +39,7 @@
     <tr>
         <td id="lobby-message">
             <textarea data-ng-model="user_chat_message" data-ng-keyup="sendMessage($event)"
-                id="lobby-chat-text-area" rows="1" cols="75" wrap="off"
+                id="lobby-type-chat-message" rows="1" cols="75" wrap="off"
                 placeholder="Enter chat message..."></textarea>
             <input data-ng-click="sendMessage()" data-ng-disabled="sending" type="submit" value="Send" class="btn btn-navbar csh-button"/>
         </td>

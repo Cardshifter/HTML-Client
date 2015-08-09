@@ -2,7 +2,6 @@ CardshifterApp.controller("LobbyController", function($scope, $timeout) {
     var CHAT_FEED_LIMIT = 10;
     var ENTER_KEY = 13;
     var MESSAGE_DELAY = 3000;
-    var ENTER_KEY = 13;
 
     $scope.users = [];
     $scope.chatMessages = [];
@@ -53,8 +52,8 @@ CardshifterApp.controller("LobbyController", function($scope, $timeout) {
                                                                                    $scope.selected_mod);
             CardshifterServerAPI.sendMessage(startGame);
         } else {
-            // user needs to choose an opponent and/or a mod
-            console.log("need to choose mod and/or opponent");
+            // Error if user has not chosen a mod or opponent
+            console.log("need to choose both a mod and an opponent");
         }
     }
 
@@ -75,7 +74,7 @@ CardshifterApp.controller("LobbyController", function($scope, $timeout) {
             for(var i = 0, length = $scope.users.length; i < length; i++) {
                 if($scope.users[i].userId === message.userId) {
                     $scope.users.splice(i, 1); // remove that user from the array
-                    break;
+                    return;
                 }
             }
         } else {
