@@ -1,1 +1,106 @@
+/* WHOLE LOBBY */
 
+#lobby {
+    width: 100%;
+}
+
+/* TABLE HEADERS */
+
+#lobby-headers {
+    font-family: Georgia, Times, "Times New Roman", serif;
+    text-align: center;
+    color: #DDDDDD;
+    background-color: #000000;
+
+}
+
+#lobby-title {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+#lobby-deck-builder {}
+
+/* SECTION HEADERS */
+
+#lobby-list-headers {
+    font-family: Georgia, Times, "Times New Roman", serif;
+    font-size: 1.2em;
+}
+
+#lobby-message-list-header {
+    text-align: center;
+}
+
+#lobby-users-list-header {
+    text-align: center;
+}
+
+/* MAIN MESSAGE & USERS SECTIONS */
+
+#lobby-lists {
+    vertical-align: text-top;
+}
+
+#lobby-message-list {
+    font-size: 0.7em; !important
+}
+    /* List of all messages */
+    #lobby-chat-messages {
+        list-style-type: none;
+        padding-left: 0;
+    }
+        /* Each individual message line */
+        #lobby-chat-message {
+        }
+
+#lobby-users-list {
+    font-size: 0.9em;
+    font-family: Georgia, Times, "Times New Roman", serif;
+}
+    /* List of all users */
+    #lobby-users {
+        list-style-type: none;
+        padding-left: 0;
+    }
+        /* Each individual user line */
+        #lobby-user {
+        }
+
+/* FOOTER SECTIONS */
+
+#lobby-message {
+    background-color: #000000;
+    vertical-align: bottom;
+}
+    /* TEXT AREA FOR TYPING CHAT MESSAGES*/
+    #lobby-chat-text-area {
+        outline: none;
+        overflow: auto;
+        vertical-align: middle;
+    }
+
+#lobby-invite {
+    background-color: #000000;
+    text-align: center;
+}
+
+#lobby-mods {}
+
+#lobby-mod-selection {}
+
+    /* DIV CONTAINING RADIO BUTTON AND MOD NAME */
+    #lobby-mod-selector {
+        border: 1;
+    }
+
+/* Game invite accept dialog */
+#lobby-invite-request {
+    font-family: Georgia, Times, "Times New Roman", serif;
+    font-size: 1.6em;
+    text-align: center;
+    background-color: #0033CC;
+    color: #EEEEEE;
+    border-top-color: #FFFFFF;
+    vertical-align: middle;
+}
