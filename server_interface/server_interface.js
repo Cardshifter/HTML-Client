@@ -3,6 +3,8 @@
     var wsProtocolFinder = /ws(s)*:\/\//;
     var SOCKET_OPEN = 1;
 
+    var eventTypes = [];
+
     function Message(command) {
         this.command = command;
     }
@@ -36,34 +38,33 @@
 
     window.CardshifterServerAPI = {
         socket: null,
-        incomingMessages: [],
         messageTypes: {
-                    /**
-                    * Incoming login message.
-                    * <p>
-                    * A login message from a client to add a user to the available users on the server.
-                    * This login message is required before any other action or message can be performed between a client and a server.
-                    * @constructor
-                    * @param username  the incoming user name passed from client to server, not null
-                    * @example Message: <code>{ "command":"login","username":"JohnDoe" }</code>
-                    */
+            /**
+            * Incoming login message.
+            * <p>
+            * A login message from a client to add a user to the available users on the server.
+            * This login message is required before any other action or message can be performed between a client and a server.
+            * @constructor
+            * @param username  the incoming user name passed from client to server, not null
+            * @example Message: <code>{ "command":"login","username":"JohnDoe" }</code>
+            */
             LoginMessage: function(username) {
                 this.username = username;
             },
             
-                    /**
-                    * Request available targets for a specific action to be performed by an entity.
-                    * <p>
-                    * These in-game messages request a list of al available targets for a given action and entity.
-                    * The client uses this request in order to point out targets (hopefully with a visual aid such as highlighting targets)
-                    * that an entity (such as a creature card, or a player) can perform an action on (for example attack or enchant a card.
-                    * @constructor
-                    * @param gameId  The Id of this game currently being played
-                    * @param id  The Id of this entity which requests to perform an action
-                    * @param action  The name of this action requested to be performed
-                    */
+            /**
+            * Request available targets for a specific action to be performed by an entity.
+            * <p>
+            * These in-game messages request a list of al available targets for a given action and entity.
+            * The client uses this request in order to point out targets (hopefully with a visual aid such as highlighting targets)
+            * that an entity (such as a creature card, or a player) can perform an action on (for example attack or enchant a card.
+            * @constructor
+            * @param gameId  The Id of this game currently being played
+            * @param id  The Id of this entity which requests to perform an action
+            * @param action  The name of this action requested to be performed
+            */
             RequestTargetsMessage: function(gameId, id, action) {
-                this.gamdId = gameId;
+                this.gameId = gameId;
                 this.id = id;
                 this.action = action;
             },
@@ -236,10 +237,6 @@
             var protocolAddon = (wsProtocolFinder.test(server) ? "" : "ws" + secureAddon + "://");
             var socket = new WebSocket(protocolAddon + server);
 
-            socket.onmessage = function(message) {
-                self.incomingMessages.push(JSON.parse(message.data));
-            }
-
             socket.onopen = onReady;
 
             socket.onerror = function() {
@@ -251,33 +248,20 @@
         },
 
         /**
-        * Sends a message to the server.
+        * Sends a message to the server
         *
-        * @param message:Message -- The message to send.
-        * @param onReceive:Function (OPTIONAL) -- A function to run when a message has returned
-        * @error NotInitializedException -- If the API has not been initialized yet.
-        *
-        * This will use websocket setup by `this.init` to send a message to the server.
-        *
-        * NOTE: The onReceive function will NOT NECESSARILY be run when the desired request
-        * is received. However, it is likely.
+        * @param message:Message -- The message to send
+        * @error SocketNotReadyException -- The socket is not ready to be used
+        * @error NotInitializedException -- The API has not yet been initialized
         */
-        sendMessage: function(message, onReceive) {
+        sendMessage: function(message) {
             var socket = this.socket;
             var self = this;
             if(socket) {
                 if(socket.readyState === SOCKET_OPEN) {
                     this.socket.send(JSON.stringify(flatten(message)));
-                    if(onReceive) {
-                        this.socket.onmessage = function(msg) {
-                            onReceive(JSON.parse(msg.data));
-                            this.onmessage = function(msg2) {
-                                self.incomingMessages.push(JSON.parse(msg2.data));
-                            }
-                        }
-                    }
                 } else {
-                    throw new SocketNotReadyException("The Websocket is not yet ready to be used", socket.readyState);
+                    throw new SocketNotReadyException("The Websocket is not ready to be used.", socket.readyState);
                 }
             } else {
                 throw new NotInitializedException("The API has not yet been initialized.");
@@ -285,19 +269,44 @@
         },
 
         /**
-        * Gets a message from the recieved message queue.
+        * Sets an event listener for when the server sends a message and
+        * the message type is one of the types in types
         *
-        * @return Message -- The first message in the incoming messages queue
+        * @param listener:Function -- The function to fire when a message of types is received
+        * @param types:[string] (OPTIONAL) -- Only fire the listener when the message type is in this array
+        * @param timeout:Object (OPTIONAL) -- The function(.ontimeout) to call after MS(.ms) of no reply
         *
-        * This will .shift() the incomingMessages queue and return the value.
-        * This allows the API to handle the messages from the server so the
-        * main game code can access the messages as it needs to.
-        *
-        * Although the function is very simple, the name make is clear what is
-        * happening.
+        * TODO: Maybe a timeout will be needed? Pass in a function and a MS count.
         */
-        getMessage: function() {
-            return this.incomingMessages.shift();
+        setMessageListener: function(listener, types) {
+            eventTypes = types;
+
+            this.socket.onmessage = function(message) {
+                var data = JSON.parse(message.data);
+                if(eventTypes) {
+                    if(eventTypes.indexOf(data.command) !== -1) { // if contains
+                        listener(data);
+                    }
+                } else {
+                    listener(data);
+                }
+            }
+        },
+
+        /**
+        * Adds types to the types to listen for in the message event listener
+        *
+        * @param types:[string] -- The types to add
+        */
+        addEventTypes: function(types) {
+            eventTypes = eventTypes.concat(types);
+        },
+
+        /**
+        * Removes the message event listener
+        */
+        removeMessageListener: function() {
+            this.socket.onmessage = null;
         }
     };
 })(Function("return this")());
