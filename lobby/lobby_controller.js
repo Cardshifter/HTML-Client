@@ -53,7 +53,9 @@ CardshifterApp.controller("LobbyController", function($scope, $timeout) {
             CardshifterServerAPI.sendMessage(startGame);
         } else {
             // Error if user has not chosen a mod or opponent
-            console.log("need to choose both a mod and an opponent");
+            console.log("Client error: need to choose both a mod and an opponent");
+            message = new CardshifterServerAPI.messageTypes.ChatMessage("Client error: need to choose both a mod and an opponent");
+            addChatMessage(message);
         }
     }
 
