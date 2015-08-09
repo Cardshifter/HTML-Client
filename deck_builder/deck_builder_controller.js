@@ -1,4 +1,4 @@
-CardshifterApp.controller("DeckbuilderController", function($scope) {
+CardshifterApp.controller("DeckbuilderController", function($scope, $rootScope, $location) {
     var DECK_STORAGE = "CARDSHIFTER_DECK_STORAGE";
 
     $scope.cards = [];
@@ -9,6 +9,7 @@ CardshifterApp.controller("DeckbuilderController", function($scope) {
     $scope.currentDeckName = "untitled";
     $scope.savedDecks = [];
     $scope.doneLoading = false;
+    $scope.enteringGame = currentUser.game.id;
 
     if(!localStorage.getItem(DECK_STORAGE)) {
         var json = "{\"decks\": {";
@@ -110,6 +111,19 @@ CardshifterApp.controller("DeckbuilderController", function($scope) {
         localStorage.setItem(DECK_STORAGE, JSON.stringify(savedDecks));
 
         updateSavedDecks();
+    };
+
+    $scope.enterGame = function() {
+        if($scope.getTotalSelected() === $scope.minCards) {
+            console.log("enter game");
+        } else {
+            console.log("not enough cards");
+        }
+    };
+    $scope.goBack = function() {
+        $rootScope.$apply(function() {
+            $location.path("/lobby");
+        });
     };
 
     function updateSavedDecks() {
