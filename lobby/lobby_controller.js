@@ -115,6 +115,7 @@ CardshifterApp.controller("LobbyController", function($scope, $timeout, $rootSco
     * Shows to the user a list of all available mods.
     */
     function displayMods(message) {
+        window.availableGameMods = message.mods; // for deck builder
         $scope.mods = message.mods;
     }
     /**
