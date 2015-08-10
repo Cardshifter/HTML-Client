@@ -24,6 +24,7 @@
   "homepage": "https://github.com/Cardshifter/HTML-Client#readme",
   "private": true,
   "devDependencies": {
+    "html-loader": "^0.3.0",
     "jasmine-core": "^2.3.4",
     "karma": "^0.13.8",
     "karma-jasmine": "^0.3.6",

@@ -7,14 +7,14 @@ CardshifterApp.config(function($routeProvider) {
     $routeProvider
         .when("/", { // default page is Login
             controller: "LoginController",
-            templateUrl: "login/login.html",
+            template: require('./login/login.html')
         })
         .when("/lobby", {
             controller: "LobbyController",
-            templateUrl: "lobby/lobby.html",
+            template: require('./lobby/lobby.html')
         })
         .when("/deck_builder", {
             controller: "DeckbuilderController",
-            templateUrl: "deck_builder/deck_builder.html"
+            template: require('./deck_builder/deck_builder.html')
         })
 });
