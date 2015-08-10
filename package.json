@@ -24,6 +24,7 @@
   "homepage": "https://github.com/Cardshifter/HTML-Client#readme",
   "private": true,
   "devDependencies": {
+    "css-loader": "^0.15.6",
     "html-loader": "^0.3.0",
     "jasmine-core": "^2.3.4",
     "karma": "^0.13.8",
@@ -31,6 +32,7 @@
     "karma-phantomjs-launcher": "^0.2.1",
     "karma-webpack": "^1.7.0",
     "phantomjs": "^1.9.17",
+    "style-loader": "^0.12.3",
     "webpack": "^1.11.0",
     "webpack-dev-server": "^1.10.1"
   },

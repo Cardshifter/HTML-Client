@@ -1,5 +1,6 @@
 'use strict';
-var angular = require('angular');
+require('./cardshifter.css');
+var angular = require('angular')
 var ngRoute = require('angular-route');
 var lobby = require('./lobby/module');
 var login = require('./login/module');

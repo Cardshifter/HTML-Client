@@ -20,7 +20,8 @@ module.exports = {
   },
   module: {
     loaders: [
-      { test: /\.html/, loader: 'html' }
+      { test: /\.html/, loader: 'html' },
+      { test: /\.css/, loaders: ['style', 'css'] }
     ]
   }
 };
