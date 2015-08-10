@@ -1,4 +1,6 @@
-CardshifterApp.controller("LoginController", function($scope, $location, $rootScope) {
+'use strict';
+
+function LoginController($scope, $location, $rootScope) {
     var SUCCESS = 200;
 
     $scope.login = function() {
@@ -45,4 +47,6 @@ CardshifterApp.controller("LoginController", function($scope, $location, $rootSc
             $scope.$apply();
         });
     }
-});
+};
+
+module.exports = LoginController;

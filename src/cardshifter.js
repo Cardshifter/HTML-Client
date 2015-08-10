@@ -1,14 +1,14 @@
 'use strict';
 var angular = require('angular');
 var ngRoute = require('angular-route');
+var lobby = require('./lobby/module');
+var login = require('./login/module');
+var deckBuilder = require('./deck_builder/module');
+var topNavbar = require('./top_navbar/module');
 
-var CardshifterApp = angular.module("CardshifterApp", [ngRoute]);
+var CardshifterApp = angular.module("CardshifterApp", [ngRoute, login.name]);
 CardshifterApp.config(function($routeProvider) {
     $routeProvider
-        .when("/", { // default page is Login
-            controller: "LoginController",
-            template: require('./login/login.html')
-        })
         .when("/lobby", {
             controller: "LobbyController",
             template: require('./lobby/lobby.html')
