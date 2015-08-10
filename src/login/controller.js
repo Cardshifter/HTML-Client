@@ -1,4 +1,7 @@
-CardshifterApp.controller("LoginController", function($scope, $location, $rootScope) {
+'use strict';
+
+// @ngInject
+function LoginController(CardshifterServerAPI, $scope, $location, $rootScope) {
     var SUCCESS = 200;
 
     $scope.login = function() {
@@ -45,4 +48,6 @@ CardshifterApp.controller("LoginController", function($scope, $location, $rootSc
             $scope.$apply();
         });
     }
-});
+};
+
+module.exports = LoginController;

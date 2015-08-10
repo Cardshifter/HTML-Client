@@ -1,4 +1,7 @@
-CardshifterApp.controller("DeckbuilderController", function($scope, $rootScope, $location) {
+'use strict';
+
+// @ngInject
+function DeckbuilderController(CardshifterServerAPI, $scope, $rootScope, $location) {
     var DECK_STORAGE = "CARDSHIFTER_DECK_STORAGE";
 
     $scope.cards = [];
@@ -135,4 +138,6 @@ CardshifterApp.controller("DeckbuilderController", function($scope, $rootScope, 
         }
         return false;
     }
-});
+}
+
+module.exports = DeckbuilderController;
