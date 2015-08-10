@@ -2,10 +2,9 @@
 var angular = require('angular');
 var ngRoute = require('angular-route');
 var DeckBuilderCtrl = require('./controller');
-var serverInterface = require('../server_interface/module');
 var template = require('./template.html');
 
-module.exports = angular.module('cardshifter.deckBuilder', [ngRoute, serverInterface.name])
+module.exports = angular.module('cardshifter.login', [ngRoute])
   .config(function($routeProvider) {
     $routeProvider.when("/deck_builder", {
         controller: DeckBuilderCtrl,
