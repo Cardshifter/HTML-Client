@@ -16,7 +16,8 @@ module.exports = {
   ],
   devServer: {
     port: 8080,
-    contentBase: './www'
+    contentBase: './www',
+    historyApiFallback: true
   },
   module: {
     loaders: [
