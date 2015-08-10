@@ -5,6 +5,7 @@
   "main": "src/cardshifter.js",
   "scripts": {
     "build": "webpack --config webpack.config.js",
+    "develop": "webpack-dev-server",
     "test": "karma start"
   },
   "repository": {
@@ -29,7 +30,8 @@
     "karma-phantomjs-launcher": "^0.2.1",
     "karma-webpack": "^1.7.0",
     "phantomjs": "^1.9.17",
-    "webpack": "^1.11.0"
+    "webpack": "^1.11.0",
+    "webpack-dev-server": "^1.10.1"
   },
   "dependencies": {
     "angular": "^1.4.3",
