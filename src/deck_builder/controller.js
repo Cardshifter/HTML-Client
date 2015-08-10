@@ -1,5 +1,5 @@
 'use strict';
-function DeckbuilderController($scope, $rootScope, $location) {
+function DeckbuilderController(CardshifterServerAPI, $scope, $rootScope, $location) {
     var DECK_STORAGE = "CARDSHIFTER_DECK_STORAGE";
 
     $scope.cards = [];
