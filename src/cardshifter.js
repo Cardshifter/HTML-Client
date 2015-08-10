@@ -7,15 +7,4 @@ var login = require('./login/module');
 var deckBuilder = require('./deck_builder/module');
 var topNavbar = require('./top_navbar/module');
 
-var CardshifterApp = angular.module("CardshifterApp", [ngRoute, lobby.name]);
-CardshifterApp.config(function($routeProvider) {
-    $routeProvider
-        .when("/", { // default page is Login
-            controller: "LoginController",
-            template: require('./login/login.html')
-        })
-        .when("/deck_builder", {
-            controller: "DeckbuilderController",
-            template: require('./deck_builder/deck_builder.html')
-        })
-});
+angular.module("CardshifterApp", [ngRoute, deckBuilder.name, lobby.name, login.name]);
