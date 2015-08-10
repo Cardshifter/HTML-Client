@@ -4,7 +4,7 @@
   "description": "The Cardshifter client",
   "main": "src/cardshifter.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "karma start"
   },
   "repository": {
     "type": "git",
@@ -20,5 +20,14 @@
     "url": "https://github.com/Cardshifter/HTML-Client/issues"
   },
   "homepage": "https://github.com/Cardshifter/HTML-Client#readme",
-  "private": true
+  "private": true,
+  "devDependencies": {
+    "jasmine-core": "^2.3.4",
+    "karma": "^0.13.8",
+    "karma-jasmine": "^0.3.6",
+    "karma-phantomjs-launcher": "^0.2.1",
+    "karma-webpack": "^1.7.0",
+    "phantomjs": "^1.9.17",
+    "webpack": "^1.11.0"
+  }
 }
