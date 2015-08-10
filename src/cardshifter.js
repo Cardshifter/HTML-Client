@@ -7,4 +7,10 @@ var login = require('./login/module');
 var deckBuilder = require('./deck_builder/module');
 var topNavbar = require('./top_navbar/module');
 
-angular.module("CardshifterApp", [ngRoute, deckBuilder.name, lobby.name, login.name]);
+angular.module("CardshifterApp", [ngRoute,
+  topNavbar.name,
+  deckBuilder.name, 
+  lobby.name, 
+  login.name
+]);
+ 
