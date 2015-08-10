@@ -4,6 +4,7 @@
   "description": "The Cardshifter client",
   "main": "src/cardshifter.js",
   "scripts": {
+    "build": "webpack --config webpack.config.js",
     "test": "karma start"
   },
   "repository": {
