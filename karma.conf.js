@@ -1,4 +1,5 @@
 'use strict';
+var webpackConfiguration = require('./webpack.config');
 
 module.exports = function(config) {
   config.set({
@@ -10,9 +11,7 @@ module.exports = function(config) {
     processors: {
       '*.spec.js': 'webpack'
     },
-    webpack: {
-
-    },
+    webpack: webpackConfiguration,
     singleRun: true
   });
 };
