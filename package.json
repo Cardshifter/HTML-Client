@@ -4,7 +4,7 @@
   "description": "The Cardshifter client",
   "main": "src/cardshifter.js",
   "scripts": {
-    "build": "webpack --config webpack.config.js",
+    "build": "webpack --config webpack.config.js --optimize-minimize",
     "develop": "webpack-dev-server",
     "test": "karma start"
   },
