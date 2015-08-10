@@ -9,7 +9,7 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
 
     $scope.users = [];
     $scope.chatMessages = [];
-    $scope.mods = [];
+    $scope.mods = window.availableGameMods || [];
     $scope.currentUser = window.currentUser;
     $scope.invite = {
         id: null,
@@ -19,7 +19,7 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
     $scope.gotInvite = false;
 
     var gameMod = ""; // will be set by either startGame or acceptInvite
-    
+
     var commandMap = {
         "userstatus": updateUserList,
         "chat": addChatMessage,
@@ -133,7 +133,7 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
     * Shows to the user a list of all available mods.
     */
     function displayMods(message) {
-        window.availableGameMods = message.mods; // for deck builder
+        window.availableGameMods = message.mods; // for deck builder and for returning to this page
         $scope.mods = message.mods;
     }
     /**
@@ -146,9 +146,7 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
         currentUser.game.id = message.gameId;
         currentUser.game.mod = gameMod;
 
-        $rootScope.$apply(function() {
-            $location.path("/deck_builder");
-        });
+        $location.path("/deck_builder");
     }
 }
 

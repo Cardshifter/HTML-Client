@@ -14,6 +14,9 @@ function DeckbuilderController(CardshifterServerAPI, $scope, $rootScope, $locati
     $scope.doneLoading = false;
     $scope.enteringGame = currentUser.game.id;
 
+    // This is sort of a repeat of currentDeck, because I didn't know that the client had to send the message back
+    var deckConfig = null; // the message received from the server
+
     if(!localStorage.getItem(DECK_STORAGE)) {
         var json = "{\"decks\": {";
         for(var i = 0, length = availableGameMods.length; i < length; i++) {
@@ -25,6 +28,7 @@ function DeckbuilderController(CardshifterServerAPI, $scope, $rootScope, $locati
     }
 
     CardshifterServerAPI.setMessageListener(function(cardInformation) {
+        deckConfig = cardInformation
         var deck = cardInformation.configs.Deck;
 
         for(var card in deck.cardData) {
@@ -118,7 +122,10 @@ function DeckbuilderController(CardshifterServerAPI, $scope, $rootScope, $locati
 
     $scope.enterGame = function() {
         if($scope.getTotalSelected() === $scope.minCards) {
-            console.log("enter game");
+            deckConfig.configs.Deck.chosen = $scope.currentDeck;
+            CardshifterServerAPI.sendMessage(deckConfig);
+
+            $location.path("/game_board");
         } else {
             console.log("not enough cards");
         }
