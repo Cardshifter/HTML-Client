@@ -19,6 +19,7 @@ module.exports = {
     contentBase: './www',
     historyApiFallback: true
   },
+  devtool: 'inline-source-map',
   module: {
     loaders: [
       { test: /\.html/, loader: 'html' },
