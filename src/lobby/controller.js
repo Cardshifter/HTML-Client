@@ -1,7 +1,7 @@
 'use strict';
 
 // @ngInject
-function LobbyCtrl(CardshifterServerAPI, $scope, $timeout, $rootScope, $location) {
+function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $location) {
     var CHAT_FEED_LIMIT = 10;
     var ENTER_KEY = 13;
     var MESSAGE_DELAY = 3000;
@@ -152,4 +152,4 @@ function LobbyCtrl(CardshifterServerAPI, $scope, $timeout, $rootScope, $location
     }
 }
 
-module.exports = LobbyCtrl;
+module.exports = LobbyController;
