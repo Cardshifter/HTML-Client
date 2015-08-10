@@ -1,6 +1,6 @@
 'use strict';
 
-function LobbyCtrl($scope, $timeout, $rootScope, $location) {
+function LobbyCtrl(CardshifterServerAPI, $scope, $timeout, $rootScope, $location) {
     var CHAT_FEED_LIMIT = 10;
     var ENTER_KEY = 13;
     var MESSAGE_DELAY = 3000;
