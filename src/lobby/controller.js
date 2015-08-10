@@ -1,4 +1,6 @@
-CardshifterApp.controller("LobbyController", function($scope, $timeout, $rootScope, $location) {
+'use strict';
+
+function LobbyCtrl($scope, $timeout, $rootScope, $location) {
     var CHAT_FEED_LIMIT = 10;
     var ENTER_KEY = 13;
     var MESSAGE_DELAY = 3000;
@@ -147,4 +149,6 @@ CardshifterApp.controller("LobbyController", function($scope, $timeout, $rootSco
             $location.path("/deck_builder");
         });
     }
-});
+}
+
+module.exports = LobbyCtrl;
