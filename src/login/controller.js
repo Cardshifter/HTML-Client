@@ -1,6 +1,6 @@
 'use strict';
 
-function LoginController($scope, $location, $rootScope) {
+function LoginController(CardshifterServerAPI, $scope, $location, $rootScope) {
     var SUCCESS = 200;
 
     $scope.login = function() {
