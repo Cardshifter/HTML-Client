@@ -1,5 +1,6 @@
 'use strict';
 
+// @ngInject
 function LobbyCtrl(CardshifterServerAPI, $scope, $timeout, $rootScope, $location) {
     var CHAT_FEED_LIMIT = 10;
     var ENTER_KEY = 13;

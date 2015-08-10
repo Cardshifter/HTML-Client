@@ -1,5 +1,6 @@
 'use strict';
 
+// @ngInject
 function LoginController(CardshifterServerAPI, $scope, $location, $rootScope) {
     var SUCCESS = 200;
 

@@ -1,5 +1,6 @@
 'use strict';
 var webpack = require('webpack');
+var ngAnnotatePlugin = require('ng-annotate-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -12,7 +13,8 @@ module.exports = {
     publicPath: '/assets/',
   },
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js')
+    new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js'),
+    new ngAnnotatePlugin()
   ],
   devServer: {
     port: 8080,
