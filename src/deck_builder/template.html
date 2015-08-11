@@ -3,41 +3,68 @@
         <h1>Loading...</h1>
     </div>
     <div data-ng-show="doneLoading">
-        <h1>{{deckName}}</h1>
+        <!-- DECK HEADER -->
+        <h1>Deck name: {{deckName}}</h1>
         <h2>{{getTotalSelected()}} / {{maxCards}}</h2>
+
+        <!-- Deck manipulation & `Start game` | `Back to lobby` controls -->
+        <form>
+            <!-- TODO: {Phrancis} Lay this out in a nice Bootstrap form. -->
+            <label>Save deck as:</label>
+            <input data-ng-model="deckName" type="text" />
+            <input data-ng-click="saveDeck()" type="submit" value="Save Deck" class="btn btn-xs btn-primary"/>
+            <br/>
+            <input data-ng-show="enteringGame" data-ng-click="enterGame()" type="button" value = "Start game" class="btn btn-sm btn-success"/>
+            <input data-ng-hide="enteringGame" data-ng-click="goBack()" type="button" value="Go back to lobby" class="btn btn-sm btn-default"/>
+        </form>
+
+        <!-- List of saved decks with `Delete` button -->
+        <ul>
+            <li data-ng-repeat="deck in savedDecks">
+                <a data-ng-click="switchDeck(deck)">{{deck.name}}</a>
+                <input data-ng-click="deleteDeck(deck.name)" type="button" value="Delete" class="btn btn-xs btn-danger"/>
+            </li>
+        </ul>
+        <!--
+          -- Card info
+          -- Displayed upon clicking the card name link from the list of cards.
+          -- TODO: Add more fields of card information to be shown.
+          -->
         <ul>
             <li data-ng-repeat="(name, value) in cardInfo" data-ng-show="value">
                 <b>{{name}}</b>: {{value}}
             </li>
         </ul>
 
+        <!-- LIST OF ALL CARDS - Displays one full row below for every card -->
         <table>
             <tr data-ng-repeat="card in cards">
+
+                <!-- Creature Type -->
+                <td>
+                    <!-- TODO: Talk to @SirPython about why this {{card.properties.type}} is not showing anything inside the table cell. -->
+                    {{card.properties.type}}
+                </td>
+                <!-- Card name and link to see card info. -->
                 <td>
                     <a data-ng-click="showDetails(card)">{{card.properties.name}}</a>
                 </td>
+
+                <!-- Controls to add or remove a card to deck, and counter to show `current / max` count -->
                 <td>
-                    <input data-ng-click="decrement(card)" type="button" value="-" />
+                    <input data-ng-click="decrement(card)" type="button" class="btn btn-xs btn-default glyphicon glyphicon-minus"/>
                 </td>
                 <td>
                     {{$parent.currentDeck[card.id]}} / {{card.max}}
                 </td>
                 <td>
-                    <input data-ng-click="increment(card)" type="button" value="+" />
+                    <input data-ng-click="increment(card)" type="button" class="btn btn-xs btn-default glyphicon glyphicon-plus">
                 </td>
+
+                <!-- TODO: Add more value cells like mana cost, attack, health -->
+
             </tr>
         </table>
-        <form>
-            <input data-ng-model="deckName" type="text" />
-            <input data-ng-click="saveDeck()" type="submit" value="Save Deck"/>
-        </form>
-        <ul>
-            <li data-ng-repeat="deck in savedDecks">
-                <a data-ng-click="switchDeck(deck)">{{deck.name}}</a>
-                <input data-ng-click="deleteDeck(deck.name)" type="button" value="Delete"/>
-            </li>
-        </ul>
-        <input data-ng-show="enteringGame" data-ng-click="enterGame()" type="button" value = "Start game" />
-        <input data-ng-hide="enteringGame" data-ng-click="goBack()" type="button" value="Go back to lobby" />
+
     </div>
 </div>
