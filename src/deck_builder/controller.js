@@ -132,9 +132,9 @@ function DeckbuilderController(CardshifterServerAPI, $scope, $rootScope, $locati
                 }
             }
 
-            // remove all .max properties so server does die
-            for(var card in $scope.currentDeck) {
-                delete $scope.currentDeck[card].max;
+            // remove all .max properties so server does not die
+            for(var card in deckConfig.configs.Deck.cardData) {
+                delete deckConfig.configs.Deck.cardData[card].max;
             }
 
             deckConfig.configs.Deck.chosen = $scope.currentDeck;
