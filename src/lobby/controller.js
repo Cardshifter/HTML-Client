@@ -5,7 +5,6 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
     var CHAT_FEED_LIMIT = 10;
     var ENTER_KEY = 13;
     var MESSAGE_DELAY = 3000;
-    var ENTER_KEY = 13;
 
     $scope.users = [];
     $scope.chatMessages = [];
@@ -59,8 +58,11 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
             CardshifterServerAPI.sendMessage(startGame);
             gameMod = $scope.selected_mod;
         } else {
-            // user needs to choose an opponent and/or a mod
-            console.log("need to choose mod and/or opponent");
+            // Error if user has not chosen a mod or opponent
+            console.log("Client error: Select both a Game Type and opponent User before you can start a game.");
+            var message = new CardshifterServerAPI.messageTypes.ChatMessage(
+                        "Client error: Select both a Game Type and opponent User before you can start a game.");
+            addChatMessage(message);
         }
     }
     $scope.acceptInvite = function(accept) {
@@ -79,7 +81,10 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
             CardshifterServerAPI.sendMessage(getCards);
             $location.path("/deck_builder");
         } else {
-            console.log("pick a mod pl0x");
+            console.log("Client error: Select a Game Type before you can open Deck Builder.");
+            var message = new CardshifterServerAPI.messageTypes.ChatMessage(
+                        "Client error: Select a Game Type before you can open Deck Builder.");
+            addChatMessage(message);
         }
     }
 
@@ -94,7 +99,7 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
             for(var i = 0, length = $scope.users.length; i < length; i++) {
                 if($scope.users[i].userId === message.userId) {
                     $scope.users.splice(i, 1); // remove that user from the array
-                    break;
+                    return;
                 }
             }
         } else {

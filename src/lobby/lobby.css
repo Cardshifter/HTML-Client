@@ -19,53 +19,53 @@
     font-weight: bold;
 }
 
-#lobby-deck-builder {}
+#lobby-deck-builder {
+    width: 20%;
+}
 
 /* SECTION HEADERS */
 
 #lobby-list-headers {
     font-family: Georgia, Times, "Times New Roman", serif;
     font-size: 1.2em;
-}
-
-#lobby-message-list-header {
     text-align: center;
 }
 
-#lobby-users-list-header {
-    text-align: center;
-}
+#lobby-message-list-header {}
+
+#lobby-users-list-header {}
 
 /* MAIN MESSAGE & USERS SECTIONS */
 
 #lobby-lists {
     vertical-align: text-top;
+    height: 400px;
 }
 
 #lobby-message-list {
     font-size: 0.8em !important;
 }
-    /* List of all messages */
-    #lobby-chat-messages {
-        list-style-type: none;
-        padding-left: 0;
-    }
-        /* Each individual message line */
-        #lobby-chat-message {
-        }
+/* List of all messages */
+#lobby-chat-messages {
+    list-style-type: none;
+    padding-left: 0;
+}
+/* Each individual message line */
+#lobby-chat-message {
+}
 
 #lobby-users-list {
     font-size: 0.9em;
     font-family: Georgia, Times, "Times New Roman", serif;
 }
-    /* List of all users */
-    #lobby-users {
-        list-style-type: none;
-        padding-left: 0;
-    }
-        /* Each individual user line */
-        #lobby-user {
-        }
+/* List of all users */
+#lobby-users {
+    list-style-type: none;
+    padding-left: 0;
+}
+/* Each individual user line */
+#lobby-user {
+}
 
 /* FOOTER SECTIONS */
 
@@ -73,12 +73,12 @@
     background-color: #000000;
     vertical-align: bottom;
 }
-    /* TEXT AREA FOR TYPING CHAT MESSAGES*/
-    #lobby-chat-text-area {
-        outline: none;
-        overflow: auto;
-        vertical-align: middle;
-    }
+/* TEXT AREA FOR TYPING CHAT MESSAGES*/
+textarea#lobby-type-chat-message {
+    outline: none;
+    overflow: auto;
+    vertical-align: middle;
+}
 
 #lobby-invite {
     background-color: #000000;
@@ -89,10 +89,10 @@
 
 #lobby-mod-selection {}
 
-    /* DIV CONTAINING RADIO BUTTON AND MOD NAME */
-    #lobby-mod-selector {
-        border: 1;
-    }
+/* DIV CONTAINING RADIO BUTTON AND MOD NAME */
+div#lobby-mod-selector {
+    border: 1;
+}
 
 /* Game invite accept dialog */
 #lobby-invite-request {
