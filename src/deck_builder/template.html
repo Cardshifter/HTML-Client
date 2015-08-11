@@ -52,13 +52,17 @@
 
                 <!-- Controls to add or remove a card to deck, and counter to show `current / max` count -->
                 <td>
-                    <input data-ng-click="decrement(card)" type="button" class="btn btn-xs btn-default glyphicon glyphicon-minus"/>
+                    <button data-ng-click="decrement(card)" type="button" class="btn btn-xs btn-default">
+                        <span class="glyphicon glyphicon-minus"></span>
+                    </button>
                 </td>
                 <td>
                     {{$parent.currentDeck[card.id]}} / {{card.max}}
                 </td>
                 <td>
-                    <input data-ng-click="increment(card)" type="button" class="btn btn-xs btn-default glyphicon glyphicon-plus">
+                    <button data-ng-click="increment(card)" type="button" class="btn btn-xs btn-default glyphicon glyphicon-plus">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </button>
                 </td>
 
                 <!-- TODO: Add more value cells like mana cost, attack, health -->
