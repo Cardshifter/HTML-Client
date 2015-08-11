@@ -122,6 +122,21 @@ function DeckbuilderController(CardshifterServerAPI, $scope, $rootScope, $locati
 
     $scope.enterGame = function() {
         if($scope.getTotalSelected() === $scope.minCards) {
+
+            // remove all unpicked cards from the deck like the Java client(needed?)
+            for(var card in $scope.currentDeck) {
+                if($scope.currentDeck.hasOwnProperty(card)) {
+                    if($scope.currentDeck[card] === 0) {
+                        delete $scope.currentDeck[card];
+                    }
+                }
+            }
+
+            // remove all .max properties so server does die
+            for(var card in $scope.currentDeck) {
+                delete $scope.currentDeck[card].max;
+            }
+
             deckConfig.configs.Deck.chosen = $scope.currentDeck;
             CardshifterServerAPI.sendMessage(deckConfig);
 
