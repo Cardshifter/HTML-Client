@@ -15,7 +15,7 @@ module.exports = {
   plugins: [
     new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js'),
     new webpack.optimize.UglifyJsPlugin({
-      include: /src/
+      include: 'cardshifter.js'
     }),
     new ngAnnotatePlugin()
   ],
