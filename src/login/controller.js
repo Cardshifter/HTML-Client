@@ -1,4 +1,7 @@
-CardshifterApp.controller("LoginController", function($scope, $location, $rootScope) {
+'use strict';
+
+// @ngInject
+function LoginController(CardshifterServerAPI, $scope, $location, $rootScope) {
     var SUCCESS = 200;
 
     $scope.login = function() {
@@ -14,8 +17,12 @@ CardshifterApp.controller("LoginController", function($scope, $location, $rootSc
                         // taking the easy way out
                         window.currentUser = {
                             username: $scope.username,
-                            id: welcome.userId
-                        }
+                            id: welcome.userId,
+                            game: {
+                                id: null,
+                                mod: null
+                            }
+                        };
 
                         $rootScope.$apply(function() {
                             $location.path("/lobby");
@@ -41,4 +48,6 @@ CardshifterApp.controller("LoginController", function($scope, $location, $rootSc
             $scope.$apply();
         });
     }
-});
+};
+
+module.exports = LoginController;

@@ -1,10 +1,7 @@
 <table id="lobby">
     <tr id="lobby-headers">
         <td id="lobby-title">Cardshifter Lobby</td>
-        <!--
-          -- TODO: Implement function to open deck builder without starting a game with this button.
-          -->
-        <td id="lobby-deck-builder"><button class="btn btn-navbar csh-button">Deck Builder</button></td>
+        <td id="lobby-deck-builder" width="20%"><button ng-click="openDeckBuilder()" class="btn btn-navbar csh-button">Deck Builder</button></td>
     </tr>
     <tr id="lobby-invite-request" data-ng-show="gotInvite">
         <td colspan="2">
@@ -38,10 +35,10 @@
     </tr>
     <tr>
         <td id="lobby-message">
-            <textarea data-ng-model="user_chat_message" data-ng-keyup="sendMessage($event)"
-                id="lobby-type-chat-message" rows="1" cols="75" wrap="off"
-                placeholder="Enter chat message..."></textarea>
-            <input data-ng-click="sendMessage()" data-ng-disabled="sending" type="submit" value="Send" class="btn btn-navbar csh-button"/>
+            <textarea ng-model="user_chat_message" ng-keyup="sendMessage($event)"
+                      id="lobby-chat-text-area" rows="1" cols="75" wrap="off"
+                      placeholder="Enter chat message..."></textarea>
+            <input ng-click="sendMessage()" ng-disabled="sending" type="submit" value="Send" class="btn btn-navbar csh-button"/>
         </td>
         <td id="lobby-invite">
             <input data-ng-click="startGame()" type="button" value="Invite to game" class="btn btn-warning"/>
@@ -52,9 +49,9 @@
             <form class="form-inline" role="form">
                 <div class="form-group">
                     <label for="mod_selection">Select game type:</label>
-                    <div data-ng-repeat="mod in mods" class="form-control" id="lobby-mod-selector">
-                        <input data-ng-model="$parent.selected_mod" type="radio" value="{{mod}}"
-                            name="mod_selection" id="mod_selection"/>
+                    <div ng-repeat="mod in mods" class="form-control" id="lobby-mod-selector">
+                        <input ng-model="$parent.selected_mod" type="radio" value="{{mod}}"
+                               name="mod_selection" id="mod_selection"/>
                         {{mod}}
                     </div>
                 </div>

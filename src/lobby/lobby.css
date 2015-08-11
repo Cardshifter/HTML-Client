@@ -43,7 +43,7 @@
 }
 
 #lobby-message-list {
-    font-size: 0.8em; !important
+    font-size: 0.8em !important;
 }
 /* List of all messages */
 #lobby-chat-messages {
