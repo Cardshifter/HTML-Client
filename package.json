@@ -1,0 +1,44 @@
+{
+  "name": "cardshifter.client",
+  "version": "0.0.1",
+  "description": "The Cardshifter client",
+  "main": "src/cardshifter.js",
+  "scripts": {
+    "build": "webpack --config webpack.config.js --optimize-minimize --devtool source-map",
+    "develop": "webpack-dev-server",
+    "test": "karma start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cardshifter/HTML-Client.git"
+  },
+  "contributors": [
+    "Dan Pantry <dan@lambdaexpression.io> (http://lambdaexpression.io)",
+    "Francis Veilleux-Gaboury <Phrancis@users.noreply.github.com> (http://www.github.com/Phrancis)",
+    "SirPython <anoky96@gmail.com> (http://www.github.com/SirPython)"
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Cardshifter/HTML-Client/issues"
+  },
+  "homepage": "https://github.com/Cardshifter/HTML-Client#readme",
+  "private": true,
+  "devDependencies": {
+    "css-loader": "^0.15.6",
+    "html-loader": "^0.3.0",
+    "jasmine-core": "^2.3.4",
+    "karma": "^0.13.8",
+    "karma-jasmine": "^0.3.6",
+    "karma-phantomjs-launcher": "^0.2.1",
+    "karma-webpack": "^1.7.0",
+    "ng-annotate-webpack-plugin": "^0.1.2",
+    "phantomjs": "^1.9.17",
+    "style-loader": "^0.12.3",
+    "webpack": "^1.11.0",
+    "webpack-dev-server": "^1.10.1"
+  },
+  "dependencies": {
+    "angular": "^1.4.3",
+    "angular-route": "^1.4.3"
+  }
+}

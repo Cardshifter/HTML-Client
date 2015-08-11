@@ -1,64 +1,30 @@
-<!DOCTYPE html>
-<html ng-app="CardshifterApp">
-<head>
-    <title>Cardshifter</title>
-
-    <!-- Boostrap -->
-    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet"/>
-
-    <!-- The main CSS file -->
-    <link href="cardshifter.css" rel="stylesheet"/>
-    <link href="lobby/lobby.css" rel="stylesheet"/>
-
-    <!-- AngularJS libraries -->
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
-
-    <!-- The API for communicating with the server -->
-    <script src="server_interface/server_interface.js"></script>
-
-    <!-- Controllers -->
-    <script src="cardshifter.js"></script>
-    <script src="login/login_controller.js"></script>
-    <script src="lobby/lobby_controller.js"></script>
-</head>
-<body>
-
-<!-- TOP NAV BAR -->
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
 
-    <!-- BRAND -->
     <div class="navbar-header">
       <div class="navbar-brand csh-top-link">Cardshifter | {{username}} </div>
     </div>
 
     <form class="navbar-form">
 
-  <!-- DROPDOWNS -->
-
-    <!-- MODS -->
     <ul class ="navbar-form navbar-left" style="margin-top: 8px;">
       <li class="dropdown">
         <a href="#" class="dropdown-toggle csh-dropdown-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
           Mods
         <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <!-- CYBORG CHRONICLES -->
             <li class="cyborg-font">Cyborg Chronicles</li>
             <li class="cyborg-font"><a href=#>Game rules</a></li>
             <li class="cyborg-font"><a href=#>Cards</a></li>
 
             <li role="separator" class="divider"></li>
 
-            <!-- MYTHOS -->
             <li class="mythos-font">Mythos</li>
             <li class="mythos-font"><a href=#>Game rules</a></li>
             <li class="mythos-font"><a href=#>Cards</a></li>
           </ul>
       </li>
     </ul>
-    <!-- HELP -->
     <ul class ="navbar-form navbar-left" style="margin-top: 8px;">
       <li class="dropdown">
         <a href="#" class="dropdown-toggle csh-dropdown-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -66,7 +32,6 @@
         <span class="caret"></span></a>
       </li>
     </ul>
-    <!-- ABOUT -->
     <ul class ="navbar-form navbar-left" style="margin-top: 8px;">
       <li class="dropdown">
         <a href="#" class="dropdown-toggle csh-dropdown-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -75,33 +40,14 @@
       </li>
     </ul>
 
-    <!-- BUTTONS -->
     <div class="form-group navbar-form navbar-left">
-        <!-- TODO: Implement log-out functionality to disconnect from server and return to `login.html` page -->
         <input name="disconnect_websocket" id="disconnect_websocket" type="button" value="Log Out" class="btn btn-navbar csh-button" />
     </div>
     <div class="form-group navbar-form navbar-left">
-        <!-- TODO: Implement functionality to inject or remove `console.html` from below main page section in this file -->
         <input name="display_console" id="display_console" type="button" value="Console" class="btn btn-navbar csh-button" />
     </div>
 
-    </form>  <!-- /.navbar-form -->
+    </form>
 
-  </div>  <!-- /.container-fluid -->
+  </div>
 </nav>
-<!-- / TOP NAV BAR -->
-
-<div class="col-sm-9 col-md-10 main csh-body">
-
-    <!-- Application pages will be injected here -->
-    <div ng-view></div>
-
-
-    <!--
-      -- Server console page will be injected here when the "Console" button is clicked in `top_navbar`
-      -- It should also be removed when the "Console" button is clicked again
-      -->
-
-</div>
-</body>
-</html>
