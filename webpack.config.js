@@ -14,6 +14,9 @@ module.exports = {
   },
   plugins: [
     new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js'),
+    new webpack.optimize.UglifyJsPlugin({
+      include: /src/
+    }),
     new ngAnnotatePlugin()
   ],
   devServer: {
