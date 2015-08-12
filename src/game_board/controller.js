@@ -5,18 +5,20 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
     var STARTING_CARD_AMT = 5; // not very flexible
 
     $scope.hand = [];
-    $scope.actionName = "";
-    $scope.doingAction = "";
+    $scope.actions = [];
+
 
     var commandMap = {
-        "card":
+        "card": addToHand,
+        "resetActions": resetActions,
+        "useable": addUsableAction
     };
 
 
     CardshifterServerAPI.setMessageListener(function(message) {
         commandMap[message.command](message);
         $scope.$apply();
-    }, ["card"]);
+    }, ["card", "resetActions", "useable"]);
 
 
     /*
@@ -35,14 +37,27 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
         if($scope.hand.length < STARTING_CARD_AMT) {
             $scope.hand.push(card);
         } else {
-
+            // what needs to be done here?
+            // keep analyzing server messages
         }
     }
 
-    function debug(message) {
-        console.log("Received a [" + message.command + "] message:");
-        console.log(message);
-        console.log("----------");
+    /*
+    * Resets all the available actions that the user has.
+    */
+    function resetActions() {
+        $scope.actions = [];
+    }
+
+    /*
+    * Adds another possible action to the possible actions
+    * that this user can complete on their turn.
+    *
+    * @param action:UsableActionMessage -- The action to add
+    *
+    */
+    function addUsableAction(action) {
+        $scope.actions.push(action);
     }
 }
 
