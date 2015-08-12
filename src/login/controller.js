@@ -21,7 +21,15 @@ function LoginController(CardshifterServerAPI, $scope, $location, $rootScope) {
                                 id: welcome.userId,
                                 game: {
                                     id: null,
-                                    mod: null
+                                    mod: null,
+                                    playerInfo: {
+                                        index: null,
+                                        id: null
+                                    },
+                                    oppInfo: {
+                                        index: null,
+                                        id: null
+                                    }
                                 }
                             };
 

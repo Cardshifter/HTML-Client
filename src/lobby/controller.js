@@ -147,9 +147,9 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
     * user to select a deck.
     */
     function enterNewGame(message) {
-        currentUser.currentGameId = message.gameId;
         currentUser.game.id = message.gameId;
         currentUser.game.mod = gameMod;
+        currentUser.game.playerInfo.index = message.playerIndex;
 
         $location.path("/deck_builder");
     }
