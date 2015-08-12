@@ -1,5 +1,10 @@
 <div>
-    <div ng-repeat="action in actions">
-        <input ng-click="doAction(action)" type="button" value="{{action.action}}"/>
+    <div>
+        <div ng-repeat="action in actions">
+            <input ng-click="doAction(action)" ng-hide="doingAction" type="button" value="{{action.action}}" />
+        </div>
+        <div>
+            <input ng-click="cancelAction()" ng-show="doingAction" type="button" value="Cancel" />
+        </div>
     </div>
 </div>
