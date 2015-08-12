@@ -11,15 +11,26 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
     var commandMap = {
         "card": addToHand,
         "resetActions": resetActions,
-        "useable": addUsableAction
+        "useable": addUsableAction,
+        "player": storePlayerInfo
     };
 
 
     CardshifterServerAPI.setMessageListener(function(message) {
         commandMap[message.command](message);
         $scope.$apply();
-    }, ["card", "resetActions", "useable"]);
+    }, ["card", "resetActions", "useable", "player"]);
 
+
+    /*
+    * TODO: Hide all action buttons and show a cancel button.
+    */
+    $scope.doAction = function(action) {
+        var getTargets = CardshifterServerAPI.messageTypes.RequestTargetsMessage(currentUser.game.id,
+                                                                                 currentUser.game.playerInfo.id,
+                                                                                 action.action);
+        CardshifterServerAPI.sendMessage(getTargets);
+    }
 
     /*
     * Adds a card sent by the server to the user's hand.
@@ -58,6 +69,29 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
     */
     function addUsableAction(action) {
         $scope.actions.push(action);
+    }
+
+    /*
+    * Stores the information in player into either
+    * currentUser.game.playerInfo if this user is being
+    * described in the message, or currentUser.game.oppInfo
+    * if the opponent is being described in the message.
+    *
+    * @param player:PlayerMessage -- The player info to store
+    *
+    * TODO: Store username of opponent (unless it's somwhere
+    * else in currentUser)
+    */
+    function storePlayerInfo(player) {
+        console.log("player");
+        console.log(player);
+        console.log("------------");
+        if(player.index === currentUser.game.playerInfo.index) { // if this user
+            currentUser.game.playerInfo.id = player.id;
+        } else { // if the opponent
+            currentUser.game.oppInfo.index = player.index;
+            currentUser.game.oppInfo.id = player.id;
+        }
     }
 }
 
