@@ -19,7 +19,7 @@ function LoginController(CardshifterServerAPI, $scope, $location, $rootScope) {
                             window.currentUser = {
                                 username: $scope.username,
                                 id: welcome.userId,
-                                playerIndex = null;
+                                playerIndex: null
                             };
 
                             $rootScope.$apply(function() {
