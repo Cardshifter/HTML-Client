@@ -7,6 +7,7 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
     $scope.hand = [];
     $scope.actions = [];
     $scope.doingAction = false;
+    $scope.playerInfos = [];
 
     var commandMap = {
         "card": addToHand,
@@ -83,13 +84,19 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
     *
     */
     function storePlayerInfo(player) {
-        if(player.index === currentUser.game.playerInfo.index) { // if this user
-            currentUser.game.playerInfo.id = player.id;
-        } else { // if the opponent
-            currentUser.game.oppInfo.index = player.index;
-            currentUser.game.oppInfo.id = player.id;
-            currentUser.game.oppInfo.name = player.name;
+        var playerType;
+        if(player.index === currentUser.game.playerInfo.index) {
+            playerType = "playerInfo";
+        } else {
+            playerType = "oppInfo";
         }
+
+        currentUser.game[playerType].index = player.index;
+        currentUser.game[playerType].id = player.id;
+        currentUser.game[playerType].name = player.name;
+        currentUser.game[playerType].properties = player.properties;
+
+        $scope.playerInfos.push(currentUser.game[playerType]);
     }
 }
 
