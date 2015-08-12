@@ -79,18 +79,14 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
     *
     * @param player:PlayerMessage -- The player info to store
     *
-    * TODO: Store username of opponent (unless it's somwhere
-    * else in currentUser)
     */
     function storePlayerInfo(player) {
-        console.log("player");
-        console.log(player);
-        console.log("------------");
         if(player.index === currentUser.game.playerInfo.index) { // if this user
             currentUser.game.playerInfo.id = player.id;
         } else { // if the opponent
             currentUser.game.oppInfo.index = player.index;
             currentUser.game.oppInfo.id = player.id;
+            currentUser.game.oppInfo.name = player.name;
         }
     }
 }
