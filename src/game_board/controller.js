@@ -23,7 +23,7 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
 
     $scope.actions = [];
     $scope.doingAction = false;
-    $scope.playersProperties = [];
+    $scope.playersProperties = []; // is this good, or can it just be playerInfos?
 
     var commandMap = {
         "card": addToHand,
