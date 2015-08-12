@@ -24,11 +24,13 @@ function LoginController(CardshifterServerAPI, $scope, $location, $rootScope) {
                                     mod: null,
                                     playerInfo: {
                                         index: null,
-                                        id: null
+                                        id: null,
+                                        properties: {}
                                     },
                                     oppInfo: {
                                         index: null,
-                                        id: null
+                                        id: null,
+                                        properties: {}
                                     }
                                 }
                             };
