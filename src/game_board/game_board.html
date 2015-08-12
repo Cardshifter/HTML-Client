@@ -1,6 +1,5 @@
 <div>
-    <div>
-        <input ng-model="actionName" type="submit" value="" />
-        <input ng-show="doingAction" type="button" value="Cancel" />
+    <div ng-repeat="action in actions">
+        <input ng-click="doAction(action)" type="button" value="action.action"/>
     </div>
 </div>
