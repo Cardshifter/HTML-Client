@@ -4,10 +4,26 @@
 function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope, $location) {
     var STARTING_CARD_AMT = 5; // not very flexible
 
-    $scope.hand = [];
+    var playerInfos = {
+        user: {
+            index: null,
+            id: null,
+            name: null,
+            properties: {},
+            hand: []
+        },
+        opponent: {
+            index: null,
+            id: null,
+            name: null,
+            properties: {},
+            hand: []
+        }
+    };
+
     $scope.actions = [];
     $scope.doingAction = false;
-    $scope.playerInfos = [];
+    $scope.playersProperties = [];
 
     var commandMap = {
         "card": addToHand,
@@ -25,7 +41,7 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
 
     $scope.doAction = function(action) {
         var getTargets = new CardshifterServerAPI.messageTypes.RequestTargetsMessage(currentUser.game.id,
-                                                                                     currentUser.game.playerInfo.id,
+                                                                                     playerInfos.user.id
                                                                                      action.action);
         CardshifterServerAPI.sendMessage(getTargets);
 
@@ -48,8 +64,8 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
     * Work on finding a better way to handle these.
     */
     function addToHand(card) {
-        if($scope.hand.length < STARTING_CARD_AMT) {
-            $scope.hand.push(card);
+        if(playerInfos.user.hand.length < STARTING_CARD_AMT) {
+            playerInfos.user.hand.push(card);
         } else {
             // what needs to be done here?
             // keep analyzing server messages
@@ -76,27 +92,28 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
 
     /*
     * Stores the information in player into either
-    * currentUser.game.playerInfo if this user is being
-    * described in the message, or currentUser.game.oppInfo
+    * playerInfos.user if this user is being
+    * described in the message, or playerInfos.opponent
     * if the opponent is being described in the message.
     *
     * @param player:PlayerMessage -- The player info to store
     *
     */
     function storePlayerInfo(player) {
-        var playerType;
-        if(player.index === currentUser.game.playerInfo.index) {
-            playerType = "playerInfo";
+        var playerInfo;
+
+        if(player.index === currentUser.game.playerIndex) {
+            playerInfo = playerInfos.user;
         } else {
-            playerType = "oppInfo";
+            playerInfo = playerInfos.opponent;
         }
 
-        currentUser.game[playerType].index = player.index;
-        currentUser.game[playerType].id = player.id;
-        currentUser.game[playerType].name = player.name;
-        currentUser.game[playerType].properties = player.properties;
+        playerInfo.index = player.index;
+        playerInfo.id = player.id;
+        playerInfo.name = player.name;
+        playerInfo.properties = player.properties;
 
-        $scope.playerInfos.push(currentUser.game[playerType]);
+        $scope.playersProperties.push(playerInfo); // will this allow for dynamic updating?
     }
 }
 
