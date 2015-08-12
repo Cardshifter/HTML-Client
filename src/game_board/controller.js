@@ -41,7 +41,7 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
 
     $scope.doAction = function(action) {
         var getTargets = new CardshifterServerAPI.messageTypes.RequestTargetsMessage(currentUser.game.id,
-                                                                                     playerInfos.user.id
+                                                                                     playerInfos.user.id,
                                                                                      action.action);
         CardshifterServerAPI.sendMessage(getTargets);
 
