@@ -149,7 +149,7 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
     function enterNewGame(message) {
         currentUser.game.id = message.gameId;
         currentUser.game.mod = gameMod;
-        currentUser.game.playerInfo.index = message.playerIndex;
+        currentUser.game.playerIndex = message.playerIndex;
 
         $location.path("/deck_builder");
     }
