@@ -7,4 +7,14 @@
             <input ng-click="cancelAction()" ng-show="doingAction" type="button" value="Cancel" />
         </div>
     </div>
+    <div>
+        <div ng-repeat="playerInfo in playerInfos">
+            <h2>{{playerInfo.name}}</h2>
+            <ul>
+                <li ng-repeat="(property, value) in playerInfo.properties">
+                    {{property}}: {{value}}
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>
