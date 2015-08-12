@@ -6,7 +6,7 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
 
     $scope.hand = [];
     $scope.actions = [];
-
+    $scope.doingAction = false;
 
     var commandMap = {
         "card": addToHand,
@@ -22,14 +22,16 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
     }, ["card", "resetActions", "useable", "player"]);
 
 
-    /*
-    * TODO: Hide all action buttons and show a cancel button.
-    */
     $scope.doAction = function(action) {
-        var getTargets = CardshifterServerAPI.messageTypes.RequestTargetsMessage(currentUser.game.id,
-                                                                                 currentUser.game.playerInfo.id,
-                                                                                 action.action);
+        var getTargets = new CardshifterServerAPI.messageTypes.RequestTargetsMessage(currentUser.game.id,
+                                                                                     currentUser.game.playerInfo.id,
+                                                                                     action.action);
         CardshifterServerAPI.sendMessage(getTargets);
+
+        $scope.doingAction = true;
+    }
+    $scope.cancelAction = function() {
+        $scope.doingAction = false;
     }
 
     /*
