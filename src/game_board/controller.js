@@ -3,7 +3,6 @@
 // @ngInject
 function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope, $location) {
     var STARTING_CARD_AMT = 5; // not very flexible
-
     var playerInfos = {
         user: {
             index: null,
@@ -20,6 +19,7 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
             hand: []
         }
     };
+    var zones = {};
 
     $scope.actions = [];
     $scope.doingAction = false;
@@ -29,14 +29,19 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
         "card": addToHand,
         "resetActions": resetActions,
         "useable": addUsableAction,
-        "player": storePlayerInfo
+        "player": storePlayerInfo,
+        "zone": setZone
     };
 
-
+    /*
+    * TODO: Find out a way to handle ZoneChangeMessages, so that
+    * the listener will work both at the beginning of the game
+    * and during the middle of the game.
+    */
     CardshifterServerAPI.setMessageListener(function(message) {
         commandMap[message.command](message);
         $scope.$apply();
-    }, ["card", "resetActions", "useable", "player"]);
+    }, ["card", "resetActions", "useable", "player", "zone"]);
 
 
     $scope.doAction = function(action) {
@@ -114,6 +119,16 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
         playerInfo.properties = player.properties;
 
         $scope.playersProperties.push(playerInfo); // will this allow for dynamic updating?
+    }
+
+    /*
+    * Stores the information about a zone by the
+    * zone's ID in an object.
+    *
+    * @param zone:ZoneMessage -- The zone to add
+    */
+    function setZone(zone) {
+        zones[zone.id] = zone;
     }
 }
 
