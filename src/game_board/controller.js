@@ -27,7 +27,8 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
         "resetActions": resetActions,
         "useable": addUsableAction,
         "player": storePlayerInfo,
-        "zone": setZone
+        "zone": setZone,
+        "card": storeCard
     };
 
     /*
@@ -41,7 +42,7 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
     CardshifterServerAPI.setMessageListener(function(message) {
         commandMap[message.command](message);
         $scope.$apply();
-    }, ["resetActions", "useable", "player", "zone"]);
+    }, ["resetActions", "useable", "player", "zone", "card"]);
 
 
     $scope.doAction = function(action) {
@@ -117,13 +118,40 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
         for(var player in playerInfos) {
             if(playerInfos.hasOwnProperty(player)) {
                 if(playerInfos[player].id === zone.owner) {
+                    var newEntities = {};
+                    for(var i = 0, length = zone.entities.length; i < length; i++) {
+                        newEntities[zone.entities[i]] = {}; // setup each ID to be an key holding an object to store card info
+                    }
+                    zone.entities = newEntities;
+
                     playerInfos[player].zones[zone.name] = zone;
                     break;
                 }
             }
         }
-        console.log(playerInfos);
-        console.log("--------------");
+    }
+
+    /*
+    * Stores a CardInfoMessage in the appropriate zone,
+    * which is going to be in either the user's zones, or
+    * the opponent's zones.
+    *
+    * @param card:CardInfoMessage -- The card to store.
+    *
+    * This function will not store the CardInfoMessage if the
+    * zone is not ".known".
+    */
+    function storeCard(card) {
+        var zones = [playerInfos.user.zones, playerInfos.opponent.zones];
+
+        for(var i = 0, length = zones.length; i < length; i++) {
+            for(var zone in zones[i]) {
+                var thisZone = zones[i][zone];
+                if(thisZone.id === card.zone /*&& thisZone.known*/) {
+                    thisZone.entities[card.id] = card;
+                }
+            }
+        }
     }
 }
 
