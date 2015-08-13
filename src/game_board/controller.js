@@ -2,31 +2,28 @@
 
 // @ngInject
 function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope, $location) {
-    var STARTING_CARD_AMT = 5; // not very flexible
     var playerInfos = {
         user: {
             index: null,
             id: null,
             name: null,
             properties: {},
-            hand: []
+            zones: {}
         },
         opponent: {
             index: null,
             id: null,
             name: null,
             properties: {},
-            hand: []
+            zones: {}
         }
     };
-    var zones = {};
 
     $scope.actions = [];
     $scope.doingAction = false;
     $scope.playersProperties = []; // is this good, or can it just be playerInfos?
 
     var commandMap = {
-        "card": addToHand,
         "resetActions": resetActions,
         "useable": addUsableAction,
         "player": storePlayerInfo,
@@ -36,12 +33,15 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
     /*
     * TODO: Find out a way to handle ZoneChangeMessages, so that
     * the listener will work both at the beginning of the game
-    * and during the middle of the game.
+    * and during the middle of the game. Thought: The first
+    * zone messages in the beginning might be okay to ignore; it'd
+    * be hard to understand ZoneChangeMessages before receiving a
+    * ZoneMessage (which Mythos does).
     */
     CardshifterServerAPI.setMessageListener(function(message) {
         commandMap[message.command](message);
         $scope.$apply();
-    }, ["card", "resetActions", "useable", "player", "zone"]);
+    }, ["resetActions", "useable", "player", "zone"]);
 
 
     $scope.doAction = function(action) {
@@ -54,27 +54,6 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
     }
     $scope.cancelAction = function() {
         $scope.doingAction = false;
-    }
-
-    /*
-    * Adds a card sent by the server to the user's hand.
-    *
-    * @param card:CardInfoMessage -- The card to add
-    *
-    * This will only add the card to the user's hand if the
-    * user's hand size is less that STARTING_CARD_AMT.
-    *
-    * TODO: The method stated above is an extremely
-    * stupid and inflexible way of handling CardInfoMessages.
-    * Work on finding a better way to handle these.
-    */
-    function addToHand(card) {
-        if(playerInfos.user.hand.length < STARTING_CARD_AMT) {
-            playerInfos.user.hand.push(card);
-        } else {
-            // what needs to be done here?
-            // keep analyzing server messages
-        }
     }
 
     /*
@@ -123,12 +102,17 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
 
     /*
     * Stores the information about a zone by the
-    * zone's ID in an object.
+    * zone's name in
+    * playerInfos.<player>.zones.<zone_name>
     *
     * @param zone:ZoneMessage -- The zone to add
     */
     function setZone(zone) {
-        zones[zone.id] = zone;
+        for(var player in playerInfos) {
+            if(playerInfos.hasOwnProperty(player)) {
+                playerInfos[player].zones[zone.name] = zone;
+            }
+        }
     }
 }
 
