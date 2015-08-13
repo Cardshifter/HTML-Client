@@ -106,13 +106,24 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
     * playerInfos.<player>.zones.<zone_name>
     *
     * @param zone:ZoneMessage -- The zone to add
+    *
+    * This will skip all "Cards" messages.
     */
     function setZone(zone) {
+        if(zone.name === "Cards") { // "Not currently used as it is too meta."
+            return;
+        }
+
         for(var player in playerInfos) {
             if(playerInfos.hasOwnProperty(player)) {
-                playerInfos[player].zones[zone.name] = zone;
+                if(playerInfos[player].id === zone.owner) {
+                    playerInfos[player].zones[zone.name] = zone;
+                    break;
+                }
             }
         }
+        console.log(playerInfos);
+        console.log("--------------");
     }
 }
 
