@@ -142,16 +142,39 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
     * zone is not ".known".
     */
     function storeCard(card) {
-        var zones = [playerInfos.user.zones, playerInfos.opponent.zones];
+        var destinationZone = findZone(card.zone);
 
-        for(var i = 0, length = zones.length; i < length; i++) {
-            for(var zone in zones[i]) {
-                var thisZone = zones[i][zone];
-                if(thisZone.id === card.zone /*&& thisZone.known*/) {
-                    thisZone.entities[card.id] = card;
+        console.log(destinationZone);
+
+        if(destinationZone.known) {
+            destinationZone.entities[card.id] = card;
+        }
+
+        console.log(playerInfos);
+        console.log("---------------");
+    }
+
+    /*
+    * Return the zone of the passed in ID.
+    *
+    * @param id:number -- The ID of the zone.
+    * @return Object -- The zone
+    *                -- null, if a zone with id doesn't exist
+    */
+    function findZone(id) {
+        var zoneGroups = [playerInfos.user.zones, playerInfos.opponent.zones];
+
+        for(var i = 0, length = zoneGroups.length; i < length; i++) {
+            for(var zone in zoneGroups[i]) {
+                if(zoneGroups[i].hasOwnProperty(zone)) {
+                    console.log(zoneGroups[i][zone].id, id, zoneGroups[i][zone].id === id);
+                    if(zoneGroups[i][zone].id === id) {
+                        return zoneGroups[i][zone];
+                    }
                 }
             }
         }
+        return null;
     }
 }
 
