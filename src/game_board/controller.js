@@ -19,10 +19,9 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
         }
     };
 
-    $scope.playerInfos = playerInfos; // dirty?
-
     $scope.actions = [];
     $scope.doingAction = false;
+    $scope.playerInfos = playerInfos;
 
     var commandMap = {
         "resetActions": resetActions,
