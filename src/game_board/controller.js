@@ -46,7 +46,7 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
     }, ["resetActions", "useable", "player", "zone", "card", "zoneChange"]);
 
 
-    $scope.doAction = function(action) {
+    $scope.startAction = function(action) {
         var getTargets = new CardshifterServerAPI.messageTypes.RequestTargetsMessage(currentUser.game.id,
                                                                                      playerInfos.user.id,
                                                                                      action.action);
@@ -56,6 +56,10 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
     }
     $scope.cancelAction = function() {
         $scope.doingAction = false;
+    }
+
+    $scope.selectCard = function(card) {
+        console.log(card);
     }
 
     /*

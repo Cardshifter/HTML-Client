@@ -2,7 +2,7 @@
     <!-- Action buttons -->
     <div>
         <div ng-repeat="action in actions">
-            <input ng-click="doAction(action)" ng-hide="doingAction" type="button" value="{{action.action}}" />
+            <input ng-click="startAction(action)" ng-hide="doingAction" type="button" value="{{action.action}}" />
         </div>
         <div>
             <input ng-click="cancelAction()" ng-show="doingAction" type="button" value="Cancel" />
@@ -16,6 +16,7 @@
 
             <!-- Player properties -->
             <div>
+                <h3>Properties</h3>
                 <ul>
                     <li ng-repeat="(name, value) in info.properties">
                         <b>{{name}}</b>: {{value}}
