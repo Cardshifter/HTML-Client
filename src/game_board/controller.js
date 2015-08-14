@@ -19,9 +19,10 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
         }
     };
 
+    $scope.playerInfos = playerInfos; // dirty?
+
     $scope.actions = [];
     $scope.doingAction = false;
-    $scope.playersProperties = []; // is this good, or can it just be playerInfos?
 
     var commandMap = {
         "resetActions": resetActions,
@@ -97,8 +98,6 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
         playerInfo.id = player.id;
         playerInfo.name = player.name;
         playerInfo.properties = player.properties;
-
-        $scope.playersProperties.push(playerInfo); // will this allow for dynamic updating?
     }
 
     /*
