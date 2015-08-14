@@ -28,7 +28,8 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
         "useable": addUsableAction,
         "player": storePlayerInfo,
         "zone": setZone,
-        "card": storeCard
+        "card": storeCard,
+        "zoneChange": moveCard
     };
 
     /*
@@ -42,7 +43,7 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
     CardshifterServerAPI.setMessageListener(function(message) {
         commandMap[message.command](message);
         $scope.$apply();
-    }, ["resetActions", "useable", "player", "zone", "card"]);
+    }, ["resetActions", "useable", "player", "zone", "card", "zoneChange"]);
 
 
     $scope.doAction = function(action) {
@@ -162,6 +163,27 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
             * since the initial ZoneChangeMessages and
             * CardInfoMessages in Mythos don't matter, it is
             * safe to ignore this error.
+            */
+        }
+    }
+
+    /*
+    * Moves a single card from one zone to another
+    *
+    * @param message:ZoneChangeMessage -- The zone change information
+    *
+    */
+    function moveCard(message) {
+        try {
+            var src = findZone(message.sourceZone);
+            var dest = findZone(message.destinationZone);
+
+            var card = src.entities[message.entity];
+            delete src.entities[message.entity];
+            dest.entities[message.entity] = card;
+        } catch(e) {
+            /*
+            * See the try/catch in storeCard.
             */
         }
     }
