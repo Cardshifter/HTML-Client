@@ -144,14 +144,28 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
     function storeCard(card) {
         var destinationZone = findZone(card.zone);
 
-        console.log(destinationZone);
-
-        if(destinationZone.known) {
-            destinationZone.entities[card.id] = card;
+        try {
+            if(destinationZone.known) {
+                destinationZone.entities[card.id] = card;
+            }
+        } catch(e) {
+            /* Do nothing. The reason why an error
+            * might occur probably has something to
+            * do with how the server is sending messages.
+            *
+            * For Mythos, 10 cards are sent: two groups of
+            * 5. Both groups are identical. However, the
+            * first group will always fail.
+            *
+            * The reason for this is because Mythos will send
+            * CardInfoMessages before it has sent the
+            * ZoneMessages, which means that this function
+            * won't know where to put the cards. However,
+            * since the initial ZoneChangeMessages and
+            * CardInfoMessages in Mythos don't matter, it is
+            * safe to ignore this error.
+            */
         }
-
-        console.log(playerInfos);
-        console.log("---------------");
     }
 
     /*
@@ -167,7 +181,6 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
         for(var i = 0, length = zoneGroups.length; i < length; i++) {
             for(var zone in zoneGroups[i]) {
                 if(zoneGroups[i].hasOwnProperty(zone)) {
-                    console.log(zoneGroups[i][zone].id, id, zoneGroups[i][zone].id === id);
                     if(zoneGroups[i][zone].id === id) {
                         return zoneGroups[i][zone];
                     }
