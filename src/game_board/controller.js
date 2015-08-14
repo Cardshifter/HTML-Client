@@ -22,6 +22,7 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
     $scope.actions = [];
     $scope.doingAction = false;
     $scope.playerInfos = playerInfos;
+    $scope.targets = [];
 
     var commandMap = {
         "resetActions": resetActions,
@@ -29,7 +30,8 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
         "player": storePlayerInfo,
         "zone": setZone,
         "card": storeCard,
-        "zoneChange": moveCard
+        "zoneChange": moveCard,
+        "targets": setTargets
     };
 
     /*
@@ -43,7 +45,7 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
     CardshifterServerAPI.setMessageListener(function(message) {
         commandMap[message.command](message);
         $scope.$apply();
-    }, ["resetActions", "useable", "player", "zone", "card", "zoneChange"]);
+    }, ["resetActions", "useable", "player", "zone", "card", "zoneChange", "targets"]);
 
 
     $scope.startAction = function(action) {
@@ -56,11 +58,9 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
     }
     $scope.cancelAction = function() {
         $scope.doingAction = false;
+        $scope.targets = [];
     }
-
-    $scope.selectCard = function(card) {
-        console.log(card);
-    }
+    
 
     /*
     * Resets all the available actions that the user has.
@@ -190,6 +190,19 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
             * See the try/catch in storeCard.
             */
         }
+    }
+
+    /*
+    * Sets the $scope.targets to all the available
+    * targets for the current action.
+    *
+    * @param targets:AvailableTargetsMessage -- The available targets
+    *
+    * The HTML, depending on this $scope.targets value, will turn
+    * a card name into a link for the user to select.
+    */
+    function setTargets(targets) {
+        $scope.targets = targets.targets;
     }
 
     /*
