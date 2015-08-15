@@ -29,12 +29,14 @@
                 <h3>{{zoneName}}</h3>
                 <ul>
                     <li ng-repeat="(id, card) in zoneInfo.entities">
-                        <p ng-hide="$eval(targets.indexOf(id)) != -1 && doingAction">
-                            {{card.properties.name}}
-                        </p>
-                        <a ng-click="selectCard(card)" ng-show="$eval(targets.indexOf(id)) != -1 && doingAction">
-                            {{card.properties.name}}
-                        </a>
+                        <div>
+                            <p ng-hide="$eval(targets.indexOf(id)) != -1 && doingAction">
+                                {{card.properties.name}}
+                            </p>
+                            <a ng-click="selectCard(card)" ng-show="$eval(targets.indexOf(id)) != -1 && doingAction"  ng-class="{'text-success': $eval(selected.indexOf(card)) != -1 && doingAction}">
+                                {{card.properties.name}}
+                            </a>
+                        </div>
                     </li>
                 </ul>
             </div>

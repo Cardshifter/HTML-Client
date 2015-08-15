@@ -23,6 +23,7 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
     $scope.doingAction = false;
     $scope.playerInfos = playerInfos;
     $scope.targets = [];
+    $scope.selected = [];
 
     var commandMap = {
         "resetActions": resetActions,
@@ -59,8 +60,19 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
     $scope.cancelAction = function() {
         $scope.doingAction = false;
         $scope.targets = [];
+        $scope.selected = [];
     }
-    
+
+    $scope.selectCard = function(card) {
+        var selected = $scope.selected;
+        var index = selected.indexOf(card);
+
+        if(index === -1) {      // select
+            selected.push(card);
+        } else {                // de-select
+            selected.splice(index, 1);
+        }
+    }
 
     /*
     * Resets all the available actions that the user has.
