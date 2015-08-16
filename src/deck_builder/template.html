@@ -14,7 +14,7 @@
         <table>
             <tr ng-repeat="card in cards">
                 <td>
-                    <a ng-click="showDetails(card)">{{card.properties.name}}</a>
+                    <a href ng-click="showDetails(card)">{{card.properties.name}}</a>
                 </td>
                 <td>
                     <input ng-click="decrement(card)" type="button" value="-" />
@@ -33,7 +33,7 @@
         </form>
         <ul>
             <li ng-repeat="deck in savedDecks">
-                <a ng-click="switchDeck(deck)">{{deck.name}}</a>
+                <a href ng-click="switchDeck(deck)">{{deck.name}}</a>
                 <input ng-click="deleteDeck(deck.name)" type="button" value="Delete"/>
             </li>
         </ul>
