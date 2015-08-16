@@ -118,8 +118,9 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
         }
 
         var now = new Date();
-        var YMD = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate();
-        var HMS = now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds();
+
+        var YMD = formatTimeNumber(now.getFullYear()) + "-" + formatTimeNumber(now.getMonth() + 1) + "-" + formatTimeNumber(now.getDate());
+        var HMS = formatTimeNumber(now.getHours()) + ":" + formatTimeNumber(now.getMinutes()) + ":" + formatTimeNumber(now.getSeconds());
         message.timestamp = YMD + " " + HMS;
 
         $scope.chatMessages.push(message);
@@ -152,6 +153,10 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
         currentUser.game.playerIndex = message.playerIndex;
 
         $location.path("/deck_builder");
+    }
+
+    function formatTimeNumber(time) {
+        return time < 10 ? "0" + time : time;
     }
 }
 
