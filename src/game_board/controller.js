@@ -24,6 +24,7 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
     $scope.playerInfos = playerInfos;
     $scope.targets = [];
     $scope.selected = [];
+    $scope.currentAction;
 
     var commandMap = {
         "resetActions": resetActions,
@@ -55,12 +56,29 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
                                                                                      action.action);
         CardshifterServerAPI.sendMessage(getTargets);
 
+        $scope.currentAction = action;
         $scope.doingAction = true;
+
+        console.log(playerInfos);
     }
     $scope.cancelAction = function() {
         $scope.doingAction = false;
         $scope.targets = [];
         $scope.selected = [];
+    }
+
+    $scope.performAction = function() {
+        if($scope.selected.length === 0 && $scope.currentAction.targetRequired) {
+            console.log("target(s) required");
+            return;
+        }
+        var doAbility = new CardshifterServerAPI.messageTypes.UseAbilityMessage(currentUser.game.id,
+                                                                                playerInfos.user.id,
+                                                                                $scope.currentAction.action,
+                                                                                $scope.targets);
+        CardshifterServerAPI.sendMessage(doAbility);
+
+        $scope.cancelAction();
     }
 
     $scope.selectCard = function(card) {
@@ -73,6 +91,7 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
             selected.splice(index, 1);
         }
     }
+
 
     /*
     * Resets all the available actions that the user has.
