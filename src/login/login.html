@@ -6,14 +6,16 @@
 
 <h4>Please log in to continue, or see below for instructions and assistance.</h4>
 
+<!-- Server status -->
+<div>
+
+</div>
+
 <form name="login_information" id="login_information" class="login-form">
     <div class="form-group">
         <label for="server" aria-label="Server">Server:</label>
         <select ng-model="server" name="server" id="server" class="form-control">
-            <option value="ws://127.0.0.1:4243">Local host</option>
-            <option value="ws://dwarftowers.com:4243">dwarftowers.com</option>
-            <option value="ws://stats.zomis.net:4243">zomis.net</option>
-            <option value="other">Other...</option>
+            <option ng-repeat="(name, address) in servers" value="{{address}}">{{name}}</option>
         </select>
         <label for="secure">Is secure server:</label>
         <input ng-model="is_secure" name="secure" id="secure" type="checkbox" value="secure" />

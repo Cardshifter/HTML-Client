@@ -4,6 +4,13 @@
 function LoginController(CardshifterServerAPI, $scope, $location, $rootScope) {
     var SUCCESS = 200;
 
+    $scope.servers = {
+        "Local Host": "ws://127.0.0.1:4243",
+        "dwarftowers.com": "ws://dwarftowers.com:4243",
+        "zomis.net": "ws://stats.zomis.net:4243",
+        "Other...": "other"
+    };
+
     $scope.login = function() {
         $scope.loggedIn = true;
         var finalServer = ($scope.server === "other" ? $scope.other_server : $scope.server);
