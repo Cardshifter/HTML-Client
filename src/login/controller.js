@@ -1,8 +1,10 @@
 'use strict';
 
 // @ngInject
-function LoginController(CardshifterServerAPI, $scope, $location, $rootScope) {
+function LoginController(CardshifterServerAPI, $scope, $location, $rootScope, $interval) {
     var SUCCESS = 200;
+
+    $interval(updateStats, 2000);
 
     $scope.servers = {
         "Local Host": {
@@ -74,6 +76,25 @@ function LoginController(CardshifterServerAPI, $scope, $location, $rootScope) {
             $scope.loggedIn = false;
             $scope.$apply();
         });
+    }
+
+    function updateStats() {
+        for(var server in $scope.servers) {
+            if($scope.servers.hasOwnProperty(server)) {
+                var thisServer = $scope.servers[server];
+
+                var now = Date.now();
+                CardshifterServerAPI.init(thisServer.address, false, function() {
+                    thisServer.latency = Date.now() - now;
+                    thisServer.isOnline = true;
+
+                }, function() {
+                    thisServer.isOnline = false;
+                    thisServer.latency = 0;
+                    thisServer.userCount = 0;
+                });
+            }
+        }
     }
 };
 
