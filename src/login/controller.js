@@ -14,7 +14,7 @@ function LoginController(CardshifterServerAPI, $scope, $location, $rootScope, $i
             latency: 0
         },
         "dwarftowers.com": {
-            address: "ws://dwarftowers.zom:4243",
+            address: "ws://dwarftowers.com:4243",
             isOnline: false,
             userCount: 0,
             latency: 0
@@ -80,7 +80,7 @@ function LoginController(CardshifterServerAPI, $scope, $location, $rootScope, $i
 
     function updateStats() {
         for(var server in $scope.servers) {
-            if($scope.servers.hasOwnProperty(server)) {
+            if($scope.servers.hasOwnProperty(server) && server !== "Other...") {
                 var thisServer = $scope.servers[server];
 
                 var now = Date.now();
