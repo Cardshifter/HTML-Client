@@ -1,10 +1,8 @@
 'use strict';
 
 // @ngInject
-function LoginController(CardshifterServerAPI, $scope, $location, $rootScope, $interval) {
+function LoginController(CardshifterServerAPI, $scope, $location, $rootScope) {
     var SUCCESS = 200;
-
-    $interval(updateStats, 2000);
 
     $scope.servers = {
         "Local Host": {
@@ -78,7 +76,7 @@ function LoginController(CardshifterServerAPI, $scope, $location, $rootScope, $i
         });
     }
 
-    function updateStats() {
+    $scope.updateStats = function() {
         for(var server in $scope.servers) {
             if($scope.servers.hasOwnProperty(server) && server !== "Other...") {
                 var thisServer = $scope.servers[server];
