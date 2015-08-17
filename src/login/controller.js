@@ -5,11 +5,31 @@ function LoginController(CardshifterServerAPI, $scope, $location, $rootScope) {
     var SUCCESS = 200;
 
     $scope.servers = {
-        "Local Host": "ws://127.0.0.1:4243",
-        "dwarftowers.com": "ws://dwarftowers.com:4243",
-        "zomis.net": "ws://stats.zomis.net:4243",
-        "Other...": "other"
-    };
+        "Local Host": {
+            address: "ws://127.0.0.1:4243",
+            isOnline: false,
+            userCount: 0,
+            latency: 0
+        },
+        "dwarftowers.com": {
+            address: "ws://dwarftowers.zom:4243",
+            isOnline: false,
+            userCount: 0,
+            latency: 0
+        },
+        "zomis.net": {
+            address: "ws://stats.zomis.net:4243",
+            isOnline: false,
+            userCount: 0,
+            latency: 0
+        },
+        "Other...": {
+            address: "other",
+            isOnline: null,
+            userCount: null,
+            latency: null
+        }
+    }
 
     $scope.login = function() {
         $scope.loggedIn = true;
