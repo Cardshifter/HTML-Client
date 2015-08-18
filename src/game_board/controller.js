@@ -33,7 +33,8 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
         "zone": setZone,
         "card": storeCard,
         "zoneChange": moveCard,
-        "targets": setTargets
+        "targets": setTargets,
+        "update": updatePlayerProperties
     };
 
     /*
@@ -47,7 +48,7 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
     CardshifterServerAPI.setMessageListener(function(message) {
         commandMap[message.command](message);
         $scope.$apply();
-    }, ["resetActions", "useable", "player", "zone", "card", "zoneChange", "targets"]);
+    }, ["resetActions", "useable", "player", "zone", "card", "zoneChange", "targets", "update"]);
 
 
     $scope.startAction = function(action) {
@@ -237,6 +238,16 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
     }
 
     /*
+    * Updates a players properties based on the message received.
+    *
+    * @param toUpdate:UpdateMessage -- The information on what to update
+    *
+    */
+    function updatePlayerProperties(toUpdate) {
+        findPlayer(toUpdate.id).properties[toUpdate.key] = toUpdate.value;
+    }
+
+    /*
     * Return the zone of the passed in ID.
     *
     * @param id:number -- The ID of the zone.
@@ -254,6 +265,22 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
                     }
                 }
             }
+        }
+        return null;
+    }
+    /*
+    * Finds and returns a player based on an ID
+    *
+    * @param id:number -- The ID of the player
+    * @param Object -- playerInfos.user
+    *               -- playerInfos.opponent
+    *               -- null, if the ID does not belong to either player
+    */
+    function findPlayer(id) {
+        if(id === playerInfos.user.id) {
+            return  playerInfos.user;
+        } else if(id === playerInfos.opponent.id) {
+            return playerInfos.opponent;
         }
         return null;
     }
