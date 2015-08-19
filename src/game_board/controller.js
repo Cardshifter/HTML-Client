@@ -111,12 +111,20 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
     */
     function addUsableAction(action) {
         var actions = $scope.actions;
+        var notDuplicate = true;
+
         for(var i = 0, length = actions.length; i < length; i++) {
             if(actions[i].action !== action.action) { // not a duplicate
                 actions.push(action);
+                continue;
             }
+            notDuplicate = false;
+            break;
         }
 
+        if(notDuplicate) {
+            actions.push(action);
+        }
     }
 
     /*
