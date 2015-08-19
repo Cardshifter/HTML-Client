@@ -59,8 +59,6 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
 
         $scope.currentAction = action;
         $scope.doingAction = true;
-
-        console.log(playerInfos);
     }
     $scope.cancelAction = function() {
         $scope.doingAction = false;
@@ -77,6 +75,7 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
                                                                                 playerInfos.user.id,
                                                                                 $scope.currentAction.action,
                                                                                 $scope.targets);
+        console.log(doAbility);
         CardshifterServerAPI.sendMessage(doAbility);
 
         $scope.cancelAction();
@@ -107,9 +106,17 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
     *
     * @param action:UsableActionMessage -- The action to add
     *
+    * This will only add the action to $scope.actions if there
+    * is not another action with the same name in there.
     */
     function addUsableAction(action) {
-        $scope.actions.push(action);
+        var actions = $scope.actions;
+        for(var i = 0, length = actions.length; i < length; i++) {
+            if(actions[i].action === actions.action) {
+                return;
+            }
+        }
+        actions.push(action);
     }
 
     /*
