@@ -4,6 +4,8 @@
 var wsProtocolFinder = /ws(s)*:\/\//;
 var SOCKET_OPEN = 1;
 
+var MAIN_LOBBY = 1;
+
 var eventTypes = [];
 
 function Message(command) {
@@ -150,8 +152,7 @@ var CardshifterServerAPI = {
         * @param message  The content of this chat message
         */
         ChatMessage: function(message) {
-            this.chatId = 1;
-            this.from = "unused";
+            this.chatId = MAIN_LOBBY;
             this.message = message;
 
             this.toString = function() {
