@@ -249,6 +249,16 @@ function DeckbuilderController(CardshifterServerAPI, $scope, $rootScope, $locati
     function updateSavedDecks() {
         $scope.savedDecks = JSON.parse(localStorage.getItem(DECK_STORAGE)).decks[currentUser.game.mod];
     }
+
+    /**
+    * This function will search through all the saved decks in
+    * $scope.savedDecks and try to find the deck with the name
+    * deckName.
+    *
+    * @param deckName:string -- The name of the deck to look for.
+    * @return number/boolean -- The index of the deck with the correct name in $scope.savedDecks
+    *                        -- false if the deck was not found in $scope.savedDecks
+    */
     function getDeckIndex(deckName) {
         for(var i = 0, length = $scope.savedDecks.length; i < length; i++) {
             if($scope.savedDecks[i].name === deckName) {
