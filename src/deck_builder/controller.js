@@ -224,6 +224,17 @@ function DeckbuilderController(CardshifterServerAPI, $scope, $rootScope, $locati
             console.log("not enough cards");
         }
     };
+
+    /**
+    * This function is called once the "go back to the lobby" button
+    * near the bottom of the page is clicked.
+    *
+    * This button is only visible if the deck builder was entered
+    * via the "deck builder" button in the game lobby.
+    *
+    * This function simply redirects the page back to the lobby
+    * screen.
+    */
     $scope.goBack = function() {
         $location.path("/lobby");
     };
