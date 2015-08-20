@@ -196,6 +196,16 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
         $location.path("/deck_builder");
     }
 
+    /**
+    * If a number is less than 10, this function will
+    * return a '0' appended to the beginning of that number
+    *
+    * This allows for cleanly formatted timestamps on chat messages.
+    *
+    * @param time:number -- The number to check
+    * @param string -- If the number is less than 10, '0' + time
+                    -- If not, just time itself.
+    */
     function formatTimeNumber(time) {
         return time < 10 ? "0" + time : time;
     }
