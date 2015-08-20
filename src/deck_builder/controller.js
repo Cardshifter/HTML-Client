@@ -83,30 +83,31 @@ function DeckbuilderController(CardshifterServerAPI, $scope, $rootScope, $locati
     };
 
     $scope.saveDeck = function() {
-        if($scope.getTotalSelected() === $scope.minCards) {
-            if($scope.deckName) {
-                if(!getDeckIndex($scope.deckName)) { // if deck exists
-                    var savedDecks = JSON.parse(localStorage.getItem(DECK_STORAGE));
-
-                    var newDeck = {
-                        name: $scope.deckName,
-                        cards: $scope.currentDeck
-                    };
-
-                    savedDecks.decks[currentUser.game.mod].push(newDeck);
-                    localStorage.setItem(DECK_STORAGE, JSON.stringify(savedDecks));
-                    updateSavedDecks();
-
-                    $scope.switchDeck(newDeck);
-                } else {
-                    console.log("deck already exists");     // bad looking nesting
-                }
-            } else {
-                console.log("please enter name");
-            }
-        } else {
+        if($scope.getTotalSelected() !== $scope.minCards) {
             console.log("not enough cards");
+            return;
         }
+        if(!$scope.deckName) {
+            console.log("enter name");
+            return;
+        }
+        if(getDeckIndex($scope.deckName)) {
+            console.log("deck already exists");
+            return;
+        }
+
+        var savedDecks = JSON.parse(localStorage.getItem(DECK_STORAGE));
+
+        var newDeck = {
+            name: $scope.deckName,
+            cards: $scope.currentDeck
+        };
+
+        savedDecks.decks[currentUser.game.mod].push(newDeck);
+        localStorage.setItem(DECK_STORAGE, JSON.stringify(savedDecks));
+        updateSavedDecks();
+
+        $scope.switchDeck(newDeck);
     };
     $scope.switchDeck = function(deck) {
         $scope.currentDeckName = deck.name;
