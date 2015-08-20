@@ -239,6 +239,13 @@ function DeckbuilderController(CardshifterServerAPI, $scope, $rootScope, $locati
         $location.path("/lobby");
     };
 
+    /**
+    * This function updates the $scope variable savedDecks with the
+    * saved decks that are stored in Local Storage.
+    *
+    * This function will only load $scope.savedDecks with the decks of
+    * the mod that the game or user specified.
+    */
     function updateSavedDecks() {
         $scope.savedDecks = JSON.parse(localStorage.getItem(DECK_STORAGE)).decks[currentUser.game.mod];
     }
