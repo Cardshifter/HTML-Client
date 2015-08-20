@@ -60,6 +60,12 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
         }, MESSAGE_DELAY);
     }
 
+    /*
+    * This function is called when the user has chosen a mod,
+    * selected an opponent, and hit the "invite" button.
+    *
+    * This function sends a StartGameRequest to the server.
+    */
     $scope.startGame = function() {
         if($scope.selected_mod && $scope.selected_opponent) {
             var startGame = new CardshifterServerAPI.messageTypes.StartGameRequest($scope.selected_opponent,
