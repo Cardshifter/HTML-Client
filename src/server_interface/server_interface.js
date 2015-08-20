@@ -28,6 +28,12 @@ function NotInitializedException(message) {
     this.name = "NotInitializedException";
     this.message = message;
 }
+
+/**
+* The exception that is thrown when the code is telling the
+* API to interact with the socket when the socket is not
+* ready to accept any information.
+*/
 function SocketNotReadyException(message, readyState) {
     this.name = "SocketNotReadyException"
     this.message = message;
