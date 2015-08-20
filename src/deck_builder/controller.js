@@ -47,6 +47,16 @@ function DeckbuilderController(CardshifterServerAPI, $scope, $rootScope, $locati
         $scope.$apply();
     }, ["playerconfig"]);
 
+    /**
+    * This is called when the minus-sign button for a card
+    * has been clicked.
+    *
+    * This function will, based on the argument, will reduce
+    * the amount of this card the user has by one. This can
+    * not go below 0.
+    *
+    * @param card:Object -- The card to decrement
+    */
     $scope.decrement = function(card) {
         if($scope.currentDeck[card.id] !== 0) {
             $scope.currentDeck[card.id]--;
