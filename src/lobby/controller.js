@@ -101,6 +101,19 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
         $scope.gotInvite = false;
     }
 
+    /*
+    * This function is called once the user has selected a mod
+    * and has clicked the "Deck Builder" button near the top of the
+    * screen. If the user has not yet selected a mod, then this
+    * function does nothing.
+    *
+    * Once this is run, a ServerQueryMessage is sent to the server
+    * to retrieve all the cards. The reason why this has to be sent
+    * manually is because the server does not know when the user
+    * is entering the deck builder, so it does not know to send
+    * the card information automatically, as opposed to if the user
+    * were entering a new game.
+    */
     $scope.openDeckBuilder = function() {
         if($scope.selected_mod) {
             currentUser.game.mod = $scope.selected_mod;
