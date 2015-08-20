@@ -4,6 +4,17 @@
 function LoginController(CardshifterServerAPI, $scope, $location, $rootScope) {
     var SUCCESS = 200;
 
+    /*
+    * Called by the login form. This function will to the server
+    * specified in the login form. Upon a successful reply, the
+    * code will setup currentUser and redirect to the lobby.
+    *
+    * This function will not complete if the user has not entered
+    * a username, or if there were any errors at all in logging
+    * in (either something with the Socket messed up, or the
+    * welcome message response from the server did not contain
+    * the properties that would indicate a success)
+    */
     $scope.login = function() {
         $scope.loggedIn = true;
         var finalServer = ($scope.server === "other" ? $scope.other_server : $scope.server);
