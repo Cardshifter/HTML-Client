@@ -19,6 +19,11 @@ function Message(command) {
     this.command = command;
 }
 
+/**
+* The exception that is thrown when the code is trying to
+* interact with the API when the API has not been
+* initialized with .init yet.
+*/
 function NotInitializedException(message) {
     this.name = "NotInitializedException";
     this.message = message;
