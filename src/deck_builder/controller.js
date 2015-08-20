@@ -97,6 +97,17 @@ function DeckbuilderController(CardshifterServerAPI, $scope, $rootScope, $locati
         return total;
     };
 
+    /**
+    * This is called when the card link of a card in the
+    * available cards table has been clicked.
+    *
+    * Once this function is called, it loads $scope.cardInfo
+    * with the most important properties of the card. Then,
+    * the HTML will take care of not showing the card information
+    * that is "undefined", as not all cards have the same properties.
+    *
+    * TODO: Dynamically load $scope.cardInfo with card properties. #60
+    */
     $scope.showDetails = function(card) {
         var props = card.properties;
         $scope.cardInfo = {
