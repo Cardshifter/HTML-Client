@@ -8,6 +8,13 @@ var MAIN_LOBBY = 1;
 
 var eventTypes = [];
 
+/**
+* The base class Message for all the other message types
+* to inherit from.
+*
+* TODO: Would it just be easier to set the .command property
+* individually for each card type?
+*/
 function Message(command) {
     this.command = command;
 }
