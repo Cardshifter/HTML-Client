@@ -81,6 +81,11 @@ function DeckbuilderController(CardshifterServerAPI, $scope, $rootScope, $locati
         }
     };
 
+    /**
+    * This is called by injection near the top of the document
+    * to, in fractional form, how many cards are in the user's
+    * current deck.
+    */
     $scope.getTotalSelected = function() {
         var total = 0;
         for(var card in $scope.currentDeck) {
