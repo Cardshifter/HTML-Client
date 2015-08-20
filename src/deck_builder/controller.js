@@ -187,6 +187,18 @@ function DeckbuilderController(CardshifterServerAPI, $scope, $rootScope, $locati
 
         updateSavedDecks();
     };
+
+    /**
+    * This function is called when the "start game" button near the
+    * bottom of the page is clicked. This function will not run
+    * if the user has not selected enough cards.
+    *
+    * The "start game" button is only displayed if this deck builder
+    * screen was opened via starting a new game from the lobby.
+    *
+    * This function will send all the deck information to the server
+    * and then redirect to the game board screen.
+    */
     $scope.enterGame = function() {
         if($scope.getTotalSelected() === $scope.minCards) {
 
