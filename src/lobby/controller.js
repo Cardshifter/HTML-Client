@@ -80,6 +80,19 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
             addChatMessage(message);
         }
     }
+
+    /*
+    * This function is called when either the "accept" or "decline"
+    * button of the invite pop-up has been clicked.
+    *
+    * This function sends an InviteResponse message to the server and
+    * and passes in the accept argument to the constructor. If the
+    * user hit "accept", then the accept argument will be true. If
+    * the user hit "decline", then the accept argument will be false.
+    *
+    * @param accept:boolean -- true for "accept"
+                            -- false for "decline"
+    */
     $scope.acceptInvite = function(accept) {
         var accept = new CardshifterServerAPI.messageTypes.InviteResponse($scope.invite.id, accept);
         CardshifterServerAPI.sendMessage(accept);
