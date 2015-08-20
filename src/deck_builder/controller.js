@@ -62,6 +62,18 @@ function DeckbuilderController(CardshifterServerAPI, $scope, $rootScope, $locati
             $scope.currentDeck[card.id]--;
         }
     };
+    /**
+    * This is called when the plus-sign button for a card
+    * has been clicked.
+    *
+    * This function will, based on the argument, will
+    * increase the amount of this card the user has by one.
+    *
+    * This can not go above the card's maximum limit, nor
+    * can it go above the deck limit.
+    *
+    * @param card:Object -- The card to increment
+    */
     $scope.increment = function(card) {
         if($scope.getTotalSelected() !== $scope.maxCards &&
            $scope.currentDeck[card.id] !== card.max) {
