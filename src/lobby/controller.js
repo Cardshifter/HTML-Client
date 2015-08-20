@@ -36,6 +36,15 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
         })
     }, ["userstatus", "chat", "inviteRequest", "availableMods", "newgame"]);
 
+    /*
+    * This function is called when the user hits the "Send" button
+    * write text to the chat message text box.
+    *
+    * Upon click the send button or hitting the enter key, this function
+    * will send a new ChatMessage to the server. Then, the clear the
+    * chat message input box and disable use of the send button
+    * for the time specified in MESSAGE_DELAY
+    */
     $scope.sendMessage = function(e) {
         if(e && e.keyCode !== ENTER_KEY) { // user may hit "enter" key
             return;
