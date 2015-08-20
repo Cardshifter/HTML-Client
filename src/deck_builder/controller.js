@@ -120,6 +120,15 @@ function DeckbuilderController(CardshifterServerAPI, $scope, $rootScope, $locati
         };
     };
 
+    /**
+    * This is called by the "save deck" button at the bottom of the
+    * screen. This function stores all the currently selected cards
+    * in Local Storage.
+    *
+    * If the user has not selected enough cards, not given the deck
+    * a name, or has given it name but it already exists, this function
+    * will stop immediately.
+    */
     $scope.saveDeck = function() {
         if($scope.getTotalSelected() !== $scope.minCards) {
             console.log("not enough cards");
@@ -147,10 +156,12 @@ function DeckbuilderController(CardshifterServerAPI, $scope, $rootScope, $locati
 
         $scope.switchDeck(newDeck);
     };
+
     $scope.switchDeck = function(deck) {
         $scope.currentDeckName = deck.name;
         $scope.currentDeck = deck.cards;
     };
+
     $scope.deleteDeck = function(deckName) {
         var savedDecks = JSON.parse(localStorage.getItem(DECK_STORAGE));
         savedDecks.decks[currentUser.game.mod].splice(getDeckIndex(deckName), 1);
@@ -158,7 +169,6 @@ function DeckbuilderController(CardshifterServerAPI, $scope, $rootScope, $locati
 
         updateSavedDecks();
     };
-
     $scope.enterGame = function() {
         if($scope.getTotalSelected() === $scope.minCards) {
 
