@@ -36,7 +36,7 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
         })
     }, ["userstatus", "chat", "inviteRequest", "availableMods", "newgame"]);
 
-    /*
+    /**
     * This function is called when the user hits the "Send" button
     * write text to the chat message text box.
     *
@@ -58,9 +58,9 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
         $timeout(function() { // allow another message to be sent in 3 seconds
             $scope.sending = false;
         }, MESSAGE_DELAY);
-    }
+    };
 
-    /*
+    /**
     * This function is called when the user has chosen a mod,
     * selected an opponent, and hit the "invite" button.
     *
@@ -79,9 +79,9 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
                         "Client error: Select both a Game Type and opponent User before you can start a game.");
             addChatMessage(message);
         }
-    }
+    };
 
-    /*
+    /**
     * This function is called when either the "accept" or "decline"
     * button of the invite pop-up has been clicked.
     *
@@ -99,9 +99,9 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
 
         gameMod = $scope.invite.type;
         $scope.gotInvite = false;
-    }
+    };
 
-    /*
+    /**
     * This function is called once the user has selected a mod
     * and has clicked the "Deck Builder" button near the top of the
     * screen. If the user has not yet selected a mod, then this
@@ -127,7 +127,7 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
                         "Client error: Select a Game Type before you can open Deck Builder.");
             addChatMessage(message);
         }
-    }
+    };
 
 
     // The command map functions:
@@ -146,7 +146,7 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
         } else {
             $scope.users.push(message);
         }
-    }
+    };
     /**
     * Adds a chat message to the message feed. If the message
     * feed is at the maximum limit of messages, deletes the oldest
@@ -165,7 +165,7 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
         message.timestamp = YMD + " " + HMS;
 
         $scope.chatMessages.push(message);
-    }
+    };
     /**
     * Shows buttons and a message to this client for accepting
     * or declining a game request.
@@ -175,14 +175,14 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
         $scope.invite.name = message.name;
         $scope.invite.type = message.gameType;
         $scope.gotInvite = true;
-    }
+    };
     /**
     * Shows to the user a list of all available mods.
     */
     function displayMods(message) {
         window.availableGameMods = message.mods; // for deck builder and for returning to this page
         $scope.mods = message.mods;
-    }
+    };
     /**
     * Stores the game ID in currentUser for other controllers
     * to use and navigates to the deck-builder page for the
@@ -194,7 +194,7 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
         currentUser.game.playerIndex = message.playerIndex;
 
         $location.path("/deck_builder");
-    }
+    };
 
     /**
     * If a number is less than 10, this function will
@@ -208,7 +208,7 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
     */
     function formatTimeNumber(time) {
         return time < 10 ? "0" + time : time;
-    }
+    };
 }
 
 module.exports = LobbyController;
