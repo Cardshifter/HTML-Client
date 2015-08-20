@@ -170,6 +170,16 @@ function DeckbuilderController(CardshifterServerAPI, $scope, $rootScope, $locati
         $scope.currentDeck = deck.cards;
     };
 
+    /**
+    * This function is called when the "delete" button next
+    * to a deck name near the bottom of the page is clicked.
+    *
+    * This function will remove the specified deck from
+    * Local Storage, and from the list at the bottom of the
+    * screen.
+    *
+    * @param deckName:string -- The name of the deck to delete
+    */
     $scope.deleteDeck = function(deckName) {
         var savedDecks = JSON.parse(localStorage.getItem(DECK_STORAGE));
         savedDecks.decks[currentUser.game.mod].splice(getDeckIndex(deckName), 1);
