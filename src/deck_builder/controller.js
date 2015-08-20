@@ -157,6 +157,14 @@ function DeckbuilderController(CardshifterServerAPI, $scope, $rootScope, $locati
         $scope.switchDeck(newDeck);
     };
 
+    /**
+    * This function is called when the deck link of a deck
+    * is clicked. This function will load the deck information
+    * from Local Storage and display it on the screen in the
+    * card table.
+    *
+    * @param deck:Object -- The deck to load
+    */
     $scope.switchDeck = function(deck) {
         $scope.currentDeckName = deck.name;
         $scope.currentDeck = deck.cards;
