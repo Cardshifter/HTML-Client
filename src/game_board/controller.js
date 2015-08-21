@@ -74,17 +74,26 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
             return;
         }
 
-        var selectedIDs = [];
-        for(var i = 0, length = $scope.selected.length; i < length; i++) {
-            selectedIDs.push($scope.selected[i].id);
+        var doAbility = null;
+
+        if(!findPlayer($scope.currentAction.id)) { // if action is performed by player
+            var selectedIDs = [];
+            for(var i = 0, length = $scope.selected.length; i < length; i++) {
+                selectedIDs.push($scope.selected[i].id);
+            }
+
+            var doAbility = new CardshifterServerAPI.messageTypes.UseAbilityMessage(currentUser.game.id,
+                                                                                    playerInfos.user.id,
+                                                                                    $scope.currentAction.action,
+                                                                                    selectedIDs);
+        } else { // if action is performed by user
+            var doAbility = new CardshifterServerAPI.messageTypes.UseAbilityMessage(currentUser.game.id,
+                                                                                    $scope.currentAction.id,
+                                                                                    $scope.currentAction.action,
+                                                                                    [0]);
         }
 
-        var doAbility = new CardshifterServerAPI.messageTypes.UseAbilityMessage(currentUser.game.id,
-                                                                                playerInfos.user.id,
-                                                                                $scope.currentAction.action,
-                                                                                selectedIDs);
         CardshifterServerAPI.sendMessage(doAbility);
-
         $scope.cancelAction();
     }
 
