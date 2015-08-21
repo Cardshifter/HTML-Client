@@ -76,7 +76,7 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
 
         var doAbility = null;
 
-        if(!findPlayer($scope.currentAction.id)) { // if action is performed by player
+        if(findPlayer($scope.currentAction.id)) { // if action is performed by player
             var selectedIDs = [];
             for(var i = 0, length = $scope.selected.length; i < length; i++) {
                 selectedIDs.push($scope.selected[i].id);
