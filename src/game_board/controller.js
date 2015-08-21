@@ -92,7 +92,7 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
                                                                                     playerInfos.user.id,
                                                                                     $scope.currentAction.action,
                                                                                     selectedIDs);
-        } else { // if action is performed by user
+        } else { // if action is performed by card
             var doAbility = new CardshifterServerAPI.messageTypes.UseAbilityMessage(currentUser.game.id,
                                                                                     $scope.currentAction.id,
                                                                                     $scope.currentAction.action,
