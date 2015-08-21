@@ -52,7 +52,13 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
 
 
     $scope.startAction = function(action) {
-        if($scope.targets.length === 0) { // there were no targets set automatically by action ID's
+        if(action.action === "End Turn") { // doesn't need targets, doesn't need confirmation.
+            $scope.currentAction = action;
+            $scope.performAction();
+            return;
+        }
+
+        if($scope.targets.length === 0) { // there were no targets set automatically by action ID's.
             var getTargets = new CardshifterServerAPI.messageTypes.RequestTargetsMessage(currentUser.game.id,
                                                                                          playerInfos.user.id,
                                                                                          action.action);
