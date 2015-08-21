@@ -52,10 +52,12 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
 
 
     $scope.startAction = function(action) {
-        var getTargets = new CardshifterServerAPI.messageTypes.RequestTargetsMessage(currentUser.game.id,
-                                                                                     playerInfos.user.id,
-                                                                                     action.action);
-        CardshifterServerAPI.sendMessage(getTargets);
+        if($scope.targets.length === 0) { // there were no targets set automatically by action ID's
+            var getTargets = new CardshifterServerAPI.messageTypes.RequestTargetsMessage(currentUser.game.id,
+                                                                                         playerInfos.user.id,
+                                                                                         action.action);
+            CardshifterServerAPI.sendMessage(getTargets);
+        }
 
         $scope.currentAction = action;
         $scope.doingAction = true;
@@ -71,11 +73,16 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
             console.log("target(s) required");
             return;
         }
+
+        var selectedIDs = [];
+        for(var i = 0, length = $scope.selected.length; i < length; i++) {
+            selectedIDs.push($scope.selected[i].id);
+        }
+
         var doAbility = new CardshifterServerAPI.messageTypes.UseAbilityMessage(currentUser.game.id,
                                                                                 playerInfos.user.id,
                                                                                 $scope.currentAction.action,
-                                                                                $scope.targets);
-        console.log(doAbility);
+                                                                                selectedIDs);
         CardshifterServerAPI.sendMessage(doAbility);
 
         $scope.cancelAction();
@@ -110,6 +117,11 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
     * is not another action with the same name in there.
     */
     function addUsableAction(action) {
+        if(!findPlayer(action.id)) { // some action's IDs are the target, rather than the player
+            $scope.targets.push(action.id);
+            //return;
+        }
+
         var actions = $scope.actions;
         var notDuplicate = true;
 
