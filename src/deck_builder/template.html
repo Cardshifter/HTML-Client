@@ -69,16 +69,18 @@
             <tr data-ng-repeat="card in cards">
                 <td>{{card.properties.creatureType}}</td>
                 <td><a data-ng-click="showDetails(card)">{{card.properties.name}}</a></td>
-                <!-- Controls to add or remove a card to deck, and counter to show "current / max" count -->
                 <td>
-                    <!-- MINUS button -->
-                    <button data-ng-click="decrement(card)" type="button" class="btn btn-xs btn-default glyphicon glyphicon-minus"></button>
-                    <!-- How many cards you selected for this deck, and what the max allowed is -->
-                    {{$parent.currentDeck[card.id]}} / {{card.max}}
-                    <!-- PLUS button -->
-                    <button data-ng-click="increment(card)" type="button" class="btn btn-xs btn-default glyphicon glyphicon-plus"></button>
+                <!-- Controls to add or remove a card to deck, and counter to show "current / max" count -->
+
+                    <div class="btn-group">
+                        <!-- MINUS button -->
+                        <button data-ng-click="decrement(card)" type="button" class="btn btn-xs btn-default glyphicon glyphicon-minus"></button>
+                        <!-- How many cards you selected for this deck, and what the max allowed is -->
+                        <button type="button" class="btn btn-xs btn-default"><b>{{$parent.currentDeck[card.id]}} / {{card.max}}</b></button>
+                        <!-- PLUS button -->
+                        <button data-ng-click="increment(card)" type="button" class="btn btn-xs btn-default glyphicon glyphicon-plus"></button>
+                    </div>
                 </td>
-                <!-- Card stats -->
                 <td>{{card.properties.MANA_COST}}</td>
                 <td>{{card.properties.ATTACK}}</td>
                 <td>{{card.properties.HEALTH}}</td>
