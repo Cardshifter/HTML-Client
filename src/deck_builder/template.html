@@ -26,9 +26,9 @@
             </li>
         </ul>
         <!--
-          -- Card info
-          -- Displayed upon clicking the card name link from the list of cards.
-          -- TODO: Add more fields of card information to be shown.
+             Card info
+             Displayed upon clicking the card name link from the list of cards.
+             TODO: Add more fields of card information to be shown.
           -->
         <ul>
             <li data-ng-repeat="(name, value) in cardInfo" data-ng-show="value">
@@ -37,36 +37,57 @@
         </ul>
 
         <!-- LIST OF ALL CARDS - Displays one full row below for every card -->
+            <!-- Available {{card.properties}} values
+                SERVER JSON name      | AngularJS ref name | Note
+                -------------------------------------------------
+                "SICKNESS"            | SICKNESS           | 1 or 0, or empty (for cards where n/a)
+                "MANA_COST"           | MANA_COST          | n, or empty (for cards n/a)
+                "ATTACK"              | ATTACK             | n, or empty (for cards n/a)
+                "HEALTH"              | HEALTH             | n, or empty (for cards n/a)
+                "ATTACK_AVAILABLE"    | ATTACK_AVAILABLE   | 1, or empty (when explicit 0 n/a)
+                "flavor"              | flavor             | flavor, or empty
+                "name"                | name               | name
+                "description"         | description??      | !! null
+                "type"                | creatureType       | type, or empty (for non-creatures)
+                "MAX_HEALTH"          | MAX_HEALTH         | n, or empty (for cards n/a)
+            -->
         <table>
+            <tr>
+                <td>Type</td>
+                <td>Name</td>
+                <td>-</td>
+                <td>Count</td>
+                <td>+</td>
+                <td>Mana</td>
+                <td>Atk</td>
+                <td>Hlth</td>
+                <td>Sick</td>
+                <td>CanAtk</td>
+                <td>Desc</td>
+                <td>Flavor</td>
+            </tr>
             <tr data-ng-repeat="card in cards">
-
-                <!-- Creature Type -->
-                <td>
-                    <!-- TODO: Talk to @SirPython about why this {{card.properties.type}} is not showing anything inside the table cell. -->
-                    {{card.properties.type}}
+                <td>{{card.properties.creatureType}}</td>
+                <td><a data-ng-click="showDetails(card)">{{card.properties.name}}</a></td>
+                <!-- Controls to add or remove a card to deck, and counter to show "current / max" count -->
+                <td><!-- MINUS button -->
+                    <button data-ng-click="decrement(card)" type="button" class="btn btn-xs btn-default glyphicon glyphicon-minus"></button>
                 </td>
-                <!-- Card name and link to see card info. -->
-                <td>
-                    <a data-ng-click="showDetails(card)">{{card.properties.name}}</a>
-                </td>
-
-                <!-- Controls to add or remove a card to deck, and counter to show `current / max` count -->
-                <td>
-                    <button data-ng-click="decrement(card)" type="button" class="btn btn-xs btn-default">
-                        <span class="glyphicon glyphicon-minus"></span>
-                    </button>
-                </td>
-                <td>
+                <td><!-- How many cards you selected for this deck, and what the max allowed is -->
                     {{$parent.currentDeck[card.id]}} / {{card.max}}
                 </td>
-                <td>
-                    <button data-ng-click="increment(card)" type="button" class="btn btn-xs btn-default glyphicon glyphicon-plus">
-                        <span class="glyphicon glyphicon-plus"></span>
-                    </button>
+                <td><!-- PLUS button -->
+                    <button data-ng-click="increment(card)" type="button" class="btn btn-xs btn-default glyphicon glyphicon-plus"></button>
                 </td>
-
-                <!-- TODO: Add more value cells like mana cost, attack, health -->
-
+                <!-- Card stats -->
+                <td>{{card.properties.MANA_COST}}</td>
+                <td>{{card.properties.ATTACK}}</td>
+                <td>{{card.properties.HEALTH}}</td>
+                <td>{{card.properties.SICKNESS}}</td>
+                <td>{{card.properties.ATTACK_AVAILABLE}}</td>
+                <td>{{card.properties.description}}</td>
+                <td>flavor<!--{{card.properties.flavor}}--></td>
+                <!--<td>{{card.properties.MAX_HEALTH}}</td>-->
             </tr>
         </table>
 
