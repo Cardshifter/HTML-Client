@@ -86,9 +86,15 @@
                 <td>{{card.properties.SICKNESS}}</td>
                 <td>{{card.properties.ATTACK_AVAILABLE}}</td>
                 <td>effect <!--{{card.properties.effect}}--> </td>
-                <td>flavor <!--{{card.properties.flavor}}--> </td>
+                <td><!-- flavor tooltip -->
+                    <button type="button" class="btn btn-xs btn-default" data-toggle="tooltip" data-placement="top" title="{{card.properties.flavor}}">Flavor</button>
+                </td>
             </tr>
         </table>
-
     </div>
 </div>
+<script>
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
