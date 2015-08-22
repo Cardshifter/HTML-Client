@@ -31,7 +31,8 @@
                     <h3>{{zoneName}}</h3>
                     <ul>
                         <li ng-repeat="(id, card) in zoneInfo.entities">
-                            <div>
+                            <div class="card"
+                                ng-class="{'selected': card.selected, 'targetable': card.isTargetable()}">
                                 <!-- For target required actions -->
                                 <a href ng-click="selectCard(card)" ng-show="$eval(targets.indexOf(id)) != -1 && doingAction">
                                     {{card.properties.name}}

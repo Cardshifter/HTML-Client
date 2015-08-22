@@ -103,8 +103,10 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
 
         if(index === -1) {      // select
             selected.push(card);
+            card.selected = true;
         } else {                // de-select
             selected.splice(index, 1);
+            card.selected = false;
         }
     }
 
@@ -217,7 +219,9 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
     */
     function storeCard(card) {
         var destinationZone = findZone(card.zone);
-
+        card.isTargetable = function() {
+            return $scope.targets.indexOf(card.id) !== -1;
+        }
         try {
             if(destinationZone.known) {
                 destinationZone.entities[card.id] = card;
