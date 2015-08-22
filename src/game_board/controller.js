@@ -31,6 +31,7 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
         "useable": addUsableAction,
         "player": storePlayerInfo,
         "zone": setZone,
+        "entityRemoved": removeEntity,
         "card": storeCard,
         "zoneChange": moveCard,
         "targets": setTargets,
@@ -40,7 +41,7 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
     CardshifterServerAPI.setMessageListener(function(message) {
         commandMap[message.command](message);
         $scope.$apply();
-    }, ["resetActions", "useable", "player", "zone", "card", "zoneChange", "targets", "update"]);
+    }, ["resetActions", "useable", "player", "zone", "card", "zoneChange", "targets", "update", "entityRemoved"]);
 
 
     $scope.startAction = function(action) {
@@ -261,6 +262,16 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
             */
         }
     }
+	
+    /*
+    * Removes a card from the zone it is in
+    *
+    * @param message:EntityRemoveMessage -- Remove information
+    */
+	function removeEntity(message) {
+		var entityId = message.entity;
+		// TODO look up the zone, remove entity.
+	}
 
     /*
     * Sets the $scope.targets to all the available
