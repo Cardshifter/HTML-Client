@@ -46,7 +46,12 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
     $scope.startAction = function(action) {
         if(!action.targetRequired) { // No targets? No confirmation. Do we understand each other?
             $scope.currentAction = action;
-            $scope.performAction();
+			var doAbility = new CardshifterServerAPI.messageTypes.UseAbilityMessage(currentUser.game.id,
+																				$scope.currentAction.id,
+																				$scope.currentAction.action);
+
+			CardshifterServerAPI.sendMessage(doAbility);
+			$scope.cancelAction();
             return;
         }
 		
