@@ -12,11 +12,12 @@
 
     <!-- Player display -->
     <div>
-        <div ng-repeat="(type, info) in playerInfos">
+        <div ng-repeat="(type, info) in playerInfos" class="player"
+            ng-class="{'player-user': info == playerInfos.user, 'player-opponent': info != playerInfos.user}">
             <h1><u>{{info.name}}</u></h1>
 
             <!-- Player properties -->
-            <div>
+            <div class="properties">
                 <h3>Properties</h3>
                 <ul>
                     <li ng-repeat="(name, value) in info.properties">
@@ -26,7 +27,7 @@
             </div>
 
             <!-- Player cards -->
-            <div ng-repeat="(zoneName, zoneInfo) in info.zones">
+            <div ng-repeat="(zoneName, zoneInfo) in info.zones" class="zone zone-{{zoneName}}">
                 <div ng-show="zoneInfo.known">
                     <h3>{{zoneName}}</h3>
                     <ul>
