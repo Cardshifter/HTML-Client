@@ -49,17 +49,16 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
             $scope.performAction();
             return;
         }
-
-        if(findPlayer(action.id)) { // if action performed by player. does this need to check targetRequired, too?
-            var getTargets = new CardshifterServerAPI.messageTypes.RequestTargetsMessage(currentUser.game.id,
-                                                                                         playerInfos.user.id,
-                                                                                         action.action);
-            CardshifterServerAPI.sendMessage(getTargets);
-        }
+		
+		// if a target is required, request targets
+		var getTargets = new CardshifterServerAPI.messageTypes.RequestTargetsMessage(currentUser.game.id,
+				action.id, action.action);
+		CardshifterServerAPI.sendMessage(getTargets);
 
         $scope.currentAction = action;
         $scope.doingAction = true;
     }
+	
     $scope.cancelAction = function() {
         $scope.doingAction = false;
         $scope.targets = [];
@@ -67,29 +66,26 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
     }
 
     $scope.performAction = function() {
-        if($scope.selected.length === 0 && $scope.currentAction.targetRequired) {
-            console.log("target(s) required");
-            return;
-        }
+		var action = $scope.currentAction;
+		var selected = $scope.selected;
+		var minTargets = $scope.targetsMessage.min;
+		var maxTargets = $scope.targetsMessage.max;
+		if (selected.length < minTargets || selected.length > maxTargets) {
+			console.log("target(s) required: " + minTargets + " - " + maxTargets + " but chosen " + selected.length);
+			return;
+		}
 
         var doAbility = null;
 
-        if(findPlayer($scope.currentAction.id)) { // if action is performed by player
-            var selectedIDs = [];
-            for(var i = 0, length = $scope.selected.length; i < length; i++) {
-                selectedIDs.push($scope.selected[i].id);
-            }
+		var selectedIDs = [];
+		for(var i = 0, length = $scope.selected.length; i < length; i++) {
+			selectedIDs.push($scope.selected[i].id);
+		}
 
-            var doAbility = new CardshifterServerAPI.messageTypes.UseAbilityMessage(currentUser.game.id,
-                                                                                    playerInfos.user.id,
-                                                                                    $scope.currentAction.action,
-                                                                                    selectedIDs);
-        } else { // if action is performed by card
-            var doAbility = new CardshifterServerAPI.messageTypes.UseAbilityMessage(currentUser.game.id,
-                                                                                    $scope.currentAction.id,
-                                                                                    $scope.currentAction.action,
-                                                                                    [0]);
-        }
+		var doAbility = new CardshifterServerAPI.messageTypes.UseAbilityMessage(currentUser.game.id,
+																				$scope.currentAction.id,
+																				$scope.currentAction.action,
+																				selectedIDs);
 
         CardshifterServerAPI.sendMessage(doAbility);
         $scope.cancelAction();
@@ -272,6 +268,7 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
     */
     function setTargets(targets) {
         $scope.targets = targets.targets;
+		$scope.targetsMessage = targets;
     }
 
     /*
