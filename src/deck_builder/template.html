@@ -85,9 +85,15 @@
                 <td>{{card.properties.HEALTH}}</td>
                 <td>{{card.properties.SICKNESS}}</td>
                 <td>{{card.properties.ATTACK_AVAILABLE}}</td>
-                <td>effect <!--{{card.properties.effect}}--> </td>
+                <td><!-- effect tooltip -->
+                    <button type="button" class="btn btn-xs btn-default"
+                            data-toggle="tooltip" data-placement="top" title="{{card.properties.effect}}"
+                            ng-show="card.properties.effect">FX</button>
+                </td>
                 <td><!-- flavor tooltip -->
-                    <button type="button" class="btn btn-xs btn-default" data-toggle="tooltip" data-placement="top" title="{{card.properties.flavor}}">Flavor</button>
+                    <button type="button" class="btn btn-xs btn-default"
+                            data-toggle="tooltip" data-placement="top" title="{{card.properties.flavor}}"
+                            ng-show="card.properties.flavor">?</button>
                 </td>
             </tr>
         </table>
