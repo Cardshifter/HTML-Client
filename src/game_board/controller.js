@@ -192,6 +192,9 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
                         newEntities[zone.entities[i]] = {}; // setup each ID to be an key holding an object to store card info
                     }
                     zone.entities = newEntities;
+					zone.length = function () {
+						return Object.keys(this.entities).length;
+					}
 
                     playerInfos[player].zones[zone.name] = zone;
                     break;
