@@ -63,7 +63,7 @@
                 <!--<th>Atk</th>
                 <th>Hlth</th>-->
                 <th>Sick</th>
-                <th>CanAtk</th>
+                <th>Akt?</th>
                 <th>FX</th>
                 <th>?</th>
             </tr>
@@ -84,7 +84,10 @@
                 <td style="text-align: center;">{{card.properties.MANA_COST}}</td>
                 <td style="font-weight: bold; text-align: center;">{{card.properties.ATTACK}} / {{card.properties.HEALTH}}</td>
                 <td style="text-align: center;">{{card.properties.SICKNESS}}</td>
-                <td style="text-align: center;">{{card.properties.ATTACK_AVAILABLE}}</td>
+                <td style="text-align: center;">
+                    <span ng-show="card.properties.ATTACK_AVAILABLE" style="font-size: 0.8em; color: green;">Yes</span>
+                    <span ng-hide="card.properties.ATTACK_AVAILABLE" style="font-size: 0.8em; color: red;">No</span>
+                </td>
                 <td style="text-align: center;"><!-- effect tooltip -->
                     <button type="button" class="btn btn-xs btn-default"
                             data-toggle="tooltip" data-placement="top" title="{{card.properties.effect}}"
