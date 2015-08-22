@@ -3,6 +3,9 @@
 // @ngInject
 function LoginController(CardshifterServerAPI, $scope, $location, $rootScope) {
     var SUCCESS = 200;
+    var LAST_NAME = "CARDSHIFTER_LAST_NAME";
+
+    $scope.username = localStorage.getItem(LAST_NAME) || "";
 
     /*
     * Called by the login form. This function will to the server
@@ -36,6 +39,8 @@ function LoginController(CardshifterServerAPI, $scope, $location, $rootScope) {
                                     mod: null
                                 }
                             };
+
+                            localStorage.setItem(LAST_NAME, $scope.username);
 
                             $rootScope.$apply(function() {
                                 $location.path("/lobby");
