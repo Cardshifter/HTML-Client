@@ -1,43 +1,115 @@
 <div>
-    <div ng-hide="doneLoading">
+    <div data-ng-hide="doneLoading">
         <h1>Loading...</h1>
     </div>
-    <div ng-show="doneLoading">
-        <h1>{{deckName}}</h1>
+    <div data-ng-show="doneLoading">
+        <!-- DECK HEADER -->
+        <h1>Deck name: {{deckName}}</h1>
         <h2>{{getTotalSelected()}} / {{maxCards}}</h2>
+
+        <!-- Deck manipulation & `Start game` | `Back to lobby` controls -->
+        <form>
+            <!-- TODO: {Phrancis} Lay this out in a nice Bootstrap form. -->
+            <label>Save deck as:</label>
+            <input data-ng-model="deckName" type="text" />
+            <input data-ng-click="saveDeck()" type="submit" value="Save Deck" class="btn btn-xs btn-primary"/>
+            <br/>
+            <input data-ng-show="enteringGame" data-ng-click="enterGame()" type="button" value = "Start game" class="btn btn-sm btn-success"/>
+            <input data-ng-hide="enteringGame" data-ng-click="goBack()" type="button" value="Go back to lobby" class="btn btn-sm btn-default"/>
+        </form>
+
+        <!-- List of saved decks, with `Delete` button -->
         <ul>
-            <li ng-repeat="(name, value) in cardInfo" ng-show="value">
+            <li data-ng-repeat="deck in savedDecks">
+                <a data-ng-click="switchDeck(deck)">{{deck.name}}</a>
+                <input data-ng-click="deleteDeck(deck.name)" type="button" value="Delete" class="btn btn-xs btn-danger"/>
+            </li>
+        </ul>
+        <!--
+             Card info
+             Displayed upon clicking the card name link from the list of cards.
+             TODO: Add more fields of card information to be shown.
+          -->
+        <ul>
+            <li data-ng-repeat="(name, value) in cardInfo" data-ng-show="value">
                 <b>{{name}}</b>: {{value}}
             </li>
         </ul>
 
+        <!-- LIST OF ALL CARDS - Displays one full row below for every card -->
+            <!-- Available {{card.properties}} values
+                SERVER JSON name      | AngularJS ref name | Note
+                -------------------------------------------------
+                "SICKNESS"            | SICKNESS           | 1 or 0, or empty (for cards where n/a)
+                "MANA_COST"           | MANA_COST          | n, or empty (for cards n/a)
+                "ATTACK"              | ATTACK             | n, or empty (for cards n/a)
+                "HEALTH"              | HEALTH             | n, or empty (for cards n/a)
+                "ATTACK_AVAILABLE"    | ATTACK_AVAILABLE   | 1, or empty (when explicit 0 n/a)
+                "flavor"              | flavor             | flavor, or empty
+                "name"                | name               | name (cannot be empty)
+                "description"         | effect             | effect, or empty
+                "type"                | creatureType       | type, or empty (for non-creatures)
+                "MAX_HEALTH"          | MAX_HEALTH         | n, or empty (for cards n/a)
+            -->
         <table>
-            <tr ng-repeat="card in cards">
-                <td>
-                    <a ng-click="showDetails(card)">{{card.properties.name}}</a>
+            <tr>
+                <th>Type</th>
+                <th>Name</th>
+                <!--<th>-</th>-->
+                <th>Count</th>
+                <!--<th>+</th>-->
+                <th>Mana</th>
+                <th>A / H</th>
+                <!--<th>Atk</th>
+                <th>Hlth</th>-->
+                <th>Sick</th>
+                <th>Akt?</th>
+                <th>FX</th>
+                <th>?</th>
+            </tr>
+            <tr data-ng-repeat="card in cards">
+                <td>{{card.properties.creatureType}}</td>
+                <td><a data-ng-click="showDetails(card)">{{card.properties.name}}</a></td>
+                <td style="text-align: center;">
+                <!-- Controls to add or remove a card to deck, and counter to show "current / max" count -->
+                    <div class="btn-group">
+                        <!-- MINUS button -->
+                        <button data-ng-click="decrement(card)" type="button" class="btn btn-xs btn-default glyphicon glyphicon-minus"></button>
+                        <!-- How many cards you selected for this deck, and what the max allowed is -->
+                        <button type="button" class="btn btn-xs btn-default"><b>{{$parent.currentDeck[card.id]}} / {{card.max}}</b></button>
+                        <!-- PLUS button -->
+                        <button data-ng-click="increment(card)" type="button" class="btn btn-xs btn-default glyphicon glyphicon-plus"></button>
+                    </div>
                 </td>
-                <td>
-                    <input ng-click="decrement(card)" type="button" value="-" />
+                <td style="text-align: center;">{{card.properties.MANA_COST}}</td>
+                <td style="font-weight: bold; text-align: center;">
+                    <span ng-show="card.properties.ATTACK" style="font-size: 1.0em;">{{card.properties.ATTACK}}</span>
+                    <span ng-hide="card.properties.ATTACK" style="font-size: 1.0em; color: red;">-</span>
+                    <span>/</span>
+                    <span ng-show="card.properties.HEALTH" style="font-size: 1.0em;">{{card.properties.HEALTH}}</span>
+                    <span ng-hide="card.properties.HEALTH" style="font-size: 1.0em; color: red;">-</span>
                 </td>
-                <td>
-                    {{$parent.currentDeck[card.id]}} / {{card.max}}
+                <td style="text-align: center;">{{card.properties.SICKNESS}}</td>
+                <td style="text-align: center;">
+                    <span ng-show="card.properties.ATTACK_AVAILABLE" style="font-size: 0.8em; color: green;">Yes</span>
+                    <span ng-hide="card.properties.ATTACK_AVAILABLE" style="font-size: 0.8em; color: red;">No</span>
                 </td>
-                <td>
-                    <input ng-click="increment(card)" type="button" value="+" />
+                <td style="text-align: center;"><!-- effect tooltip -->
+                    <button type="button" class="btn btn-xs btn-default"
+                            data-toggle="tooltip" data-placement="top" title="{{card.properties.effect}}"
+                            ng-show="card.properties.effect">FX</button>
+                </td>
+                <td style="text-align: center;"><!-- flavor tooltip -->
+                    <button type="button" class="btn btn-xs btn-default"
+                            data-toggle="tooltip" data-placement="top" title="{{card.properties.flavor}}"
+                            ng-show="card.properties.flavor">?</button>
                 </td>
             </tr>
         </table>
-        <form>
-            <input ng-model="deckName" type="text" />
-            <input ng-click="saveDeck()" type="submit" value="Save Deck"/>
-        </form>
-        <ul>
-            <li ng-repeat="deck in savedDecks">
-                <a ng-click="switchDeck(deck)">{{deck.name}}</a>
-                <input ng-click="deleteDeck(deck.name)" type="button" value="Delete"/>
-            </li>
-        </ul>
-        <input ng-show="enteringGame" ng-click="enterGame()" type="button" value = "Start game" />
-        <input ng-hide="enteringGame" ng-click="goBack()" type="button" value="Go back to lobby" />
     </div>
 </div>
+<script>
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
