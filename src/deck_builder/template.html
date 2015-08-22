@@ -55,9 +55,9 @@
             <tr>
                 <th>Type</th>
                 <th>Name</th>
-                <th>-</th>
+                <!--<th>-</th>-->
                 <th>Count</th>
-                <th>+</th>
+                <!--<th>+</th>-->
                 <th>Mana</th>
                 <th>Atk</th>
                 <th>Hlth</th>
@@ -70,13 +70,12 @@
                 <td>{{card.properties.creatureType}}</td>
                 <td><a data-ng-click="showDetails(card)">{{card.properties.name}}</a></td>
                 <!-- Controls to add or remove a card to deck, and counter to show "current / max" count -->
-                <td><!-- MINUS button -->
+                <td>
+                    <!-- MINUS button -->
                     <button data-ng-click="decrement(card)" type="button" class="btn btn-xs btn-default glyphicon glyphicon-minus"></button>
-                </td>
-                <td><!-- How many cards you selected for this deck, and what the max allowed is -->
+                    <!-- How many cards you selected for this deck, and what the max allowed is -->
                     {{$parent.currentDeck[card.id]}} / {{card.max}}
-                </td>
-                <td><!-- PLUS button -->
+                    <!-- PLUS button -->
                     <button data-ng-click="increment(card)" type="button" class="btn btn-xs btn-default glyphicon glyphicon-plus"></button>
                 </td>
                 <!-- Card stats -->
