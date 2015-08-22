@@ -82,7 +82,13 @@
                     </div>
                 </td>
                 <td style="text-align: center;">{{card.properties.MANA_COST}}</td>
-                <td style="font-weight: bold; text-align: center;">{{card.properties.ATTACK}} / {{card.properties.HEALTH}}</td>
+                <td style="font-weight: bold; text-align: center;">
+                    <span ng-show="card.properties.ATTACK" style="font-size: 1.0em;">{{card.properties.ATTACK}}</span>
+                    <span ng-hide="card.properties.ATTACK" style="font-size: 1.0em; color: red;">-</span>
+                    <span>/</span>
+                    <span ng-show="card.properties.HEALTH" style="font-size: 1.0em;">{{card.properties.HEALTH}}</span>
+                    <span ng-hide="card.properties.HEALTH" style="font-size: 1.0em; color: red;">-</span>
+                </td>
                 <td style="text-align: center;">{{card.properties.SICKNESS}}</td>
                 <td style="text-align: center;">
                     <span ng-show="card.properties.ATTACK_AVAILABLE" style="font-size: 0.8em; color: green;">Yes</span>
