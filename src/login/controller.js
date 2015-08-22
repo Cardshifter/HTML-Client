@@ -3,9 +3,17 @@
 // @ngInject
 function LoginController(CardshifterServerAPI, $scope, $location, $rootScope) {
     var SUCCESS = 200;
-    var LAST_NAME = "CARDSHIFTER_LAST_NAME";
 
+    var LAST_NAME = "CARDSHIFTER_LAST_NAME";
+    var LAST_SERVER = "CARDSHIFTER_LAST_SERVER";
+    var LAST_OTHER_SERVER = "CARDSHIFTER_LAST_OTHER_SERVER";
+    var LAST_IS_SECURE = "CARDSHIFTER_LAST_IS_SECURE";
+
+    // see if there is remembered form data
     $scope.username = localStorage.getItem(LAST_NAME) || "";
+    $scope.server = localStorage.getItem(LAST_SERVER) || "";
+    $scope.other_server = localStorage.getItem(LAST_OTHER_SERVER) || "";
+    $scope.is_secure = localStorage.getItem(LAST_IS_SECURE) || "";
 
     /*
     * Called by the login form. This function will to the server
@@ -40,7 +48,11 @@ function LoginController(CardshifterServerAPI, $scope, $location, $rootScope) {
                                 }
                             };
 
+                            // for remembering form data
                             localStorage.setItem(LAST_NAME, $scope.username);
+                            localStorage.setItem(LAST_SERVER, $scope.server);
+                            localStorage.setItem(LAST_OTHER_SERVER, $scope.other_server);
+                            localStorage.setItem(LAST_IS_SECURE, $scope.is_secure);
 
                             $rootScope.$apply(function() {
                                 $location.path("/lobby");
