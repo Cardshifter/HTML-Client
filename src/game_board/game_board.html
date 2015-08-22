@@ -1,7 +1,7 @@
 <div>
     <!-- Action buttons -->
     <div>
-        <div ng-repeat="action in actions">
+        <div ng-repeat="action in actions" ng-if="action.isPlayer">
             <input ng-click="startAction(action)" ng-hide="doingAction" type="button" value="{{action.action}}" />
         </div>
         <div>
@@ -32,14 +32,19 @@
                     <ul>
                         <li ng-repeat="(id, card) in zoneInfo.entities">
                             <div>
-                                <p ng-hide="$eval(targets.indexOf(id)) != -1 && doingAction">
-                                    {{card.properties.name}}
-                                </p>
-
-                                <!-- $parent issue? -->
+                                <!-- For target required actions -->
                                 <a href ng-click="selectCard(card)" ng-show="$eval(targets.indexOf(id)) != -1 && doingAction">
                                     {{card.properties.name}}
                                 </a>
+
+                                <!-- For non-target-required actions -->
+                                <div ng-hide="$eval(targets.indexOf(id)) != -1 && doingAction">
+                                    <p>
+                                        {{card.properties.name}}
+                                    </p>
+                                    <input ng-repeat="action in actions" ng-if="!action.isPlayer && action.id == id" ng-click="startAction(action)" type="button" value="{{action.action}}"/>
+                                </div>
+
                             </div>
                         </li>
                     </ul>
