@@ -18,7 +18,7 @@
             <input data-ng-hide="enteringGame" data-ng-click="goBack()" type="button" value="Go back to lobby" class="btn btn-sm btn-default"/>
         </form>
 
-        <!-- List of saved decks with `Delete` button -->
+        <!-- List of saved decks, with `Delete` button -->
         <ul>
             <li data-ng-repeat="deck in savedDecks">
                 <a data-ng-click="switchDeck(deck)">{{deck.name}}</a>
@@ -46,25 +46,25 @@
                 "HEALTH"              | HEALTH             | n, or empty (for cards n/a)
                 "ATTACK_AVAILABLE"    | ATTACK_AVAILABLE   | 1, or empty (when explicit 0 n/a)
                 "flavor"              | flavor             | flavor, or empty
-                "name"                | name               | name
-                "description"         | description??      | !! null
+                "name"                | name               | name (cannot be empty)
+                "description"         | effect             | effect, or empty
                 "type"                | creatureType       | type, or empty (for non-creatures)
                 "MAX_HEALTH"          | MAX_HEALTH         | n, or empty (for cards n/a)
             -->
         <table>
             <tr>
-                <td>Type</td>
-                <td>Name</td>
-                <td>-</td>
-                <td>Count</td>
-                <td>+</td>
-                <td>Mana</td>
-                <td>Atk</td>
-                <td>Hlth</td>
-                <td>Sick</td>
-                <td>CanAtk</td>
-                <td>Desc</td>
-                <td>Flavor</td>
+                <th>Type</th>
+                <th>Name</th>
+                <th>-</th>
+                <th>Count</th>
+                <th>+</th>
+                <th>Mana</th>
+                <th>Atk</th>
+                <th>Hlth</th>
+                <th>Sick</th>
+                <th>CanAtk</th>
+                <th>Desc</th>
+                <th>Flavor</th>
             </tr>
             <tr data-ng-repeat="card in cards">
                 <td>{{card.properties.creatureType}}</td>
@@ -85,9 +85,8 @@
                 <td>{{card.properties.HEALTH}}</td>
                 <td>{{card.properties.SICKNESS}}</td>
                 <td>{{card.properties.ATTACK_AVAILABLE}}</td>
-                <td>{{card.properties.effect}}</td>
-                <td>flavor<!--{{card.properties.flavor}}--></td>
-                <!--<td>{{card.properties.MAX_HEALTH}}</td>-->
+                <td>effect <!--{{card.properties.effect}}--> </td>
+                <td>flavor <!--{{card.properties.flavor}}--> </td>
             </tr>
         </table>
 
