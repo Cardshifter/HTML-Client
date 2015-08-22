@@ -50,7 +50,7 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
             return;
         }
 
-        if($scope.targets.length === 0) { // there were no targets set automatically by action ID's.
+        if(findPlayer(action.id)) { // if action performed by player. does this need to check targetRequired, too?
             var getTargets = new CardshifterServerAPI.messageTypes.RequestTargetsMessage(currentUser.game.id,
                                                                                          playerInfos.user.id,
                                                                                          action.action);
@@ -74,7 +74,7 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
 
         var doAbility = null;
 
-        if($scope.currentAction.targetRequired) { // if action is performed by player
+        if(findPlayer($scope.currentAction.id)) { // if action is performed by player
             var selectedIDs = [];
             for(var i = 0, length = $scope.selected.length; i < length; i++) {
                 selectedIDs.push($scope.selected[i].id);
