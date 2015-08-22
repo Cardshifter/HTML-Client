@@ -37,14 +37,6 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
         "update": updatePlayerProperties
     };
 
-    /*
-    * TODO: Find out a way to handle ZoneChangeMessages, so that
-    * the listener will work both at the beginning of the game
-    * and during the middle of the game. Thought: The first
-    * zone messages in the beginning might be okay to ignore; it'd
-    * be hard to understand ZoneChangeMessages before receiving a
-    * ZoneMessage (which Mythos does).
-    */
     CardshifterServerAPI.setMessageListener(function(message) {
         commandMap[message.command](message);
         $scope.$apply();
@@ -52,7 +44,7 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
 
 
     $scope.startAction = function(action) {
-        if(action.action === "End Turn") { // doesn't need targets, doesn't need confirmation.
+        if(!action.targetRequired) { // No targets? No confirmation. Do we understand each other?
             $scope.currentAction = action;
             $scope.performAction();
             return;
@@ -82,7 +74,7 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
 
         var doAbility = null;
 
-        if(findPlayer($scope.currentAction.id)) { // if action is performed by player
+        if($scope.currentAction.targetRequired) { // if action is performed by player
             var selectedIDs = [];
             for(var i = 0, length = $scope.selected.length; i < length; i++) {
                 selectedIDs.push($scope.selected[i].id);
@@ -132,22 +124,24 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
     * is not another action with the same name in there.
     */
     function addUsableAction(action) {
-        if(!findPlayer(action.id)) { // some action's IDs are the target, rather than the player
-            $scope.targets.push(action.id);
-            //return;
-        }
-
         var actions = $scope.actions;
-        var notDuplicate = true;
 
-        for(var i = 0, length = actions.length; i < length; i++) {
-            if(actions[i].action === action.action) { // not a duplicate
-                notDuplicate = false;
-                break;
+        if(findPlayer(action.id)) { // ID is not target
+            action.isPlayer = true;
+            var notDuplicate = true;
+
+            for(var i = 0, length = actions.length; i < length; i++) {
+                if(actions[i].action === action.action) { // not a duplicate
+                    notDuplicate = false;
+                    break;
+                }
             }
-        }
 
-        if(notDuplicate) {
+            if(notDuplicate) {
+                actions.push(action);
+            }
+        } else { // ID is target
+            action.isPlayer = false;
             actions.push(action);
         }
     }
