@@ -3,52 +3,84 @@
     >
     <div class="test">doingAction: {{doingAction}} targets: {{targets}} actions: {{actions}} card: {{card}}</div>
 <!--
-    This file is used to present card data, as well as play the game
-    by using the card UI elements to perform actions.
     TODO Add ng-FitText.js fields to elements in this model of which length may vary widely, for example card descriptions and flavor text.
         The primary fields for FitText are:
-        - data-fittext : Enable FitText for the content insice the tag
+        - data-fittext : Enable FitText for the content inside the tag
         - data-fittext-min="8pt" : Minimum font size allowed
         - data-fittext-max="12pt" : Maximum font size allowed
   -->
-
-<table id="card-model-1" style="width: 160px;">
-    <tr>
-        <td class="card-name">
+  
+<div class="card-outer">
+    <!-- card name -->
+    <div>
+        <div class="card-name">
             <a href ng-click="selectEntity(card)" ng-class="{'selected': card.selected, 'targetable': doingAction && targets.indexOf(card.id) !== -1}">{{card.properties.name}}</a>
-        </td>
-        <td class="card-MANA_COST" style="width: 40px;">
-            {{card.properties.MANA_COST}}
-        </td>
-    </tr>
-    <tr id="card-image">
-        <td colspan="2">
-            <img style="width: 160px; height: 100px;"
-                src="http://pre07.deviantart.net/6081/th/pre/f/2012/050/3/f/lucifero_lolcat_by_fraterorion-d4q5ol0.jpg" />
-        </td>
-    </tr>
-    <tr id="card-type">
-        <td colspan="1">
-            {{card.properties.creatureType}}
-        </td>
+        </div>
 
-        <td colspan="1">
-            {{card.properties.ATTACK}} / {{card.properties.HEALTH}}
-        </td>
-    </tr>
-    <tr id="card-description" style="width: 160px; height: 60px;">
-        <td colspan="2">
-                {{card.properties.description}}
-        </td>
-    </tr>
-    <tr id="card-flavor" style="width: 160px; height: 60px;">
-        <td colspan="2" style="font-style: italic;">
-                {{card.properties.flavor}}
-        </td>
-    </tr>
-</table>
-
-
-
+    </div>
+    <!-- card image -->
+    <div style="clear:both;">
+        <div style="text-align: center;">
+            <img style="width: 160px; height: 120px;" class="card-image"
+                 ng-src="images/cards/{{card.properties.imagePath}}" />
+        </div>
+    </div>
+    <!-- card type -->
+    <div class="card-type">
+        {{card.properties.creatureType}}
+    </div>
+    <!-- card statistics -->
+    <div>
+        <!-- mana cost -->
+        <div style="float: left; padding: 5px">
+            <button class="btn btn-sm btn-info active glyphicon glyphicon-tint" style="cursor:default">
+                {{card.properties.MANA_COST}}
+            </button>
+        </div>
+        <div style="float: right; padding: 5px;" class="btn-group">
+            <!-- attack -->
+            <button ng-show="card.properties.ATTACK" class="btn btn-sm btn-danger active glyphicon glyphicon-screenshot" style="cursor:default">
+                {{card.properties.ATTACK}}
+            </button>
+            <button ng-hide="card.properties.ATTACK" class="btn btn-sm btn-danger active glyphicon glyphicon-screenshot" style="cursor:default">
+                -
+            </button>
+            <!-- health -->
+            <button ng-show="card.properties.HEALTH" class="btn btn-sm btn-success active glyphicon glyphicon-heart" style="cursor:default">
+                {{card.properties.HEALTH}}
+            </button>
+            <button ng-hide="card.properties.HEALTH" class="btn btn-sm btn-success active glyphicon glyphicon-heart" style="cursor:default">
+                -
+            </button>
+        </div>
+    </div>
+    <div style="clear: both;">
+        <div style="float: left; padding: 5px; text-align: center;">
+            <!-- scrap cost -->
+            <button ng-show="card.properties.SCRAP_COST" class="btn btn-xs btn-primary active glyphicon glyphicon-wrench" style="cursor:default">
+                {{card.properties.SCRAP_COST}}
+            </button>
+        </div>
+        <div ng-show="card.properties.SCRAP" style="float: left; padding: 5px; text-align: center;">
+            <!-- scrap value -->
+            <button class="btn btn-xs btn-primary active glyphicon glyphicon-cog" style="cursor:default">
+                {{card.properties.SCRAP}}
+            </button>
+        </div>
+        <!-- flavor text -->
+        <div ng-show="card.properties.flavor" style="float: right; padding: 5px; text-align: center;">
+            <button type="button" class="btn btn-xs btn-primary glyphicon glyphicon-book"
+                    popover-placement="top"
+                    popover="{{card.properties.flavor}}"
+                    ></button>
+        </div>
+        <!-- effect text -->
+        <div ng-show="card.properties.effect" style="float: right; padding: 5px; text-align: center;">
+            <button type="button" class="btn btn-xs btn-warning glyphicon glyphicon-flash"
+                    popover-placement="top"
+                    popover="{{card.properties.effect}}"
+                    >FX</button>
+        </div>
+    </div>
     <input ng-repeat="action in actions" ng-if="!doingAction && action.id === card.id" ng-click="startAction(action)" type="button" value="{{action.action}}"/>
 </div>
