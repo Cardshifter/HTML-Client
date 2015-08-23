@@ -4,6 +4,7 @@ var ngRoute = require('angular-route');
 var GameboardController = require('./controller');
 var template = require('./game_board.html');
 var serverInterface = require('../server_interface/module');
+var cardModelStyle = require("../card_model/card_model.css");
 
 module.exports = angular.module('cardshifter.gameBoard', [ngRoute, serverInterface.name])
   .config(function($routeProvider) {
