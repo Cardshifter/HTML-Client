@@ -1,5 +1,9 @@
+<div class="card"
+    ng-class="{'selected': card.selected, 'targetable': doingAction && targets.indexOf(card.id) !== -1}"
+    >
+    <div class="test">doingAction: {{doingAction}} targets: {{targets}} actions: {{actions}} card: {{card}}</div>
 <!--
-    This file will eventually be used to present card data, as well as play the game
+    This file is used to present card data, as well as play the game
     by using the card UI elements to perform actions.
     TODO Add ng-FitText.js fields to elements in this model of which length may vary widely, for example card descriptions and flavor text.
         The primary fields for FitText are:
@@ -7,12 +11,11 @@
         - data-fittext-min="8pt" : Minimum font size allowed
         - data-fittext-max="12pt" : Maximum font size allowed
   -->
-<h3>Card Model Spoof 1</h3>
 
 <table id="card-model-1" style="width: 160px;">
     <tr>
         <td class="card-name">
-            {{card.properties.name}}
+            <a href ng-click="selectEntity(card)" ng-class="{'selected': card.selected, 'targetable': doingAction && targets.indexOf(card.id) !== -1}">{{card.properties.name}}</a>
         </td>
         <td class="card-MANA_COST" style="width: 40px;">
             {{card.properties.MANA_COST}}
@@ -44,3 +47,8 @@
         </td>
     </tr>
 </table>
+
+
+
+    <input ng-repeat="action in actions" ng-if="!doingAction && action.id === card.id" ng-click="startAction(action)" type="button" value="{{action.action}}"/>
+</div>
