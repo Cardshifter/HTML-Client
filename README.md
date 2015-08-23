@@ -12,7 +12,7 @@ For more information about the Cardshifter project, see:
 - [Primary repository on GitHub](https://github.com/Cardshifter/Cardshifter)
 
 ### Development
-Ensure you have [https://nodejs.org/](NodeJS) installed. Then execute the following instructions:
+Ensure you have [NodeJS](https://nodejs.org/) installed. Then execute the following instructions:
 
 ````bash
 git clone https://www.github.com/cardshifter/html-client
