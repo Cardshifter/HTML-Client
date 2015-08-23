@@ -82,5 +82,5 @@
                     >FX</button>
         </div>
     </div>
-    <input ng-repeat="action in actions" ng-if="!doingAction && action.id === card.id" ng-click="startAction(action)" type="button" value="{{action.action}}"/>
+    <input ng-repeat="action in actions" ng-if="!doingAction && action.id === card.id" ng-click="startAction({action: action})" type="button" value="{{action.action}}"/>
 </div>
