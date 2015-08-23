@@ -355,7 +355,7 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
             size: 'sm',
             resolve: {
                 message: function () {
-                    return results + "!";
+                    return results;
                 }
             }
         });
