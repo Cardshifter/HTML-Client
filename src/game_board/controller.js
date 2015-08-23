@@ -114,6 +114,11 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
             selected.splice(index, 1);
             entity.selected = false;
         }
+        
+        // if action requires exactly one target, perform action when target is chosen
+        if ($scope.targetsMessage.min === 1 && $scope.targetsMessage.max === 1) {
+            $scope.performAction();
+        }
     }
 
 
