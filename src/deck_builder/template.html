@@ -98,17 +98,5 @@
                 </td>
             </tr>
         </table>
-        <form>
-            <input ng-model="deckName" type="text" />
-            <input ng-click="saveDeck()" type="submit" value="Save Deck"/>
-        </form>
-        <ul>
-            <li ng-repeat="deck in savedDecks">
-                <a href ng-click="switchDeck(deck)">{{deck.name}}</a>
-                <input ng-click="deleteDeck(deck.name)" type="button" value="Delete"/>
-            </li>
-        </ul>
-        <input ng-show="enteringGame" ng-click="enterGame()" type="button" value = "Start game" />
-        <input ng-hide="enteringGame" ng-click="goBack()" type="button" value="Go back to lobby" />
     </div>
 </div>
