@@ -14,7 +14,7 @@ module.exports = angular.module('cardshifter.gameBoard', [ngRoute, serverInterfa
     })
   })
   
-  .controller('ModalInstanceCtrl', function ($scope, $modalInstance, message) {
+  .controller('GameOverMessageController', function ($scope, $modalInstance, message) {
     $scope.message = message;
     $scope.ok = function () {
         $modalInstance.close();

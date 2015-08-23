@@ -351,7 +351,7 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
             animation: true,
             backdrop: 'static',
             templateUrl: 'game_results.html',
-            controller: 'ModalInstanceCtrl',
+            controller: 'GameOverMessageController',
             size: 'sm',
             resolve: {
                 message: function () {
