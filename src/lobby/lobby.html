@@ -30,8 +30,10 @@
         <td id="lobby-users-list">
             <ul id="lobby-users">
                 <li data-ng-repeat="user in users" id="lobby-user">
-                    <input data-ng-model="$parent.$parent.selected_opponent" data-ng-if="user.userId!=currentUser.id" type="radio"
-                           value="{{$parent.user.userId}}" name="user_selection" /> {{user.name}}
+                    <label>
+                        <input data-ng-model="$parent.$parent.selected_opponent" data-ng-if="user.userId!=currentUser.id" type="radio"
+                               value="{{$parent.user.userId}}" name="user_selection" /> {{user.name}}
+                    </label>
                 </li>
             </ul>
         </td>
@@ -53,9 +55,11 @@
                 <div class="form-group">
                     <label for="mod_selection">Select game type:</label>
                     <div data-ng-repeat="mod in mods" class="form-control" id="lobby-mod-selector">
-                        <input data-ng-model="$parent.selected_mod" type="radio" value="{{mod}}"
-                               name="mod_selection" id="mod_selection"/>
-                        {{mod}}
+                        <label>
+                            <input data-ng-model="$parent.selected_mod" type="radio" value="{{mod}}"
+                                   name="mod_selection" id="mod_selection"/>
+                            {{mod}}
+                        </label>
                     </div>
                 </div>
             </form>
