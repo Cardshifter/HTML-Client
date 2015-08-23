@@ -1,7 +1,6 @@
 <div class="card"
     ng-class="{'selected': card.selected, 'targetable': doingAction && targets.indexOf(card.id) !== -1}"
     >
-    <div class="test">doingAction: {{doingAction}} targets: {{targets}} actions: {{actions}} card: {{card}}</div>
 <!--
     TODO Add ng-FitText.js fields to elements in this model of which length may vary widely, for example card descriptions and flavor text.
         The primary fields for FitText are:
@@ -11,6 +10,7 @@
   -->
   
 <div class="card-outer">
+    <div class="test" ng-show="debugMode">doingAction: {{doingAction}} targets: {{targets}} actions: {{actions}} card: {{card}}</div>
     <!-- card name -->
     <div>
         <div class="card-name">
