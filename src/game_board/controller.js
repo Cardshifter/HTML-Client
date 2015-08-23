@@ -350,12 +350,12 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
         var modalInstance = $modal.open({
             animation: true,
             backdrop: 'static',
-            templateUrl: 'game_results.html',
+            template: require('../game_results/game_results.html'),
             controller: 'GameOverMessageController',
             size: 'sm',
             resolve: {
                 message: function () {
-                    return results;
+                    return results + "!";
                 }
             }
         });
