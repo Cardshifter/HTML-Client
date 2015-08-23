@@ -35,12 +35,12 @@
                             <div class="card"
                                 ng-class="{'selected': card.selected, 'targetable': card.isTargetable()}">
                                 <!-- For target required actions -->
-                                <a href ng-click="selectCard(card)" ng-show="$eval(targets.indexOf(id)) != -1 && doingAction">
+                                <a href ng-click="selectCard(card)" ng-show="card.isTargetable() && doingAction">
                                     {{card.properties.name}}
                                 </a>
 
                                 <!-- For non-target-required actions -->
-                                <div ng-hide="$eval(targets.indexOf(id)) != -1 && doingAction">
+                                <div ng-hide="card.isTargetable() && doingAction">
                                     <p>
                                         {{card.properties.name}}
                                     </p>
