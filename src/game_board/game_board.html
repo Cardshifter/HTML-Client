@@ -12,11 +12,15 @@
 
     <!-- Player display -->
     <div>
-        <div ng-repeat="(type, info) in playerInfos">
-            <h1><u>{{info.name}}</u></h1>
+        <div ng-repeat="(type, info) in playerInfos" class="player"
+            ng-class="{'player-user': info == playerInfos.user, 'player-opponent': info != playerInfos.user}">
+            <h1 ng-click="selectEntity(info)"
+                ng-class="{'selected': info.selected, 'targetable': doingAction && targets.indexOf(info.id) !== -1}">
+                <u>{{info.name}}</u>
+            </h1>
 
             <!-- Player properties -->
-            <div>
+            <div class="properties">
                 <h3>Properties</h3>
                 <ul>
                     <li ng-repeat="(name, value) in info.properties">
@@ -26,19 +30,21 @@
             </div>
 
             <!-- Player cards -->
-            <div ng-repeat="(zoneName, zoneInfo) in info.zones">
+            <div ng-repeat="(zoneName, zoneInfo) in info.zones" class="zone zone-{{zoneName}}">
                 <div ng-show="zoneInfo.known">
                     <h3>{{zoneName}}</h3>
                     <ul>
                         <li ng-repeat="(id, card) in zoneInfo.entities">
-                            <div>
+                            <card card-info="card"></card>
+                            <div class="card"
+                                ng-class="{'selected': card.selected, 'targetable': doingAction && targets.indexOf(card.id) !== -1}">
                                 <!-- For target required actions -->
-                                <a href ng-click="selectCard(card)" ng-show="$eval(targets.indexOf(id)) != -1 && doingAction">
+                                <a href ng-click="selectEntity(card)" ng-show="doingAction && targets.indexOf(card.id) !== -1">
                                     {{card.properties.name}}
                                 </a>
 
                                 <!-- For non-target-required actions -->
-                                <div ng-hide="$eval(targets.indexOf(id)) != -1 && doingAction">
+                                <div ng-hide="doingAction && targets.indexOf(card.id) !== -1">
                                     <p>
                                         {{card.properties.name}}
                                     </p>

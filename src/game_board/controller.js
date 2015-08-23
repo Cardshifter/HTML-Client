@@ -19,6 +19,7 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
         }
     };
 
+    $scope.cardZones = {}; // contains information about what card is where.
     $scope.actions = [];
     $scope.doingAction = false;
     $scope.playerInfos = playerInfos;
@@ -35,7 +36,7 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
         "card": storeCard,
         "zoneChange": moveCard,
         "targets": setTargets,
-        "update": updatePlayerProperties
+        "update": updateProperties
     };
 
     CardshifterServerAPI.setMessageListener(function(message) {
@@ -68,6 +69,9 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
     $scope.cancelAction = function() {
         $scope.doingAction = false;
         $scope.targets = [];
+        for (var i = 0; i < $scope.selected.length; i++) {
+            $scope.selected[i].selected = false;
+        }
         $scope.selected = [];
     }
 
@@ -97,14 +101,24 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
         $scope.cancelAction();
     }
 
-    $scope.selectCard = function(card) {
+    $scope.selectEntity = function(entity) {
+        if (!$scope.doingAction) {
+            return;
+        }
         var selected = $scope.selected;
-        var index = selected.indexOf(card);
+        var index = selected.indexOf(entity);
 
         if(index === -1) {      // select
-            selected.push(card);
+            selected.push(entity);
+            entity.selected = true;
         } else {                // de-select
             selected.splice(index, 1);
+            entity.selected = false;
+        }
+        
+        // if action requires exactly one target, perform action when target is chosen
+        if ($scope.targetsMessage.min === 1 && $scope.targetsMessage.max === 1) {
+            $scope.performAction();
         }
     }
 
@@ -191,7 +205,9 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
                 if(playerInfos[player].id === zone.owner) {
                     var newEntities = {};
                     for(var i = 0, length = zone.entities.length; i < length; i++) {
-                        newEntities[zone.entities[i]] = {}; // setup each ID to be an key holding an object to store card info
+                        var entityId = zone.entities[i];
+                        newEntities[entityId] = {}; // setup each ID to be an key holding an object to store card info
+                        $scope.cardZones[entityId] = zone.id;
                     }
                     zone.entities = newEntities;
 					zone.length = function () {
@@ -217,7 +233,7 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
     */
     function storeCard(card) {
         var destinationZone = findZone(card.zone);
-
+        
         try {
             if(destinationZone.known) {
                 destinationZone.entities[card.id] = card;
@@ -255,6 +271,7 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
 
             var card = src.entities[message.entity];
             delete src.entities[message.entity];
+            $scope.cardZones[message.entity] = message.destinationZone;
             dest.entities[message.entity] = card;
         } catch(e) {
             /*
@@ -270,7 +287,10 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
     */
 	function removeEntity(message) {
 		var entityId = message.entity;
-		// TODO look up the zone, remove entity.
+        var zoneId = $scope.cardZones[entityId];
+        var zone = findZone(zoneId);
+        delete zone.entities[entityId];
+        delete $scope.cardZones[entityId];
 	}
 
     /*
@@ -288,13 +308,18 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
     }
 
     /*
-    * Updates a players properties based on the message received.
+    * Updates properties based on the message received.
     *
     * @param toUpdate:UpdateMessage -- The information on what to update
     *
     */
-    function updatePlayerProperties(toUpdate) {
-        findPlayer(toUpdate.id).properties[toUpdate.key] = toUpdate.value;
+    function updateProperties(toUpdate) {
+        var entity = findEntity(toUpdate.id);
+        if (!entity) {
+            console.log('entity not found: ' + toUpdate.id);
+            return;
+        }
+        entity.properties[toUpdate.key] = toUpdate.value;
     }
 
     /*
@@ -328,9 +353,31 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
     */
     function findPlayer(id) {
         if(id === playerInfos.user.id) {
-            return  playerInfos.user;
+            return playerInfos.user;
         } else if(id === playerInfos.opponent.id) {
             return playerInfos.opponent;
+        }
+        return null;
+    }
+    
+    /*
+    * Finds and returns an entity based on an ID
+    *
+    * @param id:number -- The ID of the entity
+    * @param Object -- playerInfos.user or playerInfos.opponent
+    *               -- a card object
+    *               -- null, if no entity with that ID was found
+    */
+    function findEntity(id) {
+        var player = findPlayer(id);
+        if (player) {
+            return player;
+        } else {
+            var zoneId = $scope.cardZones[id];
+            var zone = findZone(zoneId);
+            if (zone.entities[id]) {
+                return zone.entities[id];
+            }
         }
         return null;
     }

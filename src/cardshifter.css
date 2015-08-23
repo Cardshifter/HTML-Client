@@ -233,3 +233,12 @@ th {
     font-weight: normal;
 }
 
+/* FORMATTING FOR GAME-BOARD STUFF */
+.targetable {
+    background-color: yellow;
+}
+
+.selected {
+    background-color: #00ffff;
+}
+

@@ -1,0 +1,46 @@
+<!--
+    This file will eventually be used to present card data, as well as play the game
+    by using the card UI elements to perform actions.
+    TODO Add ng-FitText.js fields to elements in this model of which length may vary widely, for example card descriptions and flavor text.
+        The primary fields for FitText are:
+        - data-fittext : Enable FitText for the content insice the tag
+        - data-fittext-min="8pt" : Minimum font size allowed
+        - data-fittext-max="12pt" : Maximum font size allowed
+  -->
+<h3>Card Model Spoof 1</h3>
+
+<table id="card-model-1" style="width: 160px;">
+    <tr>
+        <td class="card-name">
+            {{card.properties.name}}
+        </td>
+        <td class="card-MANA_COST" style="width: 40px;">
+            {{card.properties.MANA_COST}}
+        </td>
+    </tr>
+    <tr id="card-image">
+        <td colspan="2">
+            <img style="width: 160px; height: 100px;"
+                src="http://pre07.deviantart.net/6081/th/pre/f/2012/050/3/f/lucifero_lolcat_by_fraterorion-d4q5ol0.jpg" />
+        </td>
+    </tr>
+    <tr id="card-type">
+        <td colspan="1">
+            {{card.properties.creatureType}}
+        </td>
+
+        <td colspan="1">
+            {{card.properties.ATTACK}} / {{card.properties.HEALTH}}
+        </td>
+    </tr>
+    <tr id="card-description" style="width: 160px; height: 60px;">
+        <td colspan="2">
+                {{card.properties.description}}
+        </td>
+    </tr>
+    <tr id="card-flavor" style="width: 160px; height: 60px;">
+        <td colspan="2" style="font-style: italic;">
+                {{card.properties.flavor}}
+        </td>
+    </tr>
+</table>

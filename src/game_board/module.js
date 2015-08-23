@@ -11,4 +11,12 @@ module.exports = angular.module('cardshifter.gameBoard', [ngRoute, serverInterfa
       controller: GameboardController,
       template: template
     })
+  })
+  .directive('card', function() {
+      return {
+        scope: {
+            card: '=cardInfo'
+        },
+        template: require('../card_model/card_template.html')
+    };
   });
