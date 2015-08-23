@@ -1,6 +1,17 @@
 .card-outer {
-    border-style: dotted;
-    border-width: 1px;
-    border-color: red;
+    border-style: groove;
+    border-width: 5px;
+    border-color: silver;
+    border-radius: 10px;
+    background: gainsboro;
     float: left;
+    padding: 2px;
+}
+
+.card-image {
+    border-style: solid;
+    border-width: 2px;
+    border-color: black;
+    border-radius: 10px;
+
 }
