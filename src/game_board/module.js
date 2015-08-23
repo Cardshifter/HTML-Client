@@ -30,6 +30,7 @@ module.exports = angular.module('cardshifter.gameBoard', [ngRoute, serverInterfa
         scope: {
             card: '=cardInfo',
             selectEntity: '&selectEntity',
+            startAction: '&startAction',
             actions: '=',
             targets: '=',
             doingAction: '='

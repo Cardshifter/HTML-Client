@@ -1,6 +1,6 @@
 <div class="game game-{{modName}}">
     <!-- Action buttons -->
-    <div>
+    <div class="player-actions">
         <div ng-repeat="action in actions" ng-if="action.isPlayer">
             <input ng-click="startAction(action)" ng-hide="doingAction" type="button" value="{{action.action}}" />
         </div>
@@ -34,7 +34,7 @@
                 <div ng-show="zoneInfo.known">
                     <h3>{{zoneName}}</h3>
                     <card card-info="card" targets="targets" doing-action="doingAction" 
-                        select-entity="selectEntity(card)" actions="actions"
+                        select-entity="selectEntity(card)" actions="actions" start-action="startAction(action)"
                         ng-repeat="(id, card) in zoneInfo.entities">
                         
                     </card>
