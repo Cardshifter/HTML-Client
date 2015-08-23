@@ -13,11 +13,24 @@ module.exports = angular.module('cardshifter.gameBoard', [ngRoute, serverInterfa
       template: template
     })
   })
+  
+  .controller('ModalInstanceCtrl', function ($scope, $modalInstance, message) {
+    $scope.message = message;
+    $scope.ok = function () {
+        $modalInstance.close();
+    };
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+  })
+  
   .directive('card', function() {
       return {
         scope: {
             card: '=cardInfo',
             selectEntity: '&selectEntity',
+            startAction: '&startAction',
             actions: '=',
             targets: '=',
             doingAction: '='

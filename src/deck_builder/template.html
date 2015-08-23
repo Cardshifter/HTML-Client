@@ -1,6 +1,6 @@
 <div>
     <div data-ng-hide="doneLoading">
-        <h1>Loading...</h1>
+        <h1>Loading Deck Builder...</h1>
     </div>
     <div data-ng-show="doneLoading">
         <!-- DECK HEADER -->
@@ -25,11 +25,7 @@
                 <input data-ng-click="deleteDeck(deck.name)" type="button" value="Delete" class="btn btn-xs btn-danger"/>
             </li>
         </ul>
-        <!--
-             Card info
-             Displayed upon clicking the card name link from the list of cards.
-             TODO: Add more fields of card information to be shown.
-          -->
+
         <ul>
             <card card-info="cardInfo" ng-show="cardInfo"></card>
         </ul>
@@ -48,18 +44,16 @@
                 "description"         | effect             | effect, or empty
                 "type"                | creatureType       | type, or empty (for non-creatures)
                 "MAX_HEALTH"          | MAX_HEALTH         | n, or empty (for cards n/a)
+                "SCRAP"               | SCRAP              | n, or empty (for cards n/a)
+                "SCRAP_COST"          | SCRAP_COST         | n, or empty (for cards n/a)
             -->
         <table>
             <tr>
                 <th>Type</th>
                 <th>Name</th>
-                <!--<th>-</th>-->
                 <th>Count</th>
-                <!--<th>+</th>-->
                 <th>Mana</th>
                 <th>A / H</th>
-                <!--<th>Atk</th>
-                <th>Hlth</th>-->
                 <th>Sick</th>
                 <th>Akt?</th>
                 <th>FX</th>
@@ -92,34 +86,17 @@
                     <span ng-show="card.properties.ATTACK_AVAILABLE" style="font-size: 0.8em; color: green;">Yes</span>
                     <span ng-hide="card.properties.ATTACK_AVAILABLE" style="font-size: 0.8em; color: red;">No</span>
                 </td>
-                <td style="text-align: center;"><!-- effect tooltip -->
-                    <button type="button" class="btn btn-xs btn-default"
-                            data-toggle="tooltip" data-placement="top" title="{{card.properties.effect}}"
+                <td style="text-align: center;"><!-- effect popover -->
+                    <button type="button" class="btn btn-xs btn-default" popover-placement="top"
+                            popover="{{card.properties.effect}}" popover-title="{{card.properties.name}}"
                             ng-show="card.properties.effect">FX</button>
                 </td>
                 <td style="text-align: center;"><!-- flavor tooltip -->
-                    <button type="button" class="btn btn-xs btn-default"
-                            data-toggle="tooltip" data-placement="top" title="{{card.properties.flavor}}"
+                    <button type="button" class="btn btn-xs btn-default" popover-placement="right"
+                            popover="{{card.properties.flavor}}"
                             ng-show="card.properties.flavor">?</button>
                 </td>
             </tr>
         </table>
-        <form>
-            <input ng-model="deckName" type="text" />
-            <input ng-click="saveDeck()" type="submit" value="Save Deck"/>
-        </form>
-        <ul>
-            <li ng-repeat="deck in savedDecks">
-                <a href ng-click="switchDeck(deck)">{{deck.name}}</a>
-                <input ng-click="deleteDeck(deck.name)" type="button" value="Delete"/>
-            </li>
-        </ul>
-        <input ng-show="enteringGame" ng-click="enterGame()" type="button" value = "Start game" />
-        <input ng-hide="enteringGame" ng-click="goBack()" type="button" value="Go back to lobby" />
     </div>
 </div>
-<script>
-$(function () {
-    $('[data-toggle="tooltip"]').tooltip()
-})
-</script>

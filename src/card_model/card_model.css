@@ -1,0 +1,34 @@
+.card-outer {
+    width: 180px;
+    height: 275px;
+    border-style: groove;
+    border-width: 5px;
+    border-color: silver;
+    border-radius: 10px;
+    background: gainsboro;
+    float: left;
+    padding: 2px;
+}
+
+.card-image {
+    border-style: solid;
+    border-width: 2px;
+    border-color: black;
+    border-radius: 10px;
+}
+
+.card-name {
+    float: left;
+    padding: 5px;
+    font-family: Georgia, Times, "Times New Roman", serif;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.card-type {
+    clear:both;
+    padding: 5px;
+    padding-top: 8px;
+    font-family: Georgia, Times, "Times New Roman", serif;
+    font-size: 1.1em;
+}

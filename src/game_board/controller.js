@@ -1,7 +1,7 @@
 'use strict';
 
 // @ngInject
-function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope, $location) {
+function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope, $location, $modal) {
     var playerInfos = {
         user: {
             index: null,
@@ -336,16 +336,38 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
         var id = elimination.id;
         var winner = elimination.winner;
         var results = "You ";
+        
+        if (findPlayer(id) !== playerInfos.user) {
+            return; // avoid showing modal twice
+        }
 
-        if(findPlayer(id) === playerInfos.user && winner || findPlayer(id) === playerInfos.opponent && !winner) {
+        if (winner) {
             results += "win";
         } else {
             results += "lose";
         }
 
-        alert(results + "!"); // temporary until ui-bootstrap
+        var modalInstance = $modal.open({
+            animation: true,
+            backdrop: 'static',
+            templateUrl: 'game_results.html',
+            controller: 'ModalInstanceCtrl',
+            size: 'sm',
+            resolve: {
+                message: function () {
+                    return results;
+                }
+            }
+        });
 
-        $location.path("/lobby");
+        modalInstance.result.then(function () {
+            $location.path("/lobby");
+        }, function () {
+            // $log.info('Modal dismissed at: ' + new Date());
+            console.log('Modal dismissed at: ' + new Date());
+        });
+
+        
     };
 
     /**
