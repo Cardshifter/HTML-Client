@@ -1,0 +1,6 @@
+.card-outer {
+    border-style: dotted;
+    border-width: 1px;
+    border-color: red;
+    float: left;
+}

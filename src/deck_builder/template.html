@@ -1,6 +1,6 @@
 <div>
     <div data-ng-hide="doneLoading">
-        <h1>Loading...</h1>
+        <h1>Loading Deck Builder...</h1>
     </div>
     <div data-ng-show="doneLoading">
         <!-- DECK HEADER -->
@@ -25,11 +25,7 @@
                 <input data-ng-click="deleteDeck(deck.name)" type="button" value="Delete" class="btn btn-xs btn-danger"/>
             </li>
         </ul>
-        <!--
-             Card info
-             Displayed upon clicking the card name link from the list of cards.
-             TODO: Add more fields of card information to be shown.
-          -->
+
         <ul>
             <li data-ng-repeat="(name, value) in cardInfo" data-ng-show="value">
                 <b>{{name}}</b>: {{value}}
@@ -55,13 +51,9 @@
             <tr>
                 <th>Type</th>
                 <th>Name</th>
-                <!--<th>-</th>-->
                 <th>Count</th>
-                <!--<th>+</th>-->
                 <th>Mana</th>
                 <th>A / H</th>
-                <!--<th>Atk</th>
-                <th>Hlth</th>-->
                 <th>Sick</th>
                 <th>Akt?</th>
                 <th>FX</th>
@@ -94,14 +86,14 @@
                     <span ng-show="card.properties.ATTACK_AVAILABLE" style="font-size: 0.8em; color: green;">Yes</span>
                     <span ng-hide="card.properties.ATTACK_AVAILABLE" style="font-size: 0.8em; color: red;">No</span>
                 </td>
-                <td style="text-align: center;"><!-- effect tooltip -->
-                    <button type="button" class="btn btn-xs btn-default"
-                            data-toggle="tooltip" data-placement="top" title="{{card.properties.effect}}"
+                <td style="text-align: center;"><!-- effect popover -->
+                    <button type="button" class="btn btn-xs btn-default" popover-placement="top"
+                            popover="{{card.properties.effect}}" popover-title="{{card.properties.name}}"
                             ng-show="card.properties.effect">FX</button>
                 </td>
                 <td style="text-align: center;"><!-- flavor tooltip -->
-                    <button type="button" class="btn btn-xs btn-default"
-                            data-toggle="tooltip" data-placement="top" title="{{card.properties.flavor}}"
+                    <button type="button" class="btn btn-xs btn-default" popover-placement="right"
+                            popover="{{card.properties.flavor}}"
                             ng-show="card.properties.flavor">?</button>
                 </td>
             </tr>
@@ -120,8 +112,3 @@
         <input ng-hide="enteringGame" ng-click="goBack()" type="button" value="Go back to lobby" />
     </div>
 </div>
-<script>
-$(function () {
-    $('[data-toggle="tooltip"]').tooltip()
-})
-</script>
