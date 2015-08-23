@@ -1,6 +1,6 @@
 <div class="game game-{{modName}}">
     <!-- Action buttons -->
-    <div>
+    <div class="player-actions">
         <div ng-repeat="action in actions" ng-if="action.isPlayer">
             <input ng-click="startAction(action)" ng-hide="doingAction" type="button" value="{{action.action}}" />
         </div>
