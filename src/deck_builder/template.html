@@ -21,7 +21,7 @@
         <!-- List of saved decks, with `Delete` button -->
         <ul>
             <li data-ng-repeat="deck in savedDecks">
-                <a data-ng-click="switchDeck(deck)">{{deck.name}}</a>
+                <a href data-ng-click="switchDeck(deck)">{{deck.name}}</a>
                 <input data-ng-click="deleteDeck(deck.name)" type="button" value="Delete" class="btn btn-xs btn-danger"/>
             </li>
         </ul>
@@ -69,7 +69,7 @@
             </tr>
             <tr data-ng-repeat="card in cards">
                 <td>{{card.properties.creatureType}}</td>
-                <td><a data-ng-click="showDetails(card)">{{card.properties.name}}</a></td>
+                <td><a href data-ng-click="showDetails(card)">{{card.properties.name}}</a></td>
                 <td style="text-align: center;">
                 <!-- Controls to add or remove a card to deck, and counter to show "current / max" count -->
                     <div class="btn-group">
