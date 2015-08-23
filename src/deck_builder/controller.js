@@ -8,7 +8,7 @@ function DeckbuilderController(CardshifterServerAPI, $scope, $rootScope, $locati
     $scope.maxCards = 0;
     $scope.minCards = 0;
     $scope.currentDeck = {};
-    $scope.cardInfo = {};
+    $scope.cardInfo = null;
     $scope.currentDeckName = "untitled";
     $scope.savedDecks = [];
     $scope.doneLoading = false;
@@ -102,22 +102,14 @@ function DeckbuilderController(CardshifterServerAPI, $scope, $rootScope, $locati
     * available cards table has been clicked.
     *
     * Once this function is called, it loads $scope.cardInfo
-    * with the most important properties of the card. Then,
-    * the HTML will take care of not showing the card information
-    * that is "undefined", as not all cards have the same properties.
+    * with the card object associated with the link that was
+    * clicked and will simply stick it into a card directive
+    * which is displayed at the top of the screen.
     *
     * TODO: Dynamically load $scope.cardInfo with card properties. #60
     */
     $scope.showDetails = function(card) {
-        var props = card.properties;
-        $scope.cardInfo = {
-            name: props.name,
-            flavor: props.flavor,
-            type: props.creatureType,
-            health: props.HEALTH,
-            attack: props.ATTACK,
-            sickness: props.SICKNESS
-        };
+        $scope.cardInfo = card;
     };
 
     /**

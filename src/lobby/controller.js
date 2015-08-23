@@ -18,6 +18,7 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
     $scope.gotInvite = false;
 
     var gameMod = ""; // will be set by either startGame or acceptInvite
+    var ping = document.getElementById("ping"); // is this angulary?
 
     var commandMap = {
         "userstatus": updateUserList,
@@ -175,6 +176,8 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
         $scope.invite.name = message.name;
         $scope.invite.type = message.gameType;
         $scope.gotInvite = true;
+
+        ping.play();
     };
     /**
     * Shows to the user a list of all available mods.

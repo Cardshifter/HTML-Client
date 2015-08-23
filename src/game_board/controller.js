@@ -1,7 +1,7 @@
 'use strict';
 
 // @ngInject
-function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope, $location) {
+function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope, $location, $modal) {
     var playerInfos = {
         user: {
             index: null,
@@ -18,6 +18,8 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
             zones: {}
         }
     };
+    
+    $scope.modName = currentUser.game.mod.toLowerCase().replace(' ', '-');
 
     $scope.cardZones = {}; // contains information about what card is where.
     $scope.actions = [];
@@ -36,13 +38,14 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
         "card": storeCard,
         "zoneChange": moveCard,
         "targets": setTargets,
-        "update": updateProperties
+        "update": updateProperties,
+        "elimination": displayWinner
     };
 
     CardshifterServerAPI.setMessageListener(function(message) {
         commandMap[message.command](message);
         $scope.$apply();
-    }, ["resetActions", "useable", "player", "zone", "card", "zoneChange", "targets", "update", "entityRemoved"]);
+    }, ["resetActions", "useable", "player", "zone", "card", "zoneChange", "targets", "update", "entityRemoved", "elimination"]);
 
 
     $scope.startAction = function(action) {
@@ -64,7 +67,7 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
 
         $scope.currentAction = action;
         $scope.doingAction = true;
-    }
+    };
 	
     $scope.cancelAction = function() {
         $scope.doingAction = false;
@@ -73,7 +76,7 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
             $scope.selected[i].selected = false;
         }
         $scope.selected = [];
-    }
+    };
 
     $scope.performAction = function() {
 		var action = $scope.currentAction;
@@ -99,7 +102,7 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
 
         CardshifterServerAPI.sendMessage(doAbility);
         $scope.cancelAction();
-    }
+    };
 
     $scope.selectEntity = function(entity) {
         if (!$scope.doingAction) {
@@ -120,17 +123,17 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
         if ($scope.targetsMessage.min === 1 && $scope.targetsMessage.max === 1) {
             $scope.performAction();
         }
-    }
+    };
 
 
-    /*
+    /**
     * Resets all the available actions that the user has.
     */
     function resetActions() {
         $scope.actions = [];
-    }
+    };
 
-    /*
+    /**
     * Adds another possible action to the possible actions
     * that this user can complete on their turn.
     *
@@ -160,9 +163,9 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
             action.isPlayer = false;
             actions.push(action);
         }
-    }
+    };
 
-    /*
+    /**
     * Stores the information in player into either
     * playerInfos.user if this user is being
     * described in the message, or playerInfos.opponent
@@ -184,9 +187,9 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
         playerInfo.id = player.id;
         playerInfo.name = player.name;
         playerInfo.properties = player.properties;
-    }
+    };
 
-    /*
+    /**
     * Stores the information about a zone by the
     * zone's name in
     * playerInfos.<player>.zones.<zone_name>
@@ -219,9 +222,9 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
                 }
             }
         }
-    }
+    };
 
-    /*
+    /**
     * Stores a CardInfoMessage in the appropriate zone,
     * which is going to be in either the user's zones, or
     * the opponent's zones.
@@ -256,9 +259,9 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
             * safe to ignore this error.
             */
         }
-    }
+    };
 
-    /*
+    /**
     * Moves a single card from one zone to another
     *
     * @param message:ZoneChangeMessage -- The zone change information
@@ -278,9 +281,9 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
             * See the try/catch in storeCard.
             */
         }
-    }
+    };
 	
-    /*
+    /**
     * Removes a card from the zone it is in
     *
     * @param message:EntityRemoveMessage -- Remove information
@@ -291,9 +294,9 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
         var zone = findZone(zoneId);
         delete zone.entities[entityId];
         delete $scope.cardZones[entityId];
-	}
+	};
 
-    /*
+    /**
     * Sets the $scope.targets to all the available
     * targets for the current action.
     *
@@ -305,9 +308,9 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
     function setTargets(targets) {
         $scope.targets = targets.targets;
 		$scope.targetsMessage = targets;
-    }
+    };
 
-    /*
+    /**
     * Updates properties based on the message received.
     *
     * @param toUpdate:UpdateMessage -- The information on what to update
@@ -320,9 +323,54 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
             return;
         }
         entity.properties[toUpdate.key] = toUpdate.value;
-    }
+    };
 
-    /*
+    /**
+    * Displays the winner to the user and then navigates back
+    * to the lobby.
+    *
+    * @param elimination:PlayerEliminatedMessage -- The elimination information
+    *
+    */
+    function displayWinner(elimination) {
+        var id = elimination.id;
+        var winner = elimination.winner;
+        var results = "You ";
+        
+        if (findPlayer(id) !== playerInfos.user) {
+            return; // avoid showing modal twice
+        }
+
+        if (winner) {
+            results += "win";
+        } else {
+            results += "lose";
+        }
+
+        var modalInstance = $modal.open({
+            animation: true,
+            backdrop: 'static',
+            templateUrl: 'game_results.html',
+            controller: 'ModalInstanceCtrl',
+            size: 'sm',
+            resolve: {
+                message: function () {
+                    return results;
+                }
+            }
+        });
+
+        modalInstance.result.then(function () {
+            $location.path("/lobby");
+        }, function () {
+            // $log.info('Modal dismissed at: ' + new Date());
+            console.log('Modal dismissed at: ' + new Date());
+        });
+
+        
+    };
+
+    /**
     * Return the zone of the passed in ID.
     *
     * @param id:number -- The ID of the zone.
@@ -342,8 +390,8 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
             }
         }
         return null;
-    }
-    /*
+    };
+    /**
     * Finds and returns a player based on an ID
     *
     * @param id:number -- The ID of the player
@@ -358,9 +406,9 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
             return playerInfos.opponent;
         }
         return null;
-    }
+    };
     
-    /*
+    /**
     * Finds and returns an entity based on an ID
     *
     * @param id:number -- The ID of the entity
@@ -380,7 +428,7 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
             }
         }
         return null;
-    }
+    };
 }
 
 module.exports = GameboardController;

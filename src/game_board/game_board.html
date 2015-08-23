@@ -1,4 +1,4 @@
-<div>
+<div class="game game-{{modName}}">
     <!-- Action buttons -->
     <div>
         <div ng-repeat="action in actions" ng-if="action.isPlayer">
@@ -33,27 +33,11 @@
             <div ng-repeat="(zoneName, zoneInfo) in info.zones" class="zone zone-{{zoneName}}">
                 <div ng-show="zoneInfo.known">
                     <h3>{{zoneName}}</h3>
-                    <ul>
-                        <li ng-repeat="(id, card) in zoneInfo.entities">
-                            <card card-info="card"></card>
-                            <div class="card"
-                                ng-class="{'selected': card.selected, 'targetable': doingAction && targets.indexOf(card.id) !== -1}">
-                                <!-- For target required actions -->
-                                <a href ng-click="selectEntity(card)" ng-show="doingAction && targets.indexOf(card.id) !== -1">
-                                    {{card.properties.name}}
-                                </a>
-
-                                <!-- For non-target-required actions -->
-                                <div ng-hide="doingAction && targets.indexOf(card.id) !== -1">
-                                    <p>
-                                        {{card.properties.name}}
-                                    </p>
-                                    <input ng-repeat="action in actions" ng-if="!action.isPlayer && action.id == id" ng-click="startAction(action)" type="button" value="{{action.action}}"/>
-                                </div>
-
-                            </div>
-                        </li>
-                    </ul>
+                    <card card-info="card" targets="targets" doing-action="doingAction" 
+                        select-entity="selectEntity(card)" actions="actions"
+                        ng-repeat="(id, card) in zoneInfo.entities">
+                        
+                    </card>
                 </div>
 
                 <!-- For opponent's cards. Is there a better way? -->
