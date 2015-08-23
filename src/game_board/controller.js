@@ -287,7 +287,10 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
     */
 	function removeEntity(message) {
 		var entityId = message.entity;
-		// TODO look up the zone, remove entity.
+        var zoneId = $scope.cardZones[entityId];
+        var zone = findZone(zoneId);
+        delete zone.entities[entityId];
+        delete $scope.cardZones[entityId];
 	}
 
     /*
