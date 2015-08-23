@@ -100,16 +100,19 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
         $scope.cancelAction();
     }
 
-    $scope.selectCard = function(card) {
+    $scope.selectEntity = function(entity) {
+        if (!$scope.doingAction) {
+            return;
+        }
         var selected = $scope.selected;
-        var index = selected.indexOf(card);
+        var index = selected.indexOf(entity);
 
         if(index === -1) {      // select
-            selected.push(card);
-            card.selected = true;
+            selected.push(entity);
+            entity.selected = true;
         } else {                // de-select
             selected.splice(index, 1);
-            card.selected = false;
+            entity.selected = false;
         }
     }
 
@@ -222,9 +225,7 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
     */
     function storeCard(card) {
         var destinationZone = findZone(card.zone);
-        card.isTargetable = function() {
-            return $scope.targets.indexOf(card.id) !== -1;
-        }
+        
         try {
             if(destinationZone.known) {
                 destinationZone.entities[card.id] = card;

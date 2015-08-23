@@ -14,7 +14,10 @@
     <div>
         <div ng-repeat="(type, info) in playerInfos" class="player"
             ng-class="{'player-user': info == playerInfos.user, 'player-opponent': info != playerInfos.user}">
-            <h1><u>{{info.name}}</u></h1>
+            <h1 ng-click="selectEntity(info)"
+                ng-class="{'selected': info.selected, 'targetable': doingAction && targets.indexOf(info.id) !== -1}">
+                <u>{{info.name}}</u>
+            </h1>
 
             <!-- Player properties -->
             <div class="properties">
@@ -33,14 +36,14 @@
                     <ul>
                         <li ng-repeat="(id, card) in zoneInfo.entities">
                             <div class="card"
-                                ng-class="{'selected': card.selected, 'targetable': card.isTargetable()}">
+                                ng-class="{'selected': card.selected, 'targetable': doingAction && targets.indexOf(card.id) !== -1}">
                                 <!-- For target required actions -->
-                                <a href ng-click="selectCard(card)" ng-show="card.isTargetable() && doingAction">
+                                <a href ng-click="selectEntity(card)" ng-show="doingAction && targets.indexOf(card.id) !== -1">
                                     {{card.properties.name}}
                                 </a>
 
                                 <!-- For non-target-required actions -->
-                                <div ng-hide="card.isTargetable() && doingAction">
+                                <div ng-hide="doingAction && targets.indexOf(card.id) !== -1">
                                     <p>
                                         {{card.properties.name}}
                                     </p>
