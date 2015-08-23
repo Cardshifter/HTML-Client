@@ -19,10 +19,6 @@ module.exports = angular.module('cardshifter.gameBoard', [ngRoute, serverInterfa
     $scope.ok = function () {
         $modalInstance.close();
     };
-
-    $scope.cancel = function () {
-        $modalInstance.dismiss('cancel');
-    };
   })
   
   .directive('card', function() {
