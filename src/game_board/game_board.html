@@ -35,6 +35,7 @@
                     <h3>{{zoneName}}</h3>
                     <ul>
                         <li ng-repeat="(id, card) in zoneInfo.entities">
+                            <card card-info="card"></card>
                             <div class="card"
                                 ng-class="{'selected': card.selected, 'targetable': doingAction && targets.indexOf(card.id) !== -1}">
                                 <!-- For target required actions -->
