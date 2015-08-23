@@ -18,6 +18,8 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
             zones: {}
         }
     };
+    
+    $scope.modName = currentUser.game.mod.toLowerCase().replace(' ', '-');
 
     $scope.cardZones = {}; // contains information about what card is where.
     $scope.actions = [];
