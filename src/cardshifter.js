@@ -2,6 +2,7 @@
 require('./cardshifter.css');
 var angular = require('angular')
 var ngRoute = require('angular-route');
+var uiBootstrap = require("angular-bootstrap-npm");
 var lobby = require('./lobby/module');
 var login = require('./login/module');
 var deckBuilder = require('./deck_builder/module');
@@ -14,7 +15,8 @@ angular.module("CardshifterApp", [
     deckBuilder.name,
     lobby.name,
     login.name,
-    gameBoard.name
+    gameBoard.name,
+    uiBootstrap
 ]).config(function($locationProvider) {
     $locationProvider.html5Mode(true);
 }).config(function($routeProvider) {
