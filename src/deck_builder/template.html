@@ -31,9 +31,7 @@
              TODO: Add more fields of card information to be shown.
           -->
         <ul>
-            <li data-ng-repeat="(name, value) in cardInfo" data-ng-show="value">
-                <b>{{name}}</b>: {{value}}
-            </li>
+            <card card-info="cardInfo" ng-show="cardInfo"></card>
         </ul>
 
         <!-- LIST OF ALL CARDS - Displays one full row below for every card -->
