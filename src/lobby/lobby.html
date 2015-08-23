@@ -49,7 +49,7 @@
             <form class="form-inline" role="form">
                 <div class="form-group">
                     <label for="mod_selection">Select game type:</label>
-                    <div data-ng-repeat="mod in mods" class="form-control" id="lobby-mod-selector">
+                    <div data-ng-repeat="mod in mods" class="form-control lobby-mod-selector">
                         <input data-ng-model="$parent.selected_mod" type="radio" value="{{mod}}"
                                name="mod_selection" id="mod_selection"/>
                         {{mod}}
