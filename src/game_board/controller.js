@@ -68,6 +68,9 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
     $scope.cancelAction = function() {
         $scope.doingAction = false;
         $scope.targets = [];
+        for (var i = 0; i < $scope.selected.length; i++) {
+            $scope.selected[i].selected = false;
+        }
         $scope.selected = [];
     }
 
