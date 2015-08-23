@@ -9,6 +9,7 @@
 
     <!-- The main CSS file -->
     <link href="../src/cardshifter.css" rel="stylesheet"/>
+    <link href="../src/lobby/lobby.css" rel="stylesheet"/>
     <link href="card_model.css" rel="stylesheet"/>
 
     <!-- AngularJS libraries -->
@@ -42,40 +43,56 @@
         - data-fittext-max="12pt" : Maximum font size allowed
   -->
 
-<div class="card-outer" style="width: 160px;">
+<div class="card-outer" style="width: 180px;">
     <div>
-        <div>
+        <div style="float: left; padding: 5px">
             Jade Emperor
         </div>
-        <div id="card-MANA_COST" style="width: 40px;">
-            30
+        <div style="float: right; padding: 5px">
+            <button class="btn btn-xs btn-info active glyphicon glyphicon-tint">30</button>
         </div>
     </div>
-    <div>
-        <div>
-            <img style="width: 160px; height: 100px;"
+    <div style="clear:both;">
+        <div style="text-align: center;">
+            <img style="width: 160px; height: 120px;"
                 src="http://pre07.deviantart.net/6081/th/pre/f/2012/050/3/f/lucifero_lolcat_by_fraterorion-d4q5ol0.jpg" />
         </div>
     </div>
     <div>
-        <div>
+        <div style="float:left; padding: 5px;">
             Chinese God
         </div>
 
-        <div>
-            3/10
+        <div style="float: right; padding: 5px;" class="btn-group">
+            <button class="btn btn-xs btn-danger active glyphicon glyphicon-screenshot">3</button>
+            <button class="btn btn-xs btn-success active glyphicon glyphicon-heart">6</button>
         </div>
     </div>
-    <div style="width: 160px; height: 60px;">
-        <div>
-                Give creatures of type Chinese owned by you on Battlefield 3 HEALTH\nGive creatures on Battlefield -1 ATTACK\n
+    <div style="clear: both;">
+        <div style="float: left; padding: 5px; text-align: center;">
+            <button class="btn btn-sm btn-primary active glyphicon glyphicon-wrench">3</button>
+        </div>
+        <div style="float: left; padding: 5px; text-align: center;">
+            <button class="btn btn-sm btn-primary active glyphicon glyphicon-cog">2</button>
         </div>
     </div>
-    <div style="width: 160px; height: 60px;">
-        <div style="font-style: italic;">
-                "The Great Grandfather, Emperor of all Deities, Vanquisher of Evil."
+
+    <div style="clear: both;">
+        <div style="float: left; padding: 5px; text-align: center;">
+            <button type="button" class="btn btn-warning glyphicon glyphicon-flash"
+                    popover-placement="top"
+                    popover="Give creatures of type Chinese owned by you on Battlefield 3 HEALTH\nGive creatures on Battlefield -1 ATTACK\n"
+                    ></button>
+        </div>
+        <div style="float: left; padding: 5px; text-align: center;">
+            <button type="button" class="btn btn-default glyphicon glyphicon-info-sign"
+                    popover-placement="top"
+                    popover="The Great Grandfather, Emperor of all Deities, Vanquisher of Evil."
+                    ></button>
         </div>
     </div>
+
+
 
 </div>
 
