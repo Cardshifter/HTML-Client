@@ -74,12 +74,6 @@ function TestController(CardshifterServerAPI, $scope, $timeout, $rootScope, $loc
             } else {
                 entity.animations.HEALTH = [ animObject ];
             }
-            
-            $timeout(function() {
-                var anims = entity.animations.HEALTH;
-                anims.splice(-1, 1);
-            }, 3000);
-
         }
     }
     

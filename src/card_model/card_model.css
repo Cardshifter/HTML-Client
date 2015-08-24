@@ -77,18 +77,18 @@ button.diff-animation {
     opacity: 0;
 }
 
-.diff-animation.ng-enter {
-    -webkit-transition: 10s linear all;
-    -moz-transition: 10s linear all;
-    -o-transition: 10s linear all;
-    transition: 10s linear all;
+.diff-animation.ng-leave {
+    -webkit-transition: 1.5s linear all;
+    -moz-transition: 1.5s linear all;
+    -o-transition: 1.5s linear all;
+    transition: 1.5s linear all;
 }
 
-.diff-animation.ng-enter {
+.diff-animation.ng-leave {
     opacity: 1;
 }
 
-.diff-animation.ng-enter.ng-enter-active {
+.diff-animation.ng-leave.ng-leave-active {
     opacity: 0;
     top: -32px;
 }

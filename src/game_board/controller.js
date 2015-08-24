@@ -336,11 +336,6 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
             } else {
                 entity.animations[toUpdate.key] = [ animObject ];
             }
-            
-            $timeout(function() {
-                var anims = entity.animations[toUpdate.key];
-                anims.splice(-1, 1);
-            }, 3000);
         }
     };
 

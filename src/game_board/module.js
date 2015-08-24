@@ -25,9 +25,24 @@ module.exports = angular.module('cardshifter.gameBoard', [ngRoute, ngAnimate, se
         $modalInstance.dismiss('cancel');
     };
   })
+  .directive('instantRemove', function($animate) {
+      return {
+        scope: {
+            card: '=cardData'
+        },
+        link: function(scope, element) {
+            $animate.on("leave", element, function(element, phase) {
+                if (phase === 'close') {
+                    scope.card.animations.HEALTH.splice(0, 1);
+                }
+            });
+            $animate.leave(element);
+        }
+      };
+  })
   .directive('dynamicAnimation', function() {
       return {
-        template: '<button ng-repeat="item in ctrl.items" class="diff-animation btn btn-sm btn-success active glyphicon glyphicon-heart" style="cursor:default">{{item.diff}}</button>',
+        template: '<button instant-remove card-data="card" ng-repeat="item in ctrl.items" class="diff-animation btn btn-sm btn-success active glyphicon glyphicon-heart" style="cursor:default">{{item.diff}}</button>',
         scope: {
             items: '='
         },
