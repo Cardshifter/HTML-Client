@@ -41,6 +41,7 @@
             <!-- health -->
             <button ng-show="card.properties.HEALTH" class="btn btn-sm btn-success active glyphicon glyphicon-heart" style="cursor:default">{{card.properties.HEALTH}}</button>
             <button ng-hide="card.properties.HEALTH" class="btn btn-sm btn-success active glyphicon glyphicon-heart" style="cursor:default">-</button>
+            <dynamic-animation items="card.animations.HEALTH" />
         </div>
     </div>
     <div style="clear: both;">
