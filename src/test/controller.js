@@ -2,6 +2,33 @@
 
 // @ngInject
 function TestController(CardshifterServerAPI, $scope, $timeout, $rootScope, $location) {
+    $scope.addCard = function() {
+        var ents = $scope.zoneInfo.entities;
+        var max = 0;
+        for (var key in ents) {
+            if (ents.hasOwnProperty(key)) {
+                max = Math.max(max, key);
+            }
+            
+        }
+        max++;
+        
+        ents[max] = {
+            id: max,
+            animations: {},
+            properties: {
+                name: 'Hello',
+                imagePath: 'mythos/default.png',
+                HEALTH: 42,
+                ATTACK: 1,
+                MANA_COST: 45,
+                flavor: 'This is a test',
+                creatureType: 'Creature Type',
+                effect: 'This is a description that can be very long that we somehow have to fit into the card. It can also contain\nmultiple lines.'
+            }
+        };
+    }
+    
     $scope.zoneInfo = {
         entities: {
             14: {

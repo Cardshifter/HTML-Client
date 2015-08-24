@@ -9,9 +9,11 @@ var deckBuilder = require('./deck_builder/module');
 var topNavbar = require('./top_navbar/module');
 var gameBoard = require("./game_board/module");
 var test = require("./test/module");
+var ngAnimate = require('angular-animate');
 
 angular.module("CardshifterApp", [
     ngRoute,
+    ngAnimate,
     topNavbar.name,
     deckBuilder.name,
     lobby.name,

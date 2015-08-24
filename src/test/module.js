@@ -5,8 +5,9 @@
      var TestController = require('./controller');
      var template = require('./test.html');
      var serverInterface = require('../server_interface/module');
+     var ngAnimate = require('angular-animate');
 
-     module.exports = angular.module('cardshifter.test', [ngRoute, serverInterface.name])
+     module.exports = angular.module('cardshifter.test', [ngRoute, ngAnimate, serverInterface.name])
        .config(function($routeProvider) {
          $routeProvider.when('/test', {
            controller: TestController,

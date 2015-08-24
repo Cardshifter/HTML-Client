@@ -32,3 +32,34 @@
     font-family: Georgia, Times, "Times New Roman", serif;
     font-size: 1.1em;
 }
+
+.card.ng-enter, .card.ng-leave, .card.ng-move {
+    -webkit-transition: 0.5s linear all;
+    -moz-transition: 0.5s linear all;
+    -o-transition: 0.5s linear all;
+    transition: 0.5s linear all;
+}
+
+.card.ng-enter, .card.ng-move {
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+.card.ng-move.ng-move-active,
+.card.ng-enter.ng-enter-active {
+    opacity: 1;
+    height: 275px;
+}
+
+.card.ng-leave {
+    opacity: 1;
+    overflow: hidden;
+}
+
+.card.ng-leave.ng-leave-active {
+    opacity: 0;
+    height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+}
