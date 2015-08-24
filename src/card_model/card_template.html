@@ -1,4 +1,4 @@
-<div class="card"
+<div class="card card-outer"
     ng-class="{'selected': card.selected, 'targetable': doingAction && targets.indexOf(card.id) !== -1}"
     >
 <!--
@@ -9,7 +9,6 @@
         - data-fittext-max="12pt" : Maximum font size allowed
   -->
   
-<div class="card-outer">
     <div class="test" ng-show="debugMode">doingAction: {{doingAction}} targets: {{targets}} actions: {{actions}} card: {{card}}</div>
     <!-- card name -->
     <div>

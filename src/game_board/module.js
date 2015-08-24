@@ -47,6 +47,7 @@ module.exports = angular.module('cardshifter.gameBoard', [ngRoute, serverInterfa
             targets: '=',
             doingAction: '='
         },
+        replace: true,
         template: require('../card_model/card_template.html')
     };
   });
