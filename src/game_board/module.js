@@ -28,9 +28,8 @@ module.exports = angular.module('cardshifter.gameBoard', [ngRoute, ngAnimate, se
   .directive('dynamicAnimation', function() {
       return {
         template: '<button ng-repeat="item in ctrl.items" class="diff-animation btn btn-sm btn-success active glyphicon glyphicon-heart" style="cursor:default">{{item.diff}}</button>',
-//        <div class="anim-container"><div class="animation">{{item.diff}}</div></div>',
         scope: {
-          items: '='
+            items: '='
         },
         replace: true,
         controller: function($interval) {
