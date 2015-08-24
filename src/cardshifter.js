@@ -8,6 +8,7 @@ var login = require('./login/module');
 var deckBuilder = require('./deck_builder/module');
 var topNavbar = require('./top_navbar/module');
 var gameBoard = require("./game_board/module");
+var test = require("./test/module");
 
 angular.module("CardshifterApp", [
     ngRoute,
@@ -16,6 +17,7 @@ angular.module("CardshifterApp", [
     lobby.name,
     login.name,
     gameBoard.name,
+    test.name,
     uiBootstrap
 ]).config(function($locationProvider) {
     $locationProvider.html5Mode(true);
