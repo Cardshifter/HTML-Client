@@ -24,7 +24,19 @@ module.exports = angular.module('cardshifter.gameBoard', [ngRoute, serverInterfa
         $modalInstance.dismiss('cancel');
     };
   })
-  
+  .directive('dynamicAnimation', function() {
+      return {
+        template: '<div class="anim-container"><div ng-repeat="item in ctrl.items" class="animation">{{item.diff}}</div></div>',
+        scope: {
+          items: '='
+        },
+        replace: true,
+        controller: function($interval) {
+        },
+        bindToController: true,
+        controllerAs: 'ctrl'
+      };
+  })
   .directive('card', function() {
       return {
         scope: {

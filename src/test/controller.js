@@ -6,6 +6,7 @@ function TestController(CardshifterServerAPI, $scope, $timeout, $rootScope, $loc
         entities: {
             14: {
                 id: 14,
+                animations: {},
                 properties: {
                     name: 'Hello',
                     imagePath: 'mythos/default.png',
@@ -19,6 +20,42 @@ function TestController(CardshifterServerAPI, $scope, $timeout, $rootScope, $loc
             },
         }
     };
+    
+    $scope.actions = [{
+        command: 'useable',
+        id: 14,
+        action: 'Damage',
+        targetRequired: false,
+        targetId: 0,
+        isPlayer: false
+    }];
+    $scope.doingAction = false;
+    $scope.targets = [];
+    $scope.selected = [];
+    
+    $scope.startAction = function(action) {
+        if (action.action === 'Damage') {
+            var entity = $scope.zoneInfo.entities[action.id];
+            var diff = -1;
+            var oldValue = entity.properties.HEALTH;
+            entity.properties.HEALTH -= 1;
+            
+            var anim = entity.animations.HEALTH;
+            var animObject = { diff: diff };
+            if (anim) {
+                anim.push(animObject);
+            } else {
+                entity.animations.HEALTH = [ animObject ];
+            }
+            
+            $timeout(function() {
+                var anims = entity.animations.HEALTH;
+                anims.splice(-1, 1);
+            }, 3000);
+
+        }
+    }
+    
 }
 
 module.exports = TestController;

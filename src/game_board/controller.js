@@ -7,6 +7,7 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
             index: null,
             id: null,
             name: null,
+            animations: {},
             properties: {},
             zones: {}
         },
@@ -14,6 +15,7 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
             index: null,
             id: null,
             name: null,
+            animations: {},
             properties: {},
             zones: {}
         }
@@ -236,6 +238,7 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
     */
     function storeCard(card) {
         var destinationZone = findZone(card.zone);
+        card.animations = {};
         
         try {
             if(destinationZone.known) {
@@ -322,7 +325,23 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
             console.log('entity not found: ' + toUpdate.id);
             return;
         }
+        var oldValue = entity.properties[toUpdate.key];
         entity.properties[toUpdate.key] = toUpdate.value;
+        if (typeof toUpdate.value === 'number') {
+            var diff = toUpdate.value - oldValue;
+            var anim = entity.animations[toUpdate.key];
+            var animObject = { diff: diff };
+            if (anim) {
+                anim.push(animObject);
+            } else {
+                entity.animations[toUpdate.key] = [ animObject ];
+            }
+            
+            $timeout(function() {
+                var anims = entity.animations[toUpdate.key];
+                anims.splice(-1, 1);
+            }, 3000);
+        }
     };
 
     /**

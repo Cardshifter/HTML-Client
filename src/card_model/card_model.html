@@ -70,7 +70,12 @@
         </div>
         <div style="float: right; padding: 5px;" class="btn-group">
             <button class="btn btn-sm btn-danger active glyphicon glyphicon-screenshot" style="cursor:default">3</button>
-            <button class="btn btn-sm btn-success active glyphicon glyphicon-heart" style="cursor:default">6</button>
+            <div class="card-property">
+                <button class="btn btn-sm btn-success active glyphicon glyphicon-heart" style="cursor:default">6</button>
+                <div class="anim-container">
+                    <div ng-repeat="item in ctrl.items" class="animation">-1</div>
+                </div>
+            </div>
         </div>
     </div>
     <div style="clear: both;">

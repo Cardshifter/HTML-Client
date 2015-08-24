@@ -245,3 +245,7 @@ th {
 .player-actions {
     float: left; /* helps avoid annoying flickering of cards when performing actions by keeping this in the same place */
 }
+
+.card-property {
+    position: relative;
+}
