@@ -70,10 +70,12 @@
                     >FX</button>
         </div>
     </div>
-    <button ng-repeat="action in actions"
-        ng-if="!doingAction && action.id === card.id"
-        ng-click="startAction({action: action})"
-        class="btn btn-xs btn-default">
-        {{action.action}}
-    </button>
+    <div class="card-actions">
+        <button class="btn btn-sm btn-default" ng-repeat="action in actions"
+                ng-if="!doingAction && action.id === card.id"
+                ng-click="startAction({action: action})"
+                class="btn btn-xs btn-default">
+            {{action.action}}
+        </button>
+    </div>
 </div>

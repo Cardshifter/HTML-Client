@@ -33,6 +33,16 @@
     font-size: 1.1em;
 }
 
+.card-actions {
+    width: 180px;
+    clear: both;
+    border-style: solid;
+    border-width: 3px;
+    border-color: black;
+    border-radius: 10px;
+    text-align: center;
+}
+
 .card.ng-enter, .card.ng-leave, .card.ng-move {
     -webkit-transition: 0.5s linear all;
     -moz-transition: 0.5s linear all;
