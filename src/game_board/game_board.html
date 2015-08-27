@@ -1,6 +1,6 @@
 <div class="game game-{{modName}}">
     <!-- Action buttons -->
-    <div class="player-actions" style="border: solid 5px pink;">
+    <div class="player-actions">
         <div ng-repeat="action in actions" ng-if="action.isPlayer">
             <input ng-click="startAction(action)" ng-hide="doingAction" type="button" value="{{action.action}}"
                    class="btn btn-navbar csh-button"/>
@@ -14,11 +14,8 @@
     </div>
 
     <!-- Player display -->
-    <div style="border: solid 5px grey;">
+    <div>
         <div ng-repeat="(type, info) in playerInfos" class="player"
-             style="
-                border: solid 5px brown;
-                "
             ng-class="{'player-user': info == playerInfos.user, 'player-opponent': info != playerInfos.user}">
             <h3 ng-click="selectEntity(info)"
                 ng-class="{'selected': info.selected, 'targetable': doingAction && targets.indexOf(info.id) !== -1}">
@@ -26,13 +23,7 @@
             </h3>
 
             <!-- Player properties -->
-            <div class="properties"
-                 style="
-                    border: solid 5px blue;
-                    clear: both;
-                    width: 175px;
-                    float: left;
-                    ">
+            <div class="properties">
                 <h3 style="text-decoration: underline; font-weight: bold;">{{info.name}}</h3>
                 <ul style="list-style: none outside none; margin: 0; padding: 0;">
                     <li ng-repeat="(name, value) in info.properties">
@@ -42,17 +33,8 @@
             </div>
 
             <!-- Player cards -->
-            <div ng-repeat="(zoneName, zoneInfo) in info.zones" class="zone zone-{{zoneName}}"
-                 style="
-                    border: solid 5px teal;
-                    float: left;
-                    overflow-x:scroll;
-                    overflow-y:hidden;
-                 ">
-                <div ng-show="zoneInfo.known"
-                        style="
-                            border: sold 5px yellow;
-                        ">
+            <div ng-repeat="(zoneName, zoneInfo) in info.zones" class="zone zone-{{zoneName}}">
+                <div ng-show="zoneInfo.known">
                     <!--<h3>{{zoneName}}</h3>-->
                     <card card-info="card" targets="targets" doing-action="doingAction" 
                         select-entity="selectEntity(card)" actions="actions" start-action="startAction(action)"
@@ -62,7 +44,7 @@
                 </div>
 
                 <!-- For opponent's cards. Is there a better way? -->
-                <div ng-show="!zoneInfo.known && zoneName==='Hand'" style="border: solid 5px orange;">
+                <div ng-show="!zoneInfo.known && zoneName==='Hand'">
                     <h3>{{zoneName}}</h3>
                     <ul>
                         <li>{{info.zones.Hand.length()}} cards</li>
