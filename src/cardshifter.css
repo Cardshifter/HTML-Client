@@ -235,12 +235,17 @@ th {
 
 /* FORMATTING FOR GAME-BOARD STUFF */
 
+
 .targetable {
     background-color: yellow;
 }
 
 .selected {
     background-color: #00ffff;
+}
+
+.player-info-box {
+    border: solid 3px yellow;
 }
 
 .player-actions {
