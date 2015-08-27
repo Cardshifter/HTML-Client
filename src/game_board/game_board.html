@@ -1,17 +1,5 @@
 <div class="game game-{{modName}}">
-    <!-- Action buttons -->
-    <div class="player-actions">
-        <div ng-repeat="action in actions" ng-if="action.isPlayer">
-            <input ng-click="startAction(action)" ng-hide="doingAction" type="button" value="{{action.action}}"
-                   class="btn btn-navbar csh-button"/>
-        </div>
-        <div>
-            <input ng-click="cancelAction()" ng-show="doingAction" type="button" value="Cancel"
-                   class="btn btn-navbar csh-button"/>
-            <input ng-click="performAction()" ng-show="doingAction" type="button" value="{{currentAction.action}}"
-                   class="btn btn-navbar csh-button"/>
-        </div>
-    </div>
+
 
     <!-- Player display -->
     <div>
@@ -30,6 +18,19 @@
                         <b>{{name}}</b>: {{value}}
                     </li>
                 </ul>
+                <!-- Action buttons -->
+                <div class="player-actions">
+                    <div ng-repeat="action in actions" ng-if="action.isPlayer">
+                        <input ng-click="startAction(action)" ng-hide="doingAction" type="button" value="{{action.action}}"
+                               class="btn btn-navbar csh-button"/>
+                    </div>
+                    <div>
+                        <input ng-click="cancelAction()" ng-show="doingAction" type="button" value="Cancel"
+                               class="btn btn-navbar csh-button"/>
+                        <input ng-click="performAction()" ng-show="doingAction" type="button" value="{{currentAction.action}}"
+                               class="btn btn-navbar csh-button"/>
+                    </div>
+                </div>
             </div>
 
             <!-- Player cards -->

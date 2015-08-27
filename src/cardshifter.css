@@ -249,3 +249,19 @@ th {
 .card-property {
     position: relative;
 }
+
+.player-user .zone-Hand {
+    border: solid 3px red;
+}
+
+.player-user .zone-Battlefield {
+    border: solid 3px pink;
+}
+
+.player-opponent .zone-Hand {
+    border: solid 3px blue;
+}
+
+.player-opponent .zone-Battlefield {
+    border: solid 3px teal;
+}
