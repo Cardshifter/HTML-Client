@@ -14,6 +14,7 @@
                     <li ng-repeat="(name, value) in info.properties">
                         <b>{{name}}</b>: {{value}}
                     </li>
+                    <li><b>CARDS: </b>{{info.zones.Hand.length()}}</li>
                 </ul>
                 <!-- Action buttons -->
                 <div class="player-actions">
@@ -37,16 +38,12 @@
                     <card card-info="card" targets="targets" doing-action="doingAction" 
                         select-entity="selectEntity(card)" actions="actions" start-action="startAction(action)"
                         ng-repeat="(id, card) in zoneInfo.entities">
-                        
                     </card>
                 </div>
 
                 <!-- For opponent's cards. Is there a better way? -->
                 <div ng-show="!zoneInfo.known && zoneName==='Hand'">
-                    <h3>{{zoneName}}</h3>
-                    <ul>
-                        <li>{{info.zones.Hand.length()}} cards</li>
-                    </ul>
+                    <!--<h3>{{zoneName}}</h3>-->
                 </div>
             </div>
         </div>
