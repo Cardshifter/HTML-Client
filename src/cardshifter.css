@@ -246,6 +246,9 @@ th {
 
 .player-info-box {
     border: solid 3px yellow;
+    height: 300px;
+    width: 17%;
+    float: left;
 }
 
 .player-actions {
@@ -258,18 +261,21 @@ th {
 .player-user .zone-Hand {
     border: solid 3px red;
     height: 300px;
-    width: 575px;
+    width: 83%;
     overflow-x: scroll;
+    float: left;
 }
 
 .player-user .zone-Battlefield {
     border: solid 3px pink;
-        height: 300px;
+    height: 300px;
+    width: 80%;
 }
 
 .player-opponent .zone-Hand {
     border: solid 3px blue;
     height: 300px;
+    width: 3%;
 }
 
 .player-opponent .zone-Battlefield {
