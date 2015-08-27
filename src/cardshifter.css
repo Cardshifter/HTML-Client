@@ -234,6 +234,7 @@ th {
 }
 
 /* FORMATTING FOR GAME-BOARD STUFF */
+
 .targetable {
     background-color: yellow;
 }
@@ -243,7 +244,6 @@ th {
 }
 
 .player-actions {
-    float: left; /* helps avoid annoying flickering of cards when performing actions by keeping this in the same place */
 }
 
 .card-property {
@@ -252,16 +252,22 @@ th {
 
 .player-user .zone-Hand {
     border: solid 3px red;
+    height: 300px;
+    width: 575px;
+    overflow-x: scroll;
 }
 
 .player-user .zone-Battlefield {
     border: solid 3px pink;
+        height: 300px;
 }
 
 .player-opponent .zone-Hand {
     border: solid 3px blue;
+    height: 300px;
 }
 
 .player-opponent .zone-Battlefield {
     border: solid 3px teal;
+    height: 300px;
 }
