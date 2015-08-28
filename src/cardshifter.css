@@ -245,7 +245,7 @@ th {
 }
 
 .player-info-box {
-    border: solid 3px yellow;
+    /*border: solid 3px yellow;*/
     height: 300px;
     width: 14%;
     float: left;
@@ -259,7 +259,7 @@ th {
 }
 
 .player-user .zone-Hand {
-    border: solid 3px red;
+    /*border: solid 3px red;*/
     height: 300px;
     width: 86%;
     overflow-y: scroll;
@@ -267,7 +267,7 @@ th {
 }
 
 .player-user .zone-Battlefield {
-    border: solid 3px pink;
+    /*border: solid 3px pink;*/
     height: 300px;
     width: 86%;
     overflow-y: scroll;
@@ -276,14 +276,14 @@ th {
 
 .player-opponent .zone-Hand {
     visibility: hidden; /* THERE IS NOTHING TO SHOW IN THIS SECTION RIGHT NOW - @Phrancis 2015-08-27 */
-    border: solid 3px blue;
+    /*border: solid 3px blue;*/
     height: 300px;
     width: 3%;
 }
 
 .player-opponent .zone-Battlefield {
-    border: solid 3px teal;
+    /*border: solid 3px teal;*/
     height: 300px;
+    width: 100%;
     overflow-y: scroll;
-
 }

@@ -71,7 +71,7 @@
         </div>
     </div>
     <div class="card-actions">
-        <button class="btn btn-sm btn-default" ng-repeat="action in actions"
+        <button class="btn btn-sm btn-navbar csh-button" ng-repeat="action in actions"
                 ng-if="!doingAction && action.id === card.id"
                 ng-click="startAction({action: action})"
                 class="btn btn-xs btn-default">
