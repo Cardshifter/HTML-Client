@@ -8,8 +8,8 @@
 
             <!-- Player information boxes -->
             <div class="properties player-info-box">
-                <h3 style="text-decoration: underline; font-weight: bold;" ng-click="selectEntity(info)"
-                    ng-class="{'selected': info.selected, 'targetable': doingAction && targets.indexOf(info.id) !== -1}">{{info.name}}</h3>
+                <h4 style="text-decoration: underline; font-weight: bold;" ng-click="selectEntity(info)"
+                    ng-class="{'selected': info.selected, 'targetable': doingAction && targets.indexOf(info.id) !== -1}">{{info.name}}</h4>
                 <ul style="list-style: none outside none; margin: 0; padding: 0;">
                     <li ng-repeat="(name, value) in info.properties">
                         <b>{{name}}</b>: {{value}}
