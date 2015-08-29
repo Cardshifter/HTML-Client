@@ -274,9 +274,12 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
         try {
             var src = findZone(message.sourceZone);
             var dest = findZone(message.destinationZone);
-
-            var card = src.entities[message.entity];
-            delete src.entities[message.entity];
+            var card = null;
+            // when a card is suddenly summoned, sourceZone is -1, which doesn't exist
+            if (src) {
+                card = src.entities[message.entity];
+                delete src.entities[message.entity];
+            }
             $scope.cardZones[message.entity] = message.destinationZone;
             dest.entities[message.entity] = card;
         } catch(e) {
