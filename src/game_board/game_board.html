@@ -18,14 +18,14 @@
                 </ul>
                 <!-- Action buttons -->
                 <div class="player-actions">
-                    <div ng-repeat="action in actions" ng-if="action.isPlayer">
+                    <div ng-repeat="action in actions" ng-if="action.isPlayer && action.id == info.id">
                         <input ng-click="startAction(action)" ng-hide="doingAction" type="button" value="{{action.action}}"
                                class="btn btn-navbar csh-button"/>
                     </div>
-                    <div>
-                        <input ng-click="cancelAction()" ng-show="doingAction" type="button" value="Cancel"
+                    <div ng-show="doingAction && info == playerInfos.user">
+                        <input ng-click="cancelAction()" type="button" value="Cancel"
                                class="btn btn-navbar csh-button"/>
-                        <input ng-click="performAction()" ng-show="doingAction" type="button" value="{{currentAction.action}}"
+                        <input ng-click="performAction()" type="button" value="{{currentAction.action}}"
                                class="btn btn-navbar csh-button"/>
                     </div>
                 </div>
