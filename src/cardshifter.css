@@ -234,6 +234,8 @@ th {
 }
 
 /* FORMATTING FOR GAME-BOARD STUFF */
+
+
 .targetable {
     background-color: yellow;
 }
@@ -242,10 +244,67 @@ th {
     background-color: #00ffff;
 }
 
+.player-info-box {
+    /*border: solid 3px yellow;*/ /* for testing */
+    /* Layout & Positioning */
+    height: 300px;
+    width: 14%;
+    float: left;
+    /* Styling: */
+    border: double 3px #7A7A7A;
+    background-color: #F5F5F5;
+    border-radius: 10px;
+    /* Content alignment */
+    text-align: left;
+    padding-left: 5px;
+    font-size: 0.8em;
+}
+
 .player-actions {
-    float: left; /* helps avoid annoying flickering of cards when performing actions by keeping this in the same place */
 }
 
 .card-property {
     position: relative;
+}
+
+.player-user .zone-Hand {
+    /*border: solid 3px red;*/
+    height: 300px;
+    width: 86%;
+    overflow-y: scroll;
+    float: left;
+    /* Styling: */
+    border: double 3px #BBBBBB;
+    background-color: #EEEEEE;
+    border-radius: 10px;
+}
+
+.player-user .zone-Battlefield {
+    /*border: solid 3px pink;*/
+    height: 300px;
+    width: 86%;
+    overflow-y: scroll;
+    float: left;
+    /* Styling: */
+    border: double 3px #1F3D7A;
+    background-color: #C2D1F0;
+    border-radius: 10px;
+}
+
+.player-opponent .zone-Hand {
+    visibility: hidden; /* THERE IS NOTHING TO SHOW IN THIS SECTION RIGHT NOW - @Phrancis 2015-08-27 */
+    /*border: solid 3px blue;*/
+    height: 300px;
+    width: 3%;
+}
+
+.player-opponent .zone-Battlefield {
+    /*border: solid 3px teal;*/
+    height: 300px;
+    width: 100%;
+    overflow-y: scroll;
+    /* Styling: */
+    border: double 3px #7A0000;
+    background-color: #E68080;
+    border-radius: 10px;
 }
