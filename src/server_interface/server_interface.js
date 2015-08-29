@@ -4,16 +4,36 @@
 var wsProtocolFinder = /ws(s)*:\/\//;
 var SOCKET_OPEN = 1;
 
+var MAIN_LOBBY = 1;
+
 var eventTypes = [];
 
+/**
+* The base class Message for all the other message types
+* to inherit from.
+*
+* TODO: Would it just be easier to set the .command property
+* individually for each card type?
+*/
 function Message(command) {
     this.command = command;
 }
 
+/**
+* The exception that is thrown when the code is trying to
+* interact with the API when the API has not been
+* initialized with .init yet.
+*/
 function NotInitializedException(message) {
     this.name = "NotInitializedException";
     this.message = message;
 }
+
+/**
+* The exception that is thrown when the code is telling the
+* API to interact with the socket when the socket is not
+* ready to accept any information.
+*/
 function SocketNotReadyException(message, readyState) {
     this.name = "SocketNotReadyException"
     this.message = message;
@@ -150,8 +170,7 @@ var CardshifterServerAPI = {
         * @param message  The content of this chat message
         */
         ChatMessage: function(message) {
-            this.chatId = 1;
-            this.from = "unused";
+            this.chatId = MAIN_LOBBY;
             this.message = message;
 
             this.toString = function() {

@@ -17,7 +17,7 @@
     "Francis Veilleux-Gaboury <Phrancis@users.noreply.github.com> (http://www.github.com/Phrancis)",
     "SirPython <SirPython@users.noreply.github.com> (http://www.github.com/SirPython)"
   ],
-  "license": "ISC",
+  "license": "AFL-2.0",
   "bugs": {
     "url": "https://github.com/Cardshifter/HTML-Client/issues"
   },
@@ -38,7 +38,9 @@
     "webpack-dev-server": "^1.10.1"
   },
   "dependencies": {
-    "angular": "^1.4.3",
-    "angular-route": "^1.4.3"
+    "angular": "1.4.3",
+    "angular-route": "1.4.3",
+    "angular-bootstrap-npm": "0.13.3",
+    "angular-animate": "1.4.3"
   }
 }

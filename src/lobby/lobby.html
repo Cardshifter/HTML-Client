@@ -1,7 +1,7 @@
 <table id="lobby">
     <tr id="lobby-headers">
         <td id="lobby-title">Cardshifter Lobby</td>
-        <td id="lobby-deck-builder" width="20%"><button ng-click="openDeckBuilder()" class="btn btn-navbar csh-button">Deck Builder</button></td>
+        <td id="lobby-deck-builder" width="20%"><button data-ng-click="openDeckBuilder()" class="btn btn-navbar csh-button">Deck Builder</button></td>
     </tr>
     <tr id="lobby-invite-request" data-ng-show="gotInvite">
         <td colspan="2">
@@ -9,6 +9,9 @@
                 Game invite from {{invite.name}} to play {{invite.type}}!<br/>
                 <input data-ng-click="acceptInvite(true)" type="button" value="Accept" class="btn btn-success"/>
                 <input data-ng-click="acceptInvite(false)" type="button" value="Decline" class="btn btn-danger"/>
+                <audio id="ping">
+                    <source src="ping_sound.mp3" type="audio/mpeg">
+                </audio>
             </div>
         </td>
     </tr>
@@ -27,18 +30,20 @@
         <td id="lobby-users-list">
             <ul id="lobby-users">
                 <li data-ng-repeat="user in users" id="lobby-user">
-                    <input data-ng-model="$parent.$parent.selected_opponent" data-ng-if="user.userId!=currentUser.id" type="radio"
-                           value="{{$parent.user.userId}}" name="user_selection" /> {{user.name}}
+                    <label>
+                        <input data-ng-model="$parent.$parent.selected_opponent" data-ng-if="user.userId!=currentUser.id" type="radio"
+                               value="{{$parent.user.userId}}" name="user_selection" /> {{user.name}}
+                    </label>
                 </li>
             </ul>
         </td>
     </tr>
     <tr>
         <td id="lobby-message">
-            <textarea ng-model="user_chat_message" ng-keyup="sendMessage($event)"
+            <textarea data-ng-model="user_chat_message" data-ng-keyup="sendMessage($event)"
                       id="lobby-chat-text-area" rows="1" cols="75" wrap="off"
                       placeholder="Enter chat message..."></textarea>
-            <input ng-click="sendMessage()" ng-disabled="sending" type="submit" value="Send" class="btn btn-navbar csh-button"/>
+            <input data-ng-click="sendMessage()" data-ng-disabled="sending" type="submit" value="Send" class="btn btn-navbar csh-button"/>
         </td>
         <td id="lobby-invite">
             <input data-ng-click="startGame()" type="button" value="Invite to game" class="btn btn-warning"/>
@@ -49,10 +54,12 @@
             <form class="form-inline" role="form">
                 <div class="form-group">
                     <label for="mod_selection">Select game type:</label>
-                    <div ng-repeat="mod in mods" class="form-control" id="lobby-mod-selector">
-                        <input ng-model="$parent.selected_mod" type="radio" value="{{mod}}"
-                               name="mod_selection" id="mod_selection"/>
-                        {{mod}}
+                    <div data-ng-repeat="mod in mods" class="form-control lobby-mod-selector">
+                        <label>
+                            <input data-ng-model="$parent.selected_mod" type="radio" value="{{mod}}"
+                                   name="mod_selection" id="mod_selection"/>
+                            {{mod}}
+                        </label>
                     </div>
                 </div>
             </form>

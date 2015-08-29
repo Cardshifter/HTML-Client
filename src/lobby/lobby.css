@@ -50,6 +50,14 @@
     list-style-type: none;
     padding-left: 0;
 }
+
+#lobby-chat-messages:nth-child(even) {
+    background-color: #BFEFFF;
+}
+#lobby-chat-message:nth-child(odd) {
+    background-color: #E0F7FF;
+}
+
 /* Each individual message line */
 #lobby-chat-message {
 }

@@ -1,0 +1,106 @@
+.card-outer {
+    width: 180px;
+    height: 275px;
+    border-style: groove;
+    border-width: 5px;
+    border-color: silver;
+    border-radius: 10px;
+    background: gainsboro;
+    float: left;
+    padding: 2px;
+    margin-bottom: 10px;
+}
+
+.card-image {
+    border-style: solid;
+    border-width: 2px;
+    border-color: black;
+    border-radius: 10px;
+}
+
+.card-name {
+    float: left;
+    padding: 5px;
+    font-family: Georgia, Times, "Times New Roman", serif;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.card-type {
+    clear:both;
+    padding: 5px;
+    padding-top: 8px;
+    font-family: Georgia, Times, "Times New Roman", serif;
+    font-size: 1.1em;
+}
+
+.card-actions {
+    width: 180px;
+    clear: both;
+    /*border-style: solid;
+    border-width: 3px;
+    border-color: black;
+    border-radius: 10px;*/
+    text-align: center;
+}
+
+.card.ng-enter, .card.ng-leave, .card.ng-move {
+    -webkit-transition: 0.5s linear all;
+    -moz-transition: 0.5s linear all;
+    -o-transition: 0.5s linear all;
+    transition: 0.5s linear all;
+}
+
+.card.ng-enter, .card.ng-move {
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+.card.ng-move.ng-move-active,
+.card.ng-enter.ng-enter-active {
+    opacity: 1;
+    height: 275px;
+}
+
+.card.ng-leave {
+    opacity: 1;
+    overflow: hidden;
+}
+
+.card.ng-leave.ng-leave-active {
+    opacity: 0;
+    height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+/* CARD PROPERTY ANIMATION */
+
+.card-property {
+    position: relative;
+    display: inline-block;
+}
+
+button.diff-animation {
+    z-index: 4;
+    position: absolute;
+    opacity: 0;
+}
+
+.diff-animation.ng-leave {
+    -webkit-transition: 1.5s linear all;
+    -moz-transition: 1.5s linear all;
+    -o-transition: 1.5s linear all;
+    transition: 1.5s linear all;
+}
+
+.diff-animation.ng-leave {
+    opacity: 1;
+}
+
+.diff-animation.ng-leave.ng-leave-active {
+    opacity: 0;
+    top: -32px;
+}
+
