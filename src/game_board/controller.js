@@ -364,8 +364,8 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
         var modalInstance = $modal.open({
             animation: true,
             backdrop: 'static',
-            templateUrl: 'game_results.html',
-            controller: 'ModalInstanceCtrl',
+            template: require('../game_results/game_results.html'),
+            controller: 'GameOverMessageController',
             size: 'sm',
             resolve: {
                 message: function () {
@@ -376,9 +376,6 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
 
         modalInstance.result.then(function () {
             $location.path("/lobby");
-        }, function () {
-            // $log.info('Modal dismissed at: ' + new Date());
-            console.log('Modal dismissed at: ' + new Date());
         });
 
         
