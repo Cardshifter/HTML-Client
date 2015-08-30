@@ -15,11 +15,11 @@
             <td><b>Users</b></td>
             <td><b>Latency</b></td>
         </tr>
-        <tr ng-repeat="(name, info) in servers" ng-if="name !== 'Other...'">
-            <td>{{name}}</td>
-            <td>{{info.isOnline}}</td>
-            <td>{{info.userCount}} users</td>
-            <td>{{info.latency}} ms</td>
+        <tr ng-repeat="server in servers" ng-if="server.name !== 'Other...'">
+            <td>{{server.name}}</td>
+            <td>{{server.isOnline}}</td>
+            <td>{{server.userCount}} users</td>
+            <td>{{server.latency}} ms</td>
         </tr>
     </table>
     <input ng-click="updateStats()" type="button" value="Refresh" />
@@ -29,7 +29,7 @@
     <div class="form-group">
         <label for="server" aria-label="Server">Server:</label>
         <select ng-model="server" name="server" id="server" class="form-control">
-            <option ng-repeat="(name, info) in servers" value="{{info.address}}">{{name}}</option>
+            <option ng-repeat="server in servers" value="{{server.address}}">{{server.name}}</option>
         </select>
         <label for="secure">Is secure server:</label>
         <input ng-model="is_secure" name="secure" id="secure" type="checkbox" value="secure" />

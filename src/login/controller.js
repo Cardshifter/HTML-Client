@@ -4,32 +4,12 @@
 function LoginController(CardshifterServerAPI, $scope, $location, $rootScope) {
     var SUCCESS = 200;
 
-    $scope.servers = {
-        "Local Host": {
-            address: "ws://127.0.0.1:4243",
-            isOnline: false,
-            userCount: 0,
-            latency: 0
-        },
-        "dwarftowers.com": {
-            address: "ws://dwarftowers.com:4243",
-            isOnline: false,
-            userCount: 0,
-            latency: 0
-        },
-        "zomis.net": {
-            address: "ws://stats.zomis.net:4243",
-            isOnline: false,
-            userCount: 0,
-            latency: 0
-        },
-        "Other...": {
-            address: "other",
-            isOnline: null,
-            userCount: null,
-            latency: null
-        }
-    }
+    $scope.servers = [
+        new ServerInfo("Local Host", "ws://127.0.0.1:4243"),
+        new ServerInfo("Dwarf Towers", "ws://dwarftowers.com:4243"),
+        new ServerInfo("Zomis.net", "ws://stats.zomis.net:4243"),
+        new ServerInfo("Other...", null)
+    ];
 
     $scope.login = function() {
         $scope.loggedIn = true;
@@ -93,6 +73,25 @@ function LoginController(CardshifterServerAPI, $scope, $location, $rootScope) {
                 });
             }
         }
+    }
+    
+    /**
+    * The ServerInfo class.
+    * @constructor
+    *
+    * @param name:string -- The name of the server
+    * @param address:string -- The address of the server
+    *
+    * This class is used for displaying the various
+    * available servers at the top of the screen
+    * in the server status table.
+    */
+    function ServerInfo(name, address) {
+        this.name = name;
+        this.address = address;
+        this.isOnline = false;
+        this.userCount = 0;
+        this.latency = 0;
     }
 };
 
