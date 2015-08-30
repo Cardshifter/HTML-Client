@@ -18,12 +18,13 @@ function DeckbuilderController(CardshifterServerAPI, $scope, $rootScope, $locati
     var deckConfig = null; // the message received from the server
 
     if(!localStorage.getItem(DECK_STORAGE)) {
-        var json = "{\"decks\": {";
-        for(var i = 0, length = availableGameMods.length; i < length; i++) {
-            json += "\"" + availableGameMods[i] + "\":[],";
+        var mods = {};
+        for (var i in availableGameMods) {
+            mods[availableGameMods[i]] = [];
         }
-        json = json.slice(0, -1); // remove last comma
-        json += "}}";
+        var json = JSON.stringify({
+            decks: mods
+        });
         localStorage.setItem(DECK_STORAGE, json);
     }
 
@@ -92,7 +93,6 @@ function DeckbuilderController(CardshifterServerAPI, $scope, $rootScope, $locati
             if($scope.currentDeck.hasOwnProperty(card)) {
                 total += $scope.currentDeck[card];
             }
-
         }
         return total;
     };

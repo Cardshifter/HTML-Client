@@ -15,14 +15,10 @@ module.exports = angular.module('cardshifter.gameBoard', [ngRoute, ngAnimate, se
     })
   })
   
-  .controller('ModalInstanceCtrl', function ($scope, $modalInstance, message) {
+  .controller('GameOverMessageController', function ($scope, $modalInstance, message) {
     $scope.message = message;
     $scope.ok = function () {
         $modalInstance.close();
-    };
-
-    $scope.cancel = function () {
-        $modalInstance.dismiss('cancel');
     };
   })
   .directive('instantRemove', function($animate) {
