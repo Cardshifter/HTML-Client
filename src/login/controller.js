@@ -8,7 +8,7 @@ function LoginController(CardshifterServerAPI, $scope, $location, $rootScope) {
         new ServerInfo("Local Host", "ws://127.0.0.1:4243"),
         new ServerInfo("Dwarf Towers", "ws://dwarftowers.com:4243"),
         new ServerInfo("Zomis.net", "ws://stats.zomis.net:4243"),
-        new ServerInfo("Other...", null)
+        new ServerInfo("Other...", "other")
     ];
 
     $scope.login = function() {
