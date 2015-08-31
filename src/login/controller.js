@@ -1,8 +1,9 @@
 'use strict';
 
 // @ngInject
-function LoginController(CardshifterServerAPI, $scope, $location, $rootScope) {
+function LoginController(CardshifterServerAPI, $scope, $location, $rootScope, $interval) {
     var SUCCESS = 200;
+    var UPDATE_DELAY = 10000;
 
     $scope.servers = [
         new ServerInfo("Local Host", "ws://127.0.0.1:4243"),
@@ -56,25 +57,28 @@ function LoginController(CardshifterServerAPI, $scope, $location, $rootScope) {
         });
     }
 
-    $scope.updateStats = function() {
-        for(var server in $scope.servers) {
-            if($scope.servers.hasOwnProperty(server) && server !== "Other...") {
-                var thisServer = $scope.servers[server];
+    $interval(function updateServers() {
+        for(var i = 0, length = $scope.servers.length; i < length; i++) {
+            var thisServer = $scope.servers[i];
 
-                var now = Date.now();
-                CardshifterServerAPI.init(thisServer.address, false, function() {
-                    thisServer.latency = Date.now() - now;
-                    thisServer.isOnline = true;
-
-                }, function() {
-                    thisServer.isOnline = false;
-                    thisServer.latency = 0;
-                    thisServer.userCount = 0;
-                });
+            if(thisServer.name === "Other...") {
+                return;
             }
+
+            var now = Date.now();
+
+            CardshifterServerAPI.init(thisServer.address, false, function() {
+                thisServer.latency = Date.now() - now;
+                thisServer.isOnline = true;
+            }, function() {
+                thisServer.latency = 0;
+                thisServer.isOnline = false;
+                thisServer.userCount = 0;
+            });
         }
-    }
-    
+
+    }, UPDATE_DELAY);
+
     /**
     * The ServerInfo class.
     * @constructor
