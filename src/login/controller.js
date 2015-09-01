@@ -1,7 +1,7 @@
 'use strict';
 
 // @ngInject
-function LoginController(CardshifterServerAPI, $scope, $location, $rootScope, $interval) {
+function LoginController(CardshifterServerAPI, $scope, $location, $rootScope) {
     var SUCCESS = 200;
     var UPDATE_DELAY = 10000;
 
@@ -57,7 +57,7 @@ function LoginController(CardshifterServerAPI, $scope, $location, $rootScope, $i
         });
     }
 
-    $interval(function updateServers() {
+    $scope.refreshServers = function() {
         for(var i = 0, length = $scope.servers.length; i < length; i++) {
             var thisServer = $scope.servers[i];
 
@@ -77,7 +77,7 @@ function LoginController(CardshifterServerAPI, $scope, $location, $rootScope, $i
             });
         }
 
-    }, UPDATE_DELAY);
+    };
 
     /**
     * The ServerInfo class.
