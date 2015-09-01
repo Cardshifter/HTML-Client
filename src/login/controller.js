@@ -1,9 +1,12 @@
 'use strict';
 
 // @ngInject
-function LoginController(CardshifterServerAPI, $scope, $location, $rootScope) {
+function LoginController(CardshifterServerAPI, $scope, $location, $rootScope, $timeout) {
     var SUCCESS = 200;
     var UPDATE_DELAY = 10000;
+    var REFRESH_DELAY = 3000;
+
+    $scope.refreshing = false;
 
     $scope.servers = [
         new ServerInfo("Local Host", "ws://127.0.0.1:4243"),
@@ -76,7 +79,11 @@ function LoginController(CardshifterServerAPI, $scope, $location, $rootScope) {
                 thisServer.userCount = 0;
             });
         }
-
+        
+        $scope.refreshing = true;
+        $timeout(function() {
+            $scope.refreshing = false;
+        }, REFRESH_DELAY);
     };
 
     /**
