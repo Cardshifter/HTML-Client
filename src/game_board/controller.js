@@ -274,9 +274,12 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
         try {
             var src = findZone(message.sourceZone);
             var dest = findZone(message.destinationZone);
-
-            var card = src.entities[message.entity];
-            delete src.entities[message.entity];
+            var card = null;
+            // when a card is suddenly summoned, sourceZone is -1, which doesn't exist
+            if (src) {
+                card = src.entities[message.entity];
+                delete src.entities[message.entity];
+            }
             $scope.cardZones[message.entity] = message.destinationZone;
             dest.entities[message.entity] = card;
         } catch(e) {
@@ -322,13 +325,20 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
     function updateProperties(toUpdate) {
         var entity = findEntity(toUpdate.id);
         if (!entity) {
-            console.log('entity not found: ' + toUpdate.id);
+            // this can happen when Server sends update message before CardInfoMessage
+            return;
+        }
+        if (!entity.properties) {
+            // this can happen when Server sends update message before CardInfoMessage
             return;
         }
         var oldValue = entity.properties[toUpdate.key];
         entity.properties[toUpdate.key] = toUpdate.value;
         if (typeof toUpdate.value === 'number') {
             var diff = toUpdate.value - oldValue;
+            if (!entity.animations) {
+                entity.animations = {};
+            }
             var anim = entity.animations[toUpdate.key];
             var animObject = { diff: diff };
             if (anim) {
@@ -434,6 +444,10 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
         } else {
             var zoneId = $scope.cardZones[id];
             var zone = findZone(zoneId);
+            if (!zone) {
+                console.log('unable to find entity ' + id + ', last known zone not found: ' + zoneId);
+                return null;
+            }
             if (zone.entities[id]) {
                 return zone.entities[id];
             }
