@@ -61,6 +61,7 @@ function LoginController(CardshifterServerAPI, $scope, $location, $rootScope, $t
     }
 
     $scope.refreshServers = function() {
+        $scope.refreshing = true;
         for(var i = 0, length = $scope.servers.length; i < length; i++) {
             if($scope.servers[i].name === "Other...") {
                 continue;
@@ -89,8 +90,7 @@ function LoginController(CardshifterServerAPI, $scope, $location, $rootScope, $t
                 }
             }));
         }
-        
-        $scope.refreshing = true;
+
         $timeout(function() {
             $scope.refreshing = false;
         }, REFRESH_DELAY);
