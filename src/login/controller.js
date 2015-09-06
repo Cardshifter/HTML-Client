@@ -66,32 +66,38 @@ function LoginController(CardshifterServerAPI, $scope, $location, $rootScope, $t
             $scope.refreshing = false;
         }, REFRESH_DELAY);
 
-        for(var i = 0, length = $scope.servers.length; i < length; i++) {
-            if($scope.servers[i].name === "Other...") {
-                continue;
+        var i = 0;
+        (function foo() {
+            var thisServer = $scope.servers[i];
+
+            if(thisServer.name === "Other...") {
+                return;
             }
 
             var now = Date.now();
 
-            /**
-            * The reason why there is all this anonymous function
-            * returning anonymous function magic is because this
-            * init method happens asynchronously, and that means
-            * that the local thisServer variable is going to change
-            * almost instantaneously to the very last server in the
-            * list.
-            */
-            (function(thisServer) {
-                CardshifterServerAPI.init(thisServer.address, false, function() {
-                    thisServer.latency = Date.now() - now;
-                    thisServer.isOnline = true;
-                }, function() {
-                    thisServer.latency = 0;
-                    thisServer.isOnline = false;
-                    thisServer.userCount = 0;
-                })
-            })($scope.servers[i]);
-        }
+            CardshifterServerAPI.init(thisServer.address, false, function() {
+                thisServer.latency = Date.now() - now;
+                thisServer.isOnline = true;
+
+                CardshifterServerAPI.socket.close();
+                CardshifterServerAPI.socket = null;
+
+                i++;
+                if($scope.servers[i]) {
+                    foo();
+                }
+            }, function() {
+                thisServer.latency = 0;
+                thisServer.isOnline = false;
+                thisServer.userCount = 0;
+
+                i++;
+                if($scope.servers[i]) {
+                    foo();
+                }
+            })
+        })();
     };
 
     /**
