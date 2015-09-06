@@ -62,22 +62,32 @@ function LoginController(CardshifterServerAPI, $scope, $location, $rootScope, $t
 
     $scope.refreshServers = function() {
         for(var i = 0, length = $scope.servers.length; i < length; i++) {
-            var thisServer = $scope.servers[i];
-
-            if(thisServer.name === "Other...") {
-                return;
+            if($scope.servers[i].name === "Other...") {
+                continue;
             }
 
             var now = Date.now();
 
-            CardshifterServerAPI.init(thisServer.address, false, function() {
-                thisServer.latency = Date.now() - now;
-                thisServer.isOnline = true;
-            }, function() {
-                thisServer.latency = 0;
-                thisServer.isOnline = false;
-                thisServer.userCount = 0;
-            });
+            /**
+            * The reason why there is all this anonymous function
+            * returning anonymous function magic is because this
+            * init method happens asynchronously, and that means
+            * that the local thisServer variable is going to change
+            * almost instantaneously to the very last server in the
+            * list.
+            */
+            CardshifterServerAPI.init($scope.servers[i].address, false, (function(thisServer) {
+                return function() {
+                    thisServer.latency = Date.now() - now;
+                    thisServer.isOnline = true;
+                }
+            })($scope.servers[i]), (function(thisServer) {
+                return function() {
+                    thisServer.latency = 0;
+                    thisServer.isOnline = false;
+                    thisServer.userCount = 0;
+                }
+            }));
         }
         
         $scope.refreshing = true;
