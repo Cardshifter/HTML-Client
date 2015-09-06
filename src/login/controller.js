@@ -77,18 +77,16 @@ function LoginController(CardshifterServerAPI, $scope, $location, $rootScope, $t
             * almost instantaneously to the very last server in the
             * list.
             */
-            CardshifterServerAPI.init($scope.servers[i].address, false, (function(thisServer) {
-                return function() {
+            (function(thisServer) {
+                CardshifterServerAPI.init(thisServer.address, false, function() {
                     thisServer.latency = Date.now() - now;
                     thisServer.isOnline = true;
-                }
-            })($scope.servers[i]), (function(thisServer) {
-                return function() {
+                }, function() {
                     thisServer.latency = 0;
                     thisServer.isOnline = false;
                     thisServer.userCount = 0;
-                }
-            }));
+                })
+            })($scope.servers[i]);
         }
 
         $timeout(function() {
