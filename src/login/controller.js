@@ -67,6 +67,16 @@ function LoginController(CardshifterServerAPI, $scope, $location, $rootScope, $t
         }, REFRESH_DELAY);
 
         /**
+        * This is a recursive function that is called
+        * once the Websocket has successfully connected
+        * with the server. Once it is connected, the
+        * Websocket is obliterated.
+        *
+        * This is used in place of the loop because
+        * API.init is a mostly async method, so the
+        * loop would rapidly terminate, and the sockets
+        * will be destroyed at the incorrect points in
+        * order for the "blank users"(#92) to be prevented.
         */
         var i = 0;
         (function getServerInfo() {
