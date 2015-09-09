@@ -284,7 +284,7 @@ var CardshifterServerAPI = {
 
         this.socket.onmessage = function(message) {
             var data = JSON.parse(message.data);
-            if(eventTypes) {
+            if(eventTypes !== []) {
                 if(eventTypes.indexOf(data.command) !== -1) { // if contains
                     listener(data);
                 }
