@@ -92,13 +92,23 @@ function LoginController(CardshifterServerAPI, $scope, $location, $rootScope, $t
                 thisServer.latency = Date.now() - now;
                 thisServer.isOnline = true;
 
-                CardshifterServerAPI.socket.close();
-                CardshifterServerAPI.socket = null;
+                /* This must be created here because this is run after init is don't, so command is set properly */
+                var getUsers = new CardshifterServerAPI.messageTypes.ServerQueryMessage("STATUS", "");
 
-                i++;
-                if($scope.servers[i]) {
-                    getServerInfo();
-                }
+                CardshifterServerAPI.sendMessage(getUsers);
+                CardshifterServerAPI.setMessageListener(function(message) {
+
+                    /* For some reason, local host always said 1 user online, but dwarftowers did not. */
+                    thisServer.userCount = Math.abs(message.users - 1);
+
+                    CardshifterServerAPI.socket.close();
+                    CardshifterServerAPI.socket = null;
+
+                    i++;
+                    if($scope.servers[i]) {
+                        getServerInfo();
+                    }
+                }, ["status"]);
             }, function() {
                 thisServer.latency = 0;
                 thisServer.isOnline = false;
@@ -110,6 +120,7 @@ function LoginController(CardshifterServerAPI, $scope, $location, $rootScope, $t
                 }
             })
         })();
+        console.log("gudbai");
     };
 
     /**
