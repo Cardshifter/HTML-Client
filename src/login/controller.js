@@ -120,7 +120,6 @@ function LoginController(CardshifterServerAPI, $scope, $location, $rootScope, $t
                 }
             })
         })();
-        console.log("gudbai");
     };
 
     /**
