@@ -99,7 +99,7 @@ function LoginController(CardshifterServerAPI, $scope, $location, $rootScope, $t
                 CardshifterServerAPI.setMessageListener(function(message) {
 
                     /* For some reason, local host always said 1 user online, but dwarftowers did not. */
-                    thisServer.userCount = Math.abs(message.users - 1);
+                    thisServer.userCount = message.users;
 
                     CardshifterServerAPI.socket.close();
                     CardshifterServerAPI.socket = null;
