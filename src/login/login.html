@@ -9,16 +9,23 @@
 <!-- Server status -->
 <div>
     <table>
+        <!-- Should these be dynamically loaded? -->
         <tr>
-            <td><b>Server</b></td>
-            <td><b>Online</b></td>
-            <td><b>Users</b></td>
-            <td><b>Latency</b></td>
+            <th>Server</th>
+            <th>Online</th>
+            <th>Users</th>
+            <th>Mods</th>
+            <th>Games</th>
+            <th>AIs</th>
+            <th>Latency</th>
         </tr>
         <tr ng-repeat="server in servers" ng-if="server.name !== 'Other...'">
             <td>{{server.name}}</td>
             <td>{{server.isOnline}}</td>
             <td>{{server.userCount}} users</td>
+            <td>{{server.availableMods}} mods</td>
+            <td>{{server.gamesRunning}} games</td>
+            <td>{{server.ais}} AIs</td>
             <td>{{server.latency}} ms</td>
         </tr>
     </table>
