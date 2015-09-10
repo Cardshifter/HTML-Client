@@ -100,6 +100,11 @@ function LoginController(CardshifterServerAPI, $scope, $location, $rootScope, $t
 
                     /* For some reason, local host always said 1 user online, but dwarftowers did not. */
                     thisServer.userCount = message.users;
+                    thisServer.availableMods = message.mods.length;
+                    thisServer.gamesRunning = message.games;
+                    thisServer.ais = message.ais;
+
+                    // Should these (^^) be dynamically loaded?
 
                     CardshifterServerAPI.socket.close();
                     CardshifterServerAPI.socket = null;
@@ -139,6 +144,9 @@ function LoginController(CardshifterServerAPI, $scope, $location, $rootScope, $t
         this.isOnline = false;
         this.userCount = 0;
         this.latency = 0;
+        this.availableMods = 0;
+        this.gamesRunning = 0;
+        this.ais = 0;
     }
 };
 
