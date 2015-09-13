@@ -1,3 +1,16 @@
+/* Deploy the client to play.cardshifter.com.
+ *
+ * How to use:
+ *  1. Build the project and make sure that everything is in order.
+ *  2. Set up environment variables (see below).
+ *  3. Run `npm run deploy`.
+ *  4. Profit!
+ *
+ * Environment variables used:
+ *  - DEPLOY_FTP_USERNAME: Username used to log in through FTP.
+ *  - DEPLOY_FTP_PASSWORD: Password used to lof in through FTP.
+ *  - DEPLOY_DUGA_KEY: Duga API key. If not set the chat bot post is skipped.
+ */
 'use strict';
 
 var copy = require('recursive-copy');
