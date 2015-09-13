@@ -55,7 +55,7 @@ function postToChat(config, botRequest) {
         request(config)
         .then(function(body) {
             if (body) {
-                console.log("Body:\n" + body);
+                console.log("Response:\n" + body);
             }
             resolve();
         })
@@ -64,7 +64,7 @@ function postToChat(config, botRequest) {
 
 function setupFiles() {
     // ftp-deploy doesn't handle uploading from multiple directories well
-    var promise = new Promise(function(resolve, reject) {
+    return new Promise(function(resolve, reject) {
         temp.mkdir("cardshifter-deploy", function (err, tempDir) {
             if (err) {
                 reject(err);
@@ -82,8 +82,6 @@ function setupFiles() {
             });
         });
     });
-
-    return promise;
 }
 
 function deployFtp(config) {
