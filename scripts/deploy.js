@@ -1,9 +1,10 @@
+'use strict';
+
 var copy = require('recursive-copy');
 var FtpDeploy = require('ftp-deploy');
-var ftpDeploy = new FtpDeploy();
 var path = require('path');
-var temp = require('temp').track();
 var request = require('request');
+var temp = require('temp').track();
 
 function ftpConfig(local, remote) {
     return {
@@ -19,13 +20,11 @@ function ftpConfig(local, remote) {
 var chatBotRequest = {
     apiKey: process.env.DEPLOY_DUGA_KEY,
     roomId: 16134,
-    text: "New web client version uploaded."
+    text: "New web client version uploaded to http://play.cardshifter.com/."
 };
 
 var chatBotConfig = {
-    //hostname: "stats.zomis.net",
-    //path: "/GithubHookSEChatService/bot/jsonPost",
-    url: "http://localhost:8000/",
+    url: "http://stats.zomis.net/GithubHookSEChatService/bot/jsonPost",
     method: "POST",
     headers: {
         "Content-Type": "application/json"
@@ -40,10 +39,10 @@ function postToChat(config, botRequest) {
     console.log("Posting message to " + config.url + "...");
 
     var req = request(config, function(error, response, body) {
-        console.log("Response status: " + response.statusMessage);
         if (error) {
             throw error;
         }
+        console.log("Response: " + response.statusMessage);
         if (body) {
             console.log("Response body:\n" + body);
         }
@@ -74,7 +73,7 @@ function setupFiles(callback) {
 }
 
 function deployFtp(config, callback) {
-    ftpDeploy.deploy(config, function(err) {
+    new FtpDeploy().deploy(config, function(err) {
         if (err) {
             throw err;
         } else {
@@ -89,7 +88,7 @@ setupFiles(function(dir) {
     var config = ftpConfig(dir, "/");
     console.log("Deploying to ftp://" + config.host + ":" + config.port + "...");
     deployFtp(config, function() {
-            console.log("FTP deployment successful");
+            console.log("FTP deployment successful.");
             if (chatBotRequest.apiKey) {
                 postToChat(chatBotConfig, chatBotRequest);
             }
