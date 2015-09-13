@@ -62,27 +62,28 @@ function postToChat(config, botRequest) {
     });
 }
 
-function setupFiles(callback) {
+function setupFiles() {
     // ftp-deploy doesn't handle uploading from multiple directories well
-    temp.mkdir("cardshifter-deploy", function (err, tempDir) {
-        if (err) {
-            throw err;
-        }
-        copy(path.join(__dirname, "..", "www"), tempDir, function(err, res) {
+    var promise = new Promise(function(resolve, reject) {
+        temp.mkdir("cardshifter-deploy", function (err, tempDir) {
             if (err) {
-                throw err;
+                reject(err);
             }
-            copy(path.join(__dirname, "..", "dist"), path.join(tempDir, "assets"), function(err, res) {
-                if (err) {
-                    throw err;
-                }
-                if (callback) {
-                    callback(tempDir);
-                }
+
+            Promise.all([
+                copy(path.join(__dirname, "..", "www"), tempDir),
+                copy(path.join(__dirname, "..", "dist"), path.join(tempDir, "assets"))
+            ])
+            .then(function() {
+                resolve(tempDir);
+            })
+            .catch(function(err) {
+                reject(err);
             });
-            
         });
     });
+
+    return promise;
 }
 
 function deployFtp(config, callback) {
@@ -97,7 +98,8 @@ function deployFtp(config, callback) {
     });
 }
 
-setupFiles(function(dir) {
+setupFiles()
+.then(function(dir) {
     var config = ftpConfig(dir, "/");
     console.log("Deploying to ftp://" + config.host + ":" + config.port + "...");
     deployFtp(config, function() {
@@ -106,5 +108,9 @@ setupFiles(function(dir) {
                 postToChat(chatBotConfig, chatBotRequest);
             }
     });
+})
+.catch(function(err) {
+    throw err;
 });
+
 
