@@ -57,7 +57,7 @@ function postToChat(config, botRequest) {
         }
         console.log("Response: " + response.statusMessage);
         if (body) {
-            console.log("Response body:\n" + body);
+            console.log("Body:\n" + body);
         }
     });
 }
@@ -112,7 +112,7 @@ setupFiles()
     }
 })
 .catch(function(err) {
-    console.log("Error: " + err);
+    console.error("Error: " + err);
 });
 
 
