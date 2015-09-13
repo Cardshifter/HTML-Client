@@ -86,15 +86,15 @@ function setupFiles() {
     return promise;
 }
 
-function deployFtp(config, callback) {
-    new FtpDeploy().deploy(config, function(err) {
-        if (err) {
-            throw err;
-        } else {
-            if (callback) {
-                callback();
+function deployFtp(config) {
+    return new Promise(function(resolve, reject) {
+        new FtpDeploy().deploy(config, function(err) {
+            if (err) {
+                reject(err);
+            } else {
+                resolve();
             }
-        }
+        });
     });
 }
 
@@ -102,15 +102,17 @@ setupFiles()
 .then(function(dir) {
     var config = ftpConfig(dir, "/");
     console.log("Deploying to ftp://" + config.host + ":" + config.port + "...");
-    deployFtp(config, function() {
-            console.log("FTP deployment successful.");
-            if (chatBotRequest.apiKey) {
-                postToChat(chatBotConfig, chatBotRequest);
-            }
-    });
+    return config;
+})
+.then(deployFtp)
+.then(function() {
+    console.log("FTP deployment successful.");
+    if (chatBotRequest.apiKey) {
+        postToChat(chatBotConfig, chatBotRequest);
+    }
 })
 .catch(function(err) {
-    throw err;
+    console.log("Error: " + err);
 });
 
 
