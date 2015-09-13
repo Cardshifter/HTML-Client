@@ -1,7 +1,6 @@
-var http = require('http');
-var url = require('url');
 var FtpDeploy = require('ftp-deploy');
 var ftpDeploy = new FtpDeploy();
+var request = require('request');
 
 var ftpConfig = {
     username: process.env.DEPLOY_FTP_USERNAME,
@@ -19,8 +18,9 @@ var chatBotRequest = {
 };
 
 var chatBotConfig = {
-    hostname: "stats.zomis.net",
-    path: "/GithubHookSEChatService/bot/jsonPost",
+    //hostname: "stats.zomis.net",
+    //path: "/GithubHookSEChatService/bot/jsonPost",
+    url: "http://localhost:8000/",
     method: "POST",
     headers: {
         "Content-Type": "application/json"
@@ -28,31 +28,21 @@ var chatBotConfig = {
 }
 
 function postToChat(config, botRequest) {
-    var json = JSON.stringify(botRequest, ["url", "apiKey", "roomId", "text"]);
+    var json = JSON.stringify(botRequest, ["apiKey", "roomId", "text"]);
     config.headers["Content-Length"] = json.length;
+    config.body = json;
 
-    console.log("Posting message to " + url.format(config) + "...");
-    var req = http.request(config);
+    console.log("Posting message to " + config.url + "...");
 
-    req.on("connect", function(response, socket, head) {
-        console.log("Chat bot response status: " + response.statusMessage);
-
-        socket.on("data", function(chunk) {
-            console.log("Chat bot: " + chunk.toString());
-        });
-
-        socket.on("error", function(err) {
-            console.log("Socket error: " + err);
-        });
-
-        socket.on("close", function(had_error) {
-            if (!had_error) {
-                console.log("Post successful");
-            }
-        });
+    var req = request(config, function(error, response, body) {
+        console.log("Response status: " + response.statusMessage);
+        if (error) {
+            console.log("Request error: " + error);
+        }
+        if (body) {
+            console.log("Response body:\n" + body);
+        }
     });
-
-    req.end(json);
 }
 
 console.log("Deploying to ftp://" + ftpConfig.host + ":" + ftpConfig.port + "...");
