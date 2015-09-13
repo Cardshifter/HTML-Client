@@ -51,11 +51,17 @@
     padding-left: 0;
 }
 
+/* Alternate background color for chat messages */
 #lobby-chat-messages:nth-child(even) {
     background-color: #BFEFFF;
 }
 #lobby-chat-message:nth-child(odd) {
     background-color: #E0F7FF;
+}
+
+/* Background color for messages from this user */
+.user-chat-message {
+    background-color: #FFFF00 !important;
 }
 
 /* Each individual message line */

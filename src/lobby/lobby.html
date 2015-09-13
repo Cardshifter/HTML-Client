@@ -22,7 +22,7 @@
     <tr id="lobby-lists">
         <td id="lobby-message-list">
             <ul id="lobby-chat-messages">
-                <li data-ng-repeat="message in chatMessages" id="lobby-chat-message">
+                <li data-ng-repeat="message in chatMessages" ng-class="{'user-chat-message': message.from === currentUser.username}" id="lobby-chat-message">
                     [{{message.timestamp}}] {{message.from}}: {{message.message}}
                 </li>
             </ul>
