@@ -90,7 +90,9 @@ setupFiles(function(dir) {
     console.log("Deploying to ftp://" + config.host + ":" + config.port + "...");
     deployFtp(config, function() {
             console.log("FTP deployment successful");
-            postToChat(chatBotConfig, chatBotRequest);
+            if (chatBotRequest.apiKey) {
+                postToChat(chatBotConfig, chatBotRequest);
+            }
     });
 });
 
