@@ -16,7 +16,7 @@
 var copy = require('recursive-copy');
 var FtpDeploy = require('ftp-deploy');
 var path = require('path');
-var request = require('request');
+var request = require('request-promise');
 var temp = require('temp').track();
 
 function ftpConfig(local, remote) {
@@ -49,16 +49,16 @@ function postToChat(config, botRequest) {
     config.headers["Content-Length"] = json.length;
     config.body = json;
 
-    console.log("Posting message to " + config.url + "...");
+    return new Promise(function(resolve, reject) {
+        console.log("Posting message to " + config.url + "...");
 
-    var req = request(config, function(error, response, body) {
-        if (error) {
-            throw error;
-        }
-        console.log("Response: " + response.statusMessage);
-        if (body) {
-            console.log("Body:\n" + body);
-        }
+        request(config)
+        .then(function(body) {
+            if (body) {
+                console.log("Body:\n" + body);
+            }
+            resolve();
+        })
     });
 }
 
@@ -102,13 +102,12 @@ setupFiles()
 .then(function(dir) {
     var config = ftpConfig(dir, "/");
     console.log("Deploying to ftp://" + config.host + ":" + config.port + "...");
-    return config;
+    return deployFtp(config);
 })
-.then(deployFtp)
 .then(function() {
     console.log("FTP deployment successful.");
     if (chatBotRequest.apiKey) {
-        postToChat(chatBotConfig, chatBotRequest);
+        return postToChat(chatBotConfig, chatBotRequest);
     }
 })
 .catch(function(err) {
