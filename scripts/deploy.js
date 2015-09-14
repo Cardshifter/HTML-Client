@@ -45,19 +45,14 @@ var chatBotConfig = {
 }
 
 function postToChat(config, botRequest) {
-    var json = JSON.stringify(botRequest, ["apiKey", "roomId", "text"]);
-    config.headers["Content-Length"] = json.length;
-    config.body = json;
-
     return new Promise(function(resolve, reject) {
-        console.log("Posting message to " + config.url + "...");
+        var json = JSON.stringify(botRequest, ["apiKey", "roomId", "text"]);
+        config.headers["Content-Length"] = json.length;
+        config.body = json;
 
         request(config)
         .then(function(body) {
-            if (body) {
-                console.log("Response:\n" + body);
-            }
-            resolve();
+            resolve(body);
         })
     });
 }
@@ -105,11 +100,16 @@ setupFiles()
 .then(function() {
     console.log("FTP deployment successful.");
     if (chatBotRequest.apiKey) {
+        console.log("Posting message to " + chatBotConfig.url + "...");
         return postToChat(chatBotConfig, chatBotRequest);
+    }
+})
+.then(function(responseBody) {
+    if (responseBody) {
+        console.log(responseBody);
     }
 })
 .catch(function(err) {
     console.error("Error: " + err);
 });
-
 
