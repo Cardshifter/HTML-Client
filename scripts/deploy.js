@@ -13,11 +13,11 @@
  */
 'use strict';
 
-var copy = require('recursive-copy');
+var copy      = require('recursive-copy');
 var FtpDeploy = require('ftp-deploy');
-var path = require('path');
-var request = require('request-promise');
-var temp = require('temp').track();
+var path      = require('path');
+var request   = require('request-promise');
+var temp      = require('temp').track();
 
 function ftpConfig(local, remote) {
     return {
@@ -31,9 +31,10 @@ function ftpConfig(local, remote) {
 };
 
 var chatBotRequest = {
-    apiKey: process.env.DEPLOY_DUGA_KEY,
+    // http://chat.stackexchange.com/rooms/info/16134/cardshifter-tcg
     roomId: 16134,
-    text: "New web client version uploaded to http://play.cardshifter.com/."
+    apiKey: process.env.DEPLOY_DUGA_KEY,
+    text: "New web client version uploaded to [play.cardshifter.com](http://play.cardshifter.com/)."
 };
 
 var chatBotConfig = {
