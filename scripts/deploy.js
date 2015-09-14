@@ -19,12 +19,14 @@ var path      = require('path');
 var request   = require('request-promise');
 var temp      = require('temp').track();
 
+var deployAddress = "play.cardshifter.com";
+
 function ftpConfig(local, remote) {
     return {
         username: process.env.DEPLOY_FTP_USERNAME,
         password: process.env.DEPLOY_FTP_PASSWORD,
-        host: "localhost",
-        port: 2121,
+        host: deployAddress,
+        port: 21, // Standard FTP port
         localRoot: local,
         remoteRoot: remote
     };
@@ -34,7 +36,7 @@ var chatBotRequest = {
     // http://chat.stackexchange.com/rooms/info/16134/cardshifter-tcg
     roomId: 16134,
     apiKey: process.env.DEPLOY_DUGA_KEY,
-    text: "New web client version uploaded to [play.cardshifter.com](http://play.cardshifter.com/)."
+    text: "New web client version uploaded to [" + deployAddress + "](http://" + deployAddress +"/)."
 };
 
 var chatBotConfig = {
