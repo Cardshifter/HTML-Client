@@ -75,9 +75,8 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
             gameMod = $scope.selected_mod;
         } else {
             // Error if user has not chosen a mod or opponent
-            console.log("Client error: Select both a Game Type and opponent User before you can start a game.");
             var message = new CardshifterServerAPI.messageTypes.ChatMessage(
-                        "Client error: Select both a Game Type and opponent User before you can start a game.");
+                        "Client error: Select both a game type and an opponent user before you can start a game.");
             addChatMessage(message);
         }
     };
@@ -123,9 +122,8 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
             CardshifterServerAPI.sendMessage(getCards);
             $location.path("/deck_builder");
         } else {
-            console.log("Client error: Select a Game Type before you can open Deck Builder.");
             var message = new CardshifterServerAPI.messageTypes.ChatMessage(
-                        "Client error: Select a Game Type before you can open Deck Builder.");
+                        "Client error: Select a game type before you can open the deck builder.");
             addChatMessage(message);
         }
     };
@@ -161,8 +159,8 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
 
         var now = new Date();
 
-        var YMD = formatTimeNumber(now.getFullYear()) + "-" + formatTimeNumber(now.getMonth() + 1) + "-" + formatTimeNumber(now.getDate());
-        var HMS = formatTimeNumber(now.getHours()) + ":" + formatTimeNumber(now.getMinutes()) + ":" + formatTimeNumber(now.getSeconds());
+        var YMD = [formatTimeNumber(now.getFullYear()), formatTimeNumber(now.getMonth() + 1), formatTimeNumber(now.getDate())].join('-');
+        var HMS = [formatTimeNumber(now.getHours()), formatTimeNumber(now.getMinutes()), formatTimeNumber(now.getSeconds())].join(':');
         message.timestamp = YMD + " " + HMS;
 
         $scope.chatMessages.push(message);
