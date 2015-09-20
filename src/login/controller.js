@@ -127,6 +127,8 @@ function LoginController(CardshifterServerAPI, $scope, $location, $rootScope, $t
         })();
     };
 
+    $scope.refreshServers(); // call it on startup
+
     /**
     * The ServerInfo class.
     * @constructor
