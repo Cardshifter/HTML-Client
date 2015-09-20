@@ -12,8 +12,6 @@ var test = require("./test/module");
 var ngAnimate = require('angular-animate');
 var errorCreator = require("./error/module");
 
-console.log(errorCreator);
-
 angular.module("CardshifterApp", [
     ngRoute,
     ngAnimate,
@@ -29,4 +27,4 @@ angular.module("CardshifterApp", [
     $locationProvider.html5Mode(true);
 }).config(function($routeProvider) {
     $routeProvider.otherwise('/');
-}).factory("errorCreator", errorCreator);
+});

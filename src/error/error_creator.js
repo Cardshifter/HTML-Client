@@ -16,7 +16,7 @@ function ErrorCreator($modal) {
                 }
             });
         }
-    };
+    }
 }
 
 module.exports = ErrorCreator;
