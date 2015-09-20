@@ -16,6 +16,7 @@
 var copy      = require('recursive-copy');
 var FtpDeploy = require('ftp-deploy');
 var path      = require('path');
+var Promise   = require('bluebird');
 var request   = require('request-promise');
 var temp      = require('temp').track();
 

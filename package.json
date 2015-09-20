@@ -25,6 +25,7 @@
   "homepage": "https://github.com/Cardshifter/HTML-Client#readme",
   "private": true,
   "devDependencies": {
+    "bluebird": "^2.10.0",
     "css-loader": "^0.15.6",
     "ftp-deploy": "^1.0.0",
     "temp": "^0.8.3",
