@@ -85,7 +85,18 @@ function setupFiles() {
 
 function deployFtp(config) {
     return new Promise(function(resolve, reject) {
-        new FtpDeploy().deploy(config, function(err) {
+        var ftp = new FtpDeploy();
+
+        ftp.on("uploading", function(data) {
+            console.log(
+                data.percentComplete + "% " +
+                "(" + data.transferredFileCount +
+                "/" + data.totalFileCount +
+                ") " + data.filename
+            );
+        });
+
+        ftp.deploy(config, function(err) {
             if (err) {
                 reject(err);
             } else {
