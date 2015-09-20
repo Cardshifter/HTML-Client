@@ -114,6 +114,6 @@ setupFiles()
     }
 })
 .catch(function(err) {
-    console.error("Error: " + err);
+    console.error(err.toString());
+    console.error(err.stack);
 });
-
