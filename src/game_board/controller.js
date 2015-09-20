@@ -41,7 +41,8 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
         "zoneChange": moveCard,
         "targets": setTargets,
         "update": updateProperties,
-        "elimination": displayWinner
+        "elimination": displayWinner,
+        "error": displayError
     };
 
     CardshifterServerAPI.setMessageListener(function(message) {
@@ -455,6 +456,10 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
         }
         return null;
     };
+
+    function displayError(message) {
+        ErrorCreator.create(message.message);
+    }
 }
 
 module.exports = GameboardController;

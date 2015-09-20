@@ -1,7 +1,7 @@
 'use strict';
 
 // @ngInject
-function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $location) {
+function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $location, ErrorCreator) {
     var CHAT_FEED_LIMIT = 10;
     var ENTER_KEY = 13;
     var MESSAGE_DELAY = 3000;
@@ -25,7 +25,8 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
         "chat": addChatMessage,
         "inviteRequest": displayInvite,
         "availableMods": displayMods,
-        "newgame": enterNewGame
+        "newgame": enterNewGame,
+        "error": displayError
     };
 
     var getUsers = new CardshifterServerAPI.messageTypes.ServerQueryMessage("USERS", "");
@@ -35,7 +36,7 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
         $scope.$apply(function() {
             commandMap[message.command](message);
         })
-    }, ["userstatus", "chat", "inviteRequest", "availableMods", "newgame"]);
+    }, ["userstatus", "chat", "inviteRequest", "availableMods", "newgame", "error"]);
 
     /**
     * This function is called when the user hits the "Send" button
@@ -210,6 +211,10 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
     function formatTimeNumber(time) {
         return time < 10 ? "0" + time : time;
     };
+
+    function displayError(message) {
+        ErrorCreator.create(message.message);
+    }
 }
 
 module.exports = LobbyController;
