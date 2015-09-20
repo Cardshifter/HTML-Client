@@ -1,7 +1,7 @@
 'use strict';
 
 // @ngInject
-function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope, $location, $modal) {
+function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope, $location, $modal, ErrorCreator) {
     var playerInfos = {
         user: {
             index: null,
@@ -87,6 +87,7 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
 		var maxTargets = $scope.targetsMessage.max;
 		if (selected.length < minTargets || selected.length > maxTargets) {
 			console.log("target(s) required: " + minTargets + " - " + maxTargets + " but chosen " + selected.length);
+			ErrorCreator.create("target(s) required: " + minTargets + " - " + maxTargets + " but chosen " + selected.length);
 			return;
 		}
 

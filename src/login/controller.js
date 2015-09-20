@@ -1,7 +1,7 @@
 'use strict';
 
 // @ngInject
-function LoginController(CardshifterServerAPI, $scope, $location, $rootScope) {
+function LoginController(CardshifterServerAPI, $scope, $location, $rootScope, ErrorCreator) {
     var SUCCESS = 200;
 
     // see if there is remembered form data
@@ -71,17 +71,23 @@ function LoginController(CardshifterServerAPI, $scope, $location, $rootScope) {
 
                 } catch(e) {
                     // notify the user that there was an issue logging in (loginmessage issue)
+                    ErrorCreator.create("There was an error logging in");
+
                     console.log("LoginMessage error(error 2): " + e);
                     $scope.loggedIn = false;
                     $scope.$apply();
                 }
             } else {
+                ErrorCreator.create("Please enter a username");
+
                 console.log("enter a username");
                 $scope.loggedIn = false;
                 $scope.$apply();
             }
         }, function() {
             // notify the user that there was an issue logging in (websocket issue)
+            ErrorCreator.create("There was a Websocket-related issue logging in");
+
             console.log("Websocket error(error 1)");
             $scope.loggedIn = false;
             $scope.$apply();

@@ -1,7 +1,7 @@
 'use strict';
 
 // @ngInject
-function DeckbuilderController(CardshifterServerAPI, $scope, $rootScope, $location) {
+function DeckbuilderController(CardshifterServerAPI, $scope, $rootScope, $location, ErrorCreator) {
     var DECK_STORAGE = "CARDSHIFTER_DECK_STORAGE";
 
     $scope.cards = [];
@@ -123,14 +123,17 @@ function DeckbuilderController(CardshifterServerAPI, $scope, $rootScope, $locati
     */
     $scope.saveDeck = function() {
         if($scope.getTotalSelected() !== $scope.minCards) {
+            ErrorCreator.create("Not enough cards");
             console.log("not enough cards");
             return;
         }
         if(!$scope.deckName) {
+            ErrorCreator.create("Please enter a name");
             console.log("enter name");
             return;
         }
         if(getDeckIndex($scope.deckName)) {
+            ErrorCreator.create("A deck with that name already exists");
             console.log("deck already exists");
             return;
         }
@@ -213,6 +216,7 @@ function DeckbuilderController(CardshifterServerAPI, $scope, $rootScope, $locati
 
             $location.path("/game_board");
         } else {
+            ErrorCreator("Not enough cards");
             console.log("not enough cards");
         }
     };
