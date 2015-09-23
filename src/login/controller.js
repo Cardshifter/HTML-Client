@@ -38,35 +38,35 @@ function LoginController(CardshifterServerAPI, $scope, $location, $rootScope, Er
                 var login = new CardshifterServerAPI.messageTypes.LoginMessage($scope.username);
 
                 try {
-                    CardshifterServerAPI.setMessageListener(function(welcome) {
-                        if(welcome.status === SUCCESS && welcome.message === "OK") {
-                            // taking the easy way out
-                            window.currentUser = {
-                                username: $scope.username,
-                                id: welcome.userId,
-                                playerIndex: null,
-                                game: {
-                                    id: null,
-                                    mod: null
-                                }
-                            };
+                    CardshifterServerAPI.setMessageListener({
+                        "loginresponse": function(welcome) {
+                            if(welcome.status === SUCCESS && welcome.message === "OK") {
+                                // taking the easy way out
+                                window.currentUser = {
+                                    username: $scope.username,
+                                    id: welcome.userId,
+                                    playerIndex: null,
+                                    game: {
+                                        id: null,
+                                        mod: null
+                                    }
+                                };
 
-                            // for remembering form data
-                            for(var storage in loginStorageMap) {
-                                if(loginStorageMap.hasOwnProperty(storage)) {
-                                    localStorage.setItem(storage, $scope[loginStorageMap[storage]]);
+                                // for remembering form data
+                                for(var storage in loginStorageMap) {
+                                    if(loginStorageMap.hasOwnProperty(storage)) {
+                                        localStorage.setItem(storage, $scope[loginStorageMap[storage]]);
+                                    }
                                 }
-                            }
 
-                            $rootScope.$apply(function() {
                                 $location.path("/lobby");
-                            });
-                        } else {
-                            console.log("server messsage: " + welcome.message);
-                            $scope.loggedIn = false;
-                            $scope.$apply();
+                            } else {
+                                console.log("server messsage: " + welcome.message);
+                                $scope.loggedIn = false;
+                                $scope.$apply();
+                            }
                         }
-                    }, ["loginresponse"]);
+                    }, $scope);
                     CardshifterServerAPI.sendMessage(login);
 
                 } catch(e) {

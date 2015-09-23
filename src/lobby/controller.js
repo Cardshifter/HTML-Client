@@ -32,11 +32,7 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
     var getUsers = new CardshifterServerAPI.messageTypes.ServerQueryMessage("USERS", "");
     CardshifterServerAPI.sendMessage(getUsers);
 
-    CardshifterServerAPI.setMessageListener(function(message) {
-        $scope.$apply(function() {
-            commandMap[message.command](message);
-        })
-    }, ["userstatus", "chat", "inviteRequest", "availableMods", "newgame", "error"]);
+    CardshifterServerAPI.setMessageListener(commandMap, $scope);
 
     /**
     * This function is called when the user hits the "Send" button

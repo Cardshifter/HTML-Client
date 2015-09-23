@@ -28,25 +28,25 @@ function DeckbuilderController(CardshifterServerAPI, $scope, $rootScope, $locati
         localStorage.setItem(DECK_STORAGE, json);
     }
 
-    CardshifterServerAPI.setMessageListener(function(cardInformation) {
-        deckConfig = cardInformation
-        var deck = cardInformation.configs.Deck;
+    CardshifterServerAPI.setMessageListener({
+        "playerconfig": function(cardInformation) {
+            deckConfig = cardInformation
+            var deck = cardInformation.configs.Deck;
 
-        for(var card in deck.cardData) {
-            if(deck.cardData.hasOwnProperty(card)) {
-                deck.cardData[card].max = deck.max[card] || deck.maxPerCard;
-                $scope.currentDeck[deck.cardData[card].id] = 0;
+            for(var card in deck.cardData) {
+                if(deck.cardData.hasOwnProperty(card)) {
+                    deck.cardData[card].max = deck.max[card] || deck.maxPerCard;
+                    $scope.currentDeck[deck.cardData[card].id] = 0;
+                }
             }
+
+            $scope.cards = deck.cardData;
+            $scope.maxCards = deck.maxSize;
+            $scope.minCards = deck.minSize;
+            updateSavedDecks();
+            $scope.doneLoading = true;
         }
-
-        $scope.cards = deck.cardData;
-        $scope.maxCards = deck.maxSize;
-        $scope.minCards = deck.minSize;
-        updateSavedDecks();
-        $scope.doneLoading = true;
-
-        $scope.$apply();
-    }, ["playerconfig"]);
+    }, $scope);
 
     /**
     * This is called when the minus-sign button for a card

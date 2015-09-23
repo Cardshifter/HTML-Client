@@ -45,10 +45,7 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
         "error": displayError
     };
 
-    CardshifterServerAPI.setMessageListener(function(message) {
-        commandMap[message.command](message);
-        $scope.$apply();
-    }, ["resetActions", "useable", "player", "zone", "card", "zoneChange", "targets", "update", "entityRemoved", "elimination"]);
+    CardshifterServerAPI.setMessageListener(commandMap, $scope);
 
 
     $scope.startAction = function(action) {
