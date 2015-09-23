@@ -72,7 +72,7 @@ var CardshifterServerAPI = {
         LoginMessage: function(username) {
             this.username = username;
         },
-        
+
         /**
         * Request available targets for a specific action to be performed by an entity.
         * <p>
@@ -89,7 +89,7 @@ var CardshifterServerAPI = {
             this.id = id;
             this.action = action;
         },
-        
+
                 /**
         * Make a specific type of request to the server.
         * <p>
@@ -289,26 +289,22 @@ var CardshifterServerAPI = {
     },
 
     /**
-    * Sets an event listener for when the server sends a message and
-    * the message type is one of the types in types
+    * Sets an event listener for when the server sends a message
+    * and the message command is one of the keys in the commandMap
     *
-    * @param listener:Function -- The function to fire when a message of types is received
-    * @param types:[string] (OPTIONAL) -- Only fire the listener when the message type is in this array
-    * @param timeout:Object (OPTIONAL) -- The function(.ontimeout) to call after MS(.ms) of no reply
-    *
-    * TODO: Maybe a timeout will be needed? Pass in a function and a MS count.
+    * @param commandMap:Object -- The keys are the command types and the values are
+    *       functions to run when a message of that command is encountered.
+    * @param scope:$scope -- The scope of the controller running this.
     */
-    setMessageListener: function(listener, types) {
-        eventTypes = types;
-
+    setMessageListener: function(commandMap, scope) {
         this.socket.onmessage = function(message) {
             var data = JSON.parse(message.data);
-            if(eventTypes) {
-                if(eventTypes.indexOf(data.command) !== -1) { // if contains
-                    listener(data);
-                }
-            } else {
-                listener(data);
+            var command = data.command;
+
+            if(commandMap.hasOwnProperty(command)) {
+                scope.$apply(function() {
+                    commandMap[command](data);
+                });
             }
         }
     },
