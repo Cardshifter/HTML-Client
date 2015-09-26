@@ -72,9 +72,7 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
             gameMod = $scope.selected_mod;
         } else {
             // Error if user has not chosen a mod or opponent
-            var message = new CardshifterServerAPI.messageTypes.ChatMessage(
-                        "Client error: Select both a game type and an opponent user before you can start a game.");
-            addChatMessage(message);
+            ErrorCreator.create("Select both a game type and an opponent user before you can start a game.");
         }
     };
 
@@ -119,9 +117,7 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
             CardshifterServerAPI.sendMessage(getCards);
             $location.path("/deck_builder");
         } else {
-            var message = new CardshifterServerAPI.messageTypes.ChatMessage(
-                        "Client error: Select a game type before you can open the deck builder.");
-            addChatMessage(message);
+            ErrorCreator.create("Client error: Select a game type before you can open the deck builder.");
         }
     };
 
