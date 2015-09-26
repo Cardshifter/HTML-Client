@@ -216,7 +216,7 @@ function DeckbuilderController(CardshifterServerAPI, $scope, $rootScope, $locati
 
             $location.path("/game_board");
         } else {
-            ErrorCreator("Not enough cards");
+            ErrorCreator.create("Not enough cards");
             console.log("not enough cards");
         }
     };
