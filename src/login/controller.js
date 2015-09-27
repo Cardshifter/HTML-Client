@@ -33,57 +33,47 @@ function LoginController(CardshifterServerAPI, $scope, $location, $rootScope, Er
         $scope.loggedIn = true;
         var finalServer = ($scope.server === "other" ? $scope.other_server : $scope.server);
 
+        if(!$scope.username) {
+            ErrorCreator.create("Please enter a username");
+
+            $scope.loggedIn = false;
+            return;
+        }
+
         CardshifterServerAPI.init(finalServer, $scope.is_secure, function() {
-            if($scope.username) {
-                var login = new CardshifterServerAPI.messageTypes.LoginMessage($scope.username);
 
-                try {
-                    CardshifterServerAPI.setMessageListener({
-                        "loginresponse": function(welcome) {
-                            if(welcome.status === SUCCESS && welcome.message === "OK") {
-                                // taking the easy way out
-                                window.currentUser = {
-                                    username: $scope.username,
-                                    id: welcome.userId,
-                                    playerIndex: null,
-                                    game: {
-                                        id: null,
-                                        mod: null
-                                    }
-                                };
+            var login = new CardshifterServerAPI.messageTypes.LoginMessage($scope.username);
 
-                                // for remembering form data
-                                for(var storage in loginStorageMap) {
-                                    if(loginStorageMap.hasOwnProperty(storage)) {
-                                        localStorage.setItem(storage, $scope[loginStorageMap[storage]]);
-                                    }
-                                }
+            CardshifterServerAPI.setMessageListener({
+                "loginresponse": function(welcome) {
+                    if(welcome.status === SUCCESS && welcome.message === "OK") {
+                        // taking the easy way out
+                        window.currentUser = {
+                            username: $scope.username,
+                            id: welcome.userId,
+                            playerIndex: null,
+                            game: {
+                                id: null,
+                                mod: null
+                            }
+                        };
 
-                                $location.path("/lobby");
-                            } else {
-                                console.log("server messsage: " + welcome.message);
-                                $scope.loggedIn = false;
-                                $scope.$apply();
+                        // for remembering form data
+                        for(var storage in loginStorageMap) {
+                            if(loginStorageMap.hasOwnProperty(storage)) {
+                                localStorage.setItem(storage, $scope[loginStorageMap[storage]]);
                             }
                         }
-                    }, $scope);
-                    CardshifterServerAPI.sendMessage(login);
 
-                } catch(e) {
-                    // notify the user that there was an issue logging in (loginmessage issue)
-                    ErrorCreator.create("There was an error logging in");
-
-                    console.log("LoginMessage error(error 2): " + e);
-                    $scope.loggedIn = false;
-                    $scope.$apply();
+                        $location.path("/lobby");
+                    } else {
+                        console.log("server messsage: " + welcome.message);
+                        $scope.loggedIn = false;
+                        $scope.$apply();
+                    }
                 }
-            } else {
-                ErrorCreator.create("Please enter a username");
-
-                console.log("enter a username");
-                $scope.loggedIn = false;
-                $scope.$apply();
-            }
+            }, $scope);
+            CardshifterServerAPI.sendMessage(login);
         }, function() {
             // notify the user that there was an issue logging in (websocket issue)
             ErrorCreator.create("There was a Websocket-related issue logging in");
