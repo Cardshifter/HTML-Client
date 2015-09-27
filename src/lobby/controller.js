@@ -117,7 +117,7 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
             CardshifterServerAPI.sendMessage(getCards);
             $location.path("/deck_builder");
         } else {
-            ErrorCreator.create("Client error: Select a game type before you can open the deck builder.");
+            ErrorCreator.create("Select a game type before you can open the deck builder.");
         }
     };
 
