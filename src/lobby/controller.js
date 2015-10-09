@@ -166,6 +166,10 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
         var HMS = [formatTimeNumber(now.getHours()), formatTimeNumber(now.getMinutes()), formatTimeNumber(now.getSeconds())].join(':');
         message.timestamp = YMD + " " + HMS;
 
+        if(message.message.indexOf("@" + currentUser.username)) {
+            ping.play();
+        }
+
         $scope.chatMessages.push(message);
     };
     /**
