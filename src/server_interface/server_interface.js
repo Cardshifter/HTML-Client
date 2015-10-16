@@ -280,7 +280,7 @@ var CardshifterServerAPI = {
         if(socket) {
             if(socket.readyState === SOCKET_OPEN) {
                 this.socket.send(JSON.stringify(flatten(message)));
-                console.log("Sending to server", message);
+                debug("Sending to server: " + JSON.stringify(message));
             } else {
                 throw new SocketNotReadyException("The Websocket is not ready to be used.", socket.readyState);
             }
@@ -302,7 +302,7 @@ var CardshifterServerAPI = {
             var data = JSON.parse(message.data);
             var command = data.command;
 
-            console.log("Received message", data);
+            debug("Message received: " + JSON.stringify(data));
 
             if(commandMap.hasOwnProperty(command)) {
                 scope.$apply(function() {
