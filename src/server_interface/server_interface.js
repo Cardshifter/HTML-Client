@@ -303,7 +303,6 @@ function CardshifterServerAPI(debug) {
                 var data = JSON.parse(message.data);
                 var command = data.command;
 
-                console.log("Received message", data);
                 debug("Message received: " + JSON.stringify(data));
 
                 if(commandMap.hasOwnProperty(command)) {
