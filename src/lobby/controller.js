@@ -9,6 +9,8 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
     var missedMessages = 0;
     var document = $document[0];
 
+    var smallUsername = currentUser.username.split(/ /g).join("");
+
     $scope.users = [];
     $scope.chatMessages = [];
     $scope.mods = window.availableGameMods || [];
@@ -169,7 +171,7 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
         message.timestamp = YMD + " " + HMS;
 
         /* Detect if user was mentioned */
-        if(message.message.indexOf("@" + currentUser.username) > -1) {
+        if(message.message.indexOf("@" + smallUsername) > -1) {
             console.log(message);
             ping.play();
         }
