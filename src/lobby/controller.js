@@ -169,7 +169,8 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
         message.timestamp = YMD + " " + HMS;
 
         /* Detect if user was mentioned */
-        if(message.message.indexOf("@" + currentUser.username)) {
+        if(message.message.indexOf("@" + currentUser.username) > -1) {
+            console.log(message);
             ping.play();
         }
 
