@@ -6,6 +6,8 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
     var ENTER_KEY = 13;
     var MESSAGE_DELAY = 3000;
 
+    var missedMessages = 0;
+
     $scope.users = [];
     $scope.chatMessages = [];
     $scope.mods = window.availableGameMods || [];
@@ -131,7 +133,6 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
         }
     };
 
-
     // The command map functions:
     /**
     * Based on the content of message, will add or remove
@@ -166,8 +167,17 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
         var HMS = [formatTimeNumber(now.getHours()), formatTimeNumber(now.getMinutes()), formatTimeNumber(now.getSeconds())].join(':');
         message.timestamp = YMD + " " + HMS;
 
+        /* Detect if user was mentioned */
         if(message.message.indexOf("@" + currentUser.username)) {
             ping.play();
+        }
+
+        /* Add missed messages to title */
+        if(!document.hasFocus()) {
+            missedMessages++;
+            $rootScope.title = "Cardshifter - " + missedMessages;
+        } else {
+            missedMessages = 0;
         }
 
         $scope.chatMessages.push(message);
