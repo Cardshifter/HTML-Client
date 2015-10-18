@@ -1,12 +1,13 @@
 'use strict';
 
 // @ngInject
-function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $location) {
+function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $location, $document) {
     var CHAT_FEED_LIMIT = 10;
     var ENTER_KEY = 13;
     var MESSAGE_DELAY = 3000;
 
     var missedMessages = 0;
+    var document = $document[0];
 
     $scope.users = [];
     $scope.chatMessages = [];
@@ -176,6 +177,7 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
         if(!document.hasFocus()) {
             missedMessages++;
             $rootScope.title = "Cardshifter - " + missedMessages;
+            //document.title = "Cardshifter - " + missedMessages;
         } else {
             missedMessages = 0;
         }
