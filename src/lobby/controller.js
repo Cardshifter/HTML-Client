@@ -180,6 +180,8 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
             //document.title = "Cardshifter - " + missedMessages;
         } else {
             missedMessages = 0;
+            $rootScope.title = "Cardshifter";
+            //document.title = "Cardshifter";
         }
 
         $scope.chatMessages.push(message);
