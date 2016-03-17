@@ -10,6 +10,7 @@ var topNavbar = require('./top_navbar/module');
 var gameBoard = require("./game_board/module");
 var test = require("./test/module");
 var ngAnimate = require('angular-animate');
+var errorCreator = require("./error/module");
 
 angular.module("CardshifterApp", [
     ngRoute,
@@ -20,7 +21,8 @@ angular.module("CardshifterApp", [
     login.name,
     gameBoard.name,
     test.name,
-    uiBootstrap
+    uiBootstrap,
+    errorCreator.name
 ]).config(function($locationProvider) {
     $locationProvider.html5Mode(true);
 }).config(function($routeProvider) {

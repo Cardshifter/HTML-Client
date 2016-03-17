@@ -1,7 +1,7 @@
 'use strict';
 
 // @ngInject
-function DeckbuilderController(CardshifterServerAPI, $scope, $rootScope, $location) {
+function DeckbuilderController(CardshifterServerAPI, $scope, $rootScope, $location, ErrorCreator) {
     var DECK_STORAGE = "CARDSHIFTER_DECK_STORAGE";
 
     $scope.cards = [];
@@ -28,25 +28,25 @@ function DeckbuilderController(CardshifterServerAPI, $scope, $rootScope, $locati
         localStorage.setItem(DECK_STORAGE, json);
     }
 
-    CardshifterServerAPI.setMessageListener(function(cardInformation) {
-        deckConfig = cardInformation
-        var deck = cardInformation.configs.Deck;
+    CardshifterServerAPI.setMessageListener({
+        "playerconfig": function(cardInformation) {
+            deckConfig = cardInformation
+            var deck = cardInformation.configs.Deck;
 
-        for(var card in deck.cardData) {
-            if(deck.cardData.hasOwnProperty(card)) {
-                deck.cardData[card].max = deck.max[card] || deck.maxPerCard;
-                $scope.currentDeck[deck.cardData[card].id] = 0;
+            for(var card in deck.cardData) {
+                if(deck.cardData.hasOwnProperty(card)) {
+                    deck.cardData[card].max = deck.max[card] || deck.maxPerCard;
+                    $scope.currentDeck[deck.cardData[card].id] = 0;
+                }
             }
+
+            $scope.cards = deck.cardData;
+            $scope.maxCards = deck.maxSize;
+            $scope.minCards = deck.minSize;
+            updateSavedDecks();
+            $scope.doneLoading = true;
         }
-
-        $scope.cards = deck.cardData;
-        $scope.maxCards = deck.maxSize;
-        $scope.minCards = deck.minSize;
-        updateSavedDecks();
-        $scope.doneLoading = true;
-
-        $scope.$apply();
-    }, ["playerconfig"]);
+    }, $scope);
 
     /**
     * This is called when the minus-sign button for a card
@@ -123,14 +123,17 @@ function DeckbuilderController(CardshifterServerAPI, $scope, $rootScope, $locati
     */
     $scope.saveDeck = function() {
         if($scope.getTotalSelected() !== $scope.minCards) {
+            ErrorCreator.create("Not enough cards");
             console.log("not enough cards");
             return;
         }
         if(!$scope.deckName) {
+            ErrorCreator.create("Please enter a name");
             console.log("enter name");
             return;
         }
         if(getDeckIndex($scope.deckName)) {
+            ErrorCreator.create("A deck with that name already exists");
             console.log("deck already exists");
             return;
         }
@@ -213,6 +216,7 @@ function DeckbuilderController(CardshifterServerAPI, $scope, $rootScope, $locati
 
             $location.path("/game_board");
         } else {
+            ErrorCreator.create("Not enough cards");
             console.log("not enough cards");
         }
     };

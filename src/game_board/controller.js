@@ -1,7 +1,7 @@
 'use strict';
 
 // @ngInject
-function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope, $location, $modal) {
+function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope, $location, $modal, ErrorCreator) {
     var playerInfos = {
         user: {
             index: null,
@@ -41,13 +41,11 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
         "zoneChange": moveCard,
         "targets": setTargets,
         "update": updateProperties,
-        "elimination": displayWinner
+        "elimination": displayWinner,
+        "error": displayError
     };
 
-    CardshifterServerAPI.setMessageListener(function(message) {
-        commandMap[message.command](message);
-        $scope.$apply();
-    }, ["resetActions", "useable", "player", "zone", "card", "zoneChange", "targets", "update", "entityRemoved", "elimination"]);
+    CardshifterServerAPI.setMessageListener(commandMap, $scope);
 
 
     $scope.startAction = function(action) {
@@ -87,6 +85,7 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
 		var maxTargets = $scope.targetsMessage.max;
 		if (selected.length < minTargets || selected.length > maxTargets) {
 			console.log("target(s) required: " + minTargets + " - " + maxTargets + " but chosen " + selected.length);
+			ErrorCreator.create("target(s) required: " + minTargets + " - " + maxTargets + " but chosen " + selected.length);
 			return;
 		}
 
@@ -454,6 +453,10 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
         }
         return null;
     };
+
+    function displayError(message) {
+        ErrorCreator.create(message.message);
+    }
 }
 
 module.exports = GameboardController;
