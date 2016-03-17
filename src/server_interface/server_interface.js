@@ -1,7 +1,7 @@
 'use strict';
 
 // checks if the string begins with either ws:// or wss://
-var wsProtocolFinder = /ws(s)*:\/\//;
+var wsProtocolFinder = /ws(s)?:\/\//;
 var SOCKET_OPEN = 1;
 
 var MAIN_LOBBY = 1;

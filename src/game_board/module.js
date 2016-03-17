@@ -62,4 +62,10 @@ module.exports = angular.module('cardshifter.gameBoard', [ngRoute, ngAnimate, se
         replace: true,
         template: require('../card_model/card_template.html')
     };
+  })
+  .filter('formatResourceName', function() {
+      return function(input, scope) {
+          input = input.replace(/_/g, ' ');
+          return input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
+      }
   });

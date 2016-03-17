@@ -6,14 +6,38 @@
 
 <h4>Please log in to continue, or see below for instructions and assistance.</h4>
 
+<!-- Server status -->
+<div>
+    <table>
+        <!-- Should these be dynamically loaded? -->
+        <tr>
+            <th>Server</th>
+            <th>Online</th>
+            <th>Users</th>
+            <th>Mods</th>
+            <th>Games</th>
+            <th>AIs</th>
+            <th>Latency</th>
+        </tr>
+        <tr ng-repeat="server in servers" ng-if="server.name !== 'Other...'">
+            <td>{{server.name}}</td>
+            <td>{{server.isOnline}}</td>
+            <td>{{server.userCount}} users</td>
+            <td>{{server.availableMods}} mods</td>
+            <td>{{server.gamesRunning}} games</td>
+            <td>{{server.ais}} AIs</td>
+            <td>{{server.latency}} ms</td>
+        </tr>
+    </table>
+    <input ng-click="refreshServers()" ng-disabled="refreshing" type="button" value="Refresh"/>
+    <p ng-show="refreshing">Refreshing...</p>
+</div>
+
 <form name="login_information" id="login_information" class="login-form">
     <div class="form-group">
         <label for="server" aria-label="Server">Server:</label>
-        <select data-ng-model="server" name="server" id="server" class="form-control">
-            <option value="ws://127.0.0.1:4243">Local host</option>
-            <option value="ws://dwarftowers.com:4243">dwarftowers.com</option>
-            <option value="ws://stats.zomis.net:4243">zomis.net</option>
-            <option value="other">Other...</option>
+        <select ng-model="server" name="server" id="server" class="form-control">
+            <option ng-repeat="server in servers" value="{{server.address}}">{{server.name}}</option>
         </select>
         <label for="secure">Is secure server:</label>
         <input data-ng-model="is_secure" name="secure" id="secure" type="checkbox" value="secure" />

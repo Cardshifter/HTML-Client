@@ -12,9 +12,9 @@
                     ng-class="{'selected': info.selected, 'targetable': doingAction && targets.indexOf(info.id) !== -1}">{{info.name}}</h4>
                 <ul style="list-style: none outside none; margin: 0; padding: 0;">
                     <li ng-repeat="(name, value) in info.properties">
-                        <b>{{name}}</b>: {{value}}
+                        <b>{{name | formatResourceName}}</b>: {{value}}
                     </li>
-                    <li><b>CARDS: </b>{{info.zones.Hand.length()}}</li>
+                    <li><b>Cards: </b>{{info.zones.Hand.length()}}</li>
                 </ul>
                 <!-- Action buttons -->
                 <div class="player-actions">
