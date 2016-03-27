@@ -1,5 +1,5 @@
 {
-  "name": "cardshifter.client",
+  "name": "@cardshifter/client",
   "version": "0.0.1",
   "description": "The Cardshifter client",
   "main": "src/index.js",
