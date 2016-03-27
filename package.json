@@ -72,5 +72,5 @@
     "webpack-dev-middleware": "1.4.0",
     "webpack-hot-middleware": "2.6.0",
     "yargs": "3.32.0"
-  },
+  }
 }
