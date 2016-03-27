@@ -15,4 +15,7 @@ render(
 );
 
 // Nothing special for now
-export default const App = () => <div></div>
+// HACK(DanPantry): It appears that export default const = is illegal syntax?
+// Why are we exporting a component from here anyway? ^^
+const App = () => <div></div>;
+export default App;
