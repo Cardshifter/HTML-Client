@@ -27,6 +27,7 @@ button, input, select, textarea {
     font-family: Georgia, Times, "Times New Roman", serif;
     color: #FFFFFF;
     font-size: 2em;
+    box-sizing: border-box;
 }
 
 a.csh-dropdown-link,
