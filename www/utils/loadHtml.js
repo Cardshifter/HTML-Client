@@ -30,5 +30,6 @@ const loadHtml = function(parentElementId, filePath) {
                 parentElementId.replace("#", "");
             }
             document.getElementById(parentElementId).innerHTML = body;
+            
         });
 };

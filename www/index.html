@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="styles/cardshifter.css" />
     
     <!-- Local JavaScript -->
+    <script src="global.js"></script>
     <script src="utils/loadHtml.js"></script>
 
     <!-- Favicon links -->
@@ -34,7 +35,17 @@
     <!-- Top navigation bar -->
     <div id="top_navbar_container">
       <script>
-        loadHtml("top_navbar_container", "sections/top_navbar/top_navbar.html");
+        const containerId = "top_navbar_container";
+        const filePath = "sections/top_navbar/top_navbar.html";
+        try {
+            loadHtml("top_navbar_container", "sections/top_navbar/top_navbar.html");
+            if (global.debug) { 
+                console.log(`File "${filePath}" loaded into element ID "${containerId}"`);
+            }
+        }
+        catch (error) {
+            console.log(error);
+        }
       </script>
     </div>
 
