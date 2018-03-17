@@ -39,7 +39,7 @@
         const filePath = "sections/top_navbar/top_navbar.html";
         try {
             loadHtml(containerId, filePath);
-            if (global.debug) { 
+            if (DEBUG) { 
                 console.log(`File "${filePath}" loaded into element ID "${containerId}"`);
             }
         }
