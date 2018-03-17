@@ -354,5 +354,3 @@ const CardshifterServerAPI = {
         this.socket.onmessage = null;
     }
 };
-
-module.exports = CardshifterServerAPI;

@@ -10,6 +10,7 @@
 
         <!-- Local JavaScript -->
         <script src="global.js"></script>
+        <script src="server_interface/server_interface.js"></script>
         <script src="utils/loadHtml.js"></script>
 
         <!-- Favicon links -->
@@ -48,6 +49,15 @@
                 }
             </script>
         </div>
+        
+        <!-- Temporary script to make sure WebSocket connection can be established. -->
+        <script>
+            const serverUri = "ws://127.0.0.1:4243";
+            const isSecure = false;
+            const onReady = function() { console.log("WebSocket ready"); }
+            const onError = function() { console.log("WebSocket error"); }
+            CardshifterServerAPI.init(serverUri, isSecure, onReady, onError);
+        </script>
 
         <div class="csh-body">
             <div id="login_container">
