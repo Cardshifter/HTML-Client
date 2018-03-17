@@ -1,33 +1,35 @@
 <div>
-    <div data-ng-hide="doneLoading">
+    <div>
         <h1>Loading Deck Builder...</h1>
     </div>
-    <div data-ng-show="doneLoading">
+    <div>
         <!-- DECK HEADER -->
-        <h1>Deck name: {{deckName}}</h1>
-        <h2>{{getTotalSelected()}} / {{maxCards}}</h2>
+        <h1>Deck name: <!-- TODO deck name --></h1>
+        <h2><!-- TODO total selected --> / <!-- TODO max cards --></h2>
 
         <!-- Deck manipulation & `Start game` | `Back to lobby` controls -->
         <form>
             <!-- TODO: {Phrancis} Lay this out in a nice Bootstrap form. -->
             <label>Save deck as:</label>
-            <input data-ng-model="deckName" type="text" />
-            <input data-ng-click="saveDeck()" type="submit" value="Save Deck" class="btn btn-xs btn-primary"/>
+            <input type="text" /> <!-- TODO deck name -->
+            <input type="submit" value="Save Deck" class="btn btn-xs btn-primary"/> 
             <br/>
-            <input data-ng-show="enteringGame" data-ng-click="enterGame()" type="button" value = "Start game" class="btn btn-sm btn-success"/>
-            <input data-ng-hide="enteringGame" data-ng-click="goBack()" type="button" value="Go back to lobby" class="btn btn-sm btn-default"/>
+            <input type="button" value = "Start game" class="btn btn-sm btn-success"/>
+            <input type="button" value="Go back to lobby" class="btn btn-sm btn-default"/>
         </form>
 
         <!-- List of saved decks, with `Delete` button -->
         <ul>
-            <li data-ng-repeat="deck in savedDecks">
+            <!-- TODO loop over saved decks to display -->
+<!--            <li data-ng-repeat="deck in savedDecks">
                 <a href data-ng-click="switchDeck(deck)">{{deck.name}}</a>
                 <input data-ng-click="deleteDeck(deck.name)" type="button" value="Delete" class="btn btn-xs btn-danger"/>
-            </li>
+            </li>-->
         </ul>
 
         <ul>
-            <card card-info="cardInfo" ng-show="cardInfo"></card>
+            <!-- TODO implement card info instead of <card> tag -->
+            <!--<card card-info="cardInfo" ng-show="cardInfo"></card>-->
         </ul>
 
         <!-- LIST OF ALL CARDS - Displays one full row below for every card -->
@@ -55,21 +57,22 @@
                 <th>Mana</th>
                 <th>A / H</th>
                 <th>Sick</th>
-                <th>Akt?</th>
+                <th>Atk?</th>
                 <th>FX</th>
                 <th>?</th>
             </tr>
-            <tr data-ng-repeat="card in cards">
+            <!-- TODO loop over cards to display info -->
+<!--            <tr data-ng-repeat="card in cards">
                 <td>{{card.properties.creatureType}}</td>
                 <td><a href data-ng-click="showDetails(card)">{{card.properties.name}}</a></td>
                 <td style="text-align: center;">
-                <!-- Controls to add or remove a card to deck, and counter to show "current / max" count -->
+                 Controls to add or remove a card to deck, and counter to show "current / max" count 
                     <div class="btn-group">
-                        <!-- MINUS button -->
+                         MINUS button 
                         <button data-ng-click="decrement(card)" type="button" class="btn btn-xs btn-default glyphicon glyphicon-minus"></button>
-                        <!-- How many cards you selected for this deck, and what the max allowed is -->
+                         How many cards you selected for this deck, and what the max allowed is 
                         <button type="button" class="btn btn-xs btn-default"><b>{{$parent.currentDeck[card.id]}} / {{card.max}}</b></button>
-                        <!-- PLUS button -->
+                         PLUS button 
                         <button data-ng-click="increment(card)" type="button" class="btn btn-xs btn-default glyphicon glyphicon-plus"></button>
                     </div>
                 </td>
@@ -86,17 +89,17 @@
                     <span ng-show="card.properties.ATTACK_AVAILABLE" style="font-size: 0.8em; color: green;">Yes</span>
                     <span ng-hide="card.properties.ATTACK_AVAILABLE" style="font-size: 0.8em; color: red;">No</span>
                 </td>
-                <td style="text-align: center;"><!-- effect popover -->
+                <td style="text-align: center;"> effect popover 
                     <button type="button" class="btn btn-xs btn-default" popover-placement="top"
                             popover="{{card.properties.effect}}" popover-title="{{card.properties.name}}"
                             ng-show="card.properties.effect">FX</button>
                 </td>
-                <td style="text-align: center;"><!-- flavor tooltip -->
+                <td style="text-align: center;"> flavor tooltip 
                     <button type="button" class="btn btn-xs btn-default" popover-placement="right"
                             popover="{{card.properties.flavor}}"
                             ng-show="card.properties.flavor">?</button>
                 </td>
-            </tr>
+            </tr>-->
         </table>
     </div>
 </div>
