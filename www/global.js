@@ -1,6 +1,7 @@
 /*
  * This file is for global values to be used throughout the site.
  */
+'use strict';
 
 /*
  * Setting to `true` will log messages in the browser console
