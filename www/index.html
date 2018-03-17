@@ -8,8 +8,8 @@
     <!-- Local styles -->
     <link rel="stylesheet" href="styles/cardshifter.css" />
     
-    <!-- Import jQuery for load() of separate HTML local files. See http://api.jquery.com/load/ -->
-    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <!-- Local JavaScript -->
+    <script src="utils/load_html.js"></script>
 
     <!-- Favicon links -->
     <link rel="apple-touch-icon" sizes="57x57" href="images/favicon/apple-icon-57x57.png" />
@@ -34,8 +34,7 @@
     <!-- Top navigation bar -->
     <div id="top_navbar_container">
       <script>
-        // Loads the top_navbar section
-        $("#top_navbar_container").load("top_navbar.html");
+        loadHtml("top_navbar_container", "sections/top_navbar/top_navbar.html");
       </script>
     </div>
 
