@@ -1,57 +1,84 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Cardshifter</title>
-    <!-- Bootstrap -->
-    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" />
-    
-    <!-- Local styles -->
-    <link rel="stylesheet" href="styles/cardshifter.css" />
-    
-    <!-- Local JavaScript -->
-    <script src="global.js"></script>
-    <script src="utils/loadHtml.js"></script>
+    <head>
+        <title>Cardshifter</title>
+        <!-- Bootstrap -->
+        <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" />
 
-    <!-- Favicon links -->
-    <link rel="apple-touch-icon" sizes="57x57" href="images/favicon/apple-icon-57x57.png" />
-    <link rel="apple-touch-icon" sizes="60x60" href="images/favicon/apple-icon-60x60.png" />
-    <link rel="apple-touch-icon" sizes="72x72" href="images/favicon/apple-icon-72x72.png" />
-    <link rel="apple-touch-icon" sizes="76x76" href="images/favicon/apple-icon-76x76.png" />
-    <link rel="apple-touch-icon" sizes="114x114" href="images/favicon/apple-icon-114x114.png" />
-    <link rel="apple-touch-icon" sizes="120x120" href="images/favicon/apple-icon-120x120.png" />
-    <link rel="apple-touch-icon" sizes="144x144" href="images/favicon/apple-icon-144x144.png" />
-    <link rel="apple-touch-icon" sizes="152x152" href="images/favicon/apple-icon-152x152.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-icon-180x180.png" />
-    <link rel="icon" type="image/png" sizes="192x192"  href="images/favicon/android-icon-192x192.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="96x96" href="images/favicon/favicon-96x96.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png" />
-    <link rel="manifest" href="images/favicon/manifest.json" />
-    <meta name="msapplication-TileColor" content="#ffffff" />
-    <meta name="msapplication-TileImage" content="images/favicon/ms-icon-144x144.png" />
-    <meta name="theme-color" content="#ffffff" />
-  </head>
-  <body>
-    <!-- Top navigation bar -->
-    <div id="top_navbar_container">
-      <script>
-        "use strict";
-        const containerId = "top_navbar_container";
-        const filePath = "sections/top_navbar/top_navbar.html";
-        try {
-            loadHtml(containerId, filePath);
-            if (DEBUG) { 
-                console.log(`File "${filePath}" loaded into element ID "${containerId}"`);
-            }
-        }
-        catch (error) {
-            console.log(error);
-        }
-      </script>
-    </div>
+        <!-- Local styles -->
+        <link rel="stylesheet" href="styles/cardshifter.css" />
 
-    <div class="csh-body">
-      <h1>Hello, Cardshifter!</h1>
-    </div>
-  </body>
+        <!-- Local JavaScript -->
+        <script src="global.js"></script>
+        <script src="utils/loadHtml.js"></script>
+
+        <!-- Favicon links -->
+        <link rel="apple-touch-icon" sizes="57x57" href="images/favicon/apple-icon-57x57.png" />
+        <link rel="apple-touch-icon" sizes="60x60" href="images/favicon/apple-icon-60x60.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="images/favicon/apple-icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="76x76" href="images/favicon/apple-icon-76x76.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="images/favicon/apple-icon-114x114.png" />
+        <link rel="apple-touch-icon" sizes="120x120" href="images/favicon/apple-icon-120x120.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="images/favicon/apple-icon-144x144.png" />
+        <link rel="apple-touch-icon" sizes="152x152" href="images/favicon/apple-icon-152x152.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-icon-180x180.png" />
+        <link rel="icon" type="image/png" sizes="192x192"  href="images/favicon/android-icon-192x192.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="96x96" href="images/favicon/favicon-96x96.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png" />
+        <link rel="manifest" href="images/favicon/manifest.json" />
+        <meta name="msapplication-TileColor" content="#ffffff" />
+        <meta name="msapplication-TileImage" content="images/favicon/ms-icon-144x144.png" />
+        <meta name="theme-color" content="#ffffff" />
+    </head>
+    <body>
+        <!-- Top navigation bar -->
+        <div id="top_navbar_container">
+            <script>
+                "use strict";
+                const containerId = "top_navbar_container";
+                const filePath = "sections/top_navbar/top_navbar.html";
+                try {
+                    loadHtml(containerId, filePath);
+                    if (DEBUG) {
+                        console.log(`File "${filePath}" loaded into element ID "${containerId}"`);
+                    }
+                } catch (error) {
+                    console.log(error);
+                }
+            </script>
+        </div>
+
+        <div class="csh-body">
+            <div id="login_container">
+                <h4>Please log in to continue.</h4>
+                <form name="login_information" id="login_information" class="login-form">
+                    <div class="form-group">
+                        <label for="server" aria-label="Server">Server:</label>
+                        <select name="server" id="server" class="form-control">
+                            <option value="ws://127.0.0.1:4243">Local host</option>
+                            <option value="ws://dwarftowers.com:4243">dwarftowers.com</option>
+                            <option value="ws://stats.zomis.net:4243">zomis.net</option>
+                            <option value="other">Other...</option>
+                        </select>
+                        <label for="secure">Is secure server:</label>
+                        <input name="secure" id="secure" type="checkbox" value="secure" />
+                    </div>
+                    <div class="form-group">
+                        <div id="server_other">
+                            <label for="server_other_input">Other Server:</label>
+                            <input data-ng-model="other_server" name="server_other_input" id="server_other_input" type="text" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="username">Username:</label>
+                        <input name="username" id="username" type="text" class="form-control" placeholder="Enter name..." />
+                    </div>
+                    <div class="form-group">
+                        <input name="submit" id="submit" type="button" value="Log in" class="btn btn-success" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
 </html>
