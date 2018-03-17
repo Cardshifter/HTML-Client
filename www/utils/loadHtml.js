@@ -1,5 +1,6 @@
 /* global fetch */
 "use strict";
+
 /*
  * Replicates the functionality of jQuery's `load` function, 
  * used to load some HTML from another file into the current one.
