@@ -1,4 +1,4 @@
-/* global fetch */
+/* global fetch, DEBUG */
 "use strict";
 
 /*
@@ -21,16 +21,30 @@ const loadHtml = function(parentElementId, filePath) {
         cache : "default"
     };
     const req = new Request(filePath, init);
-    fetch(req)
-        .then(function(response) {
-            return response.text();
-        })
-        .then(function(body) {
-            // Replace `#` char in case the function gets called `querySelector` or jQuery style
-            if (parentElementId.startsWith("#")) {
-                parentElementId.replace("#", "");
-            }
-            document.getElementById(parentElementId).innerHTML = body;
-            
-        });
+    try {
+        fetch(req)
+            .then(function(response) {
+                return response.text();
+            })
+            .then(function(body) {
+                // Replace `#` char in case the function gets called `querySelector` or jQuery style
+                if (parentElementId.startsWith("#")) {
+                    parentElementId.replace("#", "");
+                }
+                document.getElementById(parentElementId).innerHTML = body;
+                if (DEBUG) {
+                    console.log(`File "${filePath}" loaded into element ID "${parentElementId}"`);
+                }
+            });
+    }
+    catch (error) {
+        throw new FailureToLoadHTMLException(`Could not load "${filePath} into element ID "${parentElementId}"`);
+    }
 };
+
+const FailureToLoadHTMLException = function(message) {
+    this.name = "FailureToLoadHTMLException";
+    this.message = message;
+    this.stack = (new Error()).stack;
+};
+FailureToLoadHTMLException.prototype = new Error;

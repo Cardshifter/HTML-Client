@@ -36,17 +36,9 @@
         <!-- Top navigation bar -->
         <div id="top_navbar_container">
             <script>
-                "use strict";
                 const containerId = "top_navbar_container";
                 const filePath = "sections/top_navbar/top_navbar.html";
-                try {
-                    loadHtml(containerId, filePath);
-                    if (DEBUG) {
-                        console.log(`File "${filePath}" loaded into element ID "${containerId}"`);
-                    }
-                } catch (error) {
-                    console.log(error);
-                }
+                loadHtml(containerId, filePath);
             </script>
         </div>
         
