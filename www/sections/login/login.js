@@ -10,4 +10,15 @@ const loginHandler = function() {
             selectLoginServerList.add(option);
         }
     }
+    const serverSelector = document.getElementById("login_server_list");
+    const serverOtherInputContainer = document.getElementById("login_server_other_container");
+
+    serverSelector.addEventListener("change", function() {
+        if (!serverSelector.value) {
+            serverOtherInputContainer.style.display = "block";
+        }
+        else {
+            serverOtherInputContainer.style.display = "none";
+        }
+    });
 };

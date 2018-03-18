@@ -22,5 +22,5 @@ const GAME_SERVERS = {
     "localhost" : `ws://127.0.0.1:${WS_PORT}`,
     "dwarftowers.com" : `ws://dwarftowers.com:${WS_PORT}`,
     "zomis.net" : `ws://stats.zomis.net:${WS_PORT}`,
-    "Other" : null
+    "Other" : ""
 };
