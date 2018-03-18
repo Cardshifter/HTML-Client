@@ -22,26 +22,26 @@ const loadHtml = function (parentElementId, filePath) {
     };
     // Return Promise from `fetch` allows to use `.then` after call.
     return fetch(filePath, init)
-        .then(function (response) {
-            return response.text();
-        })
-        .then(function (body) {
-            // Replace `#` char in case the function gets called `querySelector` or jQuery style
-            if (parentElementId.startsWith("#")) {
-                parentElementId.replace("#", "");
-            }
-            document.getElementById(parentElementId).innerHTML = body;
-            if (DEBUG) {
-                console.log(`File "${filePath}" loaded into element ID "${parentElementId}"`);
-            }
-        })
-        .catch(function(err) {
-            throw new FailureToLoadHTMLException(
-                `Could not load "${filePath} ` + 
-                `into element ID "${parentElementId}"` +
-                `\n${err}`
-            );
-        });
+    .then(function (response) {
+        return response.text();
+    })
+    .then(function (body) {
+        // Replace `#` char in case the function gets called `querySelector` or jQuery style
+        if (parentElementId.startsWith("#")) {
+            parentElementId.replace("#", "");
+        }
+        document.getElementById(parentElementId).innerHTML = body;
+        if (DEBUG) {
+            console.log(`File "${filePath}" loaded into element ID "${parentElementId}"`);
+        }
+    })
+    .catch(function(err) {
+        throw new FailureToLoadHTMLException(
+            `Could not load "${filePath} ` + 
+            `into element ID "${parentElementId}"` +
+            `\n${err}`
+        );
+    });
 };
 
 const FailureToLoadHTMLException = function(message) {
