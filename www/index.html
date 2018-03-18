@@ -38,7 +38,13 @@
             <script>
                 const navbarContainerId = "top_navbar_container";
                 const navbarFilePath = "sections/top_navbar/top_navbar.html";
-                loadHtml(navbarContainerId, navbarFilePath);
+                loadHtml(navbarContainerId, navbarFilePath)
+                    .then(function() {
+                        // This is here temporarily to test promise/async resolution
+                        if (DEBUG) { 
+                            console.log(`"${navbarFilePath}" loaded OK!`); 
+                        }
+                    });
             </script>
         </div>
         
@@ -57,7 +63,6 @@
                     const loginContainerId = "login_container";
                     const loginFilePath = "sections/login/login.html";
                     loadHtml(loginContainerId, loginFilePath);
-                    
                 </script>
                 <script src="sections/login/login.js"></script>
             </div>

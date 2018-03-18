@@ -13,33 +13,35 @@
  * @param {string} parentElementId - The ID of the DOM element to load into
  * @param {string} htmlFilePath - The path of the HTML file to load
  */
-const loadHtml = function(parentElementId, filePath) {
+const loadHtml = function (parentElementId, filePath) {
     const init = {
-        method : "GET",
-        headers : { "Content-Type" : "text/html" },
-        mode : "cors",
-        cache : "default"
+        method: "GET",
+        headers: { "Content-Type": "text/html" },
+        mode: "cors",
+        cache: "default"
     };
-    const req = new Request(filePath, init);
-    try {
-        fetch(req)
-            .then(function(response) {
-                return response.text();
-            })
-            .then(function(body) {
-                // Replace `#` char in case the function gets called `querySelector` or jQuery style
-                if (parentElementId.startsWith("#")) {
-                    parentElementId.replace("#", "");
-                }
-                document.getElementById(parentElementId).innerHTML = body;
-                if (DEBUG) {
-                    console.log(`File "${filePath}" loaded into element ID "${parentElementId}"`);
-                }
-            });
-    }
-    catch (error) {
-        throw new FailureToLoadHTMLException(`Could not load "${filePath} into element ID "${parentElementId}"`);
-    }
+    // Return Promise from `fetch` allows to use `.then` after call.
+    return fetch(filePath, init)
+        .then(function (response) {
+            return response.text();
+        })
+        .then(function (body) {
+            // Replace `#` char in case the function gets called `querySelector` or jQuery style
+            if (parentElementId.startsWith("#")) {
+                parentElementId.replace("#", "");
+            }
+            document.getElementById(parentElementId).innerHTML = body;
+            if (DEBUG) {
+                console.log(`File "${filePath}" loaded into element ID "${parentElementId}"`);
+            }
+        })
+        .catch(function(err) {
+            throw new FailureToLoadHTMLException(
+                `Could not load "${filePath} ` + 
+                `into element ID "${parentElementId}"` +
+                `\n${err}`
+            );
+        });
 };
 
 const FailureToLoadHTMLException = function(message) {
@@ -47,4 +49,5 @@ const FailureToLoadHTMLException = function(message) {
     this.message = message;
     this.stack = (new Error()).stack;
 };
+
 FailureToLoadHTMLException.prototype = new Error;
