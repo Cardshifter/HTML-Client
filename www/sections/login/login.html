@@ -1,29 +1,31 @@
 <div id="login">
     <h4>Please log in to continue.</h4>
-    <form name="login_information" id="login_information" class="login-form">
+    <form name="login_form" id="login_form" class="login-form">
         <div class="form-group">
-            <label for="server" aria-label="Server">Server:</label>
-            <select name="server" id="server" class="form-control">
-                <option value="ws://127.0.0.1:4243">Local host</option>
+            <label for="login_server_list" aria-label="Server">Server:</label>
+            <select name="login_server_list" id="login_server_list" class="form-control">
+<!--                <option value="ws://127.0.0.1:4243">Local host</option>
                 <option value="ws://dwarftowers.com:4243">dwarftowers.com</option>
                 <option value="ws://stats.zomis.net:4243">zomis.net</option>
-                <option value="other">Other...</option>
+                <option value="other">Other...</option>-->
             </select>
-            <label for="secure">Is secure server:</label>
-            <input name="secure" id="secure" type="checkbox" value="secure" />
+            <label for="login_secure">Is secure server:</label>
+            <input name="login_secure" id="login_secure" type="checkbox" value="secure" />
         </div>
         <div class="form-group">
-            <div id="server_other">
-                <label for="server_other_input">Other Server:</label>
-                <input data-ng-model="other_server" name="server_other_input" id="server_other_input" type="text" class="form-control" />
+            <div id="login_server_other">
+                <label for="login_server_other_input">Other Server:</label>
+                <input name="login_server_other_input" id="login_server_other_input" type="text" class="form-control" />
             </div>
         </div>
         <div class="form-group">
-            <label for="username">Username:</label>
-            <input name="username" id="username" type="text" class="form-control" placeholder="Enter name..." />
+            <label for="login_username">Username:</label>
+            <input name="login_username" id="username" type="text" class="form-control" placeholder="Enter name..." />
         </div>
         <div class="form-group">
-            <input name="submit" id="submit" type="button" value="Log in" class="btn btn-success" />
+            <input name="login_submit" id="login_submit" type="button" value="Log in" class="btn btn-success" />
         </div>
     </form>
+    
+    <!--<script src="login.js"></script>-->
 </div>

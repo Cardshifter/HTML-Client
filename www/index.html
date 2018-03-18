@@ -44,7 +44,7 @@
         
         <!-- Temporary script to make sure WebSocket connection can be established. -->
         <script>
-            const serverUri = "ws://127.0.0.1:4243";
+            const serverUri = GAME_SERVERS["localhost"];
             const isSecure = false;
             const onReady = function() { console.log("WebSocket ready"); }
             const onError = function() { console.log("WebSocket error"); }
@@ -57,7 +57,9 @@
                     const loginContainerId = "login_container";
                     const loginFilePath = "sections/login/login.html";
                     loadHtml(loginContainerId, loginFilePath);
+                    
                 </script>
+                <script src="sections/login/login.js"></script>
             </div>
         </div>
     </body>
