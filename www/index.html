@@ -12,6 +12,7 @@
         <script src="global.js"></script>
         <script src="server_interface/server_interface.js"></script>
         <script src="utils/loadHtml.js"></script>
+        <script src="sections/login/login.js"></script>
 
         <!-- Favicon links -->
         <link rel="apple-touch-icon" sizes="57x57" href="images/favicon/apple-icon-57x57.png" />
@@ -62,9 +63,16 @@
                 <script>
                     const loginContainerId = "login_container";
                     const loginFilePath = "sections/login/login.html";
-                    loadHtml(loginContainerId, loginFilePath);
+                    loadHtml(loginContainerId, loginFilePath)
+                    .then(function() {
+                        // TODO call the logic to populate server list, etc. here.
+                        loginHandler();
+                        if (DEBUG) {
+                            console.log(`"${loginFilePath}" loaded OK!`);
+                        } 
+                    });
                 </script>
-                <script src="sections/login/login.js"></script>
+                
             </div>
         </div>
     </body>
