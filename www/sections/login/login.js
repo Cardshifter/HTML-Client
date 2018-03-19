@@ -1,24 +1,35 @@
 /* global GAME_SERVERS */
 
 const loginHandler = function() {
-    const selectLoginServerList = document.getElementById("login_server_list");
-    for (let key in GAME_SERVERS) {
-        if (GAME_SERVERS.hasOwnProperty(key)) {
-            const option = document.createElement("option");
-            option.text = key;
-            option.value = GAME_SERVERS[key];
-            selectLoginServerList.add(option);
-        }
-    }
-    const serverSelector = document.getElementById("login_server_list");
+    const serverSelect = document.getElementById("login_server_list");
     const serverOtherInputContainer = document.getElementById("login_server_other_container");
 
-    serverSelector.addEventListener("change", function() {
-        if (!serverSelector.value) {
-            serverOtherInputContainer.style.display = "block";
+    const populateServerSelect = function() {
+        for (let key in GAME_SERVERS) {
+            if (GAME_SERVERS.hasOwnProperty(key)) {
+                const option = document.createElement("option");
+                option.text = key;
+                option.value = GAME_SERVERS[key];
+                serverSelect.add(option);
+            }
         }
-        else {
-            serverOtherInputContainer.style.display = "none";
-        }
-    });
+    };
+    
+    const showOtherServerInputWhenApplicable = function() {
+        serverSelect.addEventListener("change", function() {
+            if (serverSelect.value) {
+                serverOtherInputContainer.style.display = "none";
+            }
+            else {
+                serverOtherInputContainer.style.display = "block";
+            }
+        });
+    };
+    
+    const runLoginHandler = function() {
+        populateServerSelect();
+        showOtherServerInputWhenApplicable();
+    };
+    
+    runLoginHandler();
 };
