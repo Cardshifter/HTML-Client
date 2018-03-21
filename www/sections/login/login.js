@@ -26,9 +26,27 @@ const loginHandler = function() {
         });
     };
     
+    
+    const tryLogin = function() {
+        const userName = document.getElementById("login_username").value;
+        if (userName === "") {
+            document.getElementById("login_username_container").innerHTML += 
+                    "<span class='label label-danger'>" + 
+                        "Please enter a user name." +
+                    "</span>"
+            ;
+            
+        }
+        else {
+            // TODO add login logic
+            alert(`Username is ${userName}`);
+        }
+    };
+    
     const runLoginHandler = function() {
         populateServerSelect();
         showOtherServerInputWhenApplicable();
+        document.getElementById("login_submit").addEventListener("click", tryLogin, false);
     };
     
     runLoginHandler();
