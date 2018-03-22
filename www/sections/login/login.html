@@ -1,12 +1,13 @@
 <div id="login">
     <h4>Please log in to continue.</h4>
     <form name="login_form" id="login_form" class="login-form">
-        <div class="form-group">
+        <div id="login_server_select_container" class="form-group">
             <label for="login_server_list" aria-label="Server">Server:</label>
             <select name="login_server_list" id="login_server_list" class="form-control">
             </select>
             <label for="login_secure">Is secure server:</label>
             <input name="login_secure" id="login_secure" type="checkbox" value="secure" />
+            <span id="login_server_connection_status" class="label"></span>
         </div>
         <div id="login_server_other_container" class="form-group" style="display : none">
             <label for="login_server_other_input">Other Server:</label>

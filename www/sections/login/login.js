@@ -1,4 +1,4 @@
-/* global GAME_SERVERS */
+/* global GAME_SERVERS, DEBUG, CardshifterServerAPI */
 
 const loginHandler = function() {
     const serverSelect = document.getElementById("login_server_list");
@@ -17,6 +17,45 @@ const loginHandler = function() {
                 serverSelect.add(option);
             }
         }
+    };
+    
+    const testWebsocketConnection = function() {
+        const serverSelectContainer = document.getElementById("login_server_select_container");
+        const serverSelect = serverSelectContainer.querySelector("#login_server_list");
+        const serverUri = serverSelect.value;
+        const isSecure = false;
+        
+        const connStatusMsg = serverSelectContainer.querySelector("#login_server_connection_status");
+        const msgText = `<h5>Connecting to server...</h5> <pre class='bg-warning'>Address: ${serverUri}</pre>`;
+        connStatusMsg.className = "label label-warning";
+        connStatusMsg.innerHTML = msgText;
+        connStatusMsg.style = "display: block; text-align: left";
+        
+        const onReady = function() {
+            const msgText =
+                `<h5>WebSocket connection OK.</h5>\n` +
+                `<pre class='bg-success'>`+ 
+                    `Address: ${serverUri}` +
+                    `\n${new Date()}` +
+                `</pre>`;
+            if (DEBUG) { console.log(msgText); }
+            // GUI
+            connStatusMsg.innerHTML = msgText;
+            connStatusMsg.className = "label label-success";
+        };
+        const onError = function() {
+            const msgText =
+                `<h5>WebSocket connection FAILED.</h5>\n` +
+                `<pre class='bg-danger'>`+ 
+                    `Address: ${serverUri}` +
+                    `\n${new Date()}` +
+                `</pre>`;
+            if (DEBUG) { console.log(msgText); }
+            // GUI
+            connStatusMsg.innerHTML = msgText;
+            connStatusMsg.className = "label label-danger";
+        };
+        CardshifterServerAPI.init(serverUri, isSecure, onReady, onError);
     };
 
     /**
@@ -71,6 +110,8 @@ const loginHandler = function() {
     const runLoginHandler = function() {
         populateServerSelect();
         showOtherServerInputWhenApplicable();
+        document.getElementById("login_server_list").addEventListener("change", testWebsocketConnection, false);
         document.getElementById("login_submit").addEventListener("click", tryLogin, false);
+        testWebsocketConnection();
     }();
 };
