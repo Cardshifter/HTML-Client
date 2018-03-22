@@ -20,6 +20,9 @@ const loginHandler = function() {
     };
     
     const testWebsocketConnection = function() {
+        // FIXME If an offline server is selected, then an online server is selected,
+        // the offline server's timeout will call `onError` and display that server's
+        // connection failure, even if an online server is selected.
         const serverSelectContainer = document.getElementById("login_server_select_container");
         const serverSelect = serverSelectContainer.querySelector("#login_server_list");
         const serverUri = serverSelect.value;
@@ -31,7 +34,10 @@ const loginHandler = function() {
         connStatusMsg.innerHTML = msgText;
         connStatusMsg.style = "display: block; text-align: left";
         
+        let connEstablished = null;
+        
         const onReady = function() {
+            connEstablished = true;
             const msgText =
                 `<h5>WebSocket connection OK.</h5>\n` +
                 `<pre class='bg-success'>`+ 
@@ -44,16 +50,18 @@ const loginHandler = function() {
             connStatusMsg.className = "label label-success";
         };
         const onError = function() {
-            const msgText =
-                `<h5>WebSocket connection FAILED.</h5>\n` +
-                `<pre class='bg-danger'>`+ 
-                    `Address: ${serverUri}` +
-                    `\n${new Date()}` +
-                `</pre>`;
-            if (DEBUG) { console.log(msgText); }
-            // GUI
-            connStatusMsg.innerHTML = msgText;
-            connStatusMsg.className = "label label-danger";
+            if (!connEstablished) {
+                const msgText =
+                    `<h5>WebSocket connection FAILED.</h5>\n` +
+                    `<pre class='bg-danger'>`+ 
+                        `Address: ${serverUri}` +
+                        `\n${new Date()}` +
+                    `</pre>`;
+                if (DEBUG) { console.log(msgText); }
+                // GUI
+                connStatusMsg.innerHTML = msgText;
+                connStatusMsg.className = "label label-danger";
+            }
         };
         CardshifterServerAPI.init(serverUri, isSecure, onReady, onError);
     };
