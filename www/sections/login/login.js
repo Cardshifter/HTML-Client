@@ -30,12 +30,14 @@ const loginHandler = function() {
     const tryLogin = function() {
         const userName = document.getElementById("login_username").value;
         if (userName === "") {
-            document.getElementById("login_username_container").innerHTML += 
-                    "<span class='label label-danger'>" + 
-                        "Please enter a user name." +
-                    "</span>"
-            ;
-            
+            const container = document.getElementById("login_username_container");
+            if (!container.querySelector("#login_username_missing_msg")) {
+                const msg = document.createElement("span");
+                msg.id = "login_username_missing_msg";
+                msg.className = "label label-danger";
+                msg.innerHTML = "Please enter a user name.";
+                container.appendChild(msg);
+            }
         }
         else {
             // TODO add login logic
