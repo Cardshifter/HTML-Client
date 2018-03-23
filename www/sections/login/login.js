@@ -33,41 +33,66 @@ const loginHandler = function() {
         const serverUri = serverSelect.value;
         const isSecure = false;
         
-        const msgText = `<h5>Connecting to server...</h5> <pre class='bg-warning'>Address: ${serverUri}</pre>`;
+        let msgText = "";
         
-        // GUI
-        connStatusMsg.className = "label label-warning";
-        connStatusMsg.innerHTML = msgText;
+connStatusDisplay("connecting", serverUri);
         connStatusMsg.style = "display: block; text-align: left";
                 
         const onReady = function() {
             makeServerSelectReadWrite();
-            const msgText =
-                `<h5>WebSocket connection OK.</h5>\n` +
-                `<pre class='bg-success'>`+ 
-                    `Address: ${serverUri}` +
-                    `\n${new Date()}` +
-                `</pre>`;
+            msgText = connStatusDisplay("success", serverUri);
             if (DEBUG) { console.log(msgText); }
-            // GUI
-            connStatusMsg.innerHTML = msgText;
-            connStatusMsg.className = "label label-success";
         };
         const onError = function() {
             makeServerSelectReadWrite();
-            const msgText =
-                `<h5>WebSocket connection FAILED.</h5>\n` +
-                `<pre class='bg-danger'>`+ 
-                    `Address: ${serverUri}` +
-                    `\n${new Date()}` +
-                `</pre>`;
+            msgText = connStatusDisplay("failure", serverUri);
             if (DEBUG) { console.log(msgText); }
-            // GUI
-            connStatusMsg.innerHTML = msgText;
-            connStatusMsg.className = "label label-danger";
         };
         CardshifterServerAPI.init(serverUri, isSecure, onReady, onError);
         makeServerSelectReadOnly(serverUri);
+    };
+    
+    const connStatusDisplay = function(status, serverUri) {
+        let msgText = "";
+        switch (status.toLowerCase()) {
+            case "connecting":
+                msgText = 
+                    `<h5>Connecting to server...</h5>` + 
+                    `<pre class='bg-warning'>` + 
+                        `Address: ${serverUri}` + 
+                        `\n${new Date()}` +
+                    `</pre>`;
+                connStatusMsg.className = "label label-warning";
+                connStatusMsg.innerHTML = msgText;
+                break;
+            case "success":
+                msgText =
+                    `<h5>WebSocket connection OK.</h5>\n` +
+                    `<pre class='bg-success'>`+ 
+                        `Address: ${serverUri}` +
+                        `\n${new Date()}` +
+                    `</pre>`;
+                connStatusMsg.innerHTML = msgText;
+                connStatusMsg.className = "label label-success";
+                break;
+            case "failure":
+                msgText = 
+                    `<h5>WebSocket connection FAILED.</h5>\n` +
+                    `<pre class='bg-danger'>`+ 
+                        `Address: ${serverUri}` +
+                        `\n${new Date()}` +
+                    `</pre>`;
+                connStatusMsg.innerHTML = msgText;
+                connStatusMsg.className = "label label-danger";
+                break;
+            case "unknown":
+            default:
+                msgText = `<h5>Unknown connection status...</h5>`;
+                connStatusMsg.innerHTML = msgText;
+                connStatusMsg.className = "label label-default";
+                break;
+        }
+        return msgText;
     };
     
     /**
