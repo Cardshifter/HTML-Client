@@ -7,7 +7,6 @@ const loginHandler = function() {
     const serverLoading = serverSelectContainer.querySelector("#server_connecting");
     const connStatusMsg = serverSelectContainer.querySelector("#login_server_connection_status");
 
-
     /**
      * Adds options to the server selection based on GAME_SERVERS global.
      * @returns {undefined}
@@ -35,8 +34,7 @@ const loginHandler = function() {
         
         let msgText = "";
         
-connStatusDisplay("connecting", serverUri);
-        connStatusMsg.style = "display: block; text-align: left";
+        connStatusDisplay("connecting", serverUri);
                 
         const onReady = function() {
             makeServerSelectReadWrite();
