@@ -20,11 +20,9 @@ const loginHandler = function() {
     };
     
     const testWebsocketConnection = function() {
-        // FIXME If an offline server is selected, then an online server is selected,
-        // the offline server's timeout will call `onError` and display that server's
-        // connection failure, even if an online server is selected.
         const serverSelectContainer = document.getElementById("login_server_select_container");
         const serverSelect = serverSelectContainer.querySelector("#login_server_list");
+        const serverLoading = serverSelectContainer.querySelector("#server_connecting");
         const serverUri = serverSelect.value;
         const isSecure = false;
         
@@ -38,6 +36,7 @@ const loginHandler = function() {
         
         const onReady = function() {
             connEstablished = true;
+            makeServerSelectReadWrite();
             const msgText =
                 `<h5>WebSocket connection OK.</h5>\n` +
                 `<pre class='bg-success'>`+ 
@@ -50,6 +49,8 @@ const loginHandler = function() {
             connStatusMsg.className = "label label-success";
         };
         const onError = function() {
+            connEstablished = false;
+            makeServerSelectReadWrite();
             if (!connEstablished) {
                 const msgText =
                     `<h5>WebSocket connection FAILED.</h5>\n` +
@@ -64,6 +65,32 @@ const loginHandler = function() {
             }
         };
         CardshifterServerAPI.init(serverUri, isSecure, onReady, onError);
+        makeServerSelectReadOnly(serverUri);
+    };
+    
+    /**
+     * Hides the `select` element and shows a read-only `input` instead.
+     * @param {string} serverUri
+     * @returns {undefined}
+     */
+    const makeServerSelectReadOnly = function(serverUri) {
+        const selector = document.getElementById("login_server_list");
+        const connecting = document.getElementById("server_connecting");
+        selector.style.display = "none";
+        connecting.style.display = "block";
+        connecting.value = `Connecting to ${serverUri}...`;
+    };
+    
+    /**
+     * Makes the server `select` element visible and hides the read-only `input`
+     * @param {string} serverUri
+     * @returns {undefined}
+     */
+    const makeServerSelectReadWrite = function() {
+        const selector = document.getElementById("login_server_list");
+        const connecting = document.getElementById("server_connecting");
+        selector.style.display = "block";
+        connecting.style.display = "none";
     };
 
     /**
