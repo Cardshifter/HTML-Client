@@ -1,8 +1,12 @@
 /* global GAME_SERVERS, DEBUG, CardshifterServerAPI */
 
 const loginHandler = function() {
-    const serverSelect = document.getElementById("login_server_list");
-    const serverOtherInputContainer = document.getElementById("login_server_other_container");
+    const serverSelectContainer = document.getElementById("login_server_select_container");
+    const serverSelect = serverSelectContainer.querySelector("#login_server_list");
+    const serverOtherInputContainer = serverSelectContainer.querySelector("#login_server_other_container");
+    const serverLoading = serverSelectContainer.querySelector("#server_connecting");
+    const connStatusMsg = serverSelectContainer.querySelector("#login_server_connection_status");
+
 
     /**
      * Adds options to the server selection based on GAME_SERVERS global.
@@ -19,23 +23,24 @@ const loginHandler = function() {
         }
     };
     
+    /**
+     * Tests the WebSocket connection to a server and displays a message on the page
+     * to give the user information about the connection status.
+     * @returns {undefined}
+     */
     const testWebsocketConnection = function() {
-        const serverSelectContainer = document.getElementById("login_server_select_container");
-        const serverSelect = serverSelectContainer.querySelector("#login_server_list");
-        const serverLoading = serverSelectContainer.querySelector("#server_connecting");
+        // TODO make logic for other server
         const serverUri = serverSelect.value;
         const isSecure = false;
         
-        const connStatusMsg = serverSelectContainer.querySelector("#login_server_connection_status");
         const msgText = `<h5>Connecting to server...</h5> <pre class='bg-warning'>Address: ${serverUri}</pre>`;
+        
+        // GUI
         connStatusMsg.className = "label label-warning";
         connStatusMsg.innerHTML = msgText;
         connStatusMsg.style = "display: block; text-align: left";
-        
-        let connEstablished = null;
-        
+                
         const onReady = function() {
-            connEstablished = true;
             makeServerSelectReadWrite();
             const msgText =
                 `<h5>WebSocket connection OK.</h5>\n` +
@@ -49,20 +54,17 @@ const loginHandler = function() {
             connStatusMsg.className = "label label-success";
         };
         const onError = function() {
-            connEstablished = false;
             makeServerSelectReadWrite();
-            if (!connEstablished) {
-                const msgText =
-                    `<h5>WebSocket connection FAILED.</h5>\n` +
-                    `<pre class='bg-danger'>`+ 
-                        `Address: ${serverUri}` +
-                        `\n${new Date()}` +
-                    `</pre>`;
-                if (DEBUG) { console.log(msgText); }
-                // GUI
-                connStatusMsg.innerHTML = msgText;
-                connStatusMsg.className = "label label-danger";
-            }
+            const msgText =
+                `<h5>WebSocket connection FAILED.</h5>\n` +
+                `<pre class='bg-danger'>`+ 
+                    `Address: ${serverUri}` +
+                    `\n${new Date()}` +
+                `</pre>`;
+            if (DEBUG) { console.log(msgText); }
+            // GUI
+            connStatusMsg.innerHTML = msgText;
+            connStatusMsg.className = "label label-danger";
         };
         CardshifterServerAPI.init(serverUri, isSecure, onReady, onError);
         makeServerSelectReadOnly(serverUri);
@@ -97,15 +99,13 @@ const loginHandler = function() {
      * Displays an input field for server address if "Other" server is selected.
      * @returns {undefined}
      */
-    const showOtherServerInputWhenApplicable = function() {
-        serverSelect.addEventListener("change", function() {
-            if (serverSelect.value) {
-                serverOtherInputContainer.style.display = "none";
-            }
-            else {
-                serverOtherInputContainer.style.display = "block";
-            }
-        });
+    const handleServerSelectChanges = function() {
+        if (serverSelect.value) {
+            serverOtherInputContainer.style.display = "none";
+        }
+        else {
+            serverOtherInputContainer.style.display = "block";
+        }
     };
     
     /**
@@ -144,7 +144,8 @@ const loginHandler = function() {
      */
     const runLoginHandler = function() {
         populateServerSelect();
-        showOtherServerInputWhenApplicable();
+        //handleServerSelectChanges();
+        document.getElementById("login_server_list").addEventListener("change", handleServerSelectChanges, false);
         document.getElementById("login_server_list").addEventListener("change", testWebsocketConnection, false);
         document.getElementById("login_submit").addEventListener("click", tryLogin, false);
         testWebsocketConnection();

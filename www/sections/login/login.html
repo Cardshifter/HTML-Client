@@ -5,15 +5,19 @@
             <label for="login_server_list" aria-label="Server">Server:</label>
             <select name="login_server_list" id="login_server_list" class="form-control">
             </select>
+            <div id="login_server_other_container" class="form-group" style="display : none">
+                <label for="login_server_other_input">Other Server:</label>
+                <input name="login_server_other_input" id="login_server_other_input" type="text" class="form-control" />
+            </div>
             <input readonly name="server_loading_display" id="server_connecting" class="form-control" style="background-color: #DDD; display: none" />
             <label for="login_secure">Is secure server:</label>
             <input name="login_secure" id="login_secure" type="checkbox" value="secure" />
             <span id="login_server_connection_status" class="label"></span>
         </div>
-        <div id="login_server_other_container" class="form-group" style="display : none">
+<!--        <div id="login_server_other_container" class="form-group" style="display : none">
             <label for="login_server_other_input">Other Server:</label>
             <input name="login_server_other_input" id="login_server_other_input" type="text" class="form-control" />
-        </div>
+        </div>-->
         <div id="login_username_container" class="form-group">
             <label for="login_username">Username:</label>
             <input name="login_username" id="login_username" type="text" class="form-control" placeholder="Enter name..." />
