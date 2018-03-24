@@ -1,12 +1,26 @@
 /* global GAME_SERVERS, DEBUG, CardshifterServerAPI */
 
 const loginHandler = function() {
+//    const importExternalScripts = function() {
+//        const loginSection = document.getElementById("login");
+//        // formatDate.js
+//        const formatDate = document.createElement("script");
+//        formatDate.src = "../../utils/formatDate.js";
+//        loginSection.appendChild(formatDate);
+//        // logDebugMessage.js
+//        const logDebugMessage = document.createElement("script");
+//        logDebugMessage.src = "../../utils/logDebugMessage.js";
+//        loginSection.appendChild(logDebugMessage);
+//    };
+    
     const serverSelectContainer = document.getElementById("login_server_select_container");
     const serverSelect = serverSelectContainer.querySelector("#login_server_list");
     const serverOtherInputContainer = serverSelectContainer.querySelector("#login_server_other_container");
     const serverLoading = serverSelectContainer.querySelector("#server_connecting");
     const connStatusMsg = serverSelectContainer.querySelector("#login_server_connection_status");
     let currentServerHasValidConnection = null;
+    
+
 
     /**
      * Adds options to the server selection based on GAME_SERVERS global.
@@ -41,13 +55,13 @@ const loginHandler = function() {
             const onReady = function() {
                 makeServerSelectReadWrite();
                 msgText = displayConnStatus("success", serverUri);
-                if (DEBUG) { console.log(msgText); }
+                if (DEBUG) { logDebugMessage(msgText); }
                 currentServerHasValidConnection = true;
             };
             const onError = function() {
                 makeServerSelectReadWrite();
                 msgText = displayConnStatus("failure", serverUri);
-                if (DEBUG) { console.log(msgText); }
+                if (DEBUG) { logDebugMessage(msgText); }
                 currentServerHasValidConnection = false;
             };
             CardshifterServerAPI.init(serverUri, isSecure, onReady, onError);
@@ -256,6 +270,7 @@ const loginHandler = function() {
      * @type undefined
      */
     const runLoginHandler = function() {
+        //importExternalScripts();
         populateServerSelect();
         //handleServerSelectChanges();
         document.getElementById("login_server_list").addEventListener("change", handleServerSelectChanges, false);
