@@ -1,4 +1,4 @@
-/* global GAME_SERVERS, DEBUG, CardshifterServerAPI */
+/* global GAME_SERVERS, DEBUG, CardshifterServerAPI, DEFAULT_DATE_FORMAT */
 
 const loginHandler = function() {
     const serverSelectContainer = document.getElementById("login_server_select_container");
@@ -31,7 +31,6 @@ const loginHandler = function() {
      * @returns {undefined}
      */
     const testWebsocketConnection = function() {
-        // TODO make logic for other server
         const serverUri = serverSelect.value;
         const isSecure = false;
         
@@ -57,6 +56,7 @@ const loginHandler = function() {
         }
         else {
             displayConnStatus("unknown", serverUri);
+            //testOtherServerConnection();
         }
     };
     
@@ -74,7 +74,7 @@ const loginHandler = function() {
                     `<h5>Connecting to server...</h5>` + 
                     `<pre class='bg-warning'>` + 
                         `Address: ${serverUri}` + 
-                        `\n${new Date()}` +
+                        `\n${formatDate(new Date())}` +
                     `</pre>`;
                 connStatusMsg.className = "label label-warning";
                 connStatusMsg.innerHTML = msgText;
@@ -84,7 +84,7 @@ const loginHandler = function() {
                     `<h5>WebSocket connection OK.</h5>\n` +
                     `<pre class='bg-success'>`+ 
                         `Address: ${serverUri}` +
-                        `\n${new Date()}` +
+                        `\n${formatDate(new Date())}` +
                     `</pre>`;
                 connStatusMsg.innerHTML = msgText;
                 connStatusMsg.className = "label label-success";
@@ -94,7 +94,7 @@ const loginHandler = function() {
                     `<h5>WebSocket connection FAILED.</h5>\n` +
                     `<pre class='bg-danger'>`+ 
                         `Address: ${serverUri}` +
-                        `\n${new Date()}` +
+                        `\n${formatDate(new Date())}` +
                     `</pre>`;
                 connStatusMsg.innerHTML = msgText;
                 connStatusMsg.className = "label label-danger";
@@ -156,9 +156,16 @@ const loginHandler = function() {
             displayNoUsernameWarning();
         }
         else {
-            const serverUri = serverSelect.value;
             const isSecure = false;
             var loggedIn = null;
+            
+            let serverUri = serverSelect.value;
+            /**
+             * 
+             */
+            if (serverUri === "") {
+                serverUri = document.getElementById("login_server_other_input").value;
+            }
             
             /**
              * Short-circuit login attempt if we've already found that the connection not valid.
@@ -251,6 +258,33 @@ const loginHandler = function() {
         container.appendChild(warning);
     };
     
+    const testOtherServerConnection = function() {
+        const otherServerInput = document.getElementById("login_server_other_input");
+        const otherServerUri = otherServerInput.value;
+        const isSecure = false;
+        
+        const onReady = function() {
+            makeServerSelectReadWrite();
+            msgText = displayConnStatus("success", otherServerUri);
+            if (DEBUG) { logDebugMessage(msgText); }
+            currentServerHasValidConnection = true;
+        };
+        const onError = function() {
+            makeServerSelectReadWrite();
+            msgText = displayConnStatus("failure", otherServerUri);
+            if (DEBUG) { logDebugMessage(msgText); }
+            currentServerHasValidConnection = false;
+        };
+        try {
+            CardshifterServerAPI.init(otherServerUri, isSecure, onReady, onError);
+            makeServerSelectReadOnly();
+            displayConnStatus("connecting", otherServerUri);
+        }
+        catch(error) {
+            console.log(error);
+        }
+    };
+    
     /**
      * IIFE to setup the login handling for the page it is loaded in.
      * @type undefined
@@ -260,6 +294,7 @@ const loginHandler = function() {
         document.getElementById("login_server_list").addEventListener("change", handleServerSelectChanges, false);
         document.getElementById("login_server_list").addEventListener("change", testWebsocketConnection, false);
         document.getElementById("login_submit").addEventListener("click", tryLogin, false);
+        document.getElementById("test_login_server_other").addEventListener("click", testOtherServerConnection, false);
         testWebsocketConnection();
     }();
 };

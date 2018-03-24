@@ -1,3 +1,5 @@
+/* global DEFAULT_DATE_FORMAT */
+
 /**
  * Formats a Date object based on a format string, e.g., "yyyy/MM/dd hh:MM:ss"
  * Original source: 
@@ -8,7 +10,7 @@
  * @param {String} formatString - the format string to use
  * @returns {String} - the formatted date
  */
-const formatDate = function (date, formatString) {
+const formatDate = function (date, formatString=DEFAULT_DATE_FORMAT) {
     if(date instanceof Date) {
         const months = new Array("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec");
         const yyyy = date.getFullYear();
