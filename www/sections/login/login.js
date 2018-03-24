@@ -6,6 +6,7 @@ const loginHandler = function() {
     const serverOtherInputContainer = serverSelectContainer.querySelector("#login_server_other_container");
     const serverLoading = serverSelectContainer.querySelector("#server_connecting");
     const connStatusMsg = serverSelectContainer.querySelector("#login_server_connection_status");
+    let currentServerHasValidConnection = null;
 
     /**
      * Adds options to the server selection based on GAME_SERVERS global.
@@ -41,11 +42,13 @@ const loginHandler = function() {
                 makeServerSelectReadWrite();
                 msgText = displayConnStatus("success", serverUri);
                 if (DEBUG) { console.log(msgText); }
+                currentServerHasValidConnection = true;
             };
             const onError = function() {
                 makeServerSelectReadWrite();
                 msgText = displayConnStatus("failure", serverUri);
                 if (DEBUG) { console.log(msgText); }
+                currentServerHasValidConnection = false;
             };
             CardshifterServerAPI.init(serverUri, isSecure, onReady, onError);
             makeServerSelectReadOnly(serverUri);
@@ -157,6 +160,16 @@ const loginHandler = function() {
             var loggedIn = null;
             
             /**
+             * Short-circuit login attempt if we've already found that the connection not valid.
+             * @type String
+             */
+            if (!currentServerHasValidConnection) {
+                const msg = "Websocket error(error 1)";
+                console.log(msg);
+                displayLoginFailureWarning(msg);
+            }
+            
+            /**
              * Attempt to log in once the WebSocket connection is ready.
              * @returns {undefined}
              */
@@ -187,8 +200,10 @@ const loginHandler = function() {
                     CardshifterServerAPI.sendMessage(login);
                 }
                 catch(error) {
+                    const msg = "LoginMessage error(error 2)";
                     // TODO display an error to the user
-                    console.log(`LoginMessage error(error 2): ${error}`);
+                    console.log(`${msg} ${error}`);
+                    displayLoginFailureWarning(msg, error);
                     loggedIn = false;
                 }
             };
@@ -198,8 +213,9 @@ const loginHandler = function() {
              * @returns {undefined}
              */
             const onError = function() {
-                // TODO display an error to the user
-                console.log("Websocket error(error 1)");
+                const msg = "Websocket error(error 1)";
+                console.log(msg);
+                displayLoginFailureWarning(msg);
                 loggedIn = false;
             };
             
@@ -220,6 +236,19 @@ const loginHandler = function() {
             msg.innerHTML = "Please enter a username.";
             container.appendChild(msg);
         }
+    };
+    
+    const displayLoginFailureWarning = function(message, error) {
+        const container = document.getElementById("login_username_container");
+        const warning = document.createElement("span");
+        warning.id = "login_failure_msg";
+        warning.className = "label label-danger";
+        warning.style = "display: block; text-align: left;";
+        warning.innerHTML = `<h5>Login failed: ${message}</h5>`;
+        if (error) {
+            warning.innerHTML += `<pre>${error}</pre>`;
+        }
+        container.appendChild(warning);
     };
     
     /**
