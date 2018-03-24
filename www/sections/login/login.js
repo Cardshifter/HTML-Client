@@ -34,23 +34,34 @@ const loginHandler = function() {
         
         let msgText = "";
         
-        connStatusDisplay("connecting", serverUri);
-                
-        const onReady = function() {
-            makeServerSelectReadWrite();
-            msgText = connStatusDisplay("success", serverUri);
-            if (DEBUG) { console.log(msgText); }
-        };
-        const onError = function() {
-            makeServerSelectReadWrite();
-            msgText = connStatusDisplay("failure", serverUri);
-            if (DEBUG) { console.log(msgText); }
-        };
-        CardshifterServerAPI.init(serverUri, isSecure, onReady, onError);
-        makeServerSelectReadOnly(serverUri);
+        if (serverUri !== "") {
+            displayConnStatus("connecting", serverUri);
+
+            const onReady = function() {
+                makeServerSelectReadWrite();
+                msgText = displayConnStatus("success", serverUri);
+                if (DEBUG) { console.log(msgText); }
+            };
+            const onError = function() {
+                makeServerSelectReadWrite();
+                msgText = displayConnStatus("failure", serverUri);
+                if (DEBUG) { console.log(msgText); }
+            };
+            CardshifterServerAPI.init(serverUri, isSecure, onReady, onError);
+            makeServerSelectReadOnly(serverUri);
+        }
+        else {
+            displayConnStatus("unknown", serverUri);
+        }
     };
     
-    const connStatusDisplay = function(status, serverUri) {
+    /**
+     * Displays connection status in the page.
+     * @param {string} status - Keyword representing the connection status
+     * @param {type} serverUri - The URI of the server the client is connecting to
+     * @returns {String} - The message text, largely for debug purposes
+     */
+    const displayConnStatus = function(status, serverUri) {
         let msgText = "";
         switch (status.toLowerCase()) {
             case "connecting":
@@ -136,13 +147,45 @@ const loginHandler = function() {
      * @returns {undefined}
      */
     const tryLogin = function() {
-        const userName = document.getElementById("login_username").value;
-        if (userName === "") {
+        const username = document.getElementById("login_username").value;
+        if (username === "") {
             displayNoUsernameWarning();
         }
         else {
-            // TODO add login logic
-            alert(`Username is ${userName}`);
+            const SUCCESS = 200;
+            const serverUri = serverSelect.value;
+            const isSecure = false;
+            var loggedIn = null;
+            
+            const onReady = function() {
+                let login = new CardshifterServerAPI.messageTypes.LoginMessage(username);
+                try {
+                    CardshifterServerAPI.setMessageListener(function(welcome) {
+                        if(welcome.status === SUCCESS && welcome.message === "OK") {
+                            localStorage.setItem("username", username);
+                            localStorage.setItem("id", welcome.userId);
+                            localStorage.setItem("playerIndex", null);
+                            localStorage.setItem("game", { "id" : null, "mod" : null });                           
+                        }
+                        else {
+                            console.log(`${new Date()} server message: ${welcome.message}`);
+                            loggedIn = false;
+                        }
+                    }, ["loginresponse"]);
+                    CardshifterServerAPI.sendMessage(login);
+                }
+                catch(error) {
+                    console.log(`LoginMessage error(error 2): ${error}`);
+                    loggedIn = false;
+                }
+            };
+            
+            const onError = function() {
+                console.log("Websocket error(error 1)");
+                loggedIn = false;
+            };
+            
+            CardshifterServerAPI.init(serverUri, isSecure, onReady, onError);
         }
     };
     
