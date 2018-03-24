@@ -7,8 +7,6 @@ const loginHandler = function() {
     const serverLoading = serverSelectContainer.querySelector("#server_connecting");
     const connStatusMsg = serverSelectContainer.querySelector("#login_server_connection_status");
     let currentServerHasValidConnection = null;
-    
-
 
     /**
      * Adds options to the server selection based on GAME_SERVERS global.
@@ -36,7 +34,7 @@ const loginHandler = function() {
         
         let msgText = "";
         
-        if (serverUri !== "") {
+        if (serverUri) {
             displayConnStatus("connecting", serverUri);
 
             const onReady = function() {
@@ -56,7 +54,6 @@ const loginHandler = function() {
         }
         else {
             displayConnStatus("unknown", serverUri);
-            //testOtherServerConnection();
         }
     };
     
@@ -152,7 +149,7 @@ const loginHandler = function() {
      */
     const tryLogin = function() {
         const username = document.getElementById("login_username").value;
-        if (username === "") {
+        if (username) {
             displayNoUsernameWarning();
         }
         else {
@@ -163,7 +160,7 @@ const loginHandler = function() {
             /**
              * 
              */
-            if (serverUri === "") {
+            if (serverUri) {
                 serverUri = document.getElementById("login_server_other_input").value;
             }
             
