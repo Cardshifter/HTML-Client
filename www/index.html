@@ -14,6 +14,8 @@
         <script src="utils/loadHtml.js"></script>
         <script src="utils/formatDate.js"></script>
         <script src="utils/logDebugMessage.js"></script>
+        
+        <!-- Local Section JavaScript -->
         <script src="sections/login/login.js"></script>
 
         <!-- Favicon links -->
@@ -44,20 +46,11 @@
                 loadHtml(navbarContainerId, navbarFilePath)
                 .then(function() {
                     if (DEBUG) { 
-                        console.log(`"${navbarFilePath}" loaded OK!`); 
+                        logDebugMessage(`"${navbarFilePath}" loaded OK!`); 
                     }
                 });
             </script>
         </div>
-        
-        <!-- Temporary script to make sure WebSocket connection can be established. -->
-<!--        <script>
-            const serverUri = GAME_SERVERS["localhost"];
-            const isSecure = false;
-            const onReady = function() { console.log("WebSocket ready"); }
-            const onError = function() { console.log("WebSocket error"); }
-            CardshifterServerAPI.init(serverUri, isSecure, onReady, onError);
-        </script>-->
 
         <div class="csh-body">
             <div id="login_container">
@@ -66,14 +59,12 @@
                     const loginFilePath = "sections/login/login.html";
                     loadHtml(loginContainerId, loginFilePath)
                     .then(function() {
-                        // TODO call the logic to populate server list, etc. here.
                         loginHandler();
                         if (DEBUG) {
-                            console.log(`"${loginFilePath}" loaded OK!`);
+                            logDebugMessage(`"${loginFilePath}" loaded OK!`);
                         } 
                     });
                 </script>
-                
             </div>
         </div>
     </body>

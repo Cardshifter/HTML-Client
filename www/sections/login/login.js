@@ -1,18 +1,6 @@
 /* global GAME_SERVERS, DEBUG, CardshifterServerAPI */
 
 const loginHandler = function() {
-//    const importExternalScripts = function() {
-//        const loginSection = document.getElementById("login");
-//        // formatDate.js
-//        const formatDate = document.createElement("script");
-//        formatDate.src = "../../utils/formatDate.js";
-//        loginSection.appendChild(formatDate);
-//        // logDebugMessage.js
-//        const logDebugMessage = document.createElement("script");
-//        logDebugMessage.src = "../../utils/logDebugMessage.js";
-//        loginSection.appendChild(logDebugMessage);
-//    };
-    
     const serverSelectContainer = document.getElementById("login_server_select_container");
     const serverSelect = serverSelectContainer.querySelector("#login_server_list");
     const serverOtherInputContainer = serverSelectContainer.querySelector("#login_server_other_container");
@@ -136,7 +124,6 @@ const loginHandler = function() {
     
     /**
      * Makes the server `select` element visible and hides the read-only `input`
-     * @param {string} serverUri
      * @returns {undefined}
      */
     const makeServerSelectReadWrite = function() {
@@ -215,7 +202,6 @@ const loginHandler = function() {
                 }
                 catch(error) {
                     const msg = "LoginMessage error(error 2)";
-                    // TODO display an error to the user
                     console.log(`${msg} ${error}`);
                     displayLoginFailureWarning(msg, error);
                     loggedIn = false;
@@ -270,9 +256,7 @@ const loginHandler = function() {
      * @type undefined
      */
     const runLoginHandler = function() {
-        //importExternalScripts();
         populateServerSelect();
-        //handleServerSelectChanges();
         document.getElementById("login_server_list").addEventListener("change", handleServerSelectChanges, false);
         document.getElementById("login_server_list").addEventListener("change", testWebsocketConnection, false);
         document.getElementById("login_submit").addEventListener("click", tryLogin, false);

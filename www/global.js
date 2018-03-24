@@ -24,3 +24,9 @@ const GAME_SERVERS = {
     "zomis.net" : `ws://stats.zomis.net:${WS_PORT}`,
     "Other" : ""
 };
+
+/**
+ * Default date format for the application.
+ * @type String
+ */
+const DEFAULT_DATE_FORMAT = "yyyy/MM/dd hh:mm:ss";
