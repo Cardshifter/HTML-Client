@@ -36,13 +36,20 @@ const loginHandler = function() {
         
         if (serverUri) {
             displayConnStatus("connecting", serverUri);
-
+            /**
+             * Test WebSocket connection and display status if successful.
+             * @returns {undefined}
+             */
             const onReady = function() {
                 makeServerSelectReadWrite();
                 msgText = displayConnStatus("success", serverUri);
                 if (DEBUG) { logDebugMessage(msgText); }
                 currentServerHasValidConnection = true;
             };
+            /**
+             * Test WebSocket connection and display status if failed.
+             * @returns {undefined}
+             */
             const onError = function() {
                 makeServerSelectReadWrite();
                 msgText = displayConnStatus("failure", serverUri);
@@ -149,7 +156,7 @@ const loginHandler = function() {
      */
     const tryLogin = function() {
         const username = document.getElementById("login_username").value;
-        if (username) {
+        if (!username) {
             displayNoUsernameWarning();
         }
         else {
@@ -157,10 +164,7 @@ const loginHandler = function() {
             var loggedIn = null;
             
             let serverUri = serverSelect.value;
-            /**
-             * 
-             */
-            if (serverUri) {
+            if (!serverUri) {
                 serverUri = document.getElementById("login_server_other_input").value;
             }
             
@@ -260,26 +264,29 @@ const loginHandler = function() {
         const otherServerUri = otherServerInput.value;
         const isSecure = false;
         
+        /**
+         * Test WebSocket connection and display status if successful.
+         * @returns {undefined}
+         */
         const onReady = function() {
             makeServerSelectReadWrite();
             msgText = displayConnStatus("success", otherServerUri);
             if (DEBUG) { logDebugMessage(msgText); }
             currentServerHasValidConnection = true;
         };
+        /**
+         * Test WebSocket connection and display status if failed.
+         * @returns {undefined}
+         */
         const onError = function() {
             makeServerSelectReadWrite();
             msgText = displayConnStatus("failure", otherServerUri);
             if (DEBUG) { logDebugMessage(msgText); }
             currentServerHasValidConnection = false;
         };
-        try {
-            CardshifterServerAPI.init(otherServerUri, isSecure, onReady, onError);
-            makeServerSelectReadOnly();
-            displayConnStatus("connecting", otherServerUri);
-        }
-        catch(error) {
-            console.log(error);
-        }
+        CardshifterServerAPI.init(otherServerUri, isSecure, onReady, onError);
+        makeServerSelectReadOnly();
+        displayConnStatus("connecting", otherServerUri);
     };
     
     /**
