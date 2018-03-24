@@ -152,16 +152,26 @@ const loginHandler = function() {
             displayNoUsernameWarning();
         }
         else {
-            const SUCCESS = 200;
             const serverUri = serverSelect.value;
             const isSecure = false;
             var loggedIn = null;
             
+            /**
+             * Attempt to log in once the WebSocket connection is ready.
+             * @returns {undefined}
+             */
             const onReady = function() {
                 let login = new CardshifterServerAPI.messageTypes.LoginMessage(username);
                 try {
-                    CardshifterServerAPI.setMessageListener(function(welcome) {
-                        if(welcome.status === SUCCESS && welcome.message === "OK") {
+                    /**
+                     * Listens for a welcome message from the game server, and stores user values in the browser.
+                     * @param {Object} welcome
+                     * @returns {undefined}
+                     */
+                    const messageListener = function(welcome) {
+                        const SUCCESS = 200;
+                        const SUCCESS_MESSAGE = "OK";
+                        if(welcome.status === SUCCESS && welcome.message === SUCCESS_MESSAGE) {
                             localStorage.setItem("username", username);
                             localStorage.setItem("id", welcome.userId);
                             localStorage.setItem("playerIndex", null);
@@ -171,16 +181,24 @@ const loginHandler = function() {
                             console.log(`${new Date()} server message: ${welcome.message}`);
                             loggedIn = false;
                         }
-                    }, ["loginresponse"]);
+                    };
+                    
+                    CardshifterServerAPI.setMessageListener(messageListener, ["loginresponse"]);
                     CardshifterServerAPI.sendMessage(login);
                 }
                 catch(error) {
+                    // TODO display an error to the user
                     console.log(`LoginMessage error(error 2): ${error}`);
                     loggedIn = false;
                 }
             };
             
+            /**
+             * Log error if the connection fails
+             * @returns {undefined}
+             */
             const onError = function() {
+                // TODO display an error to the user
                 console.log("Websocket error(error 1)");
                 loggedIn = false;
             };
