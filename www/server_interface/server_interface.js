@@ -3,7 +3,7 @@
 "use strict";
 
 // checks if the string begins with either ws:// or wss://
-const wsProtocolFinder = /ws(s)*:\/\//;
+const wsProtocolFinder = /^wss?:\/\//;
 
 /*
  * Enum for WebSocket ready state constants.
