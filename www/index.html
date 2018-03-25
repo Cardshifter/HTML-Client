@@ -18,6 +18,7 @@
         
         <!-- Local Section JavaScript -->
         <script src="sections/login/login.js"></script>
+        <script src="sections/top_navbar/topNavbar.js"></script>
 
         <!-- Favicon links -->
         <link rel="apple-touch-icon" sizes="57x57" href="images/favicon/apple-icon-57x57.png" />
@@ -41,40 +42,14 @@
     <body id="body">
         <script>
             const dynamicHtmlController = new DynamicHtmlController();
-            dynamicHtmlController.loadHtmlFromFile("top_navbar", "sections/top_navbar/top_navbar.html");
+            dynamicHtmlController.loadHtmlFromFile("top_navbar", "sections/top_navbar/top_navbar.html")
+            .then(function() {
+                topNavbarHandler();
+            });
             dynamicHtmlController.loadHtmlFromFile("login", "sections/login/login.html")
             .then(function() {
                 loginHandler();
             });
         </script>
-        <!-- Top navigation bar -->
-<!--        <div id="top_navbar_container">
-            <script>
-                const navbarContainerId = "top_navbar_container";
-                const navbarFilePath = "sections/top_navbar/top_navbar.html";
-                loadHtml(navbarContainerId, navbarFilePath)
-                .then(function() {
-                    if (DEBUG) { 
-                        logDebugMessage(`"${navbarFilePath}" loaded OK!`); 
-                    }
-                });
-            </script>
-        </div>
-
-        <div id="main_body" class="csh-body">
-            <div id="login_container">
-                <script>
-                    const loginContainerId = "login_container";
-                    const loginFilePath = "sections/login/login.html";
-                    loadHtml(loginContainerId, loginFilePath)
-                    .then(function() {
-                        loginHandler();
-                        if (DEBUG) {
-                            logDebugMessage(`"${loginFilePath}" loaded OK!`);
-                        } 
-                    });
-                </script>
-            </div>
-        </div>-->
     </body>
 </html>
