@@ -10,6 +10,7 @@
 
         <!-- Local JavaScript -->
         <script src="global.js"></script>
+        <script src="DynamicHtmlController.js"></script>
         <script src="server_interface/server_interface.js"></script>
         <script src="utils/loadHtml.js"></script>
         <script src="utils/formatDate.js"></script>
@@ -37,9 +38,17 @@
         <meta name="msapplication-TileImage" content="images/favicon/ms-icon-144x144.png" />
         <meta name="theme-color" content="#ffffff" />
     </head>
-    <body>
+    <body id="body">
+        <script>
+            const dynamicHtmlController = new DynamicHtmlController();
+            dynamicHtmlController.loadHtmlFromFile("top_navbar", "sections/top_navbar/top_navbar.html");
+            dynamicHtmlController.loadHtmlFromFile("login", "sections/login/login.html")
+            .then(function() {
+                loginHandler();
+            });
+        </script>
         <!-- Top navigation bar -->
-        <div id="top_navbar_container">
+<!--        <div id="top_navbar_container">
             <script>
                 const navbarContainerId = "top_navbar_container";
                 const navbarFilePath = "sections/top_navbar/top_navbar.html";
@@ -66,6 +75,6 @@
                     });
                 </script>
             </div>
-        </div>
+        </div>-->
     </body>
 </html>

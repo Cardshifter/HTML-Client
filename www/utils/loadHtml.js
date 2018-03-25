@@ -42,10 +42,10 @@ const loadHtml = function (parentElementId, filePath) {
     });
 };
 
-const FailureToLoadHTMLException = function(message) {
-    this.name = "FailureToLoadHTMLException";
-    this.message = message;
-    this.stack = (new Error()).stack;
-};
-
-FailureToLoadHTMLException.prototype = new Error;
+//const FailureToLoadHTMLException = function(message) {
+//    this.name = "FailureToLoadHTMLException";
+//    this.message = message;
+//    this.stack = (new Error()).stack;
+//};
+//
+//FailureToLoadHTMLException.prototype = new Error;
