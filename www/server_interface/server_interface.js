@@ -122,7 +122,7 @@ const CardshifterServerAPI = {
             this.request = request;
             this.message = message;
 
-            this.toString = function() {
+            ServerQueryMessage.prototype.toString = function() {
                 return `ServerQueryMessage: Request${this.request} message: ${this.message}`;
             };
         },
@@ -169,7 +169,7 @@ const CardshifterServerAPI = {
             this.action = action;
             this.targets = targets;
 
-            this.toString = function() {
+            UseAbilityMessage.prototype.toString = function() {
                 return ``
                     + `UseAbilityMessage`
                     + `[id=${this.id},`
@@ -190,7 +190,7 @@ const CardshifterServerAPI = {
             this.chatId = MAIN_LOBBY;
             this.message = message;
 
-            this.toString = function() {
+            ChatMessage.prototype.toString = function() {
                 return `ChatMessage [chatId=${chatId}, message=${message}, from=${from}]`;
             };
         },
@@ -231,7 +231,7 @@ const CardshifterServerAPI = {
             this.modName = modName;
             this.configs = configs;
 
-            this.toString = function() {
+            PlayerConfigMessage.prototype.toString = function() {
                 return ``
                     + `PlayerConfigMessage{`
                     + `configs=${configs}, `
