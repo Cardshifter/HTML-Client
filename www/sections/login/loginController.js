@@ -198,7 +198,8 @@ const loginController = function() {
                         localStorage.setItem("id", welcome.userId);
                         localStorage.setItem("playerIndex", null);
                         localStorage.setItem("game", { "id" : null, "mod" : null });
-                        loadHtml("main_body", "sections/lobby/lobby.html");
+                        dynamicHtmlController.unloadById("login");
+                        dynamicHtmlController.loadHtmlFromFile("lobby", "sections/lobby/lobby.html");
                     }
                     else {
                         logDebugMessage(`Server message: ${welcome.message}`);

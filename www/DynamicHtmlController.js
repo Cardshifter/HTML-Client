@@ -2,7 +2,7 @@
 "use strict";
 
 /**
- * 
+ * Controls the loading, unloading, showing and hiding of HTML sections dynamically.
  * @returns {DynamicHtmlController}
  */
 const DynamicHtmlController = function() {
@@ -15,10 +15,10 @@ const DynamicHtmlController = function() {
     };
     
     /**
-     * 
-     * @param {string} newDivId
-     * @param {string} filePath
-     * @param {HTMLElement} parentElement
+     * Loads a chunk of HTML data into the DOM.
+     * @param {string} newDivId - The `id` to assign to the containing `div` element.
+     * @param {string} filePath - The location of the HTML file from which to load.
+     * @param {HTMLElement} parentElement - (Optional) The element into which the HTML is loaded.
      * @returns {unresolved}
      */
     DynamicHtmlController.prototype.loadHtmlFromFile = function(newDivId, filePath, parentElement=this.defaultParentElement) {
@@ -40,6 +40,15 @@ const DynamicHtmlController = function() {
                 `\n${err}`
             );
         });
+    };
+    
+    /**
+     * Removes an element from the DOM.
+     * @param {type} elementId - The `id` of the element to remove.
+     * @returns {undefined}
+     */
+    DynamicHtmlController.prototype.unloadById = function(elementId) {
+        document.getElementById(elementId).remove();
     };
 };
 
