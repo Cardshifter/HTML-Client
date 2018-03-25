@@ -176,7 +176,7 @@ const loginHandler = function() {
              */
             if (!currentServerHasValidConnection) {
                 const msg = "Websocket error(error 1)";
-                console.log(msg);
+                logDebugMessage(msg);
                 displayLoginFailureWarning(msg);
             }
             
@@ -202,7 +202,7 @@ const loginHandler = function() {
                         localStorage.setItem("game", { "id" : null, "mod" : null });                           
                     }
                     else {
-                        console.log(`${new Date()} server message: ${welcome.message}`);
+                        logDebugMessage(`Server message: ${welcome.message}`);
                         loggedIn = false;
                     }
                 };

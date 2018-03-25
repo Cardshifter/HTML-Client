@@ -1,3 +1,5 @@
+/* global from */
+
 "use strict";
 
 // checks if the string begins with either ws:// or wss://
@@ -63,12 +65,12 @@ const SocketNotReadyException = function(message, readyState) {
  * 
  * @param {Object} obj - The object to flatten
  * @return {Object} - a new Object, containing obj's keys and inherited keys
- * @source http://stackoverflow.com/questions/8779249/how-to-stringify-inherited-objects-to-json
+ * @source https://stackoverflow.com/a/8779466/3626537
 */
 const flatten = function(obj) {
     let result = Object.create(obj);
     for(let key in result) {
-        // TODO this assignment is weird, why is `result[key]` being assigned to its own value?
+        // This assignment seems weird, but see the StackOverflow source for explanation.
         result[key] = result[key];
     }
     return result;
@@ -189,7 +191,6 @@ const CardshifterServerAPI = {
             this.message = message;
 
             this.toString = function() {
-                // TODO where does that `from` param/var come from?
                 return `ChatMessage [chatId=${chatId}, message=${message}, from=${from}]`;
             };
         },
@@ -255,9 +256,6 @@ const CardshifterServerAPI = {
      */
     init : function(server, isSecure, onReady, onError) {
         let types = this.messageTypes;
-        // TODO find out why this unused variable is here
-        let self = this; // for the events
-
         types.LoginMessage.prototype = new Message("login");
         types.RequestTargetsMessage.prototype = new Message("requestTargets");
         types.ServerQueryMessage.prototype = new Message("query");
@@ -297,8 +295,6 @@ const CardshifterServerAPI = {
     */
     sendMessage : function(message) {
         const socket = this.socket;
-        // TODO find out why this unused variable is here
-        let self = this;
         if (socket) {
             if (socket.readyState === readyStates.OPEN) {
                 this.socket.send(JSON.stringify(flatten(message)));
@@ -326,9 +322,9 @@ const CardshifterServerAPI = {
         eventTypes = types;
 
         this.socket.onmessage = function(message) {
-            var data = JSON.parse(message.data);
+            const data = JSON.parse(message.data);
             if (eventTypes) {
-                if(eventTypes.indexOf(data.command) !== -1) { // if contains
+                if(eventTypes.includes(data.command) !== -1) { // if contains
                     listener(data);
                 }
             } 

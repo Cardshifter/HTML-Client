@@ -28,7 +28,7 @@ const loadHtml = function (parentElementId, filePath) {
     .then(function (body) {
         // Replace `#` char in case the function gets called `querySelector` or jQuery style
         if (parentElementId.startsWith("#")) {
-            parentElementId.replace("#", "");
+            parentElementId.replace(/#/g, "");
         }
         document.getElementById(parentElementId).innerHTML = body;
         logDebugMessage(`File "${filePath}" loaded into element ID "${parentElementId}"`);
