@@ -1,6 +1,6 @@
 /* global GAME_SERVERS, CardshifterServerAPI, DEFAULT_DATE_FORMAT */
 
-const loginHandler = function() {
+const loginController = function() {
     const serverSelectContainer = document.getElementById("login_server_select_container");
     const serverSelect = serverSelectContainer.querySelector("#login_server_list");
     const serverOtherInputContainer = serverSelectContainer.querySelector("#login_server_other_container");
@@ -294,10 +294,11 @@ const loginHandler = function() {
     };
     
     /**
-     * IIFE to setup the login handling for the page it is loaded in.
+     * IIFE to run login logic.
      * @type undefined
      */
-    const runLoginHandler = function() {
+    const runLoginController = function() {
+        logDebugMessage("runLoginController called");
         populateServerSelect();
         document.getElementById("login_server_list").addEventListener("change", handleServerSelectChanges, false);
         document.getElementById("login_server_list").addEventListener("change", testWebsocketConnection, false);

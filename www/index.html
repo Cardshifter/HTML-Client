@@ -17,8 +17,9 @@
         <script src="utils/logDebugMessage.js"></script>
         
         <!-- Local Section JavaScript -->
-        <script src="sections/login/login.js"></script>
-        <script src="sections/top_navbar/topNavbar.js"></script>
+        <script src="sections/top_navbar/topNavbarController.js"></script>
+        <script src="sections/login/loginController.js"></script>
+        <script src="sections/lobby/lobbyController.js"></script>
 
         <!-- Favicon links -->
         <link rel="apple-touch-icon" sizes="57x57" href="images/favicon/apple-icon-57x57.png" />
@@ -42,14 +43,17 @@
     <body id="body">
         <script>
             const dynamicHtmlController = new DynamicHtmlController();
+            // Load top navbar first.
             dynamicHtmlController.loadHtmlFromFile("top_navbar", "sections/top_navbar/top_navbar.html")
             .then(function() {
-                topNavbarHandler();
+                topNavbarController();
+                // Load login page afterwards, to make sure layout is in order.
+                dynamicHtmlController.loadHtmlFromFile("login", "sections/login/login.html")
+                .then(function() {
+                    loginController();
+                });
             });
-            dynamicHtmlController.loadHtmlFromFile("login", "sections/login/login.html")
-            .then(function() {
-                loginHandler();
-            });
+            
         </script>
     </body>
 </html>
