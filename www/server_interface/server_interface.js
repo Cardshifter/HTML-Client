@@ -2,8 +2,13 @@
 
 "use strict";
 
-// checks if the string begins with either ws:// or wss://
-const wsProtocolFinder = /^wss?:\/\//;
+/**
+ * Checks if the string begins with wss://
+ * Note that WSS is currently not supported by the game server, see this issue:
+ * https://github.com/Cardshifter/Cardshifter/issues/442
+ * @type RegExp
+ */
+const wssProtocolFinder = /^wss?:\/\//;
 
 /*
  * Enum for WebSocket ready state constants.
@@ -272,7 +277,9 @@ const CardshifterServerAPI = {
          // secure websocket is wss://, rather than ws://
         const secureAddon = (isSecure ? "s" : "");
          // if the protocol is not found in the string, store the correct protocol (is secure?)
-        const protocolAddon = (wsProtocolFinder.test(server) ? "" : `ws${secureAddon}://`);
+         // Note that this is not supported by the game server at the moment, see issue:
+         // https://github.com/Cardshifter/Cardshifter/issues/442
+        const protocolAddon = (wssProtocolFinder.test(server) ? "" : `ws${secureAddon}://`);
 
         let socket = new WebSocket(protocolAddon + server);
 
