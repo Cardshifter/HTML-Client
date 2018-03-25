@@ -167,9 +167,7 @@ const loginHandler = function() {
             if (!serverUri) {
                 serverUri = document.getElementById("login_server_other_input").value;
             }
-            
 
-            
             /**
              * Short-circuit login attempt if we've already found that the connection not valid.
              * @type String
@@ -199,7 +197,8 @@ const loginHandler = function() {
                         localStorage.setItem("username", username);
                         localStorage.setItem("id", welcome.userId);
                         localStorage.setItem("playerIndex", null);
-                        localStorage.setItem("game", { "id" : null, "mod" : null });                           
+                        localStorage.setItem("game", { "id" : null, "mod" : null });
+                        loadHtml("main_body", "sections/lobby/lobby.html");
                     }
                     else {
                         logDebugMessage(`Server message: ${welcome.message}`);
