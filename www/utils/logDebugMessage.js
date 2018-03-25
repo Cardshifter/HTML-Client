@@ -1,4 +1,4 @@
-/* global DEFAULT_DATE_FORMAT */
+/* global DEFAULT_DATE_FORMAT, DEBUG */
 
 /**
  * Log a debug message to the browser's JavaScript console.
@@ -8,5 +8,5 @@
  */
 const logDebugMessage = function(msg, dateFormat=DEFAULT_DATE_FORMAT) {
     const timestamp = new Date();
-    console.log(`DEBUG | ${formatDate(timestamp, dateFormat)} | ${msg}`);
+    if (DEBUG) { console.log(`DEBUG | ${formatDate(timestamp, dateFormat)} | ${msg}`); }
 };

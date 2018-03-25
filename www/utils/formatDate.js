@@ -10,7 +10,7 @@
  * @param {String} formatString - the format string to use
  * @returns {String} - the formatted date
  */
-const formatDate = function (date, formatString=DEFAULT_DATE_FORMAT) {
+const formatDate = function (date=new Date(), formatString=DEFAULT_DATE_FORMAT) {
     if(date instanceof Date) {
         const months = new Array("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec");
         const yyyy = date.getFullYear();

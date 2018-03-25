@@ -1,4 +1,4 @@
-/* global fetch, DEBUG */
+/* global fetch */
 "use strict";
 
 /*
@@ -31,9 +31,7 @@ const loadHtml = function (parentElementId, filePath) {
             parentElementId.replace("#", "");
         }
         document.getElementById(parentElementId).innerHTML = body;
-        if (DEBUG) {
-            logDebugMessage(`File "${filePath}" loaded into element ID "${parentElementId}"`);
-        }
+        logDebugMessage(`File "${filePath}" loaded into element ID "${parentElementId}"`);
     })
     .catch(function(err) {
         throw new FailureToLoadHTMLException(

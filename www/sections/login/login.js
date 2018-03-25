@@ -1,4 +1,4 @@
-/* global GAME_SERVERS, DEBUG, CardshifterServerAPI, DEFAULT_DATE_FORMAT */
+/* global GAME_SERVERS, CardshifterServerAPI, DEFAULT_DATE_FORMAT */
 
 const loginHandler = function() {
     const serverSelectContainer = document.getElementById("login_server_select_container");
@@ -43,7 +43,7 @@ const loginHandler = function() {
             const onReady = function() {
                 makeServerSelectReadWrite();
                 msgText = displayConnStatus("success", serverUri);
-                if (DEBUG) { logDebugMessage(msgText); }
+                logDebugMessage(msgText);
                 currentServerHasValidConnection = true;
             };
             /**
@@ -53,7 +53,7 @@ const loginHandler = function() {
             const onError = function() {
                 makeServerSelectReadWrite();
                 msgText = displayConnStatus("failure", serverUri);
-                if (DEBUG) { logDebugMessage(msgText); }
+                logDebugMessage(msgText);
                 currentServerHasValidConnection = false;
             };
             CardshifterServerAPI.init(serverUri, isSecure, onReady, onError);
@@ -213,7 +213,7 @@ const loginHandler = function() {
                 }
                 catch(error) {
                     const msg = "LoginMessage error(error 2)";
-                    if (DEBUG) { logDebugMessage(`${msg} ${error}`); }
+                    logDebugMessage(`${msg} ${error}`);
                     displayLoginFailureWarning(msg, error);
                     loggedIn = false;
                 }
@@ -225,7 +225,7 @@ const loginHandler = function() {
              */
             const onError = function() {
                 const msg = "Websocket error(error 1)";
-                if (DEBUG) { logDebugMessage(msg); }
+                logDebugMessage(msg);
                 displayLoginFailureWarning(msg);
                 loggedIn = false;
             };
@@ -276,7 +276,7 @@ const loginHandler = function() {
         const onReady = function() {
             makeServerSelectReadWrite();
             msgText = displayConnStatus("success", otherServerUri);
-            if (DEBUG) { logDebugMessage(msgText); }
+            logDebugMessage(msgText);
             currentServerHasValidConnection = true;
         };
         /**
@@ -286,7 +286,7 @@ const loginHandler = function() {
         const onError = function() {
             makeServerSelectReadWrite();
             msgText = displayConnStatus("failure", otherServerUri);
-            if (DEBUG) { logDebugMessage(msgText); }
+            logDebugMessage(msgText);
             currentServerHasValidConnection = false;
         };
         CardshifterServerAPI.init(otherServerUri, isSecure, onReady, onError);
