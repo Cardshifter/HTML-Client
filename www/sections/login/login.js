@@ -168,6 +168,8 @@ const loginHandler = function() {
                 serverUri = document.getElementById("login_server_other_input").value;
             }
             
+
+            
             /**
              * Short-circuit login attempt if we've already found that the connection not valid.
              * @type String
@@ -184,33 +186,34 @@ const loginHandler = function() {
              */
             const onReady = function() {
                 let login = new CardshifterServerAPI.messageTypes.LoginMessage(username);
+                
+                /**
+                 * Listens for a welcome message from the game server, and stores user values in the browser.
+                 * @param {Object} welcome
+                 * @returns {undefined}
+                 */
+                const messageListener = function(welcome) {
+                    const SUCCESS = 200;
+                    const SUCCESS_MESSAGE = "OK";
+                    if(welcome.status === SUCCESS && welcome.message === SUCCESS_MESSAGE) {
+                        localStorage.setItem("username", username);
+                        localStorage.setItem("id", welcome.userId);
+                        localStorage.setItem("playerIndex", null);
+                        localStorage.setItem("game", { "id" : null, "mod" : null });                           
+                    }
+                    else {
+                        console.log(`${new Date()} server message: ${welcome.message}`);
+                        loggedIn = false;
+                    }
+                };
+                
                 try {
-                    /**
-                     * Listens for a welcome message from the game server, and stores user values in the browser.
-                     * @param {Object} welcome
-                     * @returns {undefined}
-                     */
-                    const messageListener = function(welcome) {
-                        const SUCCESS = 200;
-                        const SUCCESS_MESSAGE = "OK";
-                        if(welcome.status === SUCCESS && welcome.message === SUCCESS_MESSAGE) {
-                            localStorage.setItem("username", username);
-                            localStorage.setItem("id", welcome.userId);
-                            localStorage.setItem("playerIndex", null);
-                            localStorage.setItem("game", { "id" : null, "mod" : null });                           
-                        }
-                        else {
-                            console.log(`${new Date()} server message: ${welcome.message}`);
-                            loggedIn = false;
-                        }
-                    };
-                    
                     CardshifterServerAPI.setMessageListener(messageListener, ["loginresponse"]);
                     CardshifterServerAPI.sendMessage(login);
                 }
                 catch(error) {
                     const msg = "LoginMessage error(error 2)";
-                    console.log(`${msg} ${error}`);
+                    if (DEBUG) { logDebugMessage(`${msg} ${error}`); }
                     displayLoginFailureWarning(msg, error);
                     loggedIn = false;
                 }
@@ -222,7 +225,7 @@ const loginHandler = function() {
              */
             const onError = function() {
                 const msg = "Websocket error(error 1)";
-                console.log(msg);
+                if (DEBUG) { logDebugMessage(msg); }
                 displayLoginFailureWarning(msg);
                 loggedIn = false;
             };
@@ -230,6 +233,8 @@ const loginHandler = function() {
             CardshifterServerAPI.init(serverUri, isSecure, onReady, onError);
         }
     };
+    
+
     
     /**
      * Displays a warning if no username is entered.

@@ -1,7 +1,7 @@
 /* global DEFAULT_DATE_FORMAT */
 
 /**
- * Formats a Date object based on a format string, e.g., "yyyy/MM/dd hh:MM:ss"
+ * Formats a Date object based on a format string, e.g., "yyyy/MM/dd hh:mm:ss"
  * Original source: 
  * https://dzone.com/articles/javascript-formatdate-function
  * Original source modified to fix a few bugs and modernize.

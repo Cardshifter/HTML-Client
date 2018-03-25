@@ -32,7 +32,7 @@ const loadHtml = function (parentElementId, filePath) {
         }
         document.getElementById(parentElementId).innerHTML = body;
         if (DEBUG) {
-            console.log(`File "${filePath}" loaded into element ID "${parentElementId}"`);
+            logDebugMessage(`File "${filePath}" loaded into element ID "${parentElementId}"`);
         }
     })
     .catch(function(err) {
