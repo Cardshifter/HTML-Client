@@ -1,17 +1,17 @@
-<div id="lobby">
+<div id="lobby" class="table">
     <!-- ROW 1 - Headers -->
-    <div id="lobby_headers">
-        <div id="lobby_title">
+    <div id="lobby_headers" class="tableHeading">
+        <div id="lobby_title" class="tableCell">
             Cardshifter Lobby
         </div>
-        <div id="lobby_deck_builder">
+        <div id="lobby_deck_builder" class="tableCell">
             <input id="lobby_deck_builder_btn" type="button" value="Deck Builder" class="btn" />
         </div>
     </div>
     <!-- ROW 2 - Only show when getting invite request -->
-    <div id="lobby_invite_request" style="display: none;">
+    <div id="lobby_invite_request" style="display: none;" class="tableHeading">
         <!-- td colspan 2 -->
-        <div id="lobby_invite_request_colspan">
+        <div id="lobby_invite_request_colspan" class="tableCell">
             <div id="lobby_invite">
                 <!-- TODO this should be filled in dynamically -->
                 Game invite from NAME to play GAME_TYPE!
@@ -24,44 +24,44 @@
         </div>
     </div>
     <!-- ROW 3 -->
-    <div id="lobby_list_headers">
-        <div id="lobby_message_list_header">
+    <div id="lobby_list_headers" class="tableRow">
+        <div id="lobby_message_list_header" class="tableCell">
             Messages
         </div>
-        <div id="lobby_user_list_header">
+        <div id="lobby_user_list_header" class="tableCell">
             Users online
         </div>
     </div>    
     <!-- ROW 4 -->
-    <div id="lobby_lists">
-        <div id="lobby_message_list">
+    <div id="lobby_lists" class="tableRow">
+        <div id="lobby_message_list" class="tableCell">
             <ul id="lobby_chat_messages">
                 <!-- Append <li> for chat messages to this element -->
             </ul>
         </div>
-        <div id="lobby_user_list">
+        <div id="lobby_user_list" class="tableCell">
             <ul id="lobby_users">
                 <!-- Append <li>/<input> for users, logic needs to ensure a user can't invite themselves to a game -->
             </ul>
         </div>
     </div>
     <!-- ROW 5 -->
-    <div id="lobby_input">
-        <div id="login_message">
+    <div id="lobby_input" class="tableRow">
+        <div id="login_message" class="tableCell">
             <!-- User types chat text here -->
             <textarea id="lobby_chat_text_area" rows="1" cols="75" wrap="hard" placeholder="Enter chat message...">
             </textarea>
             <!-- User clicks this to send chat message -->
             <input type="button" id="lobby_chat_message_send" value="Send" class="btn" />
         </div>
-        <div id="lobby_inviter">
+        <div id="lobby_inviter" class="tableCell">
             <input id="lobby_invite_button" type="button" value="Invite to game" class="btn" />
         </div>
     </div>
     <!-- ROW 6 -->
-    <div id="lobby_mods">
+    <div id="lobby_mods" class="tableRow">
         <!-- colspan 2 -->
-        <div id="lobby_mod_selection">
+        <div id="lobby_mod_selection" class="tableCell">
             <!-- Mod selector; https://github.com/Cardshifter/HTML-Client/blob/be991f41c2630c1f46f40d2f8f232bbfad71b2a8/src/lobby/lobby.html#L54 -->
         </div>
     </div>
