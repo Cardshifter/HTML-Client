@@ -1,4 +1,5 @@
 /* global GAME_SERVERS, CardshifterServerAPI, DEFAULT_DATE_FORMAT */
+"use strict";
 
 const loginController = function() {
     const serverSelectContainer = document.getElementById("login_server_select_container");
@@ -194,12 +195,16 @@ const loginController = function() {
                     const SUCCESS = 200;
                     const SUCCESS_MESSAGE = "OK";
                     if(welcome.status === SUCCESS && welcome.message === SUCCESS_MESSAGE) {
+                        localStorage.setItem("loggedIn", true);
                         localStorage.setItem("username", username);
                         localStorage.setItem("id", welcome.userId);
                         localStorage.setItem("playerIndex", null);
                         localStorage.setItem("game", { "id" : null, "mod" : null });
-                        dynamicHtmlController.unloadById("login");
-                        dynamicHtmlController.loadHtmlFromFile("lobby", "sections/lobby/lobby.html");
+                        dynamicHtmlController.unloadHtmlById("login");
+                        dynamicHtmlController.loadHtmlFromFile("lobby", "sections/lobby/lobby.html")
+                                .then(function() {
+                                    lobbyController();
+                        });
                     }
                     else {
                         logDebugMessage(`Server message: ${welcome.message}`);

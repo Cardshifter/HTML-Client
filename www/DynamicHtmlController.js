@@ -47,12 +47,26 @@ const DynamicHtmlController = function() {
      * @param {type} elementId - The `id` of the element to remove.
      * @returns {undefined}
      */
-    DynamicHtmlController.prototype.unloadById = function(elementId) {
-        document.getElementById(elementId).remove();
+    DynamicHtmlController.prototype.unloadHtmlById = function(elementId) {
+        try {
+            const elemToRemove = document.getElementById(elementId);
+            if (elemToRemove) {
+                elemToRemove.remove();
+                logDebugMessage(`Element ID "${elementId}" removed.`);
+            }
+        }
+        catch(error) {
+            logDebugMessage(`Failed to unload element ID ${elementId} \n${error}`);
+        }
     };
 };
 
-const FailureToLoadHTMLException = function(message) {
+/**
+ * Thrown when loading HTML dynamically fails.
+ * @param {type} message - The message accompanying the exception.
+ * @returns {FailureToLoadHTMLException}
+ */
+const FailureToLoadHTMLException = function(message="") {
     this.name = "FailureToLoadHTMLException";
     this.message = message;
     this.stack = (new Error()).stack;
