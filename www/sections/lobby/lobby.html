@@ -1,15 +1,15 @@
-<div id="lobby" class="table">
+<div id="lobby" class="table lobby">
     <!-- ROW 1 - Headers -->
-    <div id="lobby_headers" class="tableHeading">
-        <div id="lobby_title" class="tableCell">
-            Cardshifter Lobby
+    <div id="lobby_headers" class="tableHeading lobbyHeader">
+        <div id="lobby_title" class="tableCell lobbyTitle">
+            Lobby
         </div>
-        <div id="lobby_deck_builder" class="tableCell">
-            <input id="lobby_deck_builder_btn" type="button" value="Deck Builder" class="btn" />
+        <div id="lobby_deck_builder" class="tableCell lobbyDeckBuilder">
+            <input id="lobby_deck_builder_btn" type="button" value="Deck Builder" class="btn btn-navbar csh-button" />
         </div>
     </div>
     <!-- ROW 2 - Only show when getting invite request -->
-    <div id="lobby_invite_request" style="display: none;" class="tableHeading">
+    <div id="lobby_invite_request" style="display: none;" class="tableHeading lobbyInviteRequest">
         <!-- td colspan 2 -->
         <div id="lobby_invite_request_colspan" class="tableCell">
             <div id="lobby_invite">
@@ -24,44 +24,44 @@
         </div>
     </div>
     <!-- ROW 3 -->
-    <div id="lobby_list_headers" class="tableRow">
-        <div id="lobby_message_list_header" class="tableCell">
+    <div id="lobby_list_headers" class="tableRow lobbyListHeaders">
+        <div id="lobby_message_list_header" class="tableCell lobbyMessageListHeader">
             Messages
         </div>
-        <div id="lobby_user_list_header" class="tableCell">
+        <div id="lobby_user_list_header" class="tableCell lobbyUsersListHeaders">
             Users online
         </div>
     </div>    
     <!-- ROW 4 -->
-    <div id="lobby_lists" class="tableRow">
-        <div id="lobby_message_list" class="tableCell">
-            <ul id="lobby_chat_messages">
+    <div id="lobby_lists" class="tableRow lobbyLists">
+        <div id="lobby_message_list" class="tableCell lobbyMessageList">
+            <ul id="lobby_chat_messages" class="lobbyChatMessages">
                 <!-- Append <li> for chat messages to this element -->
             </ul>
         </div>
-        <div id="lobby_user_list" class="tableCell">
-            <ul id="lobby_users">
+        <div id="lobby_user_list" class="tableCell lobbyUsersList">
+            <ul id="lobby_users" class="lobbyUsers">
                 <!-- Append <li>/<input> for users, logic needs to ensure a user can't invite themselves to a game -->
             </ul>
         </div>
     </div>
     <!-- ROW 5 -->
     <div id="lobby_input" class="tableRow">
-        <div id="login_message" class="tableCell">
+        <div id="lobby_message" class="tableCell lobbyMessage">
             <!-- User types chat text here -->
-            <textarea id="lobby_chat_text_area" rows="1" cols="75" wrap="hard" placeholder="Enter chat message...">
+            <textarea id="lobby_chat_text_area" class="lobbyTextArea" rows="1" cols="75" wrap="hard" placeholder="Enter chat message...">
             </textarea>
             <!-- User clicks this to send chat message -->
             <input type="button" id="lobby_chat_message_send" value="Send" class="btn" />
         </div>
-        <div id="lobby_inviter" class="tableCell">
+        <div id="lobby_inviter" class="tableCell lobbyInviter">
             <input id="lobby_invite_button" type="button" value="Invite to game" class="btn" />
         </div>
     </div>
     <!-- ROW 6 -->
-    <div id="lobby_mods" class="tableRow">
+    <div id="lobby_mods" class="tableRow lobbyMods">
         <!-- colspan 2 -->
-        <div id="lobby_mod_selection" class="tableCell">
+        <div id="lobby_mod_selection" class="tableCell lobbyModSelection">
             <!-- Mod selector; https://github.com/Cardshifter/HTML-Client/blob/be991f41c2630c1f46f40d2f8f232bbfad71b2a8/src/lobby/lobby.html#L54 -->
         </div>
     </div>

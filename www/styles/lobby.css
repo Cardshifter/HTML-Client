@@ -1,0 +1,109 @@
+/* WHOLE LOBBY */
+
+.lobby {
+    width: 100%;
+}
+
+/* TABLE HEADERS */
+
+.lobbyHeader {
+    font-family: Georgia, Times, "Times New Roman", serif;
+    text-align: center;
+    color: #DDDDDD;
+    background-color: #000000;
+}
+
+.lobbyTitle {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.lobbyDeckBuilder {
+    width: 20%;
+}
+
+/* Game invite accept dialog */
+.lobbyInviteRequest {
+    font-family: Georgia, Times, "Times New Roman", serif;
+    font-size: 1.6em;
+    text-align: center;
+    background-color: #0033CC;
+    color: #EEEEEE;
+    border-top-color: #FFFFFF;
+    vertical-align: middle;
+}
+
+/* SECTION HEADERS */
+
+.lobbyListHeaders {
+    font-family: Georgia, Times, "Times New Roman", serif;
+    font-size: 1.2em;
+    text-align: center;
+}
+
+.lobbyMessageListHeader {}
+
+.lobbyUsersListHeaders {}
+
+/* MAIN MESSAGE & USERS SECTIONS */
+
+.lobbyLists {
+    vertical-align: text-top;
+    height: 400px;
+}
+
+.lobbyMessageList {
+    font-size: 0.8em !important;
+}
+/* List of all messages */
+.lobbyChatMessages {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.lobbyChatMessages:nth-child(even) {
+    background-color: #BFEFFF;
+}
+.lobbyChatMessages:nth-child(odd) {
+    background-color: #E0F7FF;
+}
+
+/* Each individual message line */
+.lobbyChatMessage {
+}
+
+.lobbyUsersList {
+    font-size: 0.9em;
+    font-family: Georgia, Times, "Times New Roman", serif;
+}
+/* List of all users */
+.lobbyUsers {
+    list-style-type: none;
+    padding-left: 0;
+}
+/* Each individual user line */
+.lobbyUser {
+}
+
+/* FOOTER SECTIONS */
+
+.lobbyMessage {
+    background-color: #000000;
+    vertical-align: bottom;
+}
+/* TEXT AREA FOR TYPING CHAT MESSAGES*/
+.lobbyTextArea {
+    outline: none;
+    overflow: auto;
+    vertical-align: middle;
+}
+
+.lobbyInviter {
+    background-color: #000000;
+    text-align: center;
+}
+
+.lobbyMods {}
+
+.lobbyModSelection {}
+

@@ -1,3 +1,10 @@
+/*
+CSS to make it possible to make tables without using `table`tr/td` elements.
+*/
+
+/*
+General table layout.
+*/
 .table {
     display: table;
 }
@@ -23,4 +30,11 @@
     border-width: thin;
     padding-left: 5px;
     padding-right: 5px;
+}
+
+/*
+Cardshifter lobby classes.
+*/
+.lobbyHeadingTitle {
+    font-size: 1.4em;
 }
