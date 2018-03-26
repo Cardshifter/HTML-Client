@@ -1,1 +1,68 @@
-<h1>Lobby</h1>
+<div id="lobby">
+    <!-- ROW 1 - Headers -->
+    <div id="lobby_headers">
+        <div id="lobby_title">
+            Cardshifter Lobby
+        </div>
+        <div id="lobby_deck_builder">
+            <input id="lobby_deck_builder_btn" type="button" value="Deck Builder" class="btn" />
+        </div>
+    </div>
+    <!-- ROW 2 - Only show when getting invite request -->
+    <div id="lobby_invite_request" style="display: none;">
+        <!-- td colspan 2 -->
+        <div id="lobby_invite_request_colspan">
+            <div id="lobby_invite">
+                <!-- TODO this should be filled in dynamically -->
+                Game invite from NAME to play GAME_TYPE!
+                <input id="lobby_invite_accept" type="button" value="Accept" class="btn btn-success" />
+                <input id="lobby_invite_decline" type="button" value="Decline" class="btn btn-warning" />
+                <audio id="invite_ping">
+                    <source src="../../sounds/ping_sound.mp3" />
+                </audio>
+            </div>
+        </div>
+    </div>
+    <!-- ROW 3 -->
+    <div id="lobby_list_headers">
+        <div id="lobby_message_list_header">
+            Messages
+        </div>
+        <div id="lobby_user_list_header">
+            Users online
+        </div>
+    </div>    
+    <!-- ROW 4 -->
+    <div id="lobby_lists">
+        <div id="lobby_message_list">
+            <ul id="lobby_chat_messages">
+                <!-- Append <li> for chat messages to this element -->
+            </ul>
+        </div>
+        <div id="lobby_user_list">
+            <ul id="lobby_users">
+                <!-- Append <li>/<input> for users, logic needs to ensure a user can't invite themselves to a game -->
+            </ul>
+        </div>
+    </div>
+    <!-- ROW 5 -->
+    <div id="lobby_input">
+        <div id="login_message">
+            <!-- User types chat text here -->
+            <textarea id="lobby_chat_text_area" rows="1" cols="75" wrap="hard" placeholder="Enter chat message...">
+            </textarea>
+            <!-- User clicks this to send chat message -->
+            <input type="button" id="lobby_chat_message_send" value="Send" class="btn" />
+        </div>
+        <div id="lobby_inviter">
+            <input id="lobby_invite_button" type="button" value="Invite to game" class="btn" />
+        </div>
+    </div>
+    <!-- ROW 6 -->
+    <div id="lobby_mods">
+        <!-- colspan 2 -->
+        <div id="lobby_mod_selection">
+            <!-- Mod selector; https://github.com/Cardshifter/HTML-Client/blob/be991f41c2630c1f46f40d2f8f232bbfad71b2a8/src/lobby/lobby.html#L54 -->
+        </div>
+    </div>
+</div>

@@ -202,8 +202,8 @@ const loginController = function() {
                         localStorage.setItem("game", { "id" : null, "mod" : null });
                         dynamicHtmlController.unloadHtmlById("login");
                         dynamicHtmlController.loadHtmlFromFile("lobby", "sections/lobby/lobby.html")
-                                .then(function() {
-                                    lobbyController();
+                        .then(function() {
+                            lobbyController();
                         });
                     }
                     else {
