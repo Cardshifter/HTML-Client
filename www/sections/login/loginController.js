@@ -24,6 +24,14 @@ const loginController = function() {
         }
     };
     
+    const populateRememberedUsername = function() {
+        const rememberMe = localStorage.getItem("rememberMe") === "true";
+        if (rememberMe) {
+            document.getElementById("login_username").value = localStorage.getItem("username");
+            document.getElementById("remember_me").checked = true;
+        }
+    };
+    
     /**
      * Tests the WebSocket connection to a server and displays a message on the page
      * to give the user information about the connection status.
@@ -195,6 +203,9 @@ const loginController = function() {
                     const SUCCESS = 200;
                     const SUCCESS_MESSAGE = "OK";
                     if(welcome.status === SUCCESS && welcome.message === SUCCESS_MESSAGE) {
+                        if (document.getElementById("remember_me").checked) {
+                            localStorage.setItem("rememberMe", true);
+                        }
                         localStorage.setItem("loggedIn", true);
                         localStorage.setItem("username", username);
                         localStorage.setItem("id", welcome.userId);
@@ -306,6 +317,7 @@ const loginController = function() {
     const runLoginController = function() {
         logDebugMessage("runLoginController called");
         populateServerSelect();
+        populateRememberedUsername();
         document.getElementById("login_server_list").addEventListener("change", handleServerSelectChanges, false);
         document.getElementById("login_server_list").addEventListener("change", testWebsocketConnection, false);
         document.getElementById("login_submit").addEventListener("click", tryLogin, false);
