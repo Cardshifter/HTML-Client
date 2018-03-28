@@ -44,6 +44,7 @@ const topNavbarController = function() {
                 dynamicHtmlController.loadHtmlFromFile("login", "sections/login/login.html")
                 .then(function() {
                     loginController();
+            
                 });
             });
         }
