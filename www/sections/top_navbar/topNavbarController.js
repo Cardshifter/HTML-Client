@@ -1,16 +1,19 @@
+/* global dynamicHtmlController */
+
 "use strict";
 
 const topNavbarController = function() {
+    const isLoggedIn = localStorage.getItem("loggedIn") === "true";
     const topNavbar = document.getElementById("top_navbar");
-    const topNavbarBrand = topNavbar.querySelector("#top_navbar_header");
-    const topNavbarTitle = topNavbarBrand.querySelector("#top_navbar_title");
+    const topNavbarHeader = document.getElementById("top_navbar_header");
+    const topNavbarTitle = topNavbarHeader.querySelector("#top_navbar_title");
 
     /**
      * Appends the username to the top navbar along with a separator.
      * @returns {undefined}
      */
     const showUsernameIfLoggedIn = function() {
-        if (localStorage.getItem("loggedIn") === "true") {
+        if (isLoggedIn) {
             const username = localStorage.getItem("username");
             const separator = document.createElement("span");
             separator.innerHTML = " | ";
@@ -22,13 +25,28 @@ const topNavbarController = function() {
         }
     };
     
+    /**
+     * Adss a Logout button when user is logged in, to return to the login screen.
+     * @returns {undefined}
+     */
     const addLogoutButton = function() {
-        const logoutButton = document.createElement("input");
-        logoutButton.id = "logout_button";
-        logoutButton.type = "button";
-        logoutButton.className = "btn btn-navbar csh-button nav-item";
-        logoutButton.value = "Log out";
-        topNavbar.appendChild(logoutButton);
+        if (isLoggedIn) {
+            const logoutButton = document.createElement("input");
+            logoutButton.id = "logout_button";
+            logoutButton.name = logoutButton.id;
+            logoutButton.type = "button";
+            logoutButton.className = "btn btn-navbar csh-button";
+            logoutButton.value = "Logout";
+            document.getElementById("logout_button_container").appendChild(logoutButton);
+            logoutButton.addEventListener("click", function() {
+                localStorage.setItem("loggedIn", false);
+                dynamicHtmlController.unloadHtmlById("lobby");
+                dynamicHtmlController.loadHtmlFromFile("login", "sections/login/login.html")
+                .then(function() {
+                    loginController();
+                });
+            });
+        }
     };
     
     /**
