@@ -1,6 +1,10 @@
 "use strict";
 
 const topNavbarController = function() {
+    const topNavbar = document.getElementById("top_navbar");
+    const topNavbarBrand = topNavbar.querySelector("#top_navbar_header");
+    const topNavbarTitle = topNavbarBrand.querySelector("#top_navbar_title");
+
     /**
      * Appends the username to the top navbar along with a separator.
      * @returns {undefined}
@@ -13,10 +17,18 @@ const topNavbarController = function() {
             const usernameDisplay = document.createElement("span");
             usernameDisplay.className = "h4";
             usernameDisplay.innerHTML = username;
-            const topNavbarHeader = document.getElementById("top_navbar_header");
-            topNavbarHeader.appendChild(separator);
-            topNavbarHeader.appendChild(usernameDisplay);
+            topNavbarTitle.appendChild(separator);
+            topNavbarTitle.appendChild(usernameDisplay);
         }
+    };
+    
+    const addLogoutButton = function() {
+        const logoutButton = document.createElement("input");
+        logoutButton.id = "logout_button";
+        logoutButton.type = "button";
+        logoutButton.className = "btn btn-navbar csh-button nav-item";
+        logoutButton.value = "Log out";
+        topNavbar.appendChild(logoutButton);
     };
     
     /**
@@ -26,5 +38,6 @@ const topNavbarController = function() {
     const runTopNavbarController = function() {
         logDebugMessage("runTopNavbarController called");
         showUsernameIfLoggedIn();
+        addLogoutButton();
     }();
 };

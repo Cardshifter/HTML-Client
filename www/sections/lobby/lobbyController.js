@@ -7,6 +7,5 @@ const lobbyController = function() {
      */
     const runLobbyController = function() {
         logDebugMessage("lobbyController called");
-        showUsernameIfLoggedIn();
     }();
 };
