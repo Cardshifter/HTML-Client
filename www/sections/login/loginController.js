@@ -1,4 +1,4 @@
-/* global GAME_SERVERS, CardshifterServerAPI, DEFAULT_DATE_FORMAT */
+/* global GAME_SERVERS, CardshifterServerAPI, DEFAULT_DATE_FORMAT, dynamicHtmlController */
 "use strict";
 
 const loginController = function() {
@@ -8,6 +8,24 @@ const loginController = function() {
     const serverLoading = serverSelectContainer.querySelector("#server_connecting");
     const connStatusMsg = serverSelectContainer.querySelector("#login_server_connection_status");
     let currentServerHasValidConnection = null;
+    
+    const handleAlreadyLoggedIn = function() {
+        dynamicHtmlController.unloadHtmlById("login");
+        dynamicHtmlController.loadHtmlFromFile("lobby", "sections/lobby/lobby.html")
+        .then(function() {
+            lobbyController();
+        });
+    };
+    
+    const handleNotLoggedIn = function() {
+        populateServerSelect();
+        populateRememberedUsername();
+        document.getElementById("login_server_list").addEventListener("change", handleServerSelectChanges, false);
+        document.getElementById("login_server_list").addEventListener("change", testWebsocketConnection, false);
+        document.getElementById("login_submit").addEventListener("click", tryLogin, false);
+        document.getElementById("test_login_server_other").addEventListener("click", testOtherServerConnection, false);
+        testWebsocketConnection();
+    };
 
     /**
      * Adds options to the server selection based on GAME_SERVERS global.
@@ -316,12 +334,11 @@ const loginController = function() {
      */
     const runLoginController = function() {
         logDebugMessage("runLoginController called");
-        populateServerSelect();
-        populateRememberedUsername();
-        document.getElementById("login_server_list").addEventListener("change", handleServerSelectChanges, false);
-        document.getElementById("login_server_list").addEventListener("change", testWebsocketConnection, false);
-        document.getElementById("login_submit").addEventListener("click", tryLogin, false);
-        document.getElementById("test_login_server_other").addEventListener("click", testOtherServerConnection, false);
-        testWebsocketConnection();
+        if (localStorage.getItem("loggedIn") === "true" && localStorage.getItem("username") !== "") {
+            handleAlreadyLoggedIn();
+        }
+        else {
+            handleNotLoggedIn();
+        }
     }();
 };
