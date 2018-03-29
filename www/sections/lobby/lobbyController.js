@@ -3,6 +3,23 @@
 "use strict";
 
 const lobbyController = function() {
+    const USERS = [];
+    const userDisplay = document.getElementById("lobby_users");
+    
+    const updateGlobalUserList = function(username) {
+        if (!USERS.includes(username)) {
+            USERS.push(username);
+            USERS.sort();
+        }
+        logDebugMessage(`USERS: [${USERS}]`);
+        userDisplay.innerHTML = "";
+        for (let i = 0; i < USERS.length; i++) {
+            const user = document.createElement("li");
+            user.innerHTML = USERS[i];
+            userDisplay.appendChild(user);
+        }
+    };
+    
     const handleWebSocketConnection = function() {
         const CHAT_FEED_LIMIT = 10;
         const ENTER_KEY = 13;
@@ -39,8 +56,19 @@ const lobbyController = function() {
             updateUserList(message);
         });
         
+        /**
+         * 
+         * @param {type} message
+         * @returns {undefined}
+         * @example message - {command: "userstatus", userId: 2, status: "ONLINE", name: "AI Loser"}
+         */
         const updateUserList = function(message) {
-            console.log(message);
+            if (message.command === "userstatus") {
+                logDebugMessage(`SERVER userstatus message: ${JSON.stringify(message)}`);
+                if (message.status === "ONLINE") {
+                    updateGlobalUserList(message.name);
+                }
+            }
         };
         
     };
