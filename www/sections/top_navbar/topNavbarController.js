@@ -26,7 +26,7 @@ const topNavbarController = function() {
     };
     
     /**
-     * Adss a Logout button when user is logged in, to return to the login screen.
+     * Adds a Logout button when user is logged in, to return to the login screen.
      * @returns {undefined}
      */
     const addLogoutButton = function() {
