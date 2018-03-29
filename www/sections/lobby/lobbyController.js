@@ -33,7 +33,15 @@ const lobbyController = function() {
         };
         
         let getUsers = new CardshifterServerAPI.messageTypes.ServerQueryMessage("USERS", "");
-        logDebugMessage(`getUsers: ${getUsers}`);
+        CardshifterServerAPI.sendMessage(getUsers);
+        
+        CardshifterServerAPI.setMessageListener(function(message) {
+            updateUserList(message);
+        });
+        
+        const updateUserList = function(message) {
+            console.log(message);
+        };
         
     };
     
