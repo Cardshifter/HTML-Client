@@ -77,7 +77,7 @@ const lobbyController = function() {
 //            "newgame": enterNewGame
         };
         
-        let getUsers = new CardshifterServerAPI.messageTypes.ServerQueryMessage("GLOBAL_USERS", "");
+        let getUsers = new CardshifterServerAPI.messageTypes.ServerQueryMessage("USERS", "");
         CardshifterServerAPI.sendMessage(getUsers);
         
         CardshifterServerAPI.setMessageListener(function(message) {
