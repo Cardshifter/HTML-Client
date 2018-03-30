@@ -1,9 +1,9 @@
-/* global dynamicHtmlController */
+/* global dynamicHtmlController, browser */
 
 "use strict";
 
 const topNavbarController = function() {
-    const isLoggedIn = localStorage.getItem("loggedIn") === "true";
+    let isLoggedIn = localStorage.getItem("loggedIn") === "true";
     const topNavbar = document.getElementById("top_navbar");
     const topNavbarHeader = document.getElementById("top_navbar_header");
     const topNavbarTitle = topNavbarHeader.querySelector("#top_navbar_title");
@@ -13,7 +13,13 @@ const topNavbarController = function() {
      * @returns {undefined}
      */
     const showUsernameIfLoggedIn = function() {
-        if (isLoggedIn) {
+        /* TODO
+         * This handling is iffy, it doesn't update on login,
+         * but it does on page reloads, which show online
+         * even if not logged in.
+         * It should be either handled better, or removed.
+         */
+        if (localStorage.getItem("loggedIn") === "true") {
             const username = localStorage.getItem("username");
             const separator = document.createElement("span");
             separator.innerHTML = " | ";
@@ -23,6 +29,9 @@ const topNavbarController = function() {
             topNavbarTitle.appendChild(separator);
             topNavbarTitle.appendChild(usernameDisplay);
         }
+        else {
+            topNavbarTitle.innerHTML = "Cardshifter";
+        }
     };
     
     /**
@@ -30,6 +39,12 @@ const topNavbarController = function() {
      * @returns {undefined}
      */
     const addLogoutButton = function() {
+        /* TODO
+         * This handling is iffy, it doesn't update on login,
+         * but it does on page reloads, which show online
+         * even if not logged in.
+         * It should be either handled better, or removed.
+         */
         if (isLoggedIn) {
             const logoutButton = document.createElement("input");
             logoutButton.id = "logout_button";
