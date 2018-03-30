@@ -3,19 +3,47 @@
 "use strict";
 
 const lobbyController = function() {
-    const USERS = [];
+    const GLOBAL_USERS = [];
     const userDisplay = document.getElementById("lobby_users");
     
-    const updateGlobalUserList = function(username) {
-        if (!USERS.includes(username)) {
-            USERS.push(username);
-            USERS.sort();
+    /**
+     * Adds a user to the GLOBAL_USERS list.
+     * @param {string} username
+     * @returns {undefined}
+     */
+    const addToGlobalUserList = function(username) {
+        if (!GLOBAL_USERS.includes(username)) {
+            GLOBAL_USERS.push(username);
+            GLOBAL_USERS.sort();
         }
-        logDebugMessage(`USERS: [${USERS}]`);
+        logDebugMessage(`GLOBAL_USERS: [${GLOBAL_USERS}]`);
+        renderUserList();
+    };
+    
+    /**
+     * Removes a user from the GLOBAL_USERS list.
+     * @param {string} username
+     * @returns {undefined}
+     */
+    const removeFromGlobalUserList = function(username) {
+        if (GLOBAL_USERS.includes(username)) {
+            for (let i = 0; i < GLOBAL_USERS.length; i++) {
+                if (GLOBAL_USERS[i] === username) {
+                    GLOBAL_USERS.splice(i, 1);
+                }
+            }
+        }
+    };
+    
+    /**
+     * Renders the user list on the page based on the content of GLOBAL_USERS.
+     * @returns {undefined}
+     */
+    const renderUserList = function() {
         userDisplay.innerHTML = "";
-        for (let i = 0; i < USERS.length; i++) {
+        for (let i = 0; i < GLOBAL_USERS.length; i++) {
             const user = document.createElement("li");
-            user.innerHTML = USERS[i];
+            user.innerHTML = GLOBAL_USERS[i];
             userDisplay.appendChild(user);
         }
     };
@@ -49,7 +77,7 @@ const lobbyController = function() {
 //            "newgame": enterNewGame
         };
         
-        let getUsers = new CardshifterServerAPI.messageTypes.ServerQueryMessage("USERS", "");
+        let getUsers = new CardshifterServerAPI.messageTypes.ServerQueryMessage("GLOBAL_USERS", "");
         CardshifterServerAPI.sendMessage(getUsers);
         
         CardshifterServerAPI.setMessageListener(function(message) {
@@ -57,8 +85,8 @@ const lobbyController = function() {
         });
         
         /**
-         * 
-         * @param {type} message
+         * Updates the GLOBAL_USERS list based on `userstatus` messages from game server.
+         * @param {Object} message
          * @returns {undefined}
          * @example message - {command: "userstatus", userId: 2, status: "ONLINE", name: "AI Loser"}
          */
@@ -66,7 +94,10 @@ const lobbyController = function() {
             if (message.command === "userstatus") {
                 logDebugMessage(`SERVER userstatus message: ${JSON.stringify(message)}`);
                 if (message.status === "ONLINE") {
-                    updateGlobalUserList(message.name);
+                    addToGlobalUserList(message.name);
+                }
+                else if (message.status ==="OFFLINE") {
+                    removeFromGlobalUserList(message.name);
                 }
             }
         };
