@@ -107,6 +107,11 @@ const lobbyController = function() {
             }
         };
         
+        /**
+         * Adds chat message to the lobby on `chat` messages from game server.
+         * @param {Object} wsMsg
+         * @returns {undefined}
+         */
         const addChatMessage = function(wsMsg) {
             if (wsMsg.command === "chat") {
                 logDebugMessage(`SERVER chat message: ${JSON.stringify(wsMsg)}`);

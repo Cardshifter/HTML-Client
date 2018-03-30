@@ -9,15 +9,7 @@ const loginController = function() {
     const connStatusMsg = serverSelectContainer.querySelector("#login_server_connection_status");
     let currentServerHasValidConnection = null;
     
-    const handleAlreadyLoggedIn = function() {
-        dynamicHtmlController.unloadHtmlById("login");
-        dynamicHtmlController.loadHtmlFromFile("lobby", "sections/lobby/lobby.html")
-        .then(function() {
-            lobbyController();
-        });
-    };
-    
-    const handleNotLoggedIn = function() {
+    const handleUserNotLoggedIn = function() {
         populateServerSelect();
         populateRememberedUsername();
         document.getElementById("login_server_list").addEventListener("change", handleServerSelectChanges, false);
@@ -334,11 +326,6 @@ const loginController = function() {
      */
     const runLoginController = function() {
         logDebugMessage("runLoginController called");
-        if (localStorage.getItem("loggedIn") === "true" && localStorage.getItem("username") !== "") {
-            handleAlreadyLoggedIn();
-        }
-        else {
-            handleNotLoggedIn();
-        }
+        handleUserNotLoggedIn();
     }();
 };
