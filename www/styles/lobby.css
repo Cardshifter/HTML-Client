@@ -92,13 +92,18 @@
 
 .lobbyMessage {
     background-color: #000000;
-    vertical-align: bottom;
 }
 /* TEXT AREA FOR TYPING CHAT MESSAGES*/
 .lobbyTextArea {
     outline: none;
     overflow: auto;
     vertical-align: middle;
+    margin-left: 5px;
+    padding: 3px;
+}
+
+.inviteButton {
+    margin: 5px;
 }
 
 .lobbyInviter {

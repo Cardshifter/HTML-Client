@@ -146,9 +146,6 @@ const lobbyController = function() {
                 postMessage();
             }
         });
-        chatSendButton.addEventListener("click", function() {
-            postMessage();
-        });
     };
 
 
