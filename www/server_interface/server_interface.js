@@ -194,9 +194,10 @@ const CardshifterServerAPI = {
         ChatMessage : function(message) {
             this.chatId = MAIN_LOBBY;
             this.message = message;
+            this.from = localStorage.getItem("username");
 
             this.toString = function() {
-                return `ChatMessage [chatId=${chatId}, message=${message}, from=${from}]`;
+                return `ChatMessage [chatId=${this.chatId}, message=${this.message}, from=${this.from}]`;
             };
         },
 

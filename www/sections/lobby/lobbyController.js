@@ -4,7 +4,10 @@
 
 const lobbyController = function() {
     const GLOBAL_USERS = [];
+    
     const userDisplay = document.getElementById("lobby_users");
+    const chatInput = document.getElementById("lobby_chat_text_area");
+    const chatSendButton = document.getElementById("lobby_chat_message_send");
     
     /**
      * Adds a user to the GLOBAL_USERS list.
@@ -16,7 +19,6 @@ const lobbyController = function() {
             GLOBAL_USERS.push(username);
             GLOBAL_USERS.sort();
         }
-        logDebugMessage(`GLOBAL_USERS: [${GLOBAL_USERS}]`);
         renderUserList();
     };
     
@@ -55,7 +57,6 @@ const lobbyController = function() {
         const ENTER_KEY = 13;
         const MESSAGE_DELAY = 3000;
         
-        const users = [];
         const chatMessages = [];
         let mods = window.availableGameMods || [];
         const currentUser = localStorage.getItem("username");
@@ -99,12 +100,47 @@ const lobbyController = function() {
                     addToGlobalUserList(message.name);
                 }
                 else if (message.status === "OFFLINE") {
-                    logDebugMessage("inside else if (message.status === \"OFFLINE\")");
                     removeFromGlobalUserList(message.name);
                 }
             }
+        };        
+    };
+    
+    /**
+     * Handles the usage of the user chat textarea and send button. 
+     * @returns {undefined}
+     */
+    const handleUserChatInput = function() {
+        const enterKeyCode = 13;
+        const newlineRegex = /\r?\n|\r/g;
+        const postMessage = function() {
+            const msg = chatInput.value.replace(newlineRegex, "");
+            if (msg) {
+                chatInput.value = null;
+                sendChatMessage(msg);     
+            }
         };
-        
+        chatInput.addEventListener("keyup", function(evt) {
+            const code = evt.keyCode;
+            if (code === enterKeyCode) {
+                postMessage();
+            }
+        });
+        chatSendButton.addEventListener("click", function() {
+            postMessage();
+        });
+    };
+
+
+    /**
+     * Sends a chat message to the server.
+     * @param {string} message
+     * @returns {undefined}
+     */
+    const sendChatMessage = function(message) {
+        const chatMessage = new CardshifterServerAPI.messageTypes.ChatMessage(message);
+        logDebugMessage(`sendChatMessage: ${chatMessage}`);
+        CardshifterServerAPI.sendMessage(chatMessage);
     };
     
     
@@ -115,5 +151,6 @@ const lobbyController = function() {
     const runLobbyController = function() {
         logDebugMessage("lobbyController called");
         handleWebSocketConnection();
+        handleUserChatInput();
     }();
 };
