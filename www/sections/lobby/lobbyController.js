@@ -32,6 +32,8 @@ const lobbyController = function() {
                     GLOBAL_USERS.splice(i, 1);
                 }
             }
+            GLOBAL_USERS.sort();
+            renderUserList();
         }
     };
     
@@ -96,7 +98,8 @@ const lobbyController = function() {
                 if (message.status === "ONLINE") {
                     addToGlobalUserList(message.name);
                 }
-                else if (message.status ==="OFFLINE") {
+                else if (message.status === "OFFLINE") {
+                    logDebugMessage("inside else if (message.status === \"OFFLINE\")");
                     removeFromGlobalUserList(message.name);
                 }
             }
