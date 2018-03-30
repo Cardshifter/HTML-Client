@@ -120,6 +120,7 @@ const lobbyController = function() {
                 const msgText = `${timeStamp} | ${wsMsg.from}: ${wsMsg.message}`;
                 const msgElem = document.createElement("li");
                 msgElem.innerHTML = msgText;
+                msgElem.className = "lobbyChatMessages lobbyChatMessage";
                 chatMessageList.appendChild(msgElem);
             }
         };

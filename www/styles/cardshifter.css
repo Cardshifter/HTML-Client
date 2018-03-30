@@ -8,7 +8,8 @@ body {
 .login-form {
     font-size: 1.2em;
     font-weight: normal;
-    width: 50%;
+    width: 80%;
+    padding-left: 20px;
 }
 
 label {
