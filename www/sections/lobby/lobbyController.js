@@ -8,6 +8,7 @@ const lobbyController = function() {
     const userDisplay = document.getElementById("lobby_users");
     const chatInput = document.getElementById("lobby_chat_text_area");
     const chatSendButton = document.getElementById("lobby_chat_message_send");
+    const chatMessageList = document.getElementById("lobby_chat_messages");
     
     /**
      * Adds a user to the GLOBAL_USERS list.
@@ -85,6 +86,7 @@ const lobbyController = function() {
         
         CardshifterServerAPI.setMessageListener(function(message) {
             updateUserList(message);
+            addChatMessage(message);
         });
         
         /**
@@ -93,17 +95,29 @@ const lobbyController = function() {
          * @returns {undefined}
          * @example message - {command: "userstatus", userId: 2, status: "ONLINE", name: "AI Loser"}
          */
-        const updateUserList = function(message) {
-            if (message.command === "userstatus") {
-                logDebugMessage(`SERVER userstatus message: ${JSON.stringify(message)}`);
-                if (message.status === "ONLINE") {
-                    addToGlobalUserList(message.name);
+        const updateUserList = function(wsMsg) {
+            if (wsMsg.command === "userstatus") {
+                logDebugMessage(`SERVER userstatus message: ${JSON.stringify(wsMsg)}`);
+                if (wsMsg.status === "ONLINE") {
+                    addToGlobalUserList(wsMsg.name);
                 }
-                else if (message.status === "OFFLINE") {
-                    removeFromGlobalUserList(message.name);
+                else if (wsMsg.status === "OFFLINE") {
+                    removeFromGlobalUserList(wsMsg.name);
                 }
             }
-        };        
+        };
+        
+        const addChatMessage = function(wsMsg) {
+            if (wsMsg.command === "chat") {
+                logDebugMessage(`SERVER chat message: ${JSON.stringify(wsMsg)}`);
+                const now = new Date();
+                const timeStamp = formatDate(now, "dd-MMM hh:mm");
+                const msgText = `${timeStamp} | ${wsMsg.from}: ${wsMsg.message}`;
+                const msgElem = document.createElement("li");
+                msgElem.innerHTML = msgText;
+                chatMessageList.appendChild(msgElem);
+            }
+        };
     };
     
     /**
