@@ -86,6 +86,7 @@
 }
 /* Each individual user line */
 .lobbyUser {
+    font-weight: normal;
 }
 
 /* FOOTER SECTIONS */

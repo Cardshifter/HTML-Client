@@ -47,15 +47,16 @@ const lobbyController = function() {
     const renderUserList = function() {
         userDisplay.innerHTML = "";
         for (let i = 0; i < onlineUsers.length; i++) {
+            const usernameContainer = document.createElement("div");
+            usernameContainer.className = "lobbyUser";
             const username = onlineUsers[i];
             const userNum = "user${i}";
-            const usernameContainer = document.createElement("div");
             const usernameSelect = document.createElement("input");
             usernameSelect.type = "radio";
             usernameSelect.id = userNum;
             usernameSelect.name = "select_username";
             usernameSelect.value = username;
-            if (onlineUsers[i] === localStorage.getItem("username")) {
+            if (username === localStorage.getItem("username")) {
                 usernameSelect.disabled = true;
             }
             usernameSelect.onclick = function() {
@@ -82,21 +83,7 @@ const lobbyController = function() {
             id : null,
             name : null,
             type : null
-        };
-        let gotInvite = false;
-        
-        // will be set by either startGame or acceptInvite
-        let gameMod = "";
-        
-        let ping = document.getElementById("ping");
-        
-        const commandMap = {
-//            "userstatus": updateUserList,
-//            "chat": addChatMessage,
-//            "inviteRequest": displayInvite,
-//            "availableMods": displayMods,
-//            "newgame": enterNewGame
-        };
+        };        
         
         let getUsers = new CardshifterServerAPI.messageTypes.ServerQueryMessage("USERS", "");
         CardshifterServerAPI.sendMessage(getUsers);
