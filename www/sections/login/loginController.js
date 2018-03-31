@@ -226,6 +226,7 @@ const loginController = function() {
                         .then(function() {
                             lobbyController();
                         });
+                        refreshTopNavbar();
                     }
                     else {
                         logDebugMessage(`Server message: ${welcome.message}`);

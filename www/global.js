@@ -4,6 +4,10 @@
 "use strict";
 
 const global = {
+    /**
+     * The WebSocket connection to a game server.
+     * @type WebSocket
+     */
     gameServerWebSocketConnection : null
 };
 
