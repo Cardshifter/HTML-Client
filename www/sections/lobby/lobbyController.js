@@ -3,7 +3,7 @@
 "use strict";
 
 const lobbyController = function() {
-    const GLOBAL_USERS = [];
+    const onlineUsers = [];
     
     const userDisplay = document.getElementById("lobby_users");
     const chatInput = document.getElementById("lobby_chat_text_area");
@@ -11,44 +11,44 @@ const lobbyController = function() {
     const chatMessageList = document.getElementById("lobby_chat_messages");
     
     /**
-     * Adds a user to the GLOBAL_USERS list.
+     * Adds a user to the onlineUsers list.
      * @param {string} username
      * @returns {undefined}
      */
     const addToGlobalUserList = function(username) {
-        if (!GLOBAL_USERS.includes(username)) {
-            GLOBAL_USERS.push(username);
-            GLOBAL_USERS.sort();
+        if (!onlineUsers.includes(username)) {
+            onlineUsers.push(username);
+            onlineUsers.sort();
         }
         renderUserList();
     };
     
     /**
-     * Removes a user from the GLOBAL_USERS list.
+     * Removes a user from the onlineUsers list.
      * @param {string} username
      * @returns {undefined}
      */
     const removeFromGlobalUserList = function(username) {
-        if (GLOBAL_USERS.includes(username)) {
-            for (let i = 0; i < GLOBAL_USERS.length; i++) {
-                if (GLOBAL_USERS[i] === username) {
-                    GLOBAL_USERS.splice(i, 1);
+        if (onlineUsers.includes(username)) {
+            for (let i = 0; i < onlineUsers.length; i++) {
+                if (onlineUsers[i] === username) {
+                    onlineUsers.splice(i, 1);
                 }
             }
-            GLOBAL_USERS.sort();
+            onlineUsers.sort();
             renderUserList();
         }
     };
     
     /**
-     * Renders the user list on the page based on the content of GLOBAL_USERS.
+     * Renders the user list on the page based on the content of onlineUsers.
      * @returns {undefined}
      */
     const renderUserList = function() {
         userDisplay.innerHTML = "";
-        for (let i = 0; i < GLOBAL_USERS.length; i++) {
+        for (let i = 0; i < onlineUsers.length; i++) {
             const user = document.createElement("li");
-            user.innerHTML = GLOBAL_USERS[i];
+            user.innerHTML = onlineUsers[i];
             userDisplay.appendChild(user);
         }
     };
@@ -90,7 +90,7 @@ const lobbyController = function() {
         });
         
         /**
-         * Updates the GLOBAL_USERS list based on `userstatus` messages from game server.
+         * Updates the onlineUsers list based on `userstatus` messages from game server.
          * @param {Object} message
          * @returns {undefined}
          * @example message - {command: "userstatus", userId: 2, status: "ONLINE", name: "AI Loser"}
@@ -103,6 +103,18 @@ const lobbyController = function() {
                 }
                 else if (wsMsg.status === "OFFLINE") {
                     removeFromGlobalUserList(wsMsg.name);
+                    /**
+                     * This condition is for circumventing an apparent server-side bug, see:
+                     * https://github.com/Cardshifter/Cardshifter/issues/443
+                     */
+                    if (wsMsg.name) {
+                        addChatMessage({
+                            chatId: 1,
+                            message: `${wsMsg.name} is now offline.`,
+                            from: "Server Chat",
+                            command: "chat"
+                        });
+                    }
                 }
             }
         };
@@ -124,6 +136,8 @@ const lobbyController = function() {
                 chatMessageList.appendChild(msgElem);
             }
         };
+        
+        
     };
     
     /**
