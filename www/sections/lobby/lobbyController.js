@@ -47,19 +47,23 @@ const lobbyController = function() {
     const renderUserList = function() {
         userDisplay.innerHTML = "";
         for (let i = 0; i < onlineUsers.length; i++) {
+            const username = onlineUsers[i];
             const userNum = "user${i}";
             const usernameContainer = document.createElement("div");
             const usernameSelect = document.createElement("input");
             usernameSelect.type = "radio";
             usernameSelect.id = userNum;
             usernameSelect.name = "select_username";
-            usernameSelect.value = onlineUsers[i];
+            usernameSelect.value = username;
             if (onlineUsers[i] === localStorage.getItem("username")) {
                 usernameSelect.disabled = true;
             }
+            usernameSelect.onclick = function() {
+                localStorage.setItem("selectedUsername", username);
+            };
             const usernameLabel = document.createElement("label");
             usernameLabel.for = userNum;
-            usernameLabel.innerHTML = onlineUsers[i];
+            usernameLabel.innerHTML = username;
             usernameContainer.appendChild(usernameSelect);
             usernameContainer.appendChild(usernameLabel);
             userDisplay.appendChild(usernameContainer);
