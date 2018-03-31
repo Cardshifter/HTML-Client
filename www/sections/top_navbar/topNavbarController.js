@@ -19,7 +19,7 @@ const topNavbarController = function() {
          * even if not logged in.
          * It should be either handled better, or removed.
          */
-        if (localStorage.getItem("loggedIn") === "true") {
+        if (localStorage.getItem("loggedIn") === "true" && global.gameServerWebSocketConnection) {
             const username = localStorage.getItem("username");
             const separator = document.createElement("span");
             separator.innerHTML = " | ";
@@ -45,7 +45,7 @@ const topNavbarController = function() {
          * even if not logged in.
          * It should be either handled better, or removed.
          */
-        if (isLoggedIn) {
+        if (isLoggedIn && global.gameServerWebSocketConnection) {
             const logoutButton = document.createElement("input");
             logoutButton.id = "logout_button";
             logoutButton.name = logoutButton.id;
@@ -54,12 +54,15 @@ const topNavbarController = function() {
             logoutButton.value = "Logout";
             document.getElementById("logout_button_container").appendChild(logoutButton);
             logoutButton.addEventListener("click", function() {
+                global.gameServerWebSocketConnection.close();
+                global.gameServerWebSocketConnection = null;
                 localStorage.setItem("loggedIn", false);
                 dynamicHtmlController.unloadHtmlById("lobby");
                 dynamicHtmlController.loadHtmlFromFile("login", "sections/login/login.html")
                 .then(function() {
-                    loginController();
-            
+                    if (!document.getElementById("login_form")) {
+                        loginController();
+                    }
                 });
             });
         }

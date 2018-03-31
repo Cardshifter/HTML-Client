@@ -292,6 +292,8 @@ const CardshifterServerAPI = {
         };
 
         this.socket = socket;
+        
+        return socket;
     },
 
     /**

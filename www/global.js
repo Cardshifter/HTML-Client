@@ -1,7 +1,11 @@
 /*
  * This file is for global values to be used throughout the site.
  */
-'use strict';
+"use strict";
+
+const global = {
+    gameServerWebSocketConnection : null
+};
 
 /*
  * Setting to `true` will log messages in the browser console
@@ -30,3 +34,5 @@ const GAME_SERVERS = {
  * @type String
  */
 const DEFAULT_DATE_FORMAT = "yyyy/MM/dd hh:mm:ss";
+
+let GAME_SERVER_WS_CONNECTION = null;

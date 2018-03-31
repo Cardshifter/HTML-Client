@@ -256,7 +256,7 @@ const loginController = function() {
                 loggedIn = false;
             };
             
-            CardshifterServerAPI.init(serverUri, isSecure, onReady, onError);
+            global.gameServerWebSocketConnection = CardshifterServerAPI.init(serverUri, isSecure, onReady, onError);
         }
     };
     
