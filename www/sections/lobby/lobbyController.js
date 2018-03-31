@@ -54,6 +54,9 @@ const lobbyController = function() {
             usernameSelect.id = userNum;
             usernameSelect.name = "select_username";
             usernameSelect.value = onlineUsers[i];
+            if (onlineUsers[i] === localStorage.getItem("username")) {
+                usernameSelect.disabled = true;
+            }
             const usernameLabel = document.createElement("label");
             usernameLabel.for = userNum;
             usernameLabel.innerHTML = onlineUsers[i];
