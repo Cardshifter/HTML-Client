@@ -8,7 +8,21 @@ const global = {
      * The WebSocket connection to a game server.
      * @type WebSocket
      */
-    gameServerWebSocketConnection : null
+    gameServerWebSocketConnection : null,
+    
+    /**
+     * The mods available to play. 
+     * This is also sent by the server via a message on user connection,
+     * but since there are only 2 mods it's simpler to just hard code them.
+     * 
+     * Example of server message:
+     * AvailableModsMessage [mods=[Mythos, Cyborg-Chronicles]] - {"command":"availableMods","mods":["Mythos","Cyborg-Chronicles"]}
+     * @type Array
+     */
+    availableMods : [
+        "Mythos",
+        "Cyborg-Chronicles"
+    ]
 };
 
 /*

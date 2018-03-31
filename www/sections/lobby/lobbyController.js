@@ -3,6 +3,7 @@
 "use strict";
 
 const lobbyController = function() {
+    const currentUser = localStorage.getItem("username");
     const onlineUsers = [];
     
     const userDisplay = document.getElementById("lobby_users");
@@ -50,13 +51,13 @@ const lobbyController = function() {
             const usernameContainer = document.createElement("div");
             usernameContainer.className = "lobbyUser";
             const username = onlineUsers[i];
-            const userNum = "user${i}";
+            const userNum = `user${i}`;
             const usernameSelect = document.createElement("input");
             usernameSelect.type = "radio";
             usernameSelect.id = userNum;
             usernameSelect.name = "select_username";
             usernameSelect.value = username;
-            if (username === localStorage.getItem("username")) {
+            if (username === currentUser) {
                 usernameSelect.disabled = true;
             }
             usernameSelect.onclick = function() {
@@ -71,26 +72,45 @@ const lobbyController = function() {
         }
     };
     
+    const renderAvailableMods = function() {
+        const mods = document.getElementById("lobby_mod_selection");
+        for (let i = 0; i < global.availableMods.length; i++) {
+            const modContainer = document.createElement("span");
+            modContainer.className = "lobbyMod";
+            const modName = global.availableMods[i];
+            const modNum = `mod${i}`;
+            const modSelect = document.createElement("input");
+            modSelect.type = "radio";
+            modSelect.id = modNum;
+            modSelect.name = "select_mod";
+            modSelect.value = modName;
+            modSelect.onclick = function() {
+                localStorage.setItem("selectMod", modName);
+            };
+            const modLabel = document.createElement("label");
+            modLabel.for = modNum;
+            modLabel.innerHTML = modName;
+            modContainer.appendChild(modSelect);
+            modContainer.appendChild(modLabel);
+            mods.appendChild(modContainer);
+        }
+    };
+    
+    /**
+     * Handles interactions between the browser client and the game server.
+     * @returns {undefined}
+     */
     const handleWebSocketConnection = function() {
         const CHAT_FEED_LIMIT = 10;
         const ENTER_KEY = 13;
         const MESSAGE_DELAY = 3000;
-        
-        const chatMessages = [];
-        let mods = window.availableGameMods || [];
-        const currentUser = localStorage.getItem("username");
-        const invite = {
-            id : null,
-            name : null,
-            type : null
-        };        
-        
+
         let getUsers = new CardshifterServerAPI.messageTypes.ServerQueryMessage("USERS", "");
         CardshifterServerAPI.sendMessage(getUsers);
         
-        CardshifterServerAPI.setMessageListener(function(message) {
-            updateUserList(message);
-            addChatMessage(message);
+        CardshifterServerAPI.setMessageListener(function(wsMsg) {
+            updateUserList(wsMsg);
+            addChatMessage(wsMsg);
         });
         
         /**
@@ -187,5 +207,6 @@ const lobbyController = function() {
         logDebugMessage("lobbyController called");
         handleWebSocketConnection();
         handleUserChatInput();
+        renderAvailableMods();
     }();
 };

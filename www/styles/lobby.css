@@ -114,5 +114,12 @@
 
 .lobbyMods {}
 
-.lobbyModSelection {}
+.lobbyModSelection {
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
 
+.lobbyMod {
+    padding: 10px;
+}
