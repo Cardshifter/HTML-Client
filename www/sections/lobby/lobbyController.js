@@ -47,9 +47,19 @@ const lobbyController = function() {
     const renderUserList = function() {
         userDisplay.innerHTML = "";
         for (let i = 0; i < onlineUsers.length; i++) {
-            const user = document.createElement("li");
-            user.innerHTML = onlineUsers[i];
-            userDisplay.appendChild(user);
+            const userNum = "user${i}";
+            const usernameContainer = document.createElement("div");
+            const usernameSelect = document.createElement("input");
+            usernameSelect.type = "radio";
+            usernameSelect.id = userNum;
+            usernameSelect.name = "select_username";
+            usernameSelect.value = onlineUsers[i];
+            const usernameLabel = document.createElement("label");
+            usernameLabel.for = userNum;
+            usernameLabel.innerHTML = onlineUsers[i];
+            usernameContainer.appendChild(usernameSelect);
+            usernameContainer.appendChild(usernameLabel);
+            userDisplay.appendChild(usernameContainer);
         }
     };
     
