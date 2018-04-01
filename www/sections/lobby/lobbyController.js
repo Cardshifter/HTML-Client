@@ -10,7 +10,6 @@ const lobbyController = function() {
         username: null,
         mod: null
     };
-    const gotInvite = false;
     
     const userDisplay = document.getElementById("lobby_users");
     const chatInput = document.getElementById("lobby_chat_text_area");
@@ -78,21 +77,39 @@ const lobbyController = function() {
         }
     };
     
+    /**
+     * Displays a game invite near the top of the lobby.
+     * @returns {undefined}
+     */
     const renderInvite = function() {
         const inviteRequestContainer = document.getElementById("lobby_invite_request");
         inviteRequestContainer.style.display = "block";
         const lobbyInvite = document.getElementById("lobby_invite");
-        lobbyInvite.innerHTML = `Game invite from ${invite.username} to play ${invite.mod}!`;
+        lobbyInvite.innerHTML = `Game invite<br/>From: ${invite.username}<br/>Mod: ${invite.mod}!<br/>`;
         const acceptBtn = document.createElement("input");
         acceptBtn.type = "button";
         acceptBtn.id = "lobby_invite_accept";
         acceptBtn.value ="Accept";
         acceptBtn.className = "btn btn-success";
+        acceptBtn.style.marginRight = "5px";
+        acceptBtn.onclick = function() {
+            const acceptMsg = new CardshifterServerAPI.messageTypes.InviteResponse(invite.id, true);
+            CardshifterServerAPI.sendMessage(acceptMsg);
+            logDebugMessage(`Sent declineMsg to server: ${JSON.stringify(acceptMsg)}`);
+            inviteRequestContainer.style.display = "none";
+        };
         const declineBtn = document.createElement("input");
         declineBtn.type = "button";
         declineBtn.id = "lobby_invite_decline";
         declineBtn.value ="Decline";
         declineBtn.className = "btn btn-warning";
+        declineBtn.style.marginLeft = "5px";
+        declineBtn.onclick = function() {
+            const declineMsg = new CardshifterServerAPI.messageTypes.InviteResponse(invite.id, false);
+            CardshifterServerAPI.sendMessage(declineMsg);
+            logDebugMessage(`Sent acceptMsg to server: ${JSON.stringify(declineMsg)}`);
+            inviteRequestContainer.style.display = "none";
+        };
         lobbyInvite.appendChild(acceptBtn);
         lobbyInvite.appendChild(declineBtn);
     };
