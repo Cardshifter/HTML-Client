@@ -5,6 +5,12 @@
 const lobbyController = function() {
     const currentUser = localStorage.getItem("username");
     const onlineUsers = [];
+    const invite = {
+        id: null,
+        username: null,
+        mod: null
+    };
+    const gotInvite = false;
     
     const userDisplay = document.getElementById("lobby_users");
     const chatInput = document.getElementById("lobby_chat_text_area");
@@ -72,6 +78,29 @@ const lobbyController = function() {
         }
     };
     
+    const renderInvite = function() {
+        const inviteRequestContainer = document.getElementById("lobby_invite_request");
+        inviteRequestContainer.style.display = "block";
+        const lobbyInvite = document.getElementById("lobby_invite");
+        lobbyInvite.innerHTML = `Game invite from ${invite.username} to play ${invite.mod}!`;
+        const acceptBtn = document.createElement("input");
+        acceptBtn.type = "button";
+        acceptBtn.id = "lobby_invite_accept";
+        acceptBtn.value ="Accept";
+        acceptBtn.className = "btn btn-success";
+        const declineBtn = document.createElement("input");
+        declineBtn.type = "button";
+        declineBtn.id = "lobby_invite_decline";
+        declineBtn.value ="Decline";
+        declineBtn.className = "btn btn-warning";
+        lobbyInvite.appendChild(acceptBtn);
+        lobbyInvite.appendChild(declineBtn);
+    };
+    
+    /**
+     * Renders the available mods list.
+     * @returns {undefined}
+     */
     const renderAvailableMods = function() {
         const mods = document.getElementById("lobby_mod_selection");
         for (let i = 0; i < global.availableMods.length; i++) {
@@ -111,11 +140,12 @@ const lobbyController = function() {
         CardshifterServerAPI.setMessageListener(function(wsMsg) {
             updateUserList(wsMsg);
             addChatMessage(wsMsg);
+            receiveInvite(wsMsg);
         });
         
         /**
          * Updates the onlineUsers list based on `userstatus` messages from game server.
-         * @param {Object} message
+         * @param {Object} wsMsg - WebSocket message
          * @returns {undefined}
          * @example message - {command: "userstatus", userId: 2, status: "ONLINE", name: "AI Loser"}
          */
@@ -145,8 +175,9 @@ const lobbyController = function() {
         
         /**
          * Adds chat message to the lobby on `chat` messages from game server.
-         * @param {Object} wsMsg
+         * @param {Object} wsMsg - WebSocket message
          * @returns {undefined}
+         * @example {"command":"chat","chatId":1,"message":"Hello","from":"Phrancis"}
          */
         const addChatMessage = function(wsMsg) {
             if (wsMsg.command === "chat") {
@@ -161,7 +192,21 @@ const lobbyController = function() {
             }
         };
         
-        
+        /**
+         * 
+         * @param {OObject} wsMsg - WebSocket message
+         * @returns {undefined}
+         * @example {"command":"inviteRequest","id":1,"name":"HelloWorld","gameType":"Mythos"}
+         */
+        const receiveInvite = function(wsMsg) {
+            if (wsMsg.command === "inviteRequest") {
+                logDebugMessage(`SERVER inviteRequest message: ${JSON.stringify(wsMsg)}`);
+                invite.id = wsMsg.id;
+                invite.username = wsMsg.name;
+                invite.mod = wsMsg.gameType;
+                renderInvite();
+            }
+        };
     };
     
     /**
