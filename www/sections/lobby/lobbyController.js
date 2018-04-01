@@ -2,6 +2,8 @@
 
 "use strict";
 
+let addChatMessage;
+
 const lobbyController = function() {
     const currentUser = localStorage.getItem("username");
     const onlineUsers = [];
@@ -18,32 +20,50 @@ const lobbyController = function() {
     
     /**
      * Adds a user to the onlineUsers list.
-     * @param {string} username
+     * @param {Object} user - The user object
      * @returns {undefined}
      */
-    const addToGlobalUserList = function(username) {
-        if (!onlineUsers.includes(username)) {
-            onlineUsers.push(username);
-            onlineUsers.sort();
+    const addToGlobalUserList = function(user) {
+        logDebugMessage(`addToGlobalUserList: ${JSON.stringify(user)}`);
+        if (!userExists(user)) {
+            onlineUsers.push(user);
+            //onlineUsers.sort();
         }
         renderUserList();
     };
     
     /**
      * Removes a user from the onlineUsers list.
-     * @param {string} username
+     * @param {Object} user - The user object
      * @returns {undefined}
      */
-    const removeFromGlobalUserList = function(username) {
-        if (onlineUsers.includes(username)) {
+    const removeFromGlobalUserList = function(user) {
+        logDebugMessage(`removeFromGlobalUserList: ${JSON.stringify(user)}`);
+        if (userExists(user)) {
+            logDebugMessage(`if (userExists): ${JSON.stringify(user)}`);
             for (let i = 0; i < onlineUsers.length; i++) {
-                if (onlineUsers[i] === username) {
+                if (onlineUsers[i].name === user.name) {
                     onlineUsers.splice(i, 1);
                 }
             }
-            onlineUsers.sort();
+            //  onlineUsers.sort();
             renderUserList();
         }
+    };
+    
+    /**
+     * Checks whether the user exists in onlineUsers.
+     * @param {Object} user
+     * @returns {Boolean} - Whether the user exists
+     */
+    const userExists = function(user) {
+        const username = user.name;
+        for (let i = 0; i < onlineUsers.length; i++) {
+            if (onlineUsers[i].name === username) {
+                return true;
+            }
+        }
+        return false;
     };
     
     /**
@@ -53,9 +73,10 @@ const lobbyController = function() {
     const renderUserList = function() {
         userDisplay.innerHTML = "";
         for (let i = 0; i < onlineUsers.length; i++) {
+            logDebugMessage(`onlineUsers[${i}]: ${JSON.stringify(onlineUsers[i])}`);
             const usernameContainer = document.createElement("div");
             usernameContainer.className = "lobbyUser";
-            const username = onlineUsers[i];
+            const username = onlineUsers[i].name;
             const userNum = `user${i}`;
             const usernameSelect = document.createElement("input");
             usernameSelect.type = "radio";
@@ -107,7 +128,7 @@ const lobbyController = function() {
         declineBtn.onclick = function() {
             const declineMsg = new CardshifterServerAPI.messageTypes.InviteResponse(invite.id, false);
             CardshifterServerAPI.sendMessage(declineMsg);
-            logDebugMessage(`Sent acceptMsg to server: ${JSON.stringify(declineMsg)}`);
+            logDebugMessage(`Sent delcline to server: ${JSON.stringify(declineMsg)}`);
             inviteRequestContainer.style.display = "none";
         };
         lobbyInvite.appendChild(acceptBtn);
@@ -131,7 +152,7 @@ const lobbyController = function() {
             modSelect.name = "select_mod";
             modSelect.value = modName;
             modSelect.onclick = function() {
-                localStorage.setItem("selectMod", modName);
+                localStorage.setItem("selectedMod", modName);
             };
             const modLabel = document.createElement("label");
             modLabel.for = modNum;
@@ -169,11 +190,15 @@ const lobbyController = function() {
         const updateUserList = function(wsMsg) {
             if (wsMsg.command === "userstatus") {
                 logDebugMessage(`SERVER userstatus message: ${JSON.stringify(wsMsg)}`);
+                const user = {
+                    id: wsMsg.userId,
+                    name: wsMsg.name
+                };
                 if (wsMsg.status === "ONLINE") {
-                    addToGlobalUserList(wsMsg.name);
+                    addToGlobalUserList(user);
                 }
                 else if (wsMsg.status === "OFFLINE") {
-                    removeFromGlobalUserList(wsMsg.name);
+                    removeFromGlobalUserList(user);
                     /**
                      * This condition is for circumventing an apparent server-side bug, see:
                      * https://github.com/Cardshifter/Cardshifter/issues/443
@@ -196,7 +221,7 @@ const lobbyController = function() {
          * @returns {undefined}
          * @example {"command":"chat","chatId":1,"message":"Hello","from":"Phrancis"}
          */
-        const addChatMessage = function(wsMsg) {
+        addChatMessage = function(wsMsg) {
             if (wsMsg.command === "chat") {
                 logDebugMessage(`SERVER chat message: ${JSON.stringify(wsMsg)}`);
                 const now = new Date();
@@ -260,6 +285,46 @@ const lobbyController = function() {
         CardshifterServerAPI.sendMessage(chatMessage);
     };
     
+    const activateInviteButon = function() {
+        document.getElementById("lobby_invite_button").addEventListener("click", sendInvite);
+    };
+    
+    /**
+     * 
+     * @returns {undefined}
+     * @example {"command":"inviteRequest","id":15,"name":"HelloWorld","gameType":"Mythos"}
+     */
+    const sendInvite = function() {
+        logDebugMessage("sendInvite called");
+        const selectedUser = localStorage.getItem("selectedUsername");
+        const selectedMod = localStorage.getItem("selectedMod");
+        if (selectedUser === "null") {
+            const msg = "Client error: You must select a user to be your opponent to invite them to a game.";
+            addChatMessage({
+                chatId: 1,
+                message: msg,
+                from: "NOTIFICATION",
+                command: "chat"
+            });
+            logDebugMessage(msg);
+        }
+        else if (selectedMod === "null") {
+            const msg = "Client error: You must select a mod to play with the opponent.";
+            addChatMessage({
+                chatId: 1,
+                message: msg,
+                from: "NOTIFICATION",
+                command: "chat"
+            });
+            logDebugMessage(msg);
+        }
+        else {
+            const inviteMsg = new CardshifterServerAPI.messageTypes.StartGameRequest(selectedUser, selectedMod);
+            CardshifterServerAPI.sendMessage(inviteMsg);
+            logDebugMessage(`Sent invite message: ${JSON.stringify(inviteMsg)}`);
+        }
+    };
+    
     
     /**
      * IIFE to control the lobby.
@@ -267,8 +332,11 @@ const lobbyController = function() {
      */
     const runLobbyController = function() {
         logDebugMessage("lobbyController called");
+        localStorage.setItem("selectedUsername", null);
+        localStorage.setItem("selectedMod", null);
         handleWebSocketConnection();
         handleUserChatInput();
         renderAvailableMods();
+        activateInviteButon();
     }();
 };
