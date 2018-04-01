@@ -24,7 +24,6 @@ const lobbyController = function() {
      * @returns {undefined}
      */
     const addToGlobalUserList = function(user) {
-        logDebugMessage(`addToGlobalUserList: ${JSON.stringify(user)}`);
         if (!userExists(user)) {
             onlineUsers.push(user);
             //onlineUsers.sort();
@@ -38,9 +37,7 @@ const lobbyController = function() {
      * @returns {undefined}
      */
     const removeFromGlobalUserList = function(user) {
-        logDebugMessage(`removeFromGlobalUserList: ${JSON.stringify(user)}`);
         if (userExists(user)) {
-            logDebugMessage(`if (userExists): ${JSON.stringify(user)}`);
             for (let i = 0; i < onlineUsers.length; i++) {
                 if (onlineUsers[i].name === user.name) {
                     onlineUsers.splice(i, 1);
@@ -73,7 +70,6 @@ const lobbyController = function() {
     const renderUserList = function() {
         userDisplay.innerHTML = "";
         for (let i = 0; i < onlineUsers.length; i++) {
-            logDebugMessage(`onlineUsers[${i}]: ${JSON.stringify(onlineUsers[i])}`);
             const usernameContainer = document.createElement("div");
             usernameContainer.className = "lobbyUser";
             const username = onlineUsers[i].name;
@@ -115,8 +111,8 @@ const lobbyController = function() {
         acceptBtn.style.marginRight = "5px";
         acceptBtn.onclick = function() {
             const acceptMsg = new CardshifterServerAPI.messageTypes.InviteResponse(invite.id, true);
+            logDebugMessage(`Sent invite accept message: ${JSON.stringify(acceptMsg)}`);
             CardshifterServerAPI.sendMessage(acceptMsg);
-            logDebugMessage(`Sent declineMsg to server: ${JSON.stringify(acceptMsg)}`);
             inviteRequestContainer.style.display = "none";
         };
         const declineBtn = document.createElement("input");
@@ -127,8 +123,8 @@ const lobbyController = function() {
         declineBtn.style.marginLeft = "5px";
         declineBtn.onclick = function() {
             const declineMsg = new CardshifterServerAPI.messageTypes.InviteResponse(invite.id, false);
+            logDebugMessage(`Sent invite decline message: ${JSON.stringify(declineMsg)}`);
             CardshifterServerAPI.sendMessage(declineMsg);
-            logDebugMessage(`Sent delcline to server: ${JSON.stringify(declineMsg)}`);
             inviteRequestContainer.style.display = "none";
         };
         lobbyInvite.appendChild(acceptBtn);
@@ -319,9 +315,14 @@ const lobbyController = function() {
             logDebugMessage(msg);
         }
         else {
-            const inviteMsg = new CardshifterServerAPI.messageTypes.StartGameRequest(selectedUser, selectedMod);
+            let selectedUsedId = null;
+            for (let i = 0; i < onlineUsers.length; i++) {
+                if (onlineUsers[i].name === selectedUser) {
+                    selectedUsedId = onlineUsers[i].id;
+                }
+            }
+            const inviteMsg = new CardshifterServerAPI.messageTypes.StartGameRequest(selectedUsedId, selectedMod);
             CardshifterServerAPI.sendMessage(inviteMsg);
-            logDebugMessage(`Sent invite message: ${JSON.stringify(inviteMsg)}`);
         }
     };
     
