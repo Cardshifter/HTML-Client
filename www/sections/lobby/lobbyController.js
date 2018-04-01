@@ -1,4 +1,4 @@
-/* global CardshifterServerAPI */
+/* global CardshifterServerAPI, dynamicHtmlController */
 
 "use strict";
 
@@ -114,6 +114,12 @@ const lobbyController = function() {
             logDebugMessage(`Sent invite accept message: ${JSON.stringify(acceptMsg)}`);
             CardshifterServerAPI.sendMessage(acceptMsg);
             inviteRequestContainer.style.display = "none";
+            // Load up deck builder
+            dynamicHtmlController.unloadHtmlById("lobby");
+            dynamicHtmlController.loadHtmlFromFile("deckBuilder", "sections/deck_builder/deck_builder.html")
+            .then(function() {
+                lobbyController();
+            });
         };
         const declineBtn = document.createElement("input");
         declineBtn.type = "button";
@@ -286,7 +292,7 @@ const lobbyController = function() {
     };
     
     /**
-     * 
+     * Sends an invite to play to another user.
      * @returns {undefined}
      * @example {"command":"inviteRequest","id":15,"name":"HelloWorld","gameType":"Mythos"}
      */
