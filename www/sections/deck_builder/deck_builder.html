@@ -1,0 +1,30 @@
+<div id="deckBuilder">
+    <!-- Add dynamically -->
+    <h1>Deck name:</h1>
+    <!-- Add dynamically -->
+    <h2>TOTAL_SELECTED / MAX_CARDS</h2>
+    
+    <form>
+        <!-- Place where you name & save your deck -->
+        <div>
+            <label for="deckName">Save deck as:</label>
+            <input type="button" id="deckName" name="deckName" value="Save Deck" class="btn btn-xs btn-primary" />
+        </div>
+        <!-- Place where you actually start the game, if the game start conditions are met -->
+        <div>
+            <input type="button" id="startGame" value="Start Game" class="btn btn-sm btn-success" />
+            <input type="button" id="cancelGame" value="Cancel Game" class="btn btn-sm btn-warning" />
+        </div>
+    </form>
+    
+    <!-- List of saved decks, with `Delete` button -->
+    <form>
+        <!-- Add decks dynamically, radio button & label for each -->
+        <input type="button" value="Delete" class="btn btn-xs btn-danger" />
+    </form>
+    
+    <!-- Card info -->
+    <div>
+        <!-- Card info/display here? -->
+    </div>
+</div>
