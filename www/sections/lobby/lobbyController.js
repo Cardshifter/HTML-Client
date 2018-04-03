@@ -26,7 +26,7 @@ const lobbyController = function() {
     const addToGlobalUserList = function(user) {
         if (!userExists(user)) {
             onlineUsers.push(user);
-            //onlineUsers.sort();
+            onlineUsers.sort();
         }
         renderUserList();
     };
@@ -114,12 +114,6 @@ const lobbyController = function() {
             logDebugMessage(`Sent invite accept message: ${JSON.stringify(acceptMsg)}`);
             CardshifterServerAPI.sendMessage(acceptMsg);
             inviteRequestContainer.style.display = "none";
-            // Load up deck builder
-            dynamicHtmlController.unloadHtmlById("lobby");
-            dynamicHtmlController.loadHtmlFromFile("deckBuilder", "sections/deck_builder/deck_builder.html")
-            .then(function() {
-                lobbyController();
-            });
         };
         const declineBtn = document.createElement("input");
         declineBtn.type = "button";
@@ -181,6 +175,7 @@ const lobbyController = function() {
             updateUserList(wsMsg);
             addChatMessage(wsMsg);
             receiveInvite(wsMsg);
+            startGame(wsMsg);
         });
         
         /**
@@ -249,6 +244,23 @@ const lobbyController = function() {
                 invite.username = wsMsg.name;
                 invite.mod = wsMsg.gameType;
                 renderInvite();
+            }
+        };
+        
+        /**
+         * Load up deck builder when invite accepted and game starts
+         * @param {type} wsMsg - WebSocket message
+         * @returns {undefined}
+         * @example {"command":"newgame","gameId":26,"playerIndex":1}
+         */
+        const startGame = function(wsMsg) {
+            if (wsMsg.command === "newgame") {
+                logDebugMessage(`SERVER newgame message: ${JSON.stringify(wsMsg)}`);
+                dynamicHtmlController.unloadHtmlById("lobby");
+                dynamicHtmlController.loadHtmlFromFile("deckBuilder", "sections/deck_builder/deck_builder.html")
+                .then(function() {
+                    lobbyController();
+                });
             }
         };
     };
