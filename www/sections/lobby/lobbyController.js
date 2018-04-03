@@ -43,7 +43,7 @@ const lobbyController = function() {
                     onlineUsers.splice(i, 1);
                 }
             }
-            //  onlineUsers.sort();
+            onlineUsers.sort();
             renderUserList();
         }
     };
@@ -68,7 +68,9 @@ const lobbyController = function() {
      * @returns {undefined}
      */
     const renderUserList = function() {
-        userDisplay.innerHTML = "";
+        if (userDisplay) {
+            userDisplay.innerHTML = "";
+        }
         for (let i = 0; i < onlineUsers.length; i++) {
             const usernameContainer = document.createElement("div");
             usernameContainer.className = "lobbyUser";
@@ -90,7 +92,9 @@ const lobbyController = function() {
             usernameLabel.innerHTML = username;
             usernameContainer.appendChild(usernameSelect);
             usernameContainer.appendChild(usernameLabel);
-            userDisplay.appendChild(usernameContainer);
+            if (userDisplay) {
+                userDisplay.appendChild(usernameContainer);
+            }            
         }
     };
     
@@ -155,7 +159,9 @@ const lobbyController = function() {
             modLabel.innerHTML = modName;
             modContainer.appendChild(modSelect);
             modContainer.appendChild(modLabel);
-            mods.appendChild(modContainer);
+            if (mods) {
+                mods.appendChild(modContainer);
+            }
         }
     };
     
@@ -225,9 +231,13 @@ const lobbyController = function() {
                 const timeStamp = formatDate(now, "dd-MMM hh:mm");
                 const msgText = `${timeStamp} | ${wsMsg.from}: ${wsMsg.message}`;
                 const msgElem = document.createElement("li");
-                msgElem.innerHTML = msgText;
-                msgElem.className = "lobbyChatMessages lobbyChatMessage";
-                chatMessageList.appendChild(msgElem);
+                if (msgElem) {
+                    msgElem.innerHTML = msgText;
+                    msgElem.className = "lobbyChatMessages lobbyChatMessage";
+                }                
+                if (chatMessageList) {
+                    chatMessageList.appendChild(msgElem);
+                }
             }
         };
         
@@ -279,12 +289,15 @@ const lobbyController = function() {
                 sendChatMessage(msg);     
             }
         };
-        chatInput.addEventListener("keyup", function(evt) {
-            const code = evt.keyCode;
-            if (code === enterKeyCode) {
-                postMessage();
-            }
-        });
+        if (chatInput) {
+            chatInput.addEventListener("keyup", function(evt) {
+                const code = evt.keyCode;
+                if (code === enterKeyCode) {
+                    postMessage();
+                }
+            });
+        }
+        
     };
 
 
@@ -300,7 +313,11 @@ const lobbyController = function() {
     };
     
     const activateInviteButon = function() {
-        document.getElementById("lobby_invite_button").addEventListener("click", sendInvite);
+        const lobbyInviteButton = document.getElementById("lobby_invite_button");
+        if (lobbyInviteButton) {
+            addEventListener("click", sendInvite);
+        }
+        
     };
     
     /**
