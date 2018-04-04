@@ -2,6 +2,12 @@
 
 "use strict";
 
+/**
+ * 
+ * Note: Declaring outside IIFE so it can be called from other scripts.
+ * @param {type} wsMsg - WebSocket message from server
+ * @returns {undefined}
+ */
 let addChatMessage;
 
 const lobbyController = function() {
@@ -23,8 +29,8 @@ const lobbyController = function() {
      * @param {Object} user - The user object
      * @returns {undefined}
      */
-    const addToGlobalUserList = function(user) {
-        if (!userExists(user)) {
+    const addToOnlineUsersList = function(user) {
+        if (!userIsOnline(user)) {
             onlineUsers.push(user);
             onlineUsers.sort();
         }
@@ -36,14 +42,13 @@ const lobbyController = function() {
      * @param {Object} user - The user object
      * @returns {undefined}
      */
-    const removeFromGlobalUserList = function(user) {
-        if (userExists(user)) {
+    const removeFromOnlineUsersList = function(user) {
+        if (userIsOnline(user)) {
             for (let i = 0; i < onlineUsers.length; i++) {
                 if (onlineUsers[i].name === user.name) {
                     onlineUsers.splice(i, 1);
                 }
             }
-            onlineUsers.sort();
             renderUserList();
         }
     };
@@ -53,9 +58,13 @@ const lobbyController = function() {
      * @param {Object} user
      * @returns {Boolean} - Whether the user exists
      */
-    const userExists = function(user) {
+    const userIsOnline = function(user) {
         const username = user.name;
         for (let i = 0; i < onlineUsers.length; i++) {
+            /**
+             * Note that the game server guarantees that duplicate usernames
+             * cannot be used, hence no need to check for duplicates on client side.
+             */
             if (onlineUsers[i].name === username) {
                 return true;
             }
@@ -131,6 +140,9 @@ const lobbyController = function() {
             CardshifterServerAPI.sendMessage(declineMsg);
             inviteRequestContainer.style.display = "none";
         };
+        // TODO find out why this doesn't load in Sources in the browser.
+        //const pingSound = new Audio("../../sounds/ping_sound.mp3");
+        //pingSound.play();
         lobbyInvite.appendChild(acceptBtn);
         lobbyInvite.appendChild(declineBtn);
     };
@@ -198,10 +210,10 @@ const lobbyController = function() {
                     name: wsMsg.name
                 };
                 if (wsMsg.status === "ONLINE") {
-                    addToGlobalUserList(user);
+                    addToOnlineUsersList(user);
                 }
                 else if (wsMsg.status === "OFFLINE") {
-                    removeFromGlobalUserList(user);
+                    removeFromOnlineUsersList(user);
                     /**
                      * This condition is for circumventing an apparent server-side bug, see:
                      * https://github.com/Cardshifter/Cardshifter/issues/443
@@ -242,7 +254,7 @@ const lobbyController = function() {
         };
         
         /**
-         * 
+         * Fires rendering of invite requests on the page when an invite is received.
          * @param {OObject} wsMsg - WebSocket message
          * @returns {undefined}
          * @example {"command":"inviteRequest","id":1,"name":"HelloWorld","gameType":"Mythos"}
@@ -269,7 +281,7 @@ const lobbyController = function() {
                 dynamicHtmlController.unloadHtmlById("lobby");
                 dynamicHtmlController.loadHtmlFromFile("deckBuilder", "sections/deck_builder/deck_builder.html")
                 .then(function() {
-                    lobbyController();
+                    deckBuilderController();
                 });
             }
         };
@@ -315,7 +327,7 @@ const lobbyController = function() {
     const activateInviteButon = function() {
         const lobbyInviteButton = document.getElementById("lobby_invite_button");
         if (lobbyInviteButton) {
-            addEventListener("click", sendInvite);
+            lobbyInviteButton.addEventListener("click", sendInvite);
         }
         
     };
