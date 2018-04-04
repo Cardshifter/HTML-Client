@@ -3,7 +3,7 @@
 "use strict";
 
 /**
- * 
+ * Adds a chat message to the lobby.
  * Note: Declaring outside IIFE so it can be called from other scripts.
  * @param {type} wsMsg - WebSocket message from server
  * @returns {undefined}
@@ -81,14 +81,12 @@ const lobbyController = function() {
             userDisplay.innerHTML = "";
         }
         for (let i = 0; i < onlineUsers.length; i++) {
-            const usernameContainer = document.createElement("div");
-            usernameContainer.className = "lobbyUser";
             const username = onlineUsers[i].name;
             const userNum = `user${i}`;
-            const usernameSelect = document.createElement("input");
-            usernameSelect.type = "radio";
+            
+            const usernameContainer = document.getElementById("userlist_entry_template").content.cloneNode(true);
+            const usernameSelect = usernameContainer.querySelector("input");
             usernameSelect.id = userNum;
-            usernameSelect.name = "select_username";
             usernameSelect.value = username;
             if (username === currentUser) {
                 usernameSelect.disabled = true;
@@ -96,11 +94,9 @@ const lobbyController = function() {
             usernameSelect.onclick = function() {
                 localStorage.setItem("selectedUsername", username);
             };
-            const usernameLabel = document.createElement("label");
+            const usernameLabel = usernameContainer.querySelector("label");
             usernameLabel.for = userNum;
-            usernameLabel.innerHTML = username;
-            usernameContainer.appendChild(usernameSelect);
-            usernameContainer.appendChild(usernameLabel);
+            usernameLabel.innerHTML = username;            
             if (userDisplay) {
                 userDisplay.appendChild(usernameContainer);
             }            
