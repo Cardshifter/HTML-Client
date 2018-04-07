@@ -82,7 +82,7 @@ const flatten = function(obj) {
 };
 
 /*
- * Singleton object to handle communication via WebSocket between the client
+ * Static object to handle communication via WebSocket between the client
  * and the game server.
  */
 const CardshifterServerAPI = {

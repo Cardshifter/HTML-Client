@@ -136,27 +136,24 @@ const lobbyController = function() {
      */
     const renderAvailableMods = function() {
         const mods = document.getElementById("lobby_mod_selection");
+        if (!mods) {
+            return;
+        }
         for (let i = 0; i < global.availableMods.length; i++) {
-            const modContainer = document.createElement("span");
-            modContainer.className = "lobbyMod";
             const modName = global.availableMods[i];
             const modNum = `mod${i}`;
-            const modSelect = document.createElement("input");
-            modSelect.type = "radio";
+            
+            const modContainer = document.getElementById("game_mod_template").content.cloneNode(true);
+            const modSelect = modContainer.querySelector("input");
             modSelect.id = modNum;
-            modSelect.name = "select_mod";
             modSelect.value = modName;
             modSelect.onclick = function() {
                 localStorage.setItem("selectedMod", modName);
             };
-            const modLabel = document.createElement("label");
+            const modLabel = modContainer.querySelector("label");
             modLabel.for = modNum;
             modLabel.innerHTML = modName;
-            modContainer.appendChild(modSelect);
-            modContainer.appendChild(modLabel);
-            if (mods) {
-                mods.appendChild(modContainer);
-            }
+            mods.appendChild(modContainer);
         }
     };
     
