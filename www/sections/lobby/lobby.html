@@ -8,6 +8,11 @@
     </div>
 </template>
 
+<!--  -->
+<template id="invite_template">
+    
+</template>
+
 
 <div id="lobby" class="table lobby">
     <!-- ROW 1 - Headers -->
@@ -24,8 +29,9 @@
         <!-- td colspan 2 -->
         <div id="lobby_invite_request_colspan" class="tableCell">
             <div id="lobby_invite">
-                <!-- TODO this should be filled in dynamically -->
-                Game invite from NAME to play GAME_TYPE!
+                <p id="lobby_invite_message">
+                    <!-- Message is added dynamically by client code when invite is received from server -->
+                </p>
                 <input id="lobby_invite_accept" type="button" value="Accept" class="btn btn-success" />
                 <input id="lobby_invite_decline" type="button" value="Decline" class="btn btn-warning" />
                 <audio id="invite_ping">

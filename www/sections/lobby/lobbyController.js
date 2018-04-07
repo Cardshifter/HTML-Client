@@ -77,9 +77,10 @@ const lobbyController = function() {
      * @returns {undefined}
      */
     const renderUserList = function() {
-        if (userDisplay) {
-            userDisplay.innerHTML = "";
+        if (!userDisplay) {
+            return;
         }
+        userDisplay.innerHTML = "";
         for (let i = 0; i < onlineUsers.length; i++) {
             const username = onlineUsers[i].name;
             const userNum = `user${i}`;
@@ -111,36 +112,22 @@ const lobbyController = function() {
         const inviteRequestContainer = document.getElementById("lobby_invite_request");
         inviteRequestContainer.style.display = "block";
         const lobbyInvite = document.getElementById("lobby_invite");
-        lobbyInvite.innerHTML = `Game invite<br/>From: ${invite.username}<br/>Mod: ${invite.mod}!<br/>`;
-        const acceptBtn = document.createElement("input");
-        acceptBtn.type = "button";
-        acceptBtn.id = "lobby_invite_accept";
-        acceptBtn.value ="Accept";
-        acceptBtn.className = "btn btn-success";
-        acceptBtn.style.marginRight = "5px";
+        const inviteMsg = lobbyInvite.querySelector("#lobby_invite_message");
+        inviteMsg.innerHTML = `Game invite<br/>From: ${invite.username}<br/>Mod: ${invite.mod}!<br/>`;
+        const acceptBtn = lobbyInvite.querySelector("#lobby_invite_accept");
         acceptBtn.onclick = function() {
             const acceptMsg = new CardshifterServerAPI.messageTypes.InviteResponse(invite.id, true);
             logDebugMessage(`Sent invite accept message: ${JSON.stringify(acceptMsg)}`);
             CardshifterServerAPI.sendMessage(acceptMsg);
             inviteRequestContainer.style.display = "none";
         };
-        const declineBtn = document.createElement("input");
-        declineBtn.type = "button";
-        declineBtn.id = "lobby_invite_decline";
-        declineBtn.value ="Decline";
-        declineBtn.className = "btn btn-warning";
-        declineBtn.style.marginLeft = "5px";
+        const declineBtn = lobbyInvite.querySelector("#lobby_invite_decline");
         declineBtn.onclick = function() {
             const declineMsg = new CardshifterServerAPI.messageTypes.InviteResponse(invite.id, false);
             logDebugMessage(`Sent invite decline message: ${JSON.stringify(declineMsg)}`);
             CardshifterServerAPI.sendMessage(declineMsg);
             inviteRequestContainer.style.display = "none";
         };
-        // TODO find out why this doesn't load in Sources in the browser.
-        //const pingSound = new Audio("../../sounds/ping_sound.mp3");
-        //pingSound.play();
-        lobbyInvite.appendChild(acceptBtn);
-        lobbyInvite.appendChild(declineBtn);
     };
     
     /**
