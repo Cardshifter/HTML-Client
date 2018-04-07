@@ -169,12 +169,7 @@ const lobbyController = function() {
         let getUsers = new CardshifterServerAPI.messageTypes.ServerQueryMessage("USERS", "");
         CardshifterServerAPI.sendMessage(getUsers);
         
-        CardshifterServerAPI.setMessageListener(function(wsMsg) {
-            updateUserList(wsMsg);
-            addChatMessage(wsMsg);
-            receiveInvite(wsMsg);
-            startGame(wsMsg);
-        });
+
         
         /**
          * Updates the onlineUsers list based on `userstatus` messages from game server.
@@ -265,6 +260,18 @@ const lobbyController = function() {
                 });
             }
         };
+        
+        const messageHandlers = {
+            userstatus: updateUserList,
+            chat: addChatMessage,
+            inviteRequest: receiveInvite,
+            newgame: startGame
+        };
+        
+        CardshifterServerAPI.setMessageListener(function(wsMsg) {
+            const handler = messageHandlers[wsMsg.command];
+            if (handler) { handler(wsMsg); }
+        });
     };
     
     /**
