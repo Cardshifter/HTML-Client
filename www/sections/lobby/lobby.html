@@ -16,75 +16,53 @@
     </span>
 </template>
 
-
-<!--  -->
-<template id="invite_template">
-    
-</template>
-
-
-<div id="lobby" class="table lobby">
-    <!-- ROW 1 - Headers -->
-    <div id="lobby_headers" class="tableHeading lobbyHeader">
-        <div id="lobby_title" class="tableCell lobbyTitle">
-            Lobby
-        </div>
-        <div id="lobby_deck_builder" class="tableCell lobbyDeckBuilder">
-            <input id="lobby_deck_builder_btn" type="button" value="Deck Builder" class="btn btn-navbar csh-button" />
-        </div>
+<div id="lobby" class="lobby">
+    <!-- ROW 1 - Lobby header, Deck Builder button -->
+    <div id="lobby_title" class="lobbyHeader lobbyTitle">
+        Lobby
     </div>
-    <!-- ROW 2 - Only show when getting invite request -->
-    <div id="lobby_invite_request" style="display: none;" class="tableHeading lobbyInviteRequest">
-        <!-- td colspan 2 -->
-        <div id="lobby_invite_request_colspan" class="tableCell">
-            <div id="lobby_invite">
-                <p id="lobby_invite_message">
-                    <!-- Message is added dynamically by client code when invite is received from server -->
-                </p>
+    <div id="lobby_deck_builder" class="lobbyHeader lobbyDeckBuilder">
+        <input id="lobby_deck_builder_btn" type="button" value="Deck Builder" class="btn btn-navbar csh-button" />
+    </div>
+    
+    <!-- ROW 2 - Invite requests (hidden until request is received) -->
+    <div id="lobby_invite_request" class="lobbyInviteRequest">
+        <div id="lobby_invite">
+            <p id="lobby_invite_message">
+                Game invite from Lorem Ipsum to play Cyborg Chronicles!
+            </p>
                 <input id="lobby_invite_accept" type="button" value="Accept" class="btn btn-success" />
                 <input id="lobby_invite_decline" type="button" value="Decline" class="btn btn-warning" />
-                <audio id="invite_ping">
-                    <source src="../../sounds/ping_sound.mp3" />
-                </audio>
-            </div>
         </div>
     </div>
-    <!-- ROW 3 - Subheaders for Messages and Users -->
-    <div id="lobby_list_headers" class="tableRow lobbyListHeaders">
-        <div id="lobby_message_list_header" class="tableCell lobbyMessageListHeader">
-            Messages
-        </div>
-        <div id="lobby_user_list_header" class="tableCell lobbyUsersListHeaders">
-            Users online
-        </div>
-    </div>    
-    <!-- ROW 4 -->
-    <div id="lobby_lists" class="tableRow lobbyLists">
-        <div id="lobby_message_list" class="tableCell lobbyMessageList">
-            <form id="lobby_chat_messages" class="lobbyChatMessages">
-                <!-- Append <li> for chat messages to this element -->
-            </form>
-        </div>
-        <div id="lobby_user_list" class="tableCell lobbyUsersList">
-            <ul id="lobby_users" class="lobbyUsers">
-                <!-- Append <li>/<input> for users, logic needs to ensure a user can't invite themselves to a game -->
-            </ul>
-        </div>
+    
+    
+    <!-- ROW 3 - Subheaders for Messages, Users -->
+    <div id="lobby_list_headers" class="lobbyListHeaders lobbyMessageListHeader">
+        Messages
     </div>
-    <!-- ROW 5 -->
-    <div id="lobby_input" class="tableRow">
-        <div id="lobby_message" class="tableCell lobbyMessage">
-            <!-- User types chat text here -->
-            <textarea id="lobby_chat_text_area" class="lobbyTextArea" rows="1" cols="75" wrap="hard" placeholder="Type message, press Enter to send."></textarea>
-        </div>
-        <div id="lobby_inviter" class="tableCell lobbyInviter">
-            <input id="lobby_invite_button" type="button" value="Invite to game" class="btn btn-sm btn-navbar csh-button inviteButton" />
-        </div>
+        <div id="lobby_user_list_header" class="lobbyListHeaders lobbyUsersListHeaders">
+        Users
     </div>
-    <!-- ROW 6 -->
-    <div id="lobby_mods" class="tableRow lobbyMods">
-        <!-- colspan 2 -->
-        <!-- Available mods here -->
+    
+    <!-- ROW 4 - Messages, Online users -->
+    <form id="lobby_chat_messages" class="lobbyLists lobbyChatMessages">
+
+    </form>
+    <ul id="lobby_users" class="lobbyLists lobbyUsersList">
+        
+    </ul>
+    
+    <!-- ROW 5 - Message input, Invite button -->
+    <div id="lobby_message" class="lobbyMessage">
+        <textarea id="lobby_chat_text_area" class="lobbyTextArea" rows="1" cols="75" wrap="hard" placeholder="Type message, press Enter to send."></textarea>
+    </div>
+    <div id="lobby_inviter" class="lobbyInviter">
+        <input id="lobby_invite_button" type="button" value="Invite to game" class="btn btn-sm btn-navbar csh-button inviteButton" />
+    </div>
+    
+    <!-- ROW 6 - Mod selector -->
+    <div id="lobby_mods" class="lobbyMods">
         <form id="lobby_mod_selection" class="tableCell lobbyModSelection">
             <!-- Mod selector; https://github.com/Cardshifter/HTML-Client/blob/be991f41c2630c1f46f40d2f8f232bbfad71b2a8/src/lobby/lobby.html#L54 -->
         </form>

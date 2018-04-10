@@ -2,10 +2,7 @@
 
 .lobby {
     width: 80%;
-    margin-left: 20px;
-    display: grid;
-    grid-template-columns: 75% 25%;
-    border: 3px solid red;
+    padding-left: 20px;
 }
 
 /* TABLE HEADERS */
@@ -21,13 +18,11 @@
     font-size: 1.5em;
     font-weight: bold;
     padding: 5px;
-    border: 3px solid blue;
 }
 
 .lobbyDeckBuilder {
     width: 20%;
     padding: 5px;
-    border: 3px solid green;
 }
 
 /* Game invite accept dialog */
@@ -39,8 +34,6 @@
     color: #EEEEEE;
     border-top-color: #FFFFFF;
     vertical-align: middle;
-    grid-column: 1 / span 2;
-    border: 3px solid orange;
 }
 
 /* SECTION HEADERS */
@@ -51,13 +44,9 @@
     text-align: center;
 }
 
-.lobbyMessageListHeader {
-    border: 3px solid blue;
-}
+.lobbyMessageListHeader {}
 
-.lobbyUsersListHeaders {
-    border: 3px solid green;
-}
+.lobbyUsersListHeaders {}
 
 /* MAIN MESSAGE & USERS SECTIONS */
 
@@ -73,7 +62,6 @@
 .lobbyChatMessages {
     list-style-type: none;
     padding-left: 0;
-    border: 3px solid blue;
 }
 
 .lobbyChatMessages:nth-child(even) {
@@ -90,7 +78,6 @@
 .lobbyUsersList {
     font-size: 0.9em;
     font-family: Verdana, Geneva, sans-serif;
-    border: 3px solid green;
 }
 /* List of all users */
 .lobbyUsers {
@@ -106,7 +93,6 @@
 
 .lobbyMessage {
     background-color: #000000;
-    border: 3px solid blue;
 }
 /* TEXT AREA FOR TYPING CHAT MESSAGES*/
 .lobbyTextArea {
@@ -124,13 +110,9 @@
 .lobbyInviter {
     background-color: #000000;
     text-align: center;
-    border: 3px solid green;
 }
 
-.lobbyMods {
-    grid-column: 1 / span 2;
-    border: 3px solid blue;
-}
+.lobbyMods {}
 
 .lobbyModSelection {
     text-align: center;
