@@ -4,8 +4,7 @@
     width: 80%;
     margin-left: 20px;
     display: grid;
-    grid-template-columns: 75% 25%;
-    border: 3px solid red;
+    grid-template-columns: 4fr 1fr;
 }
 
 /* TABLE HEADERS */
@@ -15,32 +14,31 @@
     text-align: center;
     color: #DDDDDD;
     background-color: #000000;
+    border: 2px outset #9D9D9D;
 }
 
 .lobbyTitle {
     font-size: 1.5em;
     font-weight: bold;
-    padding: 5px;
-    border: 3px solid blue;
+    padding: 0.7%;
 }
 
 .lobbyDeckBuilder {
-    width: 20%;
-    padding: 5px;
-    border: 3px solid green;
+    align-self: center;
+    padding: 1.5%;
 }
 
 /* Game invite accept dialog */
 .lobbyInviteRequest {
+    display: none;
     font-family: Verdana, Geneva, sans-serif;
-    font-size: 1.6em;
+    font-size: 1.3em;
     text-align: center;
     background-color: #0033CC;
     color: #EEEEEE;
     border-top-color: #FFFFFF;
     vertical-align: middle;
     grid-column: 1 / span 2;
-    border: 3px solid orange;
 }
 
 /* SECTION HEADERS */
@@ -49,14 +47,13 @@
     font-family: Verdana, Geneva, sans-serif;
     font-size: 1.4em;
     text-align: center;
+    border: 2px outset #9D9D9D;
 }
 
 .lobbyMessageListHeader {
-    border: 3px solid blue;
 }
 
 .lobbyUsersListHeaders {
-    border: 3px solid green;
 }
 
 /* MAIN MESSAGE & USERS SECTIONS */
@@ -64,6 +61,7 @@
 .lobbyLists {
     vertical-align: text-top;
     height: 400px;
+    border: 2px outset #9D9D9D;
 }
 
 .lobbyMessageList {
@@ -73,7 +71,6 @@
 .lobbyChatMessages {
     list-style-type: none;
     padding-left: 0;
-    border: 3px solid blue;
 }
 
 .lobbyChatMessages:nth-child(even) {
@@ -90,8 +87,8 @@
 .lobbyUsersList {
     font-size: 0.9em;
     font-family: Verdana, Geneva, sans-serif;
-    border: 3px solid green;
 }
+
 /* List of all users */
 .lobbyUsers {
     list-style-type: none;
@@ -106,9 +103,11 @@
 
 .lobbyMessage {
     background-color: #000000;
-    border: 3px solid blue;
+    border: 2px outset #9D9D9D;
+    padding: 0.8%;
 }
-/* TEXT AREA FOR TYPING CHAT MESSAGES*/
+/* TEXT AREA FOR TYPING CHAT MESSAGES */
+
 .lobbyTextArea {
     outline: none;
     overflow: auto;
@@ -124,18 +123,19 @@
 .lobbyInviter {
     background-color: #000000;
     text-align: center;
-    border: 3px solid green;
+    border: 2px outset #9D9D9D;
 }
 
 .lobbyMods {
     grid-column: 1 / span 2;
-    border: 3px solid blue;
+    border: 2px outset #9D9D9D;
 }
 
 .lobbyModSelection {
-    text-align: center;
+    text-align: left;
     padding-top: 5px;
     padding-bottom: 5px;
+    border: none;
 }
 
 .lobbyMod {
