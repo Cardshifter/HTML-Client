@@ -1,0 +1,30 @@
+.deckbuilder {}
+
+.deckBuilderDeckName {}
+
+.deckBuilderCardsSelected {}
+
+.deckBuilderSaveDeckForm {}
+
+.deckBuilderSaveDeckInput {}
+
+.deckBuilderDeckNameInput {}
+
+.deckBuilderStartOrCancelGame {}
+
+.deckBuilderSavedDecksList {}
+
+.deckBuilderSavedDeckOption {}
+
+.deckBuilderCardListTable {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    grip-template-rows: auto;
+    background-color: #fff;
+    color: #000;
+}
+
+.deckBuilderCardListHeader {
+    background-color: #000;
+    color: #fff;
+}
