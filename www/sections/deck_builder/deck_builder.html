@@ -1,30 +1,39 @@
+<!-- Templates to load from JavaScript -->
+
+<!-- A saved deck to be displayed in the saved decks list -->
+<template id="saved_deck_template">
+        <option class="savedDeckOption">
+        </option>
+</template>
+
 <div id="deckBuilder">
     <!-- Add dynamically -->
     <h1>Deck name:</h1>
     <!-- Add dynamically -->
     <h2>TOTAL_SELECTED / MAX_CARDS</h2>
     
-    <form>
+    <form id="save_deck_form">
         <!-- Place where you name & save your deck -->
-        <div>
+        <div id="save_deck_name">
             <label for="deckName">Save deck as:</label>
-            <input type="button" id="deckName" name="deckName" value="Save Deck" class="btn btn-xs btn-primary" />
-        </div>
-        <!-- Place where you actually start the game, if the game start conditions are met -->
-        <div>
-            <input type="button" id="startGame" value="Start Game" class="btn btn-sm btn-success" />
-            <input type="button" id="cancelGame" value="Cancel Game" class="btn btn-sm btn-warning" />
+            <input type="text" id="deckName" name="deckName" class="deckNameInput" />
+            <input type="button" id="saveDeckBtn" name="saveDeckBtn" value="Save Deck" class="btn btn-xs btn-primary" />
         </div>
     </form>
     
+    <!-- Place where you actually start the game, if the game start conditions are met -->
+    <div id="start_or_cancel_game">
+        <input type="button" id="startGame" value="Start Game" class="btn btn-sm btn-success" />
+        <input type="button" id="cancelGame" value="Cancel Game" class="btn btn-sm btn-warning" />
+    </div>
+    
     <!-- List of saved decks, with `Delete` button -->
-    <form>
-        <!-- Add decks dynamically, radio button & label for each -->
-        <input type="button" value="Delete" class="btn btn-xs btn-danger" />
-    </form>
+    <select>
+        <!-- Add a LI for each deck, with radio button toselect, and delete button -->
+    </select>
     
     <!-- Card info -->
     <div>
-        <!-- Card info/display here? -->
+        <!-- Card info/display here -->
     </div>
 </div>
