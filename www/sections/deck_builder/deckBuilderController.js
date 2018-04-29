@@ -13,7 +13,7 @@ const deckBuilderController = function() {
         maxPerCard : 0
     };
     
-    
+    const deckBuilderCardsSelected = document.getElementById("deck_builder_cards_selected");
 
     
     /**
@@ -35,9 +35,16 @@ const deckBuilderController = function() {
                     deckData.maxSize = deck.maxSize;
                     deckData.maxPerCard = deck.maxPerCard;
                     deck = null;
+                    
+                    updateDeckCardSummary();
                 }
             }
         });
+    };
+    
+    const updateDeckCardSummary = function() {
+        const cardSummary = `Cards: ${deckData.currentSize} / min: ${deckData.minSize}, max: ${deckData.maxSize}`;
+        deckBuilderCardsSelected.innerHTML = cardSummary;
     };
 
     /**
