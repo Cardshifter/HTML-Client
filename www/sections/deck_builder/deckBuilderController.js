@@ -146,7 +146,7 @@ const deckBuilderController = function() {
     const handleWebSocketConnection = function() {
         CardshifterServerAPI.setMessageListener(function(wsMsg) {
             if (wsMsg.command.toLowerCase() === "playerconfig") {
-                console.log(JSON.stringify(wsMsg));
+                //console.log(JSON.stringify(wsMsg));
                 localStorage.setItem("gameId", wsMsg.gameId);
                 localStorage.setItem("modName", wsMsg.modName);
                 if (wsMsg.configs.Deck._type.toLowerCase() === "deckconfig") {
@@ -160,7 +160,9 @@ const deckBuilderController = function() {
                     deck = null;
                     
                     updateDeckCardSummary();
-                    populateCardListTableHeaders();
+                    populateCardListTableHeaders.then(function(result) {
+                        logDebugMessage(result);
+                    });
                 }
             }
         });
@@ -178,10 +180,11 @@ const deckBuilderController = function() {
     /**
      * Dynamically create the table headers for displaying cards of a mod, 
      * based on `modColumns` object
+     * @param {function} resolve - callback when promise successful
+     * @param {function} reject -callback when promise failed
      * @returns {undefined}
      */
-    const populateCardListTableHeaders = function() {
-        // Headers
+    const populateCardListTableHeaders = new Promise(function(resolve, reject) {
         const currentMod = localStorage.getItem("modName");
         const currentModColumns = modColumns[currentMod];
         const numColumns = currentModColumns.length;
@@ -201,7 +204,13 @@ const deckBuilderController = function() {
             }
             deckBuilderCardListTable.appendChild(header);
         }
-    };
+        // verify that cound of actual headers in DOM matches what is expected
+        if (deckBuilderCardListTable.childElementCount === numColumns) {
+            resolve("Mod columns populated");
+        } else {
+            reject(Error("Mod columns failed to populate"));
+        }
+    });
 
     /**
      * IIFE to control the deck builder.
