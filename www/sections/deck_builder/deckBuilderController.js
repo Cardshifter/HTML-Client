@@ -5,6 +5,11 @@
 const modColumns = {
     "Cyborg-Chronicles" : [
         {
+            id : "creatureType",
+            displayName : "Creature Type",
+            width : "1fr"
+        },
+        {
             id : "name",
             displayName : "Name",
             width : "1fr",
@@ -30,6 +35,71 @@ const modColumns = {
         {
             id : "scrapValue",
             displayName : "Scrap Value",
+            width : "1fr"
+        },
+        {
+            id : "taunt",
+            displayName : "Taunt",
+            width : "1fr"
+        },
+        {
+            id : "sickness",
+            displayName : "Sickness",
+            width : "1fr"
+        },
+        {
+            id : "canAttack",
+            displayName : "Can Attack?",
+            width : "1fr"
+        },
+        {
+            id : "effect",
+            displayName : "Effect",
+            width : "1fr"
+        },
+        {
+            id :"flavor",
+            displayName : "Flavor",
+            width : "1fr"
+        }
+    ],
+    "Mythos" : [
+        {
+            id : "creatureType",
+            displayName : "Creature Type",
+            width : "1fr"
+        },
+        {
+            id : "name",
+            displayName : "Name",
+            width : "1fr",
+            cssProperties : {}
+        },
+        {
+            id : "count",
+            displayName : "Count",
+            width : "1fr",
+            cssProperties : {}
+        },
+        {
+            id : "manaCost",
+            displayName : "Mana Cost",
+            width : "1fr",
+            cssProperties : {}
+        },
+        {
+            id : "attackHealth",
+            displayName : "Attack/Health",
+            width : "1fr"
+        },
+        {
+            id : "manaUpkeep",
+            displayName : "Mana Upkeep",
+            width : "1fr"
+        },
+        {
+            id : "taunt",
+            displayName : "Taunt",
             width : "1fr"
         },
         {
@@ -76,7 +146,7 @@ const deckBuilderController = function() {
     const handleWebSocketConnection = function() {
         CardshifterServerAPI.setMessageListener(function(wsMsg) {
             if (wsMsg.command.toLowerCase() === "playerconfig") {
-                //console.log(JSON.stringify(wsMsg));
+                console.log(JSON.stringify(wsMsg));
                 localStorage.setItem("gameId", wsMsg.gameId);
                 localStorage.setItem("modName", wsMsg.modName);
                 if (wsMsg.configs.Deck._type.toLowerCase() === "deckconfig") {
