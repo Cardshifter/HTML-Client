@@ -18,7 +18,7 @@
 
 .deckBuilderCardListTable {
     display: grid;
-    grid-template-columns: repeat(9, 1fr);
+/*    grid-template-columns: repeat(9, 1fr);*/
     grip-template-rows: auto;
     background-color: #fff;
     color: #000;
