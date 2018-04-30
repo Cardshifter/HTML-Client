@@ -1,4 +1,4 @@
-/* global CardshifterServerAPI */
+/* global CardshifterServerAPI, populateCardListTableHeaders */
 
 "use strict";
 
@@ -33,8 +33,8 @@ const modColumns = {
             width : "1fr"
         },
         {
-            id : "scrapValue",
-            displayName : "Scrap Value",
+            id : "scrapValueCost",
+            displayName : "Scrap Value/Cost",
             width : "1fr"
         },
         {
@@ -135,6 +135,8 @@ const deckBuilderController = function() {
         currentSize : 0,
         maxPerCard : 0
     };
+    // TODO include in implementation: currentDeck[cardId].cardCount
+    let currentDeck = {};
     
     const deckBuilderCardsSelected = document.getElementById("deck_builder_cards_selected");
     const deckBuilderCardListTable = document.getElementById("deck_builder_card_list_table");
@@ -160,8 +162,10 @@ const deckBuilderController = function() {
                     deck = null;
                     
                     updateDeckCardSummary();
-                    populateCardListTableHeaders.then(function(result) {
+                    populateCardListTableHeaders(localStorage.getItem("modName"))
+                    .then(function(result) {
                         logDebugMessage(result);
+                        populateCardListRows();
                     });
                 }
             }
@@ -180,37 +184,110 @@ const deckBuilderController = function() {
     /**
      * Dynamically create the table headers for displaying cards of a mod, 
      * based on `modColumns` object
-     * @param {function} resolve - callback when promise successful
-     * @param {function} reject -callback when promise failed
+     * @@param {string} modName - the name of the current mod 
      * @returns {undefined}
      */
-    const populateCardListTableHeaders = new Promise(function(resolve, reject) {
-        const currentMod = localStorage.getItem("modName");
-        const currentModColumns = modColumns[currentMod];
-        const numColumns = currentModColumns.length;
-        let gridTemplateColumns = "";
-        // concatenate widths together in a string for `grid-template-columns` property
-        for (let i = 0; i < numColumns; i++) {
-            gridTemplateColumns += currentModColumns[i].width + " ";
-        }
-        deckBuilderCardListTable.style.gridTemplateColumns = gridTemplateColumns.trim();
-        // make the actual headers
-        for (let i = 0; i < numColumns; i++) {
-            const header = document.createElement("div");
-            header.className = "deckBuilderCardListHeader";
-            header.innerHTML = currentModColumns[i].displayName;
-            for (let prop in currentModColumns[i].cssProperties) {
-                header.style.setProperty(prop, currentModColumns[i].cssProperties[prop]);
+    const populateCardListTableHeaders = function(modName) {
+        return new Promise(function(resolve, reject) {
+            const currentModColumns = modColumns[modName];
+            const numColumns = currentModColumns.length;
+            let gridTemplateColumns = "";
+            // concatenate widths together in a string for `grid-template-columns` property
+            for (let i = 0; i < numColumns; i++) {
+                gridTemplateColumns += currentModColumns[i].width + " ";
             }
-            deckBuilderCardListTable.appendChild(header);
+            deckBuilderCardListTable.style.gridTemplateColumns = gridTemplateColumns.trim();
+            // make the actual headers
+            for (let i = 0; i < numColumns; i++) {
+                const header = document.createElement("div");
+                header.className = "deckBuilderCardListHeader";
+                header.innerHTML = currentModColumns[i].displayName;
+                for (let prop in currentModColumns[i].cssProperties) {
+                    header.style.setProperty(prop, currentModColumns[i].cssProperties[prop]);
+                }
+                deckBuilderCardListTable.appendChild(header);
+            }
+            // verify that cound of actual headers in DOM matches what is expected
+            if (deckBuilderCardListTable.childElementCount === numColumns) {
+                resolve("Mod columns populated");
+            } else {
+                reject(Error("Mod columns failed to populate"));
+            }
+        });
+    };
+    
+    const populateCardListRows = function() {
+        const columns = [];
+        const currentModColumns = modColumns[localStorage.getItem("modName")];
+        for (let i = 0; i < currentModColumns.length; i++) {
+            columns.push(currentModColumns[i].id);
         }
-        // verify that cound of actual headers in DOM matches what is expected
-        if (deckBuilderCardListTable.childElementCount === numColumns) {
-            resolve("Mod columns populated");
-        } else {
-            reject(Error("Mod columns failed to populate"));
+        const cards = deckData.cardData;
+        for (let id in cards) {
+            let card = cards[id].properties;
+            logDebugMessage(JSON.stringify(card));
+            for (let i = 0; i < columns.length; i++) {
+                const cell = document.createElement("div");
+                cell.className = "deckBuilderCardListCell";
+                switch(columns[i]) {
+                    case "creatureType":
+                        cell.innerHTML = card["creatureType"] || "-";
+                        break;
+                    case "name":
+                        cell.innerHTML = card["name"];
+                        break;
+                    case "count":
+                        // TODO increment/decrement buttons
+                        let currentCardCount;
+                        try {
+                            currentCardCount = currentDeck[id].cardCount;
+                        } catch(err) {
+                            currentCardCount = 0;
+                        }
+                        const cardMax = deckData.cardsWithMax[card["id"]] || deckData.maxPerCard;
+                        cell.style.textAlign = "center";
+                        cell.innerHTML = `${currentCardCount} / ${cardMax}`;
+                        break;
+                    case "manaCost":
+                        cell.innerHTML = card["MANA_COST"] || "-";
+                        break;
+                    case "attackHealth":
+                        let attack = card["ATTACK"] || "-";
+                        let health = card["HEALTH"] || "-";
+                        cell.innerHTML = `${attack} / ${health}`;
+                        break;
+                    case "manaUpkeep":
+                        cell.innerHtml = card["MANA_UPKEEP"] || "-";
+                        break;
+                    case "scrapValueCost":
+                        let scrapValue = card["SCRAP"] || "-";
+                        let scrapCost = card["SCRAP_COST"] || "-";
+                        cell.innerHTML = `${scrapValue} / ${scrapCost}`;
+                        break;
+                    case "taunt":
+                        cell.innerHTML = card["TAUNT"] ? "Yes" : "-";
+                        break;
+                    case "sickness":
+                        cell.innerHTML = `${card["SICKNESS"]} turns` || "-";
+                        break;
+                    case "canAttack":
+                        let canAttack = card["ATTACK_AVAILABLE"] === 1 ? "Yes" : "No";
+                        if (canAttack !== "Yes") { cell.style.color = "red"; }
+                        cell.innerHTML = canAttack;
+                        break;
+                    case "effect":
+                        cell.innerHTML = card["effect"] || "-";
+                        break;
+                    case "flavor":
+                        cell.innerHTML = card["flavor"] || "-";
+                        break;
+                    default:
+                        cell.innerHTML = "";
+                }
+                deckBuilderCardListTable.appendChild(cell);
+            }
         }
-    });
+    };
 
     /**
      * IIFE to control the deck builder.
