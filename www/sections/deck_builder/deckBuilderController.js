@@ -231,10 +231,10 @@ const deckBuilderController = function() {
                 cell.className = "deckBuilderCardListCell";
                 switch(columns[i]) {
                     case "creatureType":
-                        cell.innerHTML = card["creatureType"] || "-";
+                        cell.innerHTML = fixEncoding(card["creatureType"] || "-");
                         break;
                     case "name":
-                        cell.innerHTML = card["name"];
+                        cell.innerHTML = fixEncoding(card["name"]);
                         break;
                     case "count":
                         // TODO increment/decrement buttons
@@ -276,10 +276,12 @@ const deckBuilderController = function() {
                         cell.innerHTML = canAttack;
                         break;
                     case "effect":
-                        cell.innerHTML = card["effect"] || "-";
+                        cell.innerHTML = fixEncoding(card["effect"] || "-");
                         break;
                     case "flavor":
-                        cell.innerHTML = card["flavor"] || "-";
+                        let flavor = card["flavor"];
+                        flavor = flavor ? fixEncoding(flavor) : "-";
+                        cell.innerHTML = flavor;
                         break;
                     default:
                         cell.innerHTML = "";
