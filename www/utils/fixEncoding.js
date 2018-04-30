@@ -4,6 +4,8 @@
  */
 const fixEncoding = function(inputString) {
     let fixedString = "";
+    // this is needed to turn `inputString` into a plain JS string, which is may or may not be.
+    inputString = inputString.toString();
     // â€™ to single quote
     fixedString = inputString.replace(/â€™/gi, "\'");
     return fixedString;
