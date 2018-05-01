@@ -44,7 +44,7 @@ const modColumns = {
         },
         {
             id : "sickness",
-            displayName : "Sickness",
+            displayName : "Sickness Turns",
             width : "1fr"
         },
         {
@@ -104,7 +104,7 @@ const modColumns = {
         },
         {
             id : "sickness",
-            displayName : "Sickness",
+            displayName : "Sickness Turns",
             width : "1fr"
         },
         {
@@ -216,13 +216,20 @@ const deckBuilderController = function() {
         });
     };
     
+    /**
+     * Populate the grid with card data.
+     * TODO fix server side encoding so that fixEncoding() calls are not needed to display text properly.
+     * @returns {undefined}
+     */
     const populateCardListRows = function() {
         const columns = [];
         const currentModColumns = modColumns[localStorage.getItem("modName")];
+        // Get a list of all the column IDs for the current mod.
         for (let i = 0; i < currentModColumns.length; i++) {
             columns.push(currentModColumns[i].id);
         }
         const cards = deckData.cardData;
+        // Iterate cards and populate the values in the grid's respective columns, in the correct column order.
         for (let id in cards) {
             let card = cards[id].properties;
             logDebugMessage(JSON.stringify(card));
@@ -272,7 +279,7 @@ const deckBuilderController = function() {
                         cell.innerHTML = card["TAUNT"] ? "Yes" : "-";
                         break;
                     case "sickness":
-                        cell.innerHTML = `${card["SICKNESS"]} turns` || "-";
+                        cell.innerHTML = `${card["SICKNESS"]}` || "-";
                         break;
                     case "canAttack":
                         let canAttack = card["ATTACK_AVAILABLE"] === 1 ? "Yes" : "No";

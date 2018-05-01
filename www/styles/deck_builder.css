@@ -1,4 +1,9 @@
-.deckbuilder {}
+.deckbuilder {
+    /* TODO this doesn't work for some reason... */
+    width: 80%;
+    margin-left: 20px;
+    position: absolute;
+}
 
 .deckBuilderDeckName {}
 
@@ -24,6 +29,7 @@
     */
     background-color: #fff;
     color: #000;
+    overflow: auto;
 }
 
 .deckBuilderCardListHeader {
