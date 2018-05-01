@@ -148,7 +148,7 @@ const deckBuilderController = function() {
     const handleWebSocketConnection = function() {
         CardshifterServerAPI.setMessageListener(function(wsMsg) {
             if (wsMsg.command.toLowerCase() === "playerconfig") {
-                //console.log(JSON.stringify(wsMsg));
+                console.log(JSON.stringify(wsMsg));
                 localStorage.setItem("gameId", wsMsg.gameId);
                 localStorage.setItem("modName", wsMsg.modName);
                 if (wsMsg.configs.Deck._type.toLowerCase() === "deckconfig") {
@@ -268,7 +268,7 @@ const deckBuilderController = function() {
                         cell.innerHTML = `${attack} / ${health}`;
                         break;
                     case "manaUpkeep":
-                        cell.innerHtml = card["MANA_UPKEEP"] || "-";
+                        cell.innerHTML = card["MANA_UPKEEP"] || "-";
                         break;
                     case "scrapValueCost":
                         let scrapValue = card["SCRAP"] || "-";
