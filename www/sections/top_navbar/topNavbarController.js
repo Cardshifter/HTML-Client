@@ -28,8 +28,9 @@ const topNavbarController = function() {
             const username = localStorage.getItem("username");
             const separator = document.createElement("span");
             separator.innerHTML = " | ";
+            separator.className = "topNavbarSeparator";
             const usernameDisplay = document.createElement("span");
-            usernameDisplay.className = "h4";
+            usernameDisplay.className = "h4 topNavbarUsernameDisplay";
             usernameDisplay.innerHTML = username;
             topNavbarTitle.appendChild(separator);
             topNavbarTitle.appendChild(usernameDisplay);
@@ -46,7 +47,7 @@ const topNavbarController = function() {
             logoutButton.id = "logout_button";
             logoutButton.name = logoutButton.id;
             logoutButton.type = "button";
-            logoutButton.className = "btn btn-navbar csh-button";
+            logoutButton.className = "btn btn-navbar csh-button topNavbarLogoutBtn";
             logoutButton.value = "Logout";
             document.getElementById("logout_button_container").appendChild(logoutButton);
             logoutButton.addEventListener("click", logout);
