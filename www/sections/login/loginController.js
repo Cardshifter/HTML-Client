@@ -94,8 +94,8 @@ const loginController = function() {
         switch (status.toLowerCase()) {
             case "connecting":
                 msgText = 
-                    `<h5>Connecting to server...</h5>` + 
-                    `<pre class='bg-warning'>` + 
+                    `<h5 class="loginWebsocketConnectionStatus text-warning">Connecting to server...</h5>` + 
+                    `<pre class='loginWebsockAddressDisplay'>` + 
                         `Address: ${serverUri}` + 
                         `\n${formatDate(new Date())}` +
                     `</pre>`;
@@ -104,8 +104,8 @@ const loginController = function() {
                 break;
             case "success":
                 msgText =
-                    `<h5>WebSocket connection OK.</h5>\n` +
-                    `<pre class='bg-success'>`+ 
+                    `<h5 class="loginWebsocketConnectionStatus text-success">WebSocket connection OK.</h5>\n` +
+                    `<pre class='loginWebsockAddressDisplay'>`+ 
                         `Address: ${serverUri}` +
                         `\n${formatDate(new Date())}` +
                     `</pre>`;
@@ -114,8 +114,8 @@ const loginController = function() {
                 break;
             case "failure":
                 msgText = 
-                    `<h5>WebSocket connection FAILED.</h5>\n` +
-                    `<pre class='bg-danger'>`+ 
+                    `<h5 class="loginWebsocketConnectionStatus text-danger">WebSocket connection FAILED.</h5>\n` +
+                    `<pre class='loginWebsockAddressDisplay'>`+ 
                         `Address: ${serverUri}` +
                         `\n${formatDate(new Date())}` +
                     `</pre>`;
@@ -124,7 +124,7 @@ const loginController = function() {
                 break;
             case "unknown":
             default:
-                msgText = `<h5>Unknown connection status...</h5>`;
+                msgText = `<h5 class="loginWebsocketConnectionStatus text-secondary" style="font-style: italic;">Unknown connection status...</h5>`;
                 connStatusMsg.innerHTML = msgText;
                 connStatusMsg.className = "label label-default";
                 break;
