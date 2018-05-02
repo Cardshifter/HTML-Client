@@ -1,0 +1,62 @@
+.loginForm {
+    margin-left: 2%;
+}
+
+.loginServerSelectContainer {}
+
+.loginServerListLabel {
+    font-size: 0.9em;
+}
+
+.loginServerSelectList {
+    width: 30%;
+    margin-bottom: 10px;
+}
+
+.loginServerOtherContainer {}
+
+.loginServerOtherLabel {
+    font-size: 0.9em;
+}
+
+.loginServerOtherInput {
+    width: 30%;
+    margin-bottom: 15px;
+}
+
+.loginTestOtherServerBtn {}
+
+.loginServerLoadingDisplay {
+    width: 30%;
+}
+
+.loginWebsocketConnectionStatus {
+    font-size: 0.7em;
+    font-weight: bold;
+}
+
+.loginWebsockAddressDisplay {
+    font-size: 0.7em;
+    width: 30%;
+    border: 1px solid grey;
+    background-color: #d9d9d9;
+    padding-left: 3px
+}
+
+.loginUsernameContainer {}
+
+.loginUsernameLabel {
+    font-size: 0.9em;
+}
+
+.loginUsernameInput {
+    width: 30%;
+}
+
+.loginRememberMeLabel {
+    font-size: 0.8em;
+}
+
+.loginRememberMeCheckbox {}
+
+.loginSubmitBtn {}
