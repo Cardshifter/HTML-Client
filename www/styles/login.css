@@ -1,11 +1,12 @@
 .loginForm {
     margin-left: 2%;
+    margin-top: 10px;
 }
 
 .loginServerSelectContainer {}
 
 .loginServerListLabel {
-    font-size: 0.9em;
+    font-size: 1.3em;
 }
 
 .loginServerSelectList {
@@ -16,7 +17,7 @@
 .loginServerOtherContainer {}
 
 .loginServerOtherLabel {
-    font-size: 0.9em;
+    font-size: 1.3em;
 }
 
 .loginServerOtherInput {
@@ -31,12 +32,12 @@
 }
 
 .loginWebsocketConnectionStatus {
-    font-size: 0.7em;
+    font-size: 1.0em;
     font-weight: bold;
 }
 
 .loginWebsockAddressDisplay {
-    font-size: 0.7em;
+    font-size: 1.0em;
     width: 30%;
     border: 1px solid grey;
     background-color: #d9d9d9;
@@ -46,7 +47,7 @@
 .loginUsernameContainer {}
 
 .loginUsernameLabel {
-    font-size: 0.9em;
+    font-size: 1.3em;
 }
 
 .loginUsernameInput {
@@ -54,7 +55,7 @@
 }
 
 .loginRememberMeLabel {
-    font-size: 0.8em;
+    font-size: 1.1em;
 }
 
 .loginRememberMeCheckbox {}
