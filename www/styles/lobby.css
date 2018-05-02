@@ -87,7 +87,8 @@
 }
 
 .lobbyUsersList {
-    font-size: 0.9em;
+    padding-top: 7px;
+    font-size: 1.2em;
     font-family: Verdana, Geneva, sans-serif;
 }
 
@@ -141,5 +142,6 @@
 }
 
 .lobbyMod {
+    font-weight: bold;
     padding: 10px;
 }
