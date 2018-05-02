@@ -1,25 +1,25 @@
-<form name="login_form" id="login_form" class="login-form">
+<form name="login_form" id="login_form" class="loginForm">
     <h4>Please log in to continue.</h4>
-    <div id="login_server_select_container" class="form-group">
-        <label for="login_server_list" aria-label="Server">Server:</label>
-        <select name="login_server_list" id="login_server_list" class="form-control">
+    <div id="login_server_select_container" class="form-group loginServerSelectContainer">
+        <label for="login_server_list" aria-label="Server" class="loginServerListLabel">Server:</label>
+        <select name="login_server_list" id="login_server_list" class="form-control loginServerSelectList">
         </select>
-        <div id="login_server_other_container" class="form-group" style="display : none">
-            <label for="login_server_other_input">Other Server:</label>
-            <input name="login_server_other_input" id="login_server_other_input" type="text" class="form-control" />
-            <input type="button" name="test_login_server_other" id="test_login_server_other" class="btn" value="Test connection" />
+        <div id="login_server_other_container" class="form-group loginServerOtherContainer" style="display : none">
+            <label for="login_server_other_input" class="loginServerOtherLabel">Other Server:</label>
+            <input name="login_server_other_input" id="login_server_other_input" type="text" class="form-control loginServerOtherInput" />
+            <input type="button" name="test_login_server_other" id="test_login_server_other" class="btn loginTestOtherServerBtn" value="Test connection" />
         </div>
-        <input readonly name="server_loading_display" id="server_connecting" class="form-control" style="background-color: #DDD; display: none" />
+        <input readonly name="server_loading_display" id="server_connecting" class="form-control loginServerLoadingDisplay" style="background-color: #DDD; display: none" />
         <span id="login_server_connection_status" class="label" style="display: block; text-align: left"></span>
     </div>
-    <div id="login_username_container" class="form-group">
-        <label for="login_username">Username:</label>
-        <input name="login_username" id="login_username" type="text" class="form-control" placeholder="Enter name..." />
-        <input type="checkbox" name="remember_me" id="remember_me" value="rememberMe" />
-        <label for="remember_me">Remember me</label>
+    <div id="login_username_container" class="form-group loginUsernameContainer">
+        <label for="login_username" class="loginUsernameLabel">Username:</label>
+        <input name="login_username" id="login_username" type="text" class="form-control loginUsernameInput" placeholder="Enter name..." />
+        <input type="checkbox" name="remember_me" id="remember_me" value="rememberMe" class="loginRememberMeCheckbox" />
+        <label for="remember_me" class="loginRememberMeLabel">Remember me</label>
     </div>
     <div class="form-group">
-        <input type="button" name="login_submit" id="login_submit" class="btn btn-success" value="Log in" 
+        <input type="button" name="login_submit" id="login_submit" class="btn btn-success loginSubmitBtn" value="Log in" 
                data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" />
     </div>
 </form>
