@@ -256,8 +256,22 @@ const deckBuilderController = function() {
                             currentCardCount = 0;
                         }
                         const cardMax = deckData.cardsWithMax[card["id"]] || deckData.maxPerCard;
-                        cell.style.textAlign = "center";
-                        cell.innerHTML = `${currentCardCount} / ${cardMax}`;
+                        
+                        const addBtn = document.createElement("button");
+                        addBtn.className = "btn btn-sm btn-success";
+                        addBtn.style.marginLeft = "5px";
+                        addBtn.innerHTML = "+";
+                        addBtn.addEventListener("click", addCardToDeck);
+                        
+                        const subBtn = document.createElement("button");
+                        subBtn.className = "btn btn-sm btn-warning";
+                        subBtn.style.marginRight = "5px";
+                        subBtn.innerHTML = "-";
+                        subBtn.addEventListener("click", subtractCardFromDeck);
+                        
+                        cell.appendChild(subBtn);
+                        cell.innerHTML += `${currentCardCount} / ${cardMax}`;
+                        cell.appendChild(addBtn);
                         break;
                     case "manaCost":
                         cell.innerHTML = card["MANA_COST"] || "-";
@@ -319,7 +333,7 @@ const deckBuilderController = function() {
                             btn.setAttribute("data-toggle", "popover");
                             btn.setAttribute("data-placement", "top");
                             btn.setAttribute("data-content", flavor);
-                            btn.innerHTML = "Flavor";
+                            btn.innerHTML = "?";
                             cell.appendChild(btn);
                         }
                         break;
@@ -333,8 +347,12 @@ const deckBuilderController = function() {
         $('[data-toggle="popover"]').popover();
     };
     
-    const formatCardEffect = function(effectText) {
-        
+    const addCardToDeck = function() {
+        return;
+    };
+    
+    const subtractCardFromDeck = function() {
+        return;
     };
 
     /**
