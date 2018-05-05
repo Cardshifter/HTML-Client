@@ -1,4 +1,4 @@
-/* global CardshifterServerAPI, populateCardListTableHeaders */
+/* global CardshifterServerAPI, populateCardListTableHeaders, fixEncoding, removeAllNewlines */
 
 "use strict";
 
@@ -148,7 +148,7 @@ const deckBuilderController = function() {
     const handleWebSocketConnection = function() {
         CardshifterServerAPI.setMessageListener(function(wsMsg) {
             if (wsMsg.command.toLowerCase() === "playerconfig") {
-                console.log(JSON.stringify(wsMsg));
+                //console.log(JSON.stringify(wsMsg));
                 localStorage.setItem("gameId", wsMsg.gameId);
                 localStorage.setItem("modName", wsMsg.modName);
                 if (wsMsg.configs.Deck._type.toLowerCase() === "deckconfig") {
@@ -207,7 +207,7 @@ const deckBuilderController = function() {
                 }
                 deckBuilderCardListTable.appendChild(header);
             }
-            // verify that cound of actual headers in DOM matches what is expected
+            // verify that count of actual headers in DOM matches what is expected
             if (deckBuilderCardListTable.childElementCount === numColumns) {
                 resolve("Mod columns populated");
             } else {
@@ -288,8 +288,24 @@ const deckBuilderController = function() {
                         break;
                     case "effect":
                         let effect = card["effect"];
-                        effect = effect ? fixEncoding(effect) : "-";
-                        cell.innerHTML = effect;
+                        //effect = effect ? removeAllNewlines(fixEncoding(effect)) : "-";
+                        if (!effect) {
+                            cell.innerHTML = "-";
+                        }
+                        else {
+                            effect = removeAllNewlines(fixEncoding(effect));
+                            const fxId = `cardFx${id}`;
+                            const btn = document.createElement("button");
+                            //btn.type = "button";
+                            btn.id = fxId;
+                            btn.className = "btn btn-sm";
+                            btn.setAttribute("data-toggle", "popover");
+                            btn.title = card["name"];
+                            btn.setAttribute("data-placement", "top");
+                            btn.setAttribute("data-content", effect);
+                            btn.innerHTML = "FX";
+                            cell.appendChild(btn);
+                        }
                         break;
                     case "flavor":
                         let flavor = card["flavor"];
@@ -302,6 +318,8 @@ const deckBuilderController = function() {
                 deckBuilderCardListTable.appendChild(cell);
             }
         }
+        // jQuery needed for Bootstrap popover
+        $('[data-toggle="popover"]').popover();
     };
 
     /**
