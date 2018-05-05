@@ -288,19 +288,17 @@ const deckBuilderController = function() {
                         break;
                     case "effect":
                         let effect = card["effect"];
-                        //effect = effect ? removeAllNewlines(fixEncoding(effect)) : "-";
                         if (!effect) {
                             cell.innerHTML = "-";
                         }
                         else {
-                            effect = removeAllNewlines(fixEncoding(effect));
-                            const fxId = `cardFx${id}`;
+                            // TODO the formatting of effect should really be fixed on the server, this removeAllNewlines sort of works OK though.
+                            effect = removeAllNewlines(fixEncoding(effect), ". ");
                             const btn = document.createElement("button");
-                            //btn.type = "button";
-                            btn.id = fxId;
+                            btn.id = `card${id}Fx`;
+                            btn.title = card["name"];
                             btn.className = "btn btn-sm";
                             btn.setAttribute("data-toggle", "popover");
-                            btn.title = card["name"];
                             btn.setAttribute("data-placement", "top");
                             btn.setAttribute("data-content", effect);
                             btn.innerHTML = "FX";
@@ -309,8 +307,21 @@ const deckBuilderController = function() {
                         break;
                     case "flavor":
                         let flavor = card["flavor"];
-                        flavor = flavor ? fixEncoding(flavor) : "-";
-                        cell.innerHTML = flavor;
+                        if (!flavor) {
+                            cell.innerHTML = "-";
+                        }
+                        else {
+                            flavor = removeAllNewlines(fixEncoding(flavor));
+                            const btn = document.createElement("button");
+                            btn.id = `card${id}Flavor`;
+                            btn.title = card["name"];
+                            btn.className = "btn btn-sm";
+                            btn.setAttribute("data-toggle", "popover");
+                            btn.setAttribute("data-placement", "top");
+                            btn.setAttribute("data-content", flavor);
+                            btn.innerHTML = "Flavor";
+                            cell.appendChild(btn);
+                        }
                         break;
                     default:
                         cell.innerHTML = "";
@@ -320,6 +331,10 @@ const deckBuilderController = function() {
         }
         // jQuery needed for Bootstrap popover
         $('[data-toggle="popover"]').popover();
+    };
+    
+    const formatCardEffect = function(effectText) {
+        
     };
 
     /**
