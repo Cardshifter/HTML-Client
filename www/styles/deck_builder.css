@@ -42,3 +42,7 @@
     border: 1px solid #ddd;
     text-align: center;
 }
+
+.deckBuilderCardCountContainerSpan {
+    font-size: 0.8em;
+}

@@ -248,29 +248,40 @@ const deckBuilderController = function() {
                         cell.innerHTML = name;
                         break;
                     case "count":
-                        // TODO increment/decrement buttons
-                        let currentCardCount;
-                        try {
-                            currentCardCount = currentDeck[id].cardCount;
-                        } catch(err) {
-                            currentCardCount = 0;
-                        }
-                        const cardMax = deckData.cardsWithMax[card["id"]] || deckData.maxPerCard;
+                        const cardCountContainerSpan = document.createElement("span");
+                        cardCountContainerSpan.className = "deckBuilderCardCountContainerSpan";
+                        
+                        const currentCardCount = deckData.chosen[id] || 0;
+                        const currentCardCountSpan = document.createElement("span");
+                        currentCardCountSpan.id = `card${id}Count`;
+                        currentCardCountSpan.innerHTML = currentCardCount;
+                        
+                        const maxCardCount = deckData.cardsWithMax[card["id"]] || deckData.maxPerCard;
+                        const maxCardCountSpan = document.createElement("span");
+                        maxCardCountSpan.id = `card${id}Max`;
+                        maxCardCountSpan.innerHTML = maxCardCount;
+
+                        const separatorSpan = document.createElement("span");
+                        separatorSpan.innerHTML = " / ";
+                        
+                        cardCountContainerSpan.appendChild(currentCardCountSpan);
+                        cardCountContainerSpan.appendChild(separatorSpan);
+                        cardCountContainerSpan.appendChild(maxCardCountSpan);
                         
                         const addBtn = document.createElement("button");
                         addBtn.className = "btn btn-sm btn-success";
                         addBtn.style.marginLeft = "5px";
                         addBtn.innerHTML = "+";
-                        addBtn.addEventListener("click", addCardToDeck);
+                        addBtn.onclick = function() { addCardToDeck(id); };
                         
                         const subBtn = document.createElement("button");
                         subBtn.className = "btn btn-sm btn-warning";
                         subBtn.style.marginRight = "5px";
                         subBtn.innerHTML = "-";
-                        subBtn.addEventListener("click", subtractCardFromDeck);
+                        subBtn.onclick = function() { subtractCardFromDeck(id); };
                         
                         cell.appendChild(subBtn);
-                        cell.innerHTML += `${currentCardCount} / ${cardMax}`;
+                        cell.appendChild(cardCountContainerSpan);
                         cell.appendChild(addBtn);
                         break;
                     case "manaCost":
@@ -347,12 +358,12 @@ const deckBuilderController = function() {
         $('[data-toggle="popover"]').popover();
     };
     
-    const addCardToDeck = function() {
-        return;
+    const addCardToDeck = function(cardId) {
+        logDebugMessage(`addCardToDeck(${cardId})`);
     };
     
-    const subtractCardFromDeck = function() {
-        return;
+    const subtractCardFromDeck = function(cardId) {
+        logDebugMessage(`subtractCardFromDeck(${cardId})`);
     };
 
     /**
