@@ -360,10 +360,36 @@ const deckBuilderController = function() {
     
     const addCardToDeck = function(cardId) {
         logDebugMessage(`addCardToDeck(${cardId})`);
+        const currentCardCount = deckData.chosen[cardId] || 0;
+        const maxCardCount = deckData.cardsWithMax[cardId] || deckData.maxPerCard;
+        if (currentCardCount === maxCardCount) {
+            logDebugMessage(`There are already ${currentCardCount} / ${maxCardCount} of card ${cardId}`);
+        }
+        else {
+            if (currentCardCount === 0) {
+                deckData.chosen[cardId] = 1;
+            }
+            else {
+                deckData.chosen[cardId]++;
+            }
+            document.getElementById(`card${cardId}Count`).innerHTML = deckData.chosen[cardId];
+            logDebugMessage(`Card ${cardId} : ${deckData.chosen[cardId]} / ${maxCardCount}`);
+        }
     };
     
     const subtractCardFromDeck = function(cardId) {
         logDebugMessage(`subtractCardFromDeck(${cardId})`);
+        const currentCardCount = deckData.chosen[cardId] || 0;
+        const maxCardCount = deckData.cardsWithMax[cardId] || deckData.maxPerCard;
+        if (currentCardCount === 0) {
+            logDebugMessage(`Count of card ${cardId} is already 0`);
+        }
+        else {
+            deckData.chosen[cardId]--;
+            document.getElementById(`card${cardId}Count`).innerHTML = deckData.chosen[cardId];
+            logDebugMessage(`Card ${cardId} : ${deckData.chosen[cardId]} / ${maxCardCount}`);
+        }
+        
     };
 
     /**
