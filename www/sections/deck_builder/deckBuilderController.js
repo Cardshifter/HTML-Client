@@ -135,8 +135,8 @@ const deckBuilderController = function() {
         currentSize : 0,
         maxPerCard : 0
     };
-    // TODO include in implementation: currentDeck[cardId].cardCount
-    let currentDeck = {};
+    
+    let savedDecks = [];
     
     const deckBuilderCardsSelected = document.getElementById("deck_builder_cards_selected");
     const deckBuilderCardListTable = document.getElementById("deck_builder_card_list_table");
@@ -170,6 +170,30 @@ const deckBuilderController = function() {
                 }
             }
         });
+    };
+    
+    /**
+     * Populates saved decks both from a preloaded JSON file and fromuser-saved decks in localStorage.
+     * @returns {undefined}
+     */
+    const populateSavedDecks = function() {
+        logDebugMessage("populateSavedDecks called");
+        const currentMod = localStorage.getItem("modName");
+        const preloadedDecksPath = "sections/deck_builder/preloaded_decks.json";
+        $.getJSON(preloadedDecksPath, function(jsonData) {
+            logDebugMessage(`$.getJSON called with path ${preloadedDecksPath}`);
+            $.each(jsonData, function(_, jsonPreloadedDecksArray) {
+                for (let i = 0; i < jsonPreloadedDecksArray.length; i++) {
+                    if (jsonPreloadedDecksArray[i].mod === currentMod) {
+                        jsonPreloadedDecksArray[i]["preloaded"] = true;
+                        savedDecks.push(jsonPreloadedDecksArray[i]);
+                    }
+                }
+            });
+        });
+        // TODO add local saved decks
+        // TODO add display logic
+        console.log(savedDecks);
     };
     
     /**
@@ -249,7 +273,7 @@ const deckBuilderController = function() {
          */
         for (let id in cards) {
             let card = cards[id].properties;
-            logDebugMessage(JSON.stringify(card));
+            //logDebugMessage(JSON.stringify(card));
             for (let i = 0; i < columns.length; i++) {
                 const cell = document.createElement("div");
                 cell.className = "deckBuilderCardListCell";
@@ -436,6 +460,7 @@ const deckBuilderController = function() {
      */
     const runDeckBuilderController = function() {
         logDebugMessage("deckBuilderController called");
+        populateSavedDecks();
         handleWebSocketConnection();
     }();
 };
