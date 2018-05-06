@@ -173,7 +173,9 @@ const deckBuilderController = function() {
     };
     
     /**
-     * Populates saved decks both from a preloaded JSON file and fromuser-saved decks in localStorage.
+     * Populates saved decks both from a preloaded JSON file and from user-saved decks in localStorage,
+     * then populates it in the HTML page.
+     * Note: jQuery is used for JSON handling because it is far simpler than manual XHR handling.
      * @returns {undefined}
      */
     const populateSavedDecks = function() {
@@ -182,14 +184,22 @@ const deckBuilderController = function() {
         const preloadedDecksPath = "sections/deck_builder/preloaded_decks.json";
         $.getJSON(preloadedDecksPath, function(jsonData) {
             logDebugMessage(`$.getJSON called with path ${preloadedDecksPath}`);
-            $.each(jsonData, function(_, jsonPreloadedDecksArray) {
-                for (let i = 0; i < jsonPreloadedDecksArray.length; i++) {
-                    if (jsonPreloadedDecksArray[i].mod === currentMod) {
-                        jsonPreloadedDecksArray[i]["preloaded"] = true;
-                        savedDecks.push(jsonPreloadedDecksArray[i]);
+            $.each(jsonData, function(_, decksArray) {
+                for (let i = 0; i < decksArray.length; i++) {
+                    if (decksArray[i].mod === currentMod) {
+                        decksArray[i].preloaded = true;
+                        savedDecks.push(decksArray[i]);
                     }
                 }
             });
+        })
+        .done(function() { 
+            logDebugMessage(`done loading ${preloadedDecksPath}`);
+        })
+        .fail(function(xhr, status, errThrown) {
+            const msg = `getJSON request ${JSON.stringify(xhr)} failed\nStatus: ${status}\nError: ${errThrown || "unknown"}`;
+            logDebugMessage(msg);
+            alert(msg);
         });
         // TODO add local saved decks
         // TODO add display logic
