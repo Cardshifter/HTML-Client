@@ -181,7 +181,7 @@ const deckBuilderController = function() {
     const populateSavedDecks = function() {
         logDebugMessage("populateSavedDecks called");
         const currentMod = localStorage.getItem("modName");
-        const preloadedDecksPath = "sections/deck_builder/preloaded_decks.json";
+        const preloadedDecksPath = "sections/deck_builder/preloaded_decksZZZ.json";
         $.getJSON(preloadedDecksPath, function(jsonData) {
             logDebugMessage(`$.getJSON called with path ${preloadedDecksPath}`);
             $.each(jsonData, function(_, decksArray) {
@@ -197,11 +197,23 @@ const deckBuilderController = function() {
             logDebugMessage(`done loading ${preloadedDecksPath}`);
         })
         .fail(function(xhr, status, errThrown) {
-            const msg = `getJSON request ${JSON.stringify(xhr)} failed\nStatus: ${status}\nError: ${errThrown || "unknown"}`;
+            const msg = `getJSON request ${JSON.stringify(xhr)} failed\nFailed to load ${preloadedDecksPath}`;
             logDebugMessage(msg);
             alert(msg);
         });
-        // TODO add local saved decks
+        let localSavedDecks; 
+        try {
+            JSON.parse(localStorage.getItem("localSavedDecks"));
+            for (let i = 0; i < localSavedDecks.length; i++) {
+                if (localSavedDecks[i].mod === currentMod) {
+                    localSavedDecks[i].preloaded = false;
+                    savedDecks.push(localSavedDecks[i]);
+                }
+            }
+        }
+        catch(err) {
+            logDebugMessage(`Error loading localSavedDecks\n${err}`);
+        }
         // TODO add display logic
         console.log(savedDecks);
     };
