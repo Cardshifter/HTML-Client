@@ -391,6 +391,9 @@ const deckBuilderController = function() {
         if (currentCardCount === maxCardCount) {
             logDebugMessage(`There are already ${currentCardCount} / ${maxCardCount} of card ${cardId}`);
         }
+        else if (deckData.currentSize === deckData.maxSize) {
+            logDebugMessage(`The max deck size of ${deckData.maxSize} has already been reached`);
+        }
         else {
             if (currentCardCount === 0) {
                 deckData.chosen[cardId] = 1;
