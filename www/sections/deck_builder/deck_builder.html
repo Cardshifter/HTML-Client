@@ -11,15 +11,7 @@
     <h1 id="deck_builder_deck_name" class="deckBuilderDeckName">Deck name: </h1>
     <!-- Add SELECTeD / MAX CARDS dynamically -->
     <h2 id="deck_builder_cards_selected" class="deckBuilderCardsSelected">Loading...</h2>
-    
-    <form id="deck_builder_save_deck_form" class="deckBuilderSaveDeckForm">
-        <!-- Place where you name & save your deck -->
-        <div id="deck_builder_save_deck_input" class="deckBuilderSaveDeckInput">
-            <label for="deck_builder_deck_name_input">Save deck as:</label>
-            <input type="text" id="deck_builder_deck_name_input" name="deck_builder_deck_name_input" class="deckBuilderDeckNameInput" />
-            <input type="button" id="deck_builder_save_deck_btn" name="deck_builder_save_deck_btn" value="Save Deck" class="btn btn-sm btn-primary" />
-        </div>
-    </form>
+
     
     <!-- Place where you actually start the game, if the game start conditions are met -->
     <div id="deck_builder_start_or_cancel_game" class="deckBuilderStartOrCancelGame">
@@ -29,8 +21,19 @@
     
     <!-- List of saved decks, with `Delete` button -->
     <h2>Saved Decks</h2>
+        
+    <form id="deck_builder_save_deck_form" class="deckBuilderSaveDeckForm">
+        <!-- Place where you name & save your deck -->
+        <div id="deck_builder_save_deck_input" class="deckBuilderSaveDeckInput">
+            <label for="deck_builder_deck_name_input" class="deckBuilderDeckNameInputLabel">Save deck as:</label>
+            <input type="text" id="deck_builder_deck_name_input" name="deck_builder_deck_name_input" class="deckBuilderDeckNameInput" />
+            <input type="button" id="deck_builder_save_deck_btn" name="deck_builder_save_deck_btn" value="Save Deck" class="btn btn-sm btn-primary" />
+        </div>
+    </form>
+    
+    <!-- Saved decks displayed here -->
     <ul id="deck_builder_saved_decks_list" class="deckBuilderSavedDecksList">
-        <!-- Add a LI for each deck, with radio button toselect, and delete button -->
+        <!-- Add a LI for each deck, with Load button to select, and Delete button -->
     </ul>
     
     <!-- Card info -->

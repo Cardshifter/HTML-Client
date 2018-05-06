@@ -185,7 +185,6 @@ const deckBuilderController = function() {
         $.getJSON(preloadedDecksPath, function(jsonData) {
             logDebugMessage(`$.getJSON called with path ${preloadedDecksPath}`);
             $.each(jsonData, function(_, preloadedDeck) {
-                logDebugMessage(`preloadedDeck:\n${JSON.stringify(preloadedDeck)}`);
                 for (let i = 0; i < preloadedDeck.length; i++) {
                     if (preloadedDeck[i].mod === currentMod) {
                         preloadedDeck[i].preloaded = true;
@@ -197,7 +196,6 @@ const deckBuilderController = function() {
         })
         .done(function() { 
             logDebugMessage(`done loading ${preloadedDecksPath}`);
-            console.log(savedDecks);
         })
         .fail(function(xhr, status, errThrown) {
             const msg = `getJSON request ${JSON.stringify(xhr)} failed\nFailed to load ${preloadedDecksPath}`;
@@ -223,12 +221,28 @@ const deckBuilderController = function() {
             for (let i = 0; i < savedDecks.length; i++) {
                 if (savedDecks[i].mod === currentMod) {
                     const savedDeckItem = document.createElement("li");
-                    savedDeckItem.innerHTML = savedDecks[i].name;
+                    const savedDeckItemText = document.createElement("span");
+                    
+                    savedDeckItemText.innerHTML = savedDecks[i].name;
+                    savedDeckItemText.innerHTML += savedDecks[i].preloaded ? " (preloaded)" : "";
+                    const loadBtn = document.createElement("button");
+                    loadBtn.id = `load${savedDecks[i].name}`;
+                    loadBtn.className = "btn btn-sm btn-secondary";
+                    loadBtn.innerHTML = "Load";
+                    loadBtn.style.marginLeft = "5px";
+                    loadBtn.onclick = function() {
+                        loadDeck(savedDecks[i].name);
+                    };
+                    savedDeckItem.appendChild(savedDeckItemText);
+                    savedDeckItem.appendChild(loadBtn);
                     savedDecksList.appendChild(savedDeckItem);
                 }
             }
         });
-        console.log(savedDecks);
+    };
+    
+    const loadDeck = function(deckName) {
+        logDebugMessage(`loadDeck(${deckName}) called`);
     };
     
     /**
@@ -240,6 +254,16 @@ const deckBuilderController = function() {
         deckData.currentSize = currentSize;
         const cardSummary = `Cards: ${deckData.currentSize} / min: ${deckData.minSize}, max: ${deckData.maxSize}`;
         deckBuilderCardsSelected.innerHTML = cardSummary;
+    };
+    
+    /**
+     * Attaches a function that updates the displayed deck name as the user enters it in the "Save deck as" field.
+     * @returns {undefined}
+     */
+    const updateDeckNameWhenTypedByUser = function() {
+        document.getElementById("deck_builder_deck_name_input").addEventListener("keyup", function() {
+            document.getElementById("deck_builder_deck_name").innerHTML = `Deck name: ${document.getElementById("deck_builder_deck_name_input").value}`;
+        });
     };
     
     /**
@@ -464,7 +488,7 @@ const deckBuilderController = function() {
             logDebugMessage(`Card ${cardId} : ${deckData.chosen[cardId]} / ${maxCardCount}`);
         }
         updateDeckCardSummary();
-        logDebugMessage(`Current chose cards: ${JSON.stringify(deckData.chosen)}`);
+        logDebugMessage(`Current chosen cards: ${JSON.stringify(deckData.chosen)}`);
     };
     
     /**
@@ -496,6 +520,7 @@ const deckBuilderController = function() {
     const runDeckBuilderController = function() {
         logDebugMessage("deckBuilderController called");
         populateSavedDecks();
+        updateDeckNameWhenTypedByUser();
         handleWebSocketConnection();
     }();
 };
