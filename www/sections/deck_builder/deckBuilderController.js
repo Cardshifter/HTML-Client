@@ -177,8 +177,23 @@ const deckBuilderController = function() {
      * @returns {undefined}
      */
     const updateDeckCardSummary = function() {
+        const currentSize = countCurrentChosenCards();
+        deckData.currentSize = currentSize;
         const cardSummary = `Cards: ${deckData.currentSize} / min: ${deckData.minSize}, max: ${deckData.maxSize}`;
         deckBuilderCardsSelected.innerHTML = cardSummary;
+    };
+    
+    /**
+     * Counts how many cards are currently chosen in the deck.
+     * @returns {Number}
+     */
+    const countCurrentChosenCards = function() {
+        let count = 0;
+        const chosenCards = deckData.chosen;
+        for (let cardId in chosenCards) {
+            count += chosenCards[cardId];
+        }
+        return count;
     };
     
     /**
@@ -229,7 +244,9 @@ const deckBuilderController = function() {
             columns.push(currentModColumns[i].id);
         }
         const cards = deckData.cardData;
-        // Iterate cards and populate the values in the grid's respective columns, in the correct column order.
+        /**
+         * Iterate cards and populate the values in the grid's respective columns, in the correct column order.
+         */
         for (let id in cards) {
             let card = cards[id].properties;
             logDebugMessage(JSON.stringify(card));
@@ -272,13 +289,17 @@ const deckBuilderController = function() {
                         addBtn.className = "btn btn-sm btn-success";
                         addBtn.style.marginLeft = "5px";
                         addBtn.innerHTML = "+";
-                        addBtn.onclick = function() { addCardToDeck(id); };
+                        addBtn.onclick = function() { 
+                            addCardToDeck(id);
+                        };
                         
                         const subBtn = document.createElement("button");
                         subBtn.className = "btn btn-sm btn-warning";
                         subBtn.style.marginRight = "5px";
                         subBtn.innerHTML = "-";
-                        subBtn.onclick = function() { subtractCardFromDeck(id); };
+                        subBtn.onclick = function() { 
+                            subtractCardFromDeck(id); 
+                        };
                         
                         cell.appendChild(subBtn);
                         cell.appendChild(cardCountContainerSpan);
@@ -358,6 +379,11 @@ const deckBuilderController = function() {
         $('[data-toggle="popover"]').popover();
     };
     
+    /**
+     * Adds a card to the deck, if possible, and update GUI accordingly.
+     * @param {number} cardId - the ID of the card to add
+     * @returns {undefined}
+     */
     const addCardToDeck = function(cardId) {
         logDebugMessage(`addCardToDeck(${cardId})`);
         const currentCardCount = deckData.chosen[cardId] || 0;
@@ -375,8 +401,15 @@ const deckBuilderController = function() {
             document.getElementById(`card${cardId}Count`).innerHTML = deckData.chosen[cardId];
             logDebugMessage(`Card ${cardId} : ${deckData.chosen[cardId]} / ${maxCardCount}`);
         }
+        updateDeckCardSummary();
+        logDebugMessage(`Current chose cards: ${JSON.stringify(deckData.chosen)}`);
     };
     
+    /**
+     * Subtracts a card from the deck, if possible, and update GUI accordingly.
+     * @param {number} cardId - the ID of the card to subtract
+     * @returns {undefined}
+     */
     const subtractCardFromDeck = function(cardId) {
         logDebugMessage(`subtractCardFromDeck(${cardId})`);
         const currentCardCount = deckData.chosen[cardId] || 0;
@@ -389,7 +422,8 @@ const deckBuilderController = function() {
             document.getElementById(`card${cardId}Count`).innerHTML = deckData.chosen[cardId];
             logDebugMessage(`Card ${cardId} : ${deckData.chosen[cardId]} / ${maxCardCount}`);
         }
-        
+        updateDeckCardSummary();
+        logDebugMessage(`Current chose cards: ${JSON.stringify(deckData.chosen)}`);
     };
 
     /**
