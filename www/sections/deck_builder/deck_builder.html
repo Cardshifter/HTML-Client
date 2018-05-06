@@ -2,19 +2,19 @@
 
 <!-- A saved deck to be displayed in the saved decks list -->
 <template id="deck_builder_saved_deck_template">
-        <option class="deckBuilderSavedDeckOption">
-        </option>
+        <li class="deckBuilderSavedDeckOption">
+        </li>
 </template>
 
 <div id="deck_builder" class="deckBuilder">
     <!-- Add deck name dynamically -->
     <h1 id="deck_builder_deck_name" class="deckBuilderDeckName">Deck name: </h1>
     <!-- Add SELECTeD / MAX CARDS dynamically -->
-    <h2 id="deck_builder_cards_selected" class="deckBuilderCardsSelected"></h2>
+    <h2 id="deck_builder_cards_selected" class="deckBuilderCardsSelected">Loading...</h2>
     
     <form id="deck_builder_save_deck_form" class="deckBuilderSaveDeckForm">
         <!-- Place where you name & save your deck -->
-        <div id="deck_duilbder_save_deck_input" class="deckBuilderSaveDeckInput">
+        <div id="deck_builder_save_deck_input" class="deckBuilderSaveDeckInput">
             <label for="deck_builder_deck_name_input">Save deck as:</label>
             <input type="text" id="deck_builder_deck_name_input" name="deck_builder_deck_name_input" class="deckBuilderDeckNameInput" />
             <input type="button" id="deck_builder_save_deck_btn" name="deck_builder_save_deck_btn" value="Save Deck" class="btn btn-sm btn-primary" />
@@ -28,9 +28,10 @@
     </div>
     
     <!-- List of saved decks, with `Delete` button -->
-    <select id="deck_builder_saved_decks_list" class="deckBuilderSavedDecksList">
+    <h2>Saved Decks</h2>
+    <ul id="deck_builder_saved_decks_list" class="deckBuilderSavedDecksList">
         <!-- Add a LI for each deck, with radio button toselect, and delete button -->
-    </select>
+    </ul>
     
     <!-- Card info -->
     <div id="deck_builder_card_list_table" class="deckBuilderCardListTable">

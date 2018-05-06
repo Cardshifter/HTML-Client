@@ -181,40 +181,53 @@ const deckBuilderController = function() {
     const populateSavedDecks = function() {
         logDebugMessage("populateSavedDecks called");
         const currentMod = localStorage.getItem("modName");
-        const preloadedDecksPath = "sections/deck_builder/preloaded_decksZZZ.json";
+        const preloadedDecksPath = "sections/deck_builder/preloaded_decks.json";
         $.getJSON(preloadedDecksPath, function(jsonData) {
             logDebugMessage(`$.getJSON called with path ${preloadedDecksPath}`);
-            $.each(jsonData, function(_, decksArray) {
-                for (let i = 0; i < decksArray.length; i++) {
-                    if (decksArray[i].mod === currentMod) {
-                        decksArray[i].preloaded = true;
-                        savedDecks.push(decksArray[i]);
+            $.each(jsonData, function(_, preloadedDeck) {
+                logDebugMessage(`preloadedDeck:\n${JSON.stringify(preloadedDeck)}`);
+                for (let i = 0; i < preloadedDeck.length; i++) {
+                    if (preloadedDeck[i].mod === currentMod) {
+                        preloadedDeck[i].preloaded = true;
+                        logDebugMessage(JSON.stringify(preloadedDeck[i]));
+                        savedDecks.push(preloadedDeck[i]);
                     }
                 }
             });
         })
         .done(function() { 
             logDebugMessage(`done loading ${preloadedDecksPath}`);
+            console.log(savedDecks);
         })
         .fail(function(xhr, status, errThrown) {
             const msg = `getJSON request ${JSON.stringify(xhr)} failed\nFailed to load ${preloadedDecksPath}`;
             logDebugMessage(msg);
             alert(msg);
-        });
-        let localSavedDecks; 
-        try {
-            JSON.parse(localStorage.getItem("localSavedDecks"));
-            for (let i = 0; i < localSavedDecks.length; i++) {
-                if (localSavedDecks[i].mod === currentMod) {
-                    localSavedDecks[i].preloaded = false;
-                    savedDecks.push(localSavedDecks[i]);
+        })
+        .then(function() {
+            let localSavedDecks; 
+            try {
+                JSON.parse(localStorage.getItem("localSavedDecks"));
+                for (let i = 0; i < localSavedDecks.length; i++) {
+                    if (localSavedDecks[i].mod === currentMod) {
+                        localSavedDecks[i].preloaded = false;
+                        savedDecks.push(localSavedDecks[i]);
+                    }
                 }
             }
-        }
-        catch(err) {
-            logDebugMessage(`Error loading localSavedDecks\n${err}`);
-        }
-        // TODO add display logic
+            catch(err) {
+                logDebugMessage(`Error loading localSavedDecks\n${err}`);
+            }
+            // TODO add display logic with load & delete buttons
+            const savedDecksList = document.getElementById("deck_builder_saved_decks_list");
+            for (let i = 0; i < savedDecks.length; i++) {
+                if (savedDecks[i].mod === currentMod) {
+                    const savedDeckItem = document.createElement("li");
+                    savedDeckItem.innerHTML = savedDecks[i].name;
+                    savedDecksList.appendChild(savedDeckItem);
+                }
+            }
+        });
         console.log(savedDecks);
     };
     
