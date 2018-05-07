@@ -229,9 +229,9 @@ const deckBuilderController = function() {
                     loadBtn.id = `load${savedDecks[i].name}`;
                     loadBtn.className = "btn btn-sm btn-secondary";
                     loadBtn.innerHTML = "Load";
-                    loadBtn.style.marginLeft = "5px";
+                    loadBtn.style.marginLeft = "10px";
                     loadBtn.onclick = function() {
-                        loadDeck(savedDecks[i].name);
+                        loadDeck(savedDecks[i]);
                     };
                     savedDeckItem.appendChild(savedDeckItemText);
                     savedDeckItem.appendChild(loadBtn);
@@ -241,8 +241,17 @@ const deckBuilderController = function() {
         });
     };
     
-    const loadDeck = function(deckName) {
-        logDebugMessage(`loadDeck(${deckName}) called`);
+    const loadDeck = function(deckObj) {
+        logDebugMessage(`loadDeck(${deckObj.name}) called`);
+        deckData.chosen = {};
+        document.getElementById("deck_builder_deck_name").innerHTML = `Deck name: ${deckObj.name}`;
+        for (let cardId in deckObj.chosen) {
+            if (deckObj.chosen[cardId]) {
+                logDebugMessage(`cardId: ${cardId}`);
+                deckData.chosen[cardId] = deckObj.chosen[cardId];
+                document.getElementById(`card${cardId}Count`).innerHTML = deckObj.chosen[cardId];
+            }
+        }
     };
     
     /**
@@ -261,8 +270,9 @@ const deckBuilderController = function() {
      * @returns {undefined}
      */
     const updateDeckNameWhenTypedByUser = function() {
-        document.getElementById("deck_builder_deck_name_input").addEventListener("keyup", function() {
-            document.getElementById("deck_builder_deck_name").innerHTML = `Deck name: ${document.getElementById("deck_builder_deck_name_input").value}`;
+        const deckNameInput = document.getElementById("deck_builder_deck_name_input");
+        deckNameInput.addEventListener("keyup", function() {
+            document.getElementById("deck_builder_deck_name").innerHTML = `Deck name: ${deckNameInput.value}`;
         });
     };
     
