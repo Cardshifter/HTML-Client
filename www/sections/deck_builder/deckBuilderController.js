@@ -216,8 +216,11 @@ const deckBuilderController = function() {
             catch(err) {
                 logDebugMessage(`Error loading localSavedDecks\n${err}`);
             }
-            // TODO add display logic with load & delete buttons
             const savedDecksList = document.getElementById("deck_builder_saved_decks_list");
+            // clear out existing saved decks, then display them anew
+            while (savedDecksList.firstChild) {
+                savedDecksList.removeChild(savedDecksList.firstChild);
+            }
             for (let i = 0; i < savedDecks.length; i++) {
                 if (savedDecks[i].mod === currentMod) {
                     const savedDeckItem = document.createElement("li");
@@ -225,6 +228,7 @@ const deckBuilderController = function() {
                     
                     savedDeckItemText.innerHTML = savedDecks[i].name;
                     savedDeckItemText.innerHTML += savedDecks[i].preloaded ? " (preloaded)" : "";
+                    
                     const loadBtn = document.createElement("button");
                     loadBtn.id = `load${savedDecks[i].name}`;
                     loadBtn.className = "btn btn-sm btn-secondary";
@@ -233,6 +237,7 @@ const deckBuilderController = function() {
                     loadBtn.onclick = function() {
                         loadDeck(savedDecks[i]);
                     };
+                    
                     savedDeckItem.appendChild(savedDeckItemText);
                     savedDeckItem.appendChild(loadBtn);
                     savedDecksList.appendChild(savedDeckItem);
@@ -241,17 +246,22 @@ const deckBuilderController = function() {
         });
     };
     
+    /**
+     * Loads a saved deck into memory and displays it in the GUI.
+     * @param {Object} deckObj - The object containing the deck name, mod, and chosen cards count
+     * @returns {undefined}
+     */
     const loadDeck = function(deckObj) {
         logDebugMessage(`loadDeck(${deckObj.name}) called`);
         deckData.chosen = {};
         document.getElementById("deck_builder_deck_name").innerHTML = `Deck name: ${deckObj.name}`;
         for (let cardId in deckObj.chosen) {
             if (deckObj.chosen[cardId]) {
-                logDebugMessage(`cardId: ${cardId}`);
                 deckData.chosen[cardId] = deckObj.chosen[cardId];
                 document.getElementById(`card${cardId}Count`).innerHTML = deckObj.chosen[cardId];
             }
         }
+        updateDeckCardSummary();
     };
     
     /**
@@ -274,6 +284,50 @@ const deckBuilderController = function() {
         deckNameInput.addEventListener("keyup", function() {
             document.getElementById("deck_builder_deck_name").innerHTML = `Deck name: ${deckNameInput.value}`;
         });
+    };
+    
+    /**
+     * Attach saving function to Save Deck button.
+     * @returns {undefined}
+     */
+    const enableSaveDeckButton = function() {
+        document.getElementById("deck_builder_save_deck_btn").onclick = function() {
+            let deckName = document.getElementById("deck_builder_deck_name_input").value;
+            if (!deckName) {
+                // generate a random number <1000 to avoid naming conflicts, if no name is entered
+                deckName = `unnamed${Math.floor(Math.random() * 1000)}`;
+            }
+            saveDeck(deckName);
+        };
+    };
+    
+    const saveDeck = function(deckName) {
+        let userSavedDecks = [];
+        const currentMod = localStorage.getItem("modName");
+        try {
+            userSavedDecks = JSON.parse(localStorage.getItem("localSavedDecks"));
+            if (!userSavedDecks) {
+                userSavedDecks = [];
+                logDebugMessage("No user saved decks found");  
+            }
+        }
+        catch(err) {
+            logDebugMessage(`Could not load userSavedDecks from localStorage\n${err}`);
+        }
+        const deck = {};
+        deck.name = deckName;
+        deck.mod = currentMod;
+        deck.chosen = deckData.chosen;
+        logDebugMessage(`userSavedDecks: \n${JSON.stringify(userSavedDecks)}`);
+        logDebugMessage(`deck: \n${JSON.stringify(deck)}`);
+        userSavedDecks.push(deck);
+        try {
+            localStorage.setItem("localSavedDecks", JSON.stringify(deck));
+        }
+        catch(err) {
+            logDebugMessage(`Could not save user deck ${deckName}\n${err}`);
+        }
+        populateSavedDecks();
     };
     
     /**
@@ -532,5 +586,6 @@ const deckBuilderController = function() {
         populateSavedDecks();
         updateDeckNameWhenTypedByUser();
         handleWebSocketConnection();
+        enableSaveDeckButton();
     }();
 };
