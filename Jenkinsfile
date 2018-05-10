@@ -22,7 +22,7 @@ pipeline {
 
         stage('Docker Image') {
             when {
-                branch 'jenkins'
+                branch 'master'
             }
             steps {
                 script {
