@@ -149,3 +149,6 @@ node_modules
 
 ### Webpack
 dist/
+
+### OS X files
+/**/.DS_Store

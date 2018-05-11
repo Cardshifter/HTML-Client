@@ -1,7 +1,7 @@
 'use strict';
 
 // @ngInject
-function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope, $location, $modal) {
+function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope, $location, $modal, ErrorCreator) {
     var playerInfos = {
         user: {
             index: null,
@@ -41,13 +41,11 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
         "zoneChange": moveCard,
         "targets": setTargets,
         "update": updateProperties,
-        "elimination": displayWinner
+        "elimination": displayWinner,
+        "error": displayError
     };
 
-    CardshifterServerAPI.setMessageListener(function(message) {
-        commandMap[message.command](message);
-        $scope.$apply();
-    }, ["resetActions", "useable", "player", "zone", "card", "zoneChange", "targets", "update", "entityRemoved", "elimination"]);
+    CardshifterServerAPI.setMessageListener(commandMap, $scope);
 
 
     $scope.startAction = function(action) {
@@ -87,6 +85,7 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
 		var maxTargets = $scope.targetsMessage.max;
 		if (selected.length < minTargets || selected.length > maxTargets) {
 			console.log("target(s) required: " + minTargets + " - " + maxTargets + " but chosen " + selected.length);
+			ErrorCreator.create("target(s) required: " + minTargets + " - " + maxTargets + " but chosen " + selected.length);
 			return;
 		}
 
@@ -274,9 +273,12 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
         try {
             var src = findZone(message.sourceZone);
             var dest = findZone(message.destinationZone);
-
-            var card = src.entities[message.entity];
-            delete src.entities[message.entity];
+            var card = null;
+            // when a card is suddenly summoned, sourceZone is -1, which doesn't exist
+            if (src) {
+                card = src.entities[message.entity];
+                delete src.entities[message.entity];
+            }
             $scope.cardZones[message.entity] = message.destinationZone;
             dest.entities[message.entity] = card;
         } catch(e) {
@@ -322,13 +324,20 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
     function updateProperties(toUpdate) {
         var entity = findEntity(toUpdate.id);
         if (!entity) {
-            console.log('entity not found: ' + toUpdate.id);
+            // this can happen when Server sends update message before CardInfoMessage
+            return;
+        }
+        if (!entity.properties) {
+            // this can happen when Server sends update message before CardInfoMessage
             return;
         }
         var oldValue = entity.properties[toUpdate.key];
         entity.properties[toUpdate.key] = toUpdate.value;
         if (typeof toUpdate.value === 'number') {
             var diff = toUpdate.value - oldValue;
+            if (!entity.animations) {
+                entity.animations = {};
+            }
             var anim = entity.animations[toUpdate.key];
             var animObject = { diff: diff };
             if (anim) {
@@ -434,12 +443,20 @@ function GameboardController(CardshifterServerAPI, $scope, $timeout, $rootScope,
         } else {
             var zoneId = $scope.cardZones[id];
             var zone = findZone(zoneId);
+            if (!zone) {
+                console.log('unable to find entity ' + id + ', last known zone not found: ' + zoneId);
+                return null;
+            }
             if (zone.entities[id]) {
                 return zone.entities[id];
             }
         }
         return null;
     };
+
+    function displayError(message) {
+        ErrorCreator.create(message.message);
+    }
 }
 
 module.exports = GameboardController;
