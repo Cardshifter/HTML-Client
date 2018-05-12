@@ -96,10 +96,10 @@ function LoginController(CardshifterServerAPI, $scope, $location, $rootScope, Er
     }
 
     $scope.refreshServers = function() {
-        $scope.refreshing = true;
-        $timeout(function() {
-            $scope.refreshing = false;
-        }, REFRESH_DELAY);
+        // $scope.refreshing = true;
+        // $timeout(function() {
+        //     $scope.refreshing = false;
+        // }, REFRESH_DELAY);
 
         /**
         * This is a recursive function that is called
