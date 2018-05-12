@@ -39,8 +39,9 @@
         <select ng-model="server" name="server" id="server" class="form-control">
             <option ng-repeat="server in servers" value="{{server.address}}">{{server.name}}</option>
         </select>
-        <label for="secure">Is secure server:</label>
-        <input data-ng-model="is_secure" name="secure" id="secure" type="checkbox" value="secure" />
+        <!-- Removing because the functionality doesn't exist and it can confuse users -->
+<!--        <label for="secure">Is secure server:</label>
+        <input data-ng-model="is_secure" name="secure" id="secure" type="checkbox" value="secure" />-->
     </div>
     <div class="form-group">
         <div data-ng-show="server=='other'" id="server_other">
