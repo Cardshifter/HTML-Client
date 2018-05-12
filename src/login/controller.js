@@ -9,9 +9,11 @@ function LoginController(CardshifterServerAPI, $scope, $location, $rootScope, Er
     $scope.refreshing = false;
 
     $scope.servers = [
+        // Changes made for Game Day May 12, 2018 and can be removed later
+        new ServerInfo("Game Day May 12", "stats.zomis.net:22738"),
         new ServerInfo("Local Host", "ws://127.0.0.1:4243"),
-        new ServerInfo("Dwarf Towers", "ws://dwarftowers.com:4243"),
-        new ServerInfo("Zomis.net", "ws://stats.zomis.net:4243"),
+//        new ServerInfo("Dwarf Towers", "ws://dwarftowers.com:4243"),
+//        new ServerInfo("Zomis.net", "ws://stats.zomis.net:4243"),
         new ServerInfo("Other...", "other")
     ];
 
