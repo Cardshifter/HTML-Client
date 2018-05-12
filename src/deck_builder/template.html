@@ -15,7 +15,7 @@
             <input data-ng-click="saveDeck()" type="submit" value="Save Deck" class="btn btn-xs btn-primary"/>
             <br/>
             <input data-ng-show="enteringGame" data-ng-click="enterGame()" type="button" value = "Start game" class="btn btn-sm btn-success"/>
-            <input data-ng-hide="enteringGame" data-ng-click="goBack()" type="button" value="Go back to lobby" class="btn btn-sm btn-default"/>
+            <input data-ng-show="enteringGame" data-ng-click="goBack()" type="button" value="Go back to lobby" class="btn btn-sm btn-default"/>
         </form>
 
         <!-- List of saved decks, with `Delete` button -->
