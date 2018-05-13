@@ -50,6 +50,9 @@ function LobbyController(CardshifterServerAPI, $scope, $timeout, $rootScope, $lo
         if($scope.sending) { // enter key bypasses button disable
             return;
         }
+        if($scope.user_chat_message.trim().length === 0) {
+            return;
+        }
 
         $scope.sending = true;
         var chatMessage = new CardshifterServerAPI.messageTypes.ChatMessage($scope.user_chat_message);
