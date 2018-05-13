@@ -68,7 +68,7 @@
                         <!-- MINUS button -->
                         <button data-ng-click="decrement(card)" type="button" class="btn btn-xs btn-default glyphicon glyphicon-minus"></button>
                         <!-- How many cards you selected for this deck, and what the max allowed is -->
-                        <button type="button" class="btn btn-xs btn-default"><b>{{$parent.currentDeck[card.id] || 0}} / {{card.max}}</b></button>
+                        <button type="button" class="btn btn-xs btn-default"><b>{{$parent.currentDeck[card.properties.id] || 0}} / {{card.max}}</b></button>
                         <!-- PLUS button -->
                         <button data-ng-click="increment(card)" type="button" class="btn btn-xs btn-default glyphicon glyphicon-plus"></button>
                     </div>

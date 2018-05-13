@@ -68,7 +68,7 @@ function DeckbuilderController(CardshifterServerAPI, $scope, $rootScope, $locati
             for(var card in deck.cardData) {
                 if(deck.cardData.hasOwnProperty(card)) {
                     deck.cardData[card].max = deck.max[card] || deck.maxPerCard;
-                    $scope.currentDeck[deck.cardData[card].id] = 0;
+                    $scope.currentDeck[deck.cardData[card].properties.id] = 0;
                 }
             }
 
@@ -91,8 +91,8 @@ function DeckbuilderController(CardshifterServerAPI, $scope, $rootScope, $locati
     * @param card:Object -- The card to decrement
     */
     $scope.decrement = function(card) {
-        if($scope.currentDeck[card.id] !== 0) {
-            $scope.currentDeck[card.id]--;
+        if($scope.currentDeck[card.properties.id] !== 0) {
+            $scope.currentDeck[card.properties.id]--;
         }
     };
     /**
@@ -109,8 +109,8 @@ function DeckbuilderController(CardshifterServerAPI, $scope, $rootScope, $locati
     */
     $scope.increment = function(card) {
         if($scope.getTotalSelected() !== $scope.maxCards &&
-           $scope.currentDeck[card.id] !== card.max) {
-            $scope.currentDeck[card.id]++;
+           $scope.currentDeck[card.properties.id] !== card.max) {
+            $scope.currentDeck[card.properties.id]++;
         }
     };
 
