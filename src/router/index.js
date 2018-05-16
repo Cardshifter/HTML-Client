@@ -2,6 +2,8 @@ import Vue from "vue";
 import Router from "vue-router";
 import Login from "@/components/Login";
 import Lobby from "@/components/Lobby";
+import DeckBuilder from "@/components/DeckBuilder";
+import GameBoard from "@/components/GameBoard";
 
 import VueAxios from "vue-axios";
 import VueAuthenticate from "vue-authenticate";
@@ -22,26 +24,17 @@ Vue.use(Router);
 
 export default new Router({
   routes: [
-    // {
-    //   path: "/connected",
-    //   name: "StartScreen",
-    //   component: StartScreen
-    // },
-    // {
-    //   path: "/games/UR/:gameId/",
-    //   name: "RoyalGameOfUR",
-    //   component: RoyalGameOfUR,
-    //   props: route => ({
-    //     game: "UR",
-    //     gameId: route.params.gameId,
-    //     players: route.params.players,
-    //     yourIndex: route.params.playerIndex
-    //   })
-    // },
+    {
+      path: "/deck_builder/",
+      name: "DeckBuilder",
+      component: DeckBuilder,
+      props: true
+    },
     {
       path: "/lobby",
       name: "Lobby",
-      component: Lobby
+      component: Lobby,
+      props: true
     },
     {
       path: "/",

@@ -151,7 +151,7 @@ export default {
         CardshifterServerAPI.setMessageListener({
             "loginresponse": function(welcome) {
                 if (welcome.status === SUCCESS && welcome.message === "OK") {
-                    CardshifterServerAPI.currentUser = {
+                    let currentUser = {
                         username: component.username,
                         id: welcome.userId,
                         playerIndex: null,
@@ -167,7 +167,8 @@ export default {
                             localStorage.setItem(storage, component[loginStorageMap[storage]]);
                         }
                     }
-                    component.$router.push("/lobby");
+                    console.log(currentUser);
+                    component.$router.push({ name: 'Lobby', params: { currentUser: currentUser }});
                 } else {
                     console.log("server messsage: " + welcome.message);
                     component.loggedIn = false;

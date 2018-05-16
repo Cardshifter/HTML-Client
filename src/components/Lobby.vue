@@ -97,6 +97,7 @@ function displayError(message) {
 
 export default {
   name: "Lobby",
+  props: ["currentUser"],
   data() {
     return {
       users: [],
@@ -106,7 +107,6 @@ export default {
       mods: [],
       selected_mod: null,
       selected_opponent: null,
-      currentUser: CardshifterServerAPI.currentUser,
       invite: {
         id: null,
         name: null,
@@ -152,7 +152,6 @@ export default {
             var startGame = new CardshifterServerAPI.messageTypes.StartGameRequest(this.selected_opponent,
                this.selected_mod);
             CardshifterServerAPI.sendMessage(startGame);
-            gameMod = this.selected_mod;
         } else {
             // Error if user has not chosen a mod or opponent
             ErrorCreator.create("Select both a game type and an opponent user before you can start a game.");
@@ -172,11 +171,12 @@ export default {
                             -- false for "decline"
     */
     acceptInvite(accept) {
-        var accept = new CardshifterServerAPI.messageTypes.InviteResponse(this.invite.id, accept);
-        CardshifterServerAPI.sendMessage(accept);
-
-        gameMod = this.invite.type;
-        this.gotInvite = false;
+      if (accept) {
+        this.selected_mod = this.invite.type;
+      }
+      var accept = new CardshifterServerAPI.messageTypes.InviteResponse(this.invite.id, accept);
+      CardshifterServerAPI.sendMessage(accept);
+      this.gotInvite = false;
     },
 
     /**
@@ -194,11 +194,13 @@ export default {
     */
     openDeckBuilder() {
         if (this.selected_mod) {
-            currentUser.game.mod = this.selected_mod;
+            this.currentUser.game.mod = this.selected_mod;
 
-            var getCards = new CardshifterServerAPI.messageTypes.ServerQueryMessage("DECK_BUILDER", currentUser.game.mod);
+            var getCards = new CardshifterServerAPI.messageTypes.ServerQueryMessage("DECK_BUILDER", this.currentUser.game.mod);
             CardshifterServerAPI.sendMessage(getCards);
-            this.$router.push("/deck_builder");
+            this.$router.push({ name: 'DeckBuilder', params: {
+              currentUser: currentUser
+            }});
         } else {
             ErrorCreator.create("Select a game type before you can open the deck builder.");
         }
@@ -264,11 +266,11 @@ export default {
     * user to select a deck.
     */
     enterNewGame(message) {
-      currentUser.game.id = message.gameId;
-      currentUser.game.mod = gameMod;
-      currentUser.game.playerIndex = message.playerIndex;
+      this.currentUser.game.id = message.gameId;
+      this.currentUser.game.mod = this.selected_mod;
+      this.currentUser.game.playerIndex = message.playerIndex;
 
-      this.$router.push("/deck_builder");
+      this.$router.push({ name: 'DeckBuilder', params: { currentUser: this.currentUser }});
     }
   },
   created() {
