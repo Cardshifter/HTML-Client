@@ -15,8 +15,6 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'npm install && npm run build'
-                sh 'mkdir -p www/assets'
-                sh 'cp dist/*.js www/assets/'
             }
         }
 
@@ -39,6 +37,8 @@ pipeline {
             steps {
                 script {
                     // Stop running containers
+                    sh 'mkdir -p www/assets'
+                    sh 'cp dist/*.js www/assets/'
                     sh 'docker ps -q --filter name="cardshifter_client" | xargs -r docker stop'
 
                     sh 'docker run -d --rm --name cardshifter_client -v $(pwd)/www:/usr/share/nginx/html:ro -p 22739:80 nginx'
