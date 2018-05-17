@@ -25,6 +25,12 @@ Vue.use(Router);
 export default new Router({
   routes: [
     {
+      path: "/game_board",
+      name: "GameBoard",
+      component: GameBoard,
+      props: true
+    },
+    {
       path: "/deck_builder/",
       name: "DeckBuilder",
       component: DeckBuilder,

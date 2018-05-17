@@ -283,14 +283,22 @@ export default {
     enterGame() {
         if (this.totalSelected === this.minCards) {
             // remove all .max properties so server does not die
-            for (var card in deckConfig.configs.Deck.cardData) {
-                delete deckConfig.configs.Deck.cardData[card].max;
+            for (var card in this.deckConfig.configs.Deck.cardData) {
+                delete this.deckConfig.configs.Deck.cardData[card].max;
             }
 
-            deckConfig.configs.Deck.chosen = this.currentDeck;
-            CardshifterServerAPI.sendMessage(deckConfig);
+            this.deckConfig.configs.Deck.chosen = this.currentDeck;
+            let deckConfigCopy = {
+              command: "playerconfig",
+              configs: this.deckConfig.configs,
+              gameId: this.deckConfig.gameId,
+              modName: this.deckConfig.modName
+            }
+            CardshifterServerAPI.sendMessage(deckConfigCopy);
 
-            this.$router.push("/game_board");
+            this.$router.push({ name: 'GameBoard', params: {
+              currentUser: this.currentUser
+            }});
         } else {
             ErrorCreator.create("Not enough cards");
             console.log("not enough cards");
