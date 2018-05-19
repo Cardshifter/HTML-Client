@@ -2,7 +2,7 @@
   <div class="game" :class="'game-' + modName">
       <!-- Player display -->
       <div>
-          <div v-for="(type, info) in playerInfos" class="player"
+          <div v-for="(info, type) in playerInfos" class="player" :key="type"
               :class="{'player-user': info == playerInfos.user, 'player-opponent': info != playerInfos.user}">
 
               <!-- Player information boxes -->
@@ -10,14 +10,14 @@
                   <h4 style="text-decoration: underline; font-weight: bold;" @click="selectEntity(info)"
                       :class="{'selected': info.selected, 'targetable': doingAction && targets.indexOf(info.id) !== -1}">{{info.name}}</h4>
                   <ul style="list-style: none outside none; margin: 0; padding: 0;">
-                      <li v-for="(name, value) in info.properties">
+                      <li v-for="(value, name) in info.properties" :key="name">
                           <b>{{name | formatResourceName}}</b>: {{value}}
                       </li>
                       <li><b>Cards: </b>{{"TODO: FIX THIS"}}</li>
                   </ul>
                   <!-- Action buttons -->
                   <div class="player-actions">
-                      <div v-for="action in actions" v-if="action.isPlayer && action.id == info.id">
+                      <div v-for="action in actions" v-if="action.isPlayer && action.id == info.id" :key="action.action">
                           <input @click="startAction(action)" v-show="!doingAction" type="button" :value="action.action"
                                  class="btn btn-navbar csh-button"/>
                       </div>
@@ -31,12 +31,12 @@
               </div>
 
               <!-- Player cards -->
-              <div v-for="(zoneName, zoneInfo) in info.zones" class="zone" :class="'zone-' + zoneName">
+              <div v-for="(zoneInfo, zoneName) in info.zones" class="zone" :class="'zone-' + zoneName" :key="zoneName">
                   <div v-if="zoneInfo.known">
                       <!--<h3>{{zoneName}}</h3>-->
-                      <CardModel :cardInfo="card" :targets="targets" :doingAction="doingAction"
-                          :selectEntity="selectEntity(card)" :actions="actions" :startAction="startAction(action)"
-                          v-for="(id, card) in zoneInfo.entities" :key="id">
+                      <CardModel :card="card" :targets="targets" :doingAction="doingAction"
+                          :selectEntity="selectEntity(card)" :actions="actions" :startAction="startAction"
+                          v-for="(card, id) in zoneInfo.entities" :key="id">
                       </CardModel>
                   </div>
 
@@ -52,6 +52,7 @@
 <script>
 import CardshifterServerAPI from "../server_interface";
 import State from "../State";
+import CardModel from "./CardModel"
 
 export default {
   name: "GameBoard",
@@ -84,6 +85,9 @@ export default {
       selected: [],
       currentAction: null
     }
+  },
+  components: {
+    CardModel
   },
   methods: {
     startAction(action) {
@@ -224,7 +228,10 @@ export default {
         playerInfo.index = player.index;
         playerInfo.id = player.id;
         playerInfo.name = player.name;
-        playerInfo.properties = player.properties;
+
+        this.$set(playerInfo, 'properties', playerInfo.properties);
+        this.$set(playerInfo, 'zones', playerInfo.zones);
+        console.log(playerInfo);
     },
 
     /**
@@ -247,15 +254,16 @@ export default {
                     var newEntities = {};
                     for(var i = 0, length = zone.entities.length; i < length; i++) {
                         var entityId = zone.entities[i];
-                        newEntities[entityId] = {}; // setup each ID to be an key holding an object to store card info
-                        this.cardZones[entityId] = zone.id;
+                        this.$set(newEntities, entityId, {});
+                        this.$set(this.cardZones, entityId, zone.id);
                     }
-                    zone.entities = newEntities;
+                    this.$set(zone, 'entities', newEntities);
 					          zone.length = function () {
-						          return Object.keys(this.entities).length;
+						          return Object.keys(zone.entities).length;
 					          }
 
-                    this.playerInfos[player].zones[zone.name] = zone;
+                    this.$set(this.playerInfos[player].zones, zone.name, zone);
+                    console.log(this.playerInfos);
                     break;
                 }
             }
@@ -278,7 +286,7 @@ export default {
 
         try {
             if(destinationZone.known) {
-                destinationZone.entities[card.id] = card;
+              this.$set(destinationZone.entities, card.id, card);
             }
         } catch(e) {
             /* Do nothing. The reason why an error
@@ -316,8 +324,8 @@ export default {
                 card = src.entities[message.entity];
                 delete src.entities[message.entity];
             }
-            this.cardZones[message.entity] = message.destinationZone;
-            dest.entities[message.entity] = card;
+            this.$set(this.cardZones, message.entity, message.destinationZone);
+            this.$set(dest.entities, message.entity, card);
         } catch(e) {
             /*
             * See the try/catch in storeCard.
@@ -369,7 +377,7 @@ export default {
             return;
         }
         var oldValue = entity.properties[toUpdate.key];
-        entity.properties[toUpdate.key] = toUpdate.value;
+        this.$set(entity.properties, toUpdate.key, toUpdate.value);
         if (typeof toUpdate.value === 'number') {
             var diff = toUpdate.value - oldValue;
             if (!entity.animations) {
@@ -380,7 +388,7 @@ export default {
             if (anim) {
                 anim.push(animObject);
             } else {
-                entity.animations[toUpdate.key] = [ animObject ];
+                this.$set(entity.animations, toUpdate.key, [ animObject ]);
             }
         }
     },
