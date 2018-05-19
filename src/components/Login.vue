@@ -144,37 +144,7 @@ export default {
 
       let component = this;
       CardshifterServerAPI.init(finalServer, this.is_secure, function() {
-        console.log("login: " + component.username)
         let login = new CardshifterServerAPI.messageTypes.LoginMessage(component.username);
-        console.log(login)
-
-        CardshifterServerAPI.setMessageListener({
-            "loginresponse": function(welcome) {
-                if (welcome.status === SUCCESS && welcome.message === "OK") {
-                    let currentUser = {
-                        username: component.username,
-                        id: welcome.userId,
-                        playerIndex: null,
-                        game: {
-                            id: null,
-                            mod: null
-                        }
-                    };
-
-                    // for remembering form data
-                    for (var storage in loginStorageMap) {
-                        if (loginStorageMap.hasOwnProperty(storage)) {
-                            localStorage.setItem(storage, component[loginStorageMap[storage]]);
-                        }
-                    }
-                    console.log(currentUser);
-                    component.$router.push({ name: 'Lobby', params: { currentUser: currentUser }});
-                } else {
-                    console.log("server messsage: " + welcome.message);
-                    component.loggedIn = false;
-                }
-            }
-        });
         CardshifterServerAPI.sendMessage(login);
       }, function() {
           // notify the user that there was an issue logging in (websocket issue)
@@ -183,6 +153,31 @@ export default {
           console.log("Websocket error(error 1)");
           this.loggedIn = false;
       });
+    },
+    loginResponse: function(welcome) {
+        if (welcome.status === SUCCESS && welcome.message === "OK") {
+            let currentUser = {
+                username: this.username,
+                id: welcome.userId,
+                playerIndex: null,
+                game: {
+                    id: null,
+                    mod: null
+                }
+            };
+
+            // for remembering form data
+            for (var storage in loginStorageMap) {
+                if (loginStorageMap.hasOwnProperty(storage)) {
+                    localStorage.setItem(storage, this[loginStorageMap[storage]]);
+                }
+            }
+            console.log(currentUser);
+            this.$router.push({ name: 'Lobby', params: { currentUser: currentUser }});
+        } else {
+            console.log("server messsage: " + welcome.message);
+            this.loggedIn = false;
+        }
     },
     refreshServers: function() {
       console.log(this.serverOptions);
@@ -245,12 +240,16 @@ export default {
   },
   created() {
     this.chosenServer = this.serverOptions[0];
+    CardshifterServerAPI.$on('type:loginresponse', this.loginResponse);
     for(var storage in loginStorageMap) {
         if(loginStorageMap.hasOwnProperty(storage)) {
             this[loginStorageMap[storage]] = localStorage.getItem(storage) || "";
         }
     }
     this.refreshServers();
+  },
+  beforeDestroy() {
+    CardshifterServerAPI.$off('type:loginresponse', this.loginResponse);
   }
 };
 </script>

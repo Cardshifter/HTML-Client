@@ -8,8 +8,6 @@ var SOCKET_OPEN = 1;
 
 var MAIN_LOBBY = 1;
 
-var eventTypes = [];
-
 /**
 * The base class Message for all the other message types
 * to inherit from.
@@ -245,7 +243,6 @@ const CardshifterServerAPI = new Vue({
     */
     init(server, isSecure, onReady, onError) {
         var types = this.messageTypes;
-        var self = this; // for the events
 
         types.LoginMessage.prototype = new Message("login");
         types.RequestTargetsMessage.prototype = new Message("requestTargets");
@@ -267,6 +264,7 @@ const CardshifterServerAPI = new Vue({
         var socket = new WebSocket(protocolAddon + server);
 
         socket.onopen = onReady;
+        socket.onmessage = this.recieve;
 
         socket.onerror = function() {
             onError();
@@ -274,6 +272,13 @@ const CardshifterServerAPI = new Vue({
         }
 
         this.socket = socket;
+    },
+
+    recieve(message) {
+        var data = JSON.parse(message.data);
+        var command = data.command;
+        console.log("Message received: " + JSON.stringify(data));
+        this.$emit(`type:${data.command}`, data);
     },
 
     /**
@@ -285,8 +290,7 @@ const CardshifterServerAPI = new Vue({
     */
     sendMessage(message) {
         var socket = this.socket;
-        var self = this;
-        if(socket) {
+        if (socket) {
             if (socket.readyState === SOCKET_OPEN) {
               let msgData = JSON.stringify(flatten(message));
               this.socket.send(msgData);
@@ -297,44 +301,6 @@ const CardshifterServerAPI = new Vue({
         } else {
             throw new NotInitializedException("The API has not yet been initialized.");
         }
-    },
-
-    /**
-    * Sets an event listener for when the server sends a message
-    * and the message command is one of the keys in the commandMap
-    *
-    * @param commandMap:Object -- The keys are the command types and the values are
-    *       functions to run when a message of that command is encountered.
-    * @param scope:$scope -- The scope of the controller running this.
-    */
-    setMessageListener(commandMap) {
-      let root = this;
-      this.socket.onmessage = function(message) {
-        var data = JSON.parse(message.data);
-        var command = data.command;
-
-        console.log("Message received: " + JSON.stringify(data));
-        root.$emit(`type:${data.command}`, data);
-        if (commandMap.hasOwnProperty(command)) {
-          commandMap[command](data);
-        }
-      }
-    },
-
-    /**
-    * Adds types to the types to listen for in the message event listener
-    *
-    * @param types:[string] -- The types to add
-    */
-    addEventTypes(types) {
-        eventTypes = eventTypes.concat(types);
-    },
-
-    /**
-    * Removes the message event listener
-    */
-    removeMessageListener() {
-        this.socket.onmessage = null;
     }
   }
 });
