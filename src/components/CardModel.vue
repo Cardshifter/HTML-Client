@@ -55,15 +55,15 @@
         </div>
         <!-- flavor text -->
         <div v-show="card.properties.flavor" style="float: right; padding: 5px; text-align: center;">
-            <button type="button" class="btn btn-xs btn-primary glyphicon glyphicon-book"
+            <b-btn type="button" class="btn btn-xs btn-primary glyphicon glyphicon-book"
                     popover-placement="top"
-                    :popover="card.properties.flavor"></button>
+                    v-b-popover.hover="card.properties.flavor"></b-btn>
         </div>
         <!-- effect text -->
         <div v-show="card.properties.effect" style="float: right; padding: 5px; text-align: center;">
-            <button type="button" class="btn btn-xs btn-warning glyphicon glyphicon-flash"
+            <b-btn type="button" class="btn btn-xs btn-warning glyphicon glyphicon-flash"
                     popover-placement="top"
-                    :popover="card.properties.effect">FX</button>
+                    v-b-popover.hover="card.properties.effect">FX</b-btn>
         </div>
     </div>
     <div class="card-actions">
