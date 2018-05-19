@@ -35,8 +35,8 @@
                   <div v-if="zoneInfo.known">
                       <!--<h3>{{zoneName}}</h3>-->
                       <CardModel :card="card" :targets="targets" :doingAction="doingAction"
-                          :selectEntity="selectEntity(card)" :actions="actions" :startAction="startAction"
-                          v-for="(card, id) in zoneInfo.entities" :key="id">
+                          :selectEntity="selectEntity" :actions="actions" :startAction="startAction"
+                          v-for="(card, id) in zoneInfo.entities" :key="id" v-if="card.properties">
                       </CardModel>
                   </div>
 
@@ -93,9 +93,8 @@ export default {
     startAction(action) {
         if (!action.targetRequired) { // No targets, no confirmation.
             this.currentAction = action;
-			      var doAbility = new CardshifterServerAPI.messageTypes.UseAbilityMessage(currentUser.game.id,
-																				this.currentAction.id,
-																				this.currentAction.action);
+			      var doAbility = new CardshifterServerAPI.messageTypes.UseAbilityMessage(this.currentUser.game.id,
+								this.currentAction.id, this.currentAction.action);
 
             CardshifterServerAPI.sendMessage(doAbility);
 			      this.cancelAction();
@@ -103,7 +102,7 @@ export default {
         }
 
 		    // if a target is required, request targets
-		    var getTargets = new CardshifterServerAPI.messageTypes.RequestTargetsMessage(currentUser.game.id,
+		    var getTargets = new CardshifterServerAPI.messageTypes.RequestTargetsMessage(this.currentUser.game.id,
 				      action.id, action.action);
         CardshifterServerAPI.sendMessage(getTargets);
 
@@ -137,10 +136,8 @@ export default {
 			       selectedIDs.push(this.selected[i].id);
 		    }
 
-		    var doAbility = new CardshifterServerAPI.messageTypes.UseAbilityMessage(currentUser.game.id,
-					this.currentAction.id,
-					this.currentAction.action,
-					selectedIDs);
+		    var doAbility = new CardshifterServerAPI.messageTypes.UseAbilityMessage(this.currentUser.game.id,
+					this.currentAction.id, this.currentAction.action, selectedIDs);
 
         CardshifterServerAPI.sendMessage(doAbility);
         this.cancelAction();
@@ -155,10 +152,10 @@ export default {
 
         if(index === -1) {      // select
             selected.push(entity);
-            entity.selected = true;
+            this.$set(entity, 'selected', true);
         } else {                // de-select
             selected.splice(index, 1);
-            entity.selected = false;
+            this.$set(entity, 'selected', false);
         }
 
         // if action requires exactly one target, perform action when target is chosen
@@ -231,7 +228,6 @@ export default {
 
         this.$set(playerInfo, 'properties', playerInfo.properties);
         this.$set(playerInfo, 'zones', playerInfo.zones);
-        console.log(playerInfo);
     },
 
     /**
@@ -263,7 +259,6 @@ export default {
 					          }
 
                     this.$set(this.playerInfos[player].zones, zone.name, zone);
-                    console.log(this.playerInfos);
                     break;
                 }
             }
@@ -367,7 +362,7 @@ export default {
     *
     */
     updateProperties(toUpdate) {
-        var entity = findEntity(toUpdate.id);
+        var entity = this.findEntity(toUpdate.id);
         if (!entity) {
             // this can happen when Server sends update message before CardInfoMessage
             return;
@@ -516,6 +511,12 @@ export default {
   },
   computed: {
 
+  },
+  filters: {
+    formatResourceName: function(input) {
+        input = input.replace(/_/g, ' ');
+        return input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
+    }
   },
   beforeDestroy() {
     CardshifterServerAPI.$off("type:resetActions", this.resetActions);

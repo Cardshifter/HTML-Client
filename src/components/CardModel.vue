@@ -13,7 +13,7 @@
     <!-- card name -->
     <div>
         <div class="card-name">
-            <a href @click="selectEntity(card)" :class="{'selected': card.selected, 'targetable': doingAction && targets.indexOf(card.id) !== -1}">{{card.properties.name}}</a>
+            <a @click="selectEntity(card)" :class="{'selected': card.selected, 'targetable': doingAction && targets.indexOf(card.id) !== -1}">{{card.properties.name}}</a>
         </div>
 
     </div>
@@ -21,7 +21,7 @@
     <div style="clear:both;">
         <div style="text-align: center;">
             <img style="width: 160px; height: 120px;" class="card-image"
-                 :src="'images/cards/' + card.properties.imagePath" />
+                 :src="'../assets/images/cards/' + card.properties.imagePath" />
         </div>
     </div>
     <!-- card type -->
@@ -54,13 +54,13 @@
             <button class="btn btn-xs btn-primary active glyphicon glyphicon-cog" style="cursor:default">{{card.properties.SCRAP}}</button>
         </div>
         <!-- flavor text -->
-        <div ng-show="card.properties.flavor" style="float: right; padding: 5px; text-align: center;">
+        <div v-show="card.properties.flavor" style="float: right; padding: 5px; text-align: center;">
             <button type="button" class="btn btn-xs btn-primary glyphicon glyphicon-book"
                     popover-placement="top"
                     :popover="card.properties.flavor"></button>
         </div>
         <!-- effect text -->
-        <div ng-show="card.properties.effect" style="float: right; padding: 5px; text-align: center;">
+        <div v-show="card.properties.effect" style="float: right; padding: 5px; text-align: center;">
             <button type="button" class="btn btn-xs btn-warning glyphicon glyphicon-flash"
                     popover-placement="top"
                     :popover="card.properties.effect">FX</button>
@@ -70,7 +70,7 @@
         <button class="btn btn-xs btn-navbar csh-button btn-default" v-for="action in actions"
                 :key="action.action"
                 v-if="!doingAction && action.id === card.id"
-                @click="startAction({action: action})">
+                @click="startAction(action)">
             {{action.action}}
         </button>
     </div>
@@ -84,7 +84,9 @@ export default {
   name: "CardModel",
   props: ["card", "targets", "doingAction", "selectEntity", "actions", "startAction"],
   data() {
-    return {}
+    return {
+      debugMode: false
+    }
   },
   methods: {
 
@@ -95,12 +97,17 @@ export default {
   computed: {
 
   },
-  beforeDestroy: {
+  beforeDestroy() {
 
   }
 }
 </script>
 <style>
+.btn {
+    min-width: 0;
+    margin: 0;
+}
+
 .card-outer {
     width: 180px;
     height: 275px;
