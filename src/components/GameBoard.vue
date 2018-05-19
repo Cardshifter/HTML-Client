@@ -13,7 +13,7 @@
                       <li v-for="(value, name) in info.properties" :key="name">
                           <b>{{name | formatResourceName}}</b>: {{value}}
                       </li>
-                      <li><b>Cards: </b>{{"TODO: FIX THIS"}}</li>
+                      <li><b>Cards: </b>{{ info.zones.Hand ? info.zones.Hand.length() : "?" }}</li>
                   </ul>
                   <!-- Action buttons -->
                   <div class="player-actions">
