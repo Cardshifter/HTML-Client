@@ -54,7 +54,7 @@
                 <th>Name</th>
                 <th>Count</th>
                 <th>Mana</th>
-                <th>A / H</th>
+                <th style="width: 100px">A / H</th>
                 <th>Sick</th>
                 <th>Akt?</th>
                 <th>FX</th>
@@ -87,10 +87,8 @@
                     <span v-if="card.properties.ATTACK_AVAILABLE" style="font-size: 0.8em; color: green;">Yes</span>
                     <span v-if="!card.properties.ATTACK_AVAILABLE" style="font-size: 0.8em; color: red;">No</span>
                 </td>
-                <td style="text-align: center;"><!-- effect popover -->
-                    <button type="button" class="btn btn-xs btn-default" popover-placement="top"
-                            :popover="card.properties.effect" :popover-title="card.properties.name"
-                            v-if="card.properties.effect">FX</button>
+                <td style="text-align: center;">
+                    {{card.properties.effect}}
                 </td>
                 <td style="text-align: center;"><!-- flavor tooltip -->
                     <button type="button" class="btn btn-xs btn-default" popover-placement="right"
