@@ -21,7 +21,7 @@
     <div style="clear:both;">
         <div style="text-align: center;">
             <img style="width: 160px; height: 120px;" class="card-image"
-                 :src="'../assets/images/cards/' + card.properties.imagePath" />
+                 :src="resolveImage(card.properties.imagePath)" />
         </div>
     </div>
     <!-- card type -->
@@ -89,7 +89,9 @@ export default {
     }
   },
   methods: {
-
+    resolveImage(path) {
+      return require('../assets/images/cards/' + path);
+    }
   },
   created() {
 
