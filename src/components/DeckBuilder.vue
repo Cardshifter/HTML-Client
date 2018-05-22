@@ -13,7 +13,7 @@
             <!-- TODO: {Phrancis} Lay this out in a nice Bootstrap form. -->
             <label>Save deck as:</label>
             <input v-model="deckName" type="text" />
-            <input @click="saveDeck()" type="submit" value="Save Deck" class="btn btn-xs btn-primary"/>
+            <input @click="saveDeck()" type="button" value="Save Deck" class="btn btn-xs btn-primary"/>
             <br/>
             <input v-if="enteringGame" @click="enterGame()" type="button" value = "Start game" class="btn btn-sm btn-success"/>
             <input v-if="enteringGame" @click="goBack()" type="button" value="Go back to lobby" class="btn btn-sm btn-default"/>
@@ -22,7 +22,7 @@
         <!-- List of saved decks, with `Delete` button -->
         <ul>
             <li v-for="deck in savedDecks">
-                <a href @click="switchDeck(deck)">{{deck.name}}</a>
+                <span class="load-deck" @click="switchDeck(deck)">{{deck.name}}</span>
                 <input @click="deleteDeck(deck.name)" type="button" value="Delete" class="btn btn-xs btn-danger"/>
             </li>
         </ul>
@@ -218,7 +218,7 @@ export default {
             console.log("enter name");
             return;
         }
-        if (getDeckIndex(this.deckName)) {
+        if (this.getDeckIndex(this.deckName)) {
             ErrorCreator.create("A deck with that name already exists");
             console.log("deck already exists");
             return;
@@ -408,3 +408,11 @@ export default {
   }
 }
 </script>
+<style>
+.load-deck {
+  color: #007bff;
+  text-decoration: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+</style>
