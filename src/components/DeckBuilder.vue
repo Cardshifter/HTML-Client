@@ -67,11 +67,11 @@
                 <!-- Controls to add or remove a card to deck, and counter to show "current / max" count -->
                     <div class="btn-group">
                         <!-- MINUS button -->
-                        <button @click="decrement(card)" type="button" class="btn btn-xs btn-default glyphicon glyphicon-minus"></button>
+                        <button @click="decrement(card)" type="button" class="btn btn-xs btn-default fa fa-minus"></button>
                         <!-- How many cards you selected for this deck, and what the max allowed is -->
                         <button type="button" class="btn btn-xs btn-default"><b :data-count="currentDeck[card.properties.id]">{{currentDeck[card.properties.id] || 0}} / {{card.max}}</b></button>
                         <!-- PLUS button -->
-                        <button @click="increment(card)" type="button" class="btn btn-xs btn-default glyphicon glyphicon-plus"></button>
+                        <button @click="increment(card)" type="button" class="btn btn-xs btn-default fa fa-plus"></button>
                     </div>
                 </td>
                 <td style="text-align: center;">{{card.properties.MANA_COST}}</td>
