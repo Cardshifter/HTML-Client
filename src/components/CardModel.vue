@@ -32,14 +32,14 @@
     <div>
         <!-- mana cost -->
         <div style="float: left; padding: 5px">
-            <button class="btn btn-sm btn-info active glyphicon glyphicon-tint" style="cursor:default">{{card.properties.MANA_COST}}</button>
+            <button class="btn btn-sm btn-info active fa fa-tint" style="cursor:default">{{card.properties.MANA_COST}}</button>
         </div>
         <div style="float: right; padding: 5px;" class="btn-group">
             <!-- attack -->
-            <button class="btn btn-sm btn-danger active glyphicon glyphicon-screenshot" style="cursor:default">{{card.properties.ATTACK || "-"}}</button>
+            <button class="btn btn-sm btn-danger active fa fa-crosshairs" style="cursor:default">{{card.properties.ATTACK || "-"}}</button>
             <!-- health -->
             <div class="card-property">
-                <button class="btn btn-sm btn-success active glyphicon glyphicon-heart" style="cursor:default">{{card.properties.HEALTH || "-"}}</button>
+                <button class="btn btn-sm btn-success active fa fa-heart" style="cursor:default">{{card.properties.HEALTH || "-"}}</button>
                 <!-- <dynamic-animation items="card.animations.HEALTH" /> -->
             </div>
         </div>
@@ -47,21 +47,21 @@
     <div style="clear: both;">
         <div style="float: left; padding: 5px; text-align: center;">
             <!-- scrap cost -->
-            <button v-if="card.properties.SCRAP_COST" class="btn btn-xs btn-primary active glyphicon glyphicon-wrench" style="cursor:default">{{card.properties.SCRAP_COST}}</button>
+            <button v-if="card.properties.SCRAP_COST" class="btn btn-xs btn-primary active fa fa-wrench" style="cursor:default">{{card.properties.SCRAP_COST}}</button>
         </div>
         <div v-if="card.properties.SCRAP" style="float: left; padding: 5px; text-align: center;">
             <!-- scrap value -->
-            <button class="btn btn-xs btn-primary active glyphicon glyphicon-cog" style="cursor:default">{{card.properties.SCRAP}}</button>
+            <button class="btn btn-xs btn-primary active fa fa-cog" style="cursor:default">{{card.properties.SCRAP}}</button>
         </div>
         <!-- flavor text -->
         <div v-show="card.properties.flavor" style="float: right; padding: 5px; text-align: center;">
-            <b-btn type="button" class="btn btn-xs btn-primary glyphicon glyphicon-book"
+            <b-btn type="button" class="btn btn-xs btn-primary fa fa-book"
                     popover-placement="top"
                     v-b-popover.hover="card.properties.flavor"></b-btn>
         </div>
         <!-- effect text -->
         <div v-show="card.properties.effect" style="float: right; padding: 5px; text-align: center;">
-            <b-btn type="button" class="btn btn-xs btn-warning glyphicon glyphicon-flash"
+            <b-btn type="button" class="btn btn-xs btn-warning fa fa-flash"
                     popover-placement="top"
                     v-b-popover.hover="card.properties.effect">FX</b-btn>
         </div>
