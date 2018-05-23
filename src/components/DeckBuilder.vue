@@ -373,6 +373,47 @@ export default {
                 },{
                     "name":"Defensive",
                     "cards":{"3":1,"4":1,"6":2,"7":1,"9":1,"10":2,"12":1,"13":1,"15":2,"16":1,"17":1,"18":1,"19":2,"20":1,"21":2,"22":1,"24":2,"25":1,"26":1,"27":1,"29":1,"32":1,"34":1,"35":1}
+                },{  
+                    "name":"Balanced2",
+                    "cards":{  
+                        "robot-guard":1,
+                        "humadroid":1,
+                        "scout-mech":1,
+                        "steroid-implants":1,
+                        "f.m.u.":0,
+                        "spareparts":2,
+                        "supply-mech":1,
+                        "commander":1,
+                        "trapped-socket":0,
+                        "exoskeleton":0,
+                        "bionic-arms":1,
+                        "e.m.p.":0,
+                        "upgrado-mk-i":1,
+                        "shieldmech":1,
+                        "longshot":1,
+                        "conscript":1,
+                        "fortimech":0,
+                        "modleg-ambusher":1,
+                        "web-boss":1,
+                        "the-chopper":2,
+                        "wastelander":1,
+                        "cyberpimp":0,
+                        "artificial-intelligence-implants":1,
+                        "heavy-mech":0,
+                        "cybernetic-arm-cannon":1,
+                        "inside-man":1,
+                        "reinforced-cranial-implants":0,
+                        "gyrodroid":1,
+                        "assassinatrix":1,
+                        "body-armor":1,
+                        "waste-runner":1,
+                        "field-medic":1,
+                        "full-body-cybernetics-upgrade":0,
+                        "adrenalin-injection":0,
+                        "vetter":2,
+                        "bodyman":1,
+                        "cyborg":1
+                    }
                 }
             ]
         }
