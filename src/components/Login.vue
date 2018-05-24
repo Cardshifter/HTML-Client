@@ -22,7 +22,15 @@
                 <td>{{server.name}}</td>
                 <td>{{server.isOnline}}</td>
                 <td>{{server.userCount}} users</td>
-                <td>{{server.availableMods}} mods</td>
+                <td>
+                  <ul>
+                    <li v-for="key in server.availableMods">
+                      <router-link :to="'/cards?server=' + server.address + '&mod=' + key">
+                        {{ key }}
+                      </router-link>
+                    </li>
+                  </ul>
+                </td>
                 <td>{{server.gamesRunning}} games</td>
                 <td>{{server.ais}} AIs</td>
                 <td>{{server.latency}} ms</td>
@@ -199,7 +207,7 @@ export default {
           ws.onmessage = function(message) {
             let serverData = JSON.parse(message.data);
             thisServer.userCount = serverData.users;
-            thisServer.availableMods = serverData.mods.length;
+            thisServer.availableMods = serverData.mods;
             thisServer.gamesRunning = serverData.games;
             thisServer.ais = serverData.ais;
             console.log(thisServer);
