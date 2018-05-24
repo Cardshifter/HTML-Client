@@ -225,17 +225,6 @@ export default {
       for (let i = 0; i < this.serverOptions.length - 1; i++) { // Skip the last "Other" server
         checkServer(this.serverOptions[i]);
       }
-    },
-    connected: function(e) {
-      Socket.send(
-        `v1:{ "type": "Auth", "provider": "${this.auth.provider}", "token": "${
-          this.token
-        }" }`
-      );
-    },
-    authenticated: function(e) {
-      Socket.loginName = e.name;
-      this.$router.push("/connected");
     }
   },
   computed: {
