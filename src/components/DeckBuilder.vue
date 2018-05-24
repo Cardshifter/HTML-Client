@@ -215,11 +215,6 @@ export default {
             console.log("enter name");
             return;
         }
-        if (this.getDeckIndex(this.deckName)) {
-            ErrorCreator.create("A deck with that name already exists");
-            console.log("deck already exists");
-            return;
-        }
 
         var savedDecks = JSON.parse(localStorage.getItem(DECK_STORAGE));
 
@@ -228,7 +223,12 @@ export default {
             cards: this.currentDeck
         };
 
-        savedDecks.decks[this.currentUser.game.mod].push(newDeck);
+        let deckIndex = this.getDeckIndex(this.deckName);
+        if (deckIndex) {
+          savedDecks.decks[this.currentUser.game.mod][deckIndex] = newDeck;
+        } else {
+          savedDecks.decks[this.currentUser.game.mod].push(newDeck);
+        }
         localStorage.setItem(DECK_STORAGE, JSON.stringify(savedDecks));
         this.updateSavedDecks();
 
