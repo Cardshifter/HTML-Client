@@ -51,7 +51,6 @@
 </template>
 <script>
 import CardshifterServerAPI from "../server_interface";
-import State from "../State";
 import CardModel from "./CardModel"
 
 export default {

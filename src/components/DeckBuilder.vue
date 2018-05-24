@@ -91,9 +91,9 @@
                     {{card.properties.effect}}
                 </td>
                 <td style="text-align: center;"><!-- flavor tooltip -->
-                    <button type="button" class="btn btn-xs btn-default" popover-placement="right"
-                            :popover="card.properties.flavor"
-                            v-if="card.properties.flavor">?</button>
+                    <b-btn type="button" class="btn btn-xs btn-default" popover-placement="right"
+                            v-b-popover.hover="card.properties.flavor"
+                            v-if="card.properties.flavor">?</b-btn>
                 </td>
             </tr>
         </table>
@@ -102,7 +102,6 @@
 </template>
 <script>
 import CardshifterServerAPI from "../server_interface";
-import State from "../State";
 
 const DECK_STORAGE = "CARDSHIFTER_DECK_STORAGE";
 
@@ -261,7 +260,7 @@ export default {
     */
     deleteDeck(deckName) {
         var savedDecks = JSON.parse(localStorage.getItem(DECK_STORAGE));
-        savedDecks.decks[this.currentUser.game.mod].splice(getDeckIndex(deckName), 1);
+        savedDecks.decks[this.currentUser.game.mod].splice(this.getDeckIndex(deckName), 1);
         localStorage.setItem(DECK_STORAGE, JSON.stringify(savedDecks));
 
         this.updateSavedDecks();
@@ -314,7 +313,7 @@ export default {
     * screen.
     */
     goBack() {
-        this.$router.go(-1);
+        this.$router.push({ name: 'Lobby', params: { currentUser: this.currentUser }});
     },
 
     /**

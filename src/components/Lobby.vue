@@ -72,7 +72,6 @@
 
 <script>
 import CardshifterServerAPI from "../server_interface";
-import State from "../State";
 
 var CHAT_FEED_LIMIT = 10;
 var MESSAGE_DELAY = 3000;
@@ -257,7 +256,6 @@ export default {
     * Shows to the user a list of all available mods.
     */
     displayMods(message) {
-      State.availableGameMods = message.mods; // for deck builder and for returning to this page
       this.mods = message.mods;
     },
     /**
@@ -281,8 +279,8 @@ export default {
     CardshifterServerAPI.$on("type:newgame", this.enterNewGame);
     CardshifterServerAPI.$on("type:error", this.displayError);
 
-    var getUsers = new CardshifterServerAPI.messageTypes.ServerQueryMessage("USERS", "");
-    CardshifterServerAPI.sendMessage(getUsers);
+    CardshifterServerAPI.sendMessage(new CardshifterServerAPI.messageTypes.ServerQueryMessage("USERS", ""));
+    CardshifterServerAPI.sendMessage(new CardshifterServerAPI.messageTypes.ServerQueryMessage("MODS", ""));
   },
   computed: {
   },

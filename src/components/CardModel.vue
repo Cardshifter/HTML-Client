@@ -78,7 +78,6 @@
 </template>
 <script>
 import CardshifterServerAPI from "../server_interface";
-import State from "../State";
 
 export default {
   name: "CardModel",
