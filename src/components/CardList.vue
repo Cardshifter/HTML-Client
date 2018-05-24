@@ -3,13 +3,22 @@
     <h1>{{ mod }} on server {{ server }}</h1>
     <div>
       <div v-for="(value, key) in cards">
-        {{ key }}
+        <CardModel :card="value"></CardModel>
       </div>
     </div>
     <div>
-      <div v-for="(value, key) in cards">
-        <CardModel :card="value"></CardModel>
-      </div>
+      <table>
+          <tr>
+            <th v-for="propertyName in tableKeys">
+              {{ propertyName }}
+            </th>
+          </tr>
+          <tr v-for="card in cards">
+            <td v-for="propertyName in tableKeys">
+              {{card.properties[propertyName] || '-'}}
+            </td>
+          </tr>
+      </table>
     </div>
     <div v-if="error">{{error}}</div>
   </div>
@@ -52,6 +61,20 @@ export default {
   },
   beforeDestroy() {
 
+  },
+  computed: {
+    tableKeys: function() {
+      let result = {};
+      for (var card in this.cards) {
+        for (var property in this.cards[card].properties) {
+          result[property] = true;
+        }
+      }
+      delete result["id"];
+      delete result["imagePath"];
+      delete result["name"];
+      return ["name"].concat(Object.keys(result));
+    }
   }
 }
 
