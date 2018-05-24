@@ -28,7 +28,7 @@
         </ul>
 
         <ul>
-            <card card-info="cardInfo" v-if="cardInfo"></card>
+            <CardModel :card="cardInfo" v-if="cardInfo"></CardModel>
         </ul>
 
         <!-- LIST OF ALL CARDS - Displays one full row below for every card -->
@@ -62,7 +62,7 @@
             </tr>
             <tr v-for="card in cards">
                 <td>{{card.properties.creatureType}}</td>
-                <td><a href @click="showDetails(card)">{{card.properties.name}}</a></td>
+                <td><a href @click.prevent="showDetails(card)">{{card.properties.name}}</a></td>
                 <td style="text-align: center;">
                 <!-- Controls to add or remove a card to deck, and counter to show "current / max" count -->
                     <div class="btn-group">
@@ -102,6 +102,7 @@
 </template>
 <script>
 import CardshifterServerAPI from "../server_interface";
+import CardModel from "./CardModel"
 
 const DECK_STORAGE = "CARDSHIFTER_DECK_STORAGE";
 
@@ -123,6 +124,9 @@ export default {
       doneLoading: false,
       enteringGame: null
     }
+  },
+  components: {
+    CardModel
   },
   methods: {
     playerconfig(cardInformation) {
