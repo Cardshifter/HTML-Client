@@ -350,29 +350,40 @@ export default {
     this.enteringGame = this.currentUser.game.id;
     CardshifterServerAPI.$on("type:playerconfig", this.playerconfig);
 
-    const preloadedDecks = {"decks":
-        {
+    const preloadedDecks = {
+        "decks":{
             "Mythos":[
                 {
-                    "name":"Chinese Focus",
-                    "cards":{"4":1,"5":1,"6":1,"7":1,"8":1,"9":1,"10":1,"11":1,"12":1,"18":1,"19":1,"20":1,"21":1,"25":2,"26":2,"27":2,"30":1,"31":2,"32":2,"33":2,"34":2,"35":2}
-                },{
                     "name":"Greek Classic",
-                    "cards":{"36":1,"37":1,"38":1,"39":1,"40":1,"41":1,"42":1,"43":1,"44":1,"45":1,"46":1,"61":1,"68":1,"69":1,"70":1,"71":1,"72":1,"73":1,"74":1,"75":1,"76":1,"78":1,"79":1,"80":1,"82":1,"85":1,"93":1,"94":1,"97":1,"98":1}
-                },{
+                    "cards":{ "ninja-spy":0,"odysseus":1,"shaman":0,"assassin":0,"monking":0,"persephone":0,"caucasian-eagle":1,"cerberus":0,"poseidon":1,"hades'-bident":0,"tartarus":0,"durga":0,"achilles'-shield":0,"thanatos":0,"apollo":1,"mnemosyne":0,"guanyin":0,"zeus":1,"hyperion":0,"empusa":0,"athena":1,"maitreya-buddha":0,"tartarean-pit":0,"gaia":1,"poseidon's-trident":0,"diyu":0,"gautama-buddha":0,"longbowman":0,"vishnu":0,"helm-of-darkness":0,"guan-yu":0,"golden-fleece":0,"charon":0,"arachne":0,"rhea":0,"krishna":0,"styx":0,"ajax-the-great":1,"chiron":0,"archer":0,"terracotta-soldier":0,"eros":1,"mount-olympus":1,"defender":1,"perseus":1,"iolaus":1,"the-underworld":0,"medusa":0,"varuna":0,"pegasus":1,"judges-of-the-dead":0,"skeleton":0,"undead":0,"hermes":1,"nemean-lion":1,"achilles":1,"pikeman":0,"hades":0,"heracles":1,"healer":1,"yama":0,"hector":1,"lamia":0,"ares":1,"uranus":1,"indra":0,"eight-immortals":0,"holy-man":0,"kung-fu-fighter":0,"cronus":0,"erymanthian-boar":1,"shiva":0,"hera":1,"shinje":0,"cronus'-scythe":0,"daedalus":1,"nuwa":0,"artemis":1,"griffin":1,"brahma":0,"slinger":1,"jade-emperor":0,"lernaean-hydra":0,"menoetius":0,"theseus":1,"manchu-archer":0,"macaria":0,"swordsman":1,"hecate":0,"mazu":0,"moirai":0
+                    }
+                },
+                {
                     "name":"Greek Dark",
-                    "cards":{"9":1,"12":2,"16":2,"17":2,"47":1,"48":1,"49":1,"50":1,"51":1,"52":1,"53":1,"54":1,"55":1,"56":1,"57":1,"58":1,"59":1,"60":1,"62":1,"63":1,"64":1,"65":1,"66":1,"67":1,"95":1,"96":1,"98":1}
-                },{
+                    "cards":{"ninja-spy":0,"odysseus":0,"shaman":0,"assassin":1,"monking":0,"persephone":1,"caucasian-eagle":0,"cerberus":1,"poseidon":0,"hades'-bident":1,"tartarus":1,"durga":0,"achilles'-shield":0,"thanatos":1,"apollo":0,"mnemosyne":1,"guanyin":0,"zeus":0,"hyperion":1,"empusa":1,"athena":0,"maitreya-buddha":0,"tartarean-pit":1,"gaia":0,"poseidon's-trident":0,"diyu":0,"gautama-buddha":0,"longbowman":0,"vishnu":0,"helm-of-darkness":1,"guan-yu":0,"golden-fleece":0,"charon":1,"arachne":1,"rhea":1,"krishna":0,"styx":1,"ajax-the-great":0,"chiron":1,"archer":0,"terracotta-soldier":0,"eros":0,"mount-olympus":0,"defender":0,"perseus":0,"iolaus":0,"the-underworld":0,"medusa":1,"varuna":0,"pegasus":0,"judges-of-the-dead":1,"skeleton":2,"undead":2,"hermes":0,"nemean-lion":0,"achilles":0,"pikeman":0,"hades":1,"heracles":0,"healer":0,"yama":0,"hector":0,"lamia":1,"ares":0,"uranus":0,"indra":0,"eight-immortals":0,"holy-man":0,"kung-fu-fighter":0,"cronus":1,"erymanthian-boar":0,"shiva":0,"hera":0,"shinje":0,"cronus'-scythe":1,"daedalus":0,"nuwa":0,"artemis":0,"griffin":0,"brahma":0,"slinger":0,"jade-emperor":0,"lernaean-hydra":0,"menoetius":1,"theseus":0,"manchu-archer":0,"macaria":1,"swordsman":0,"hecate":1,"mazu":0,"moirai":1
+                    }
+                },
+                {
+                    "name":"Chinese Focus",
+                    "cards":{"ninja-spy":2,"odysseus":0,"shaman":0,"assassin":1,"monking":2,"persephone":0,"caucasian-eagle":0,"cerberus":0,"poseidon":0,"hades'-bident":0,"tartarus":0,"durga":0,"achilles'-shield":0,"thanatos":0,"apollo":0,"mnemosyne":0,"guanyin":2,"zeus":0,"hyperion":0,"empusa":0,"athena":0,"maitreya-buddha":0,"tartarean-pit":0,"gaia":0,"poseidon's-trident":0,"diyu":1,"gautama-buddha":0,"longbowman":0,"vishnu":0,"helm-of-darkness":0,"guan-yu":2,"golden-fleece":0,"charon":0,"arachne":0,"rhea":0,"krishna":0,"styx":0,"ajax-the-great":0,"chiron":0,"archer":1,"terracotta-soldier":3,"eros":0,"mount-olympus":0,"defender":0,"perseus":0,"iolaus":0,"the-underworld":0,"medusa":0,"varuna":0,"pegasus":0,"judges-of-the-dead":0,"skeleton":0,"undead":0,"hermes":0,"nemean-lion":0,"achilles":0,"pikeman":0,"hades":0,"heracles":0,"healer":0,"yama":0,"hector":0,"lamia":0,"ares":0,"uranus":0,"indra":0,"eight-immortals":3,"holy-man":1,"kung-fu-fighter":3,"cronus":0,"erymanthian-boar":0,"shiva":0,"hera":0,"shinje":1,"cronus'-scythe":0,"daedalus":0,"nuwa":1,"artemis":0,"griffin":0,"brahma":0,"slinger":0,"jade-emperor":1,"lernaean-hydra":0,"menoetius":0,"theseus":0,"manchu-archer":3,"macaria":0,"swordsman":0,"hecate":0,"mazu":3,"moirai":0
+                    }
+                },
+                {
                     "name":"Hindu Focus",
-                    "cards":{"3":1,"4":1,"5":1,"6":2,"7":2,"8":2,"9":2,"10":2,"11":1,"12":1,"16":1,"17":1,"18":1,"99":1,"101":1,"103":1,"104":1,"105":1,"106":1,"107":1,"108":1,"109":3,"110":1}
+                    "cards":{"ninja-spy":2,"odysseus":0,"shaman":2,"assassin":0,"monking":0,"persephone":0,"caucasian-eagle":0,"cerberus":0,"poseidon":0,"hades'-bident":0,"tartarus":0,"durga":1,"achilles'-shield":0,"thanatos":0,"apollo":0,"mnemosyne":0,"guanyin":0,"zeus":0,"hyperion":0,"empusa":0,"athena":0,"maitreya-buddha":1,"tartarean-pit":0,"gaia":0,"poseidon's-trident":0,"diyu":0,"gautama-buddha":3,"longbowman":1,"vishnu":1,"helm-of-darkness":0,"guan-yu":0,"golden-fleece":0,"charon":0,"arachne":0,"rhea":0,"krishna":1,"styx":0,"ajax-the-great":0,"chiron":0,"archer":1,"terracotta-soldier":0,"eros":0,"mount-olympus":0,"defender":1,"perseus":0,"iolaus":0,"the-underworld":0,"medusa":0,"varuna":1,"pegasus":0,"judges-of-the-dead":0,"skeleton":2,"undead":2,"hermes":0,"nemean-lion":0,"achilles":0,"pikeman":1,"hades":0,"heracles":0,"healer":2,"yama":1,"hector":0,"lamia":0,"ares":0,"uranus":0,"indra":1,"eight-immortals":0,"holy-man":2,"kung-fu-fighter":0,"cronus":0,"erymanthian-boar":0,"shiva":1,"hera":0,"shinje":0,"cronus'-scythe":0,"daedalus":0,"nuwa":0,"artemis":0,"griffin":0,"brahma":1,"slinger":1,"jade-emperor":0,"lernaean-hydra":0,"menoetius":0,"theseus":0,"manchu-archer":0,"macaria":0,"swordsman":1,"hecate":0,"mazu":0,"moirai":0
+                    }
                 }
-            ],"Cyborg-Chronicles":[
+            ],
+            "Cyborg-Chronicles":[
                 {
                     "name":"Balanced",
-                    "cards":{"3":1,"4":1,"5":1,"6":1,"7":1,"8":2,"10":1,"12":2,"14":1,"16":1,"17":1,"19":1,"20":2,"21":1,"22":1,"23":1,"24":1,"25":2,"26":1,"27":1,"28":1,"29":1,"30":1,"31":1,"35":1,"36":1}
-                },{
+                    "cards":{"robot-guard":1,"humadroid":1,"scout-mech":1,"steroid-implants":1,"f.m.u.":0,"spareparts":2,"supply-mech":1,"commander":1,"trapped-socket":0,"exoskeleton":0,"bionic-arms":1,"e.m.p.":0,"upgrado-mk-i":1,"shieldmech":1,"longshot":1,"conscript":1,"fortimech":0,"modleg-ambusher":1,"web-boss":1,"the-chopper":2,"wastelander":1,"cyberpimp":0,"artificial-intelligence-implants":1,"heavy-mech":0,"cybernetic-arm-cannon":1,"inside-man":1,"reinforced-cranial-implants":0,"gyrodroid":1,"assassinatrix":1,"body-armor":1,"waste-runner":1,"field-medic":1,"full-body-cybernetics-upgrade":0,"adrenalin-injection":0,"vetter":2,"bodyman":1,"cyborg":1
+                    }
+                },
+                {
                     "name":"Defensive",
-                    "cards":{"3":1,"4":1,"6":2,"7":1,"9":1,"10":2,"12":1,"13":1,"15":2,"16":1,"17":1,"18":1,"19":2,"20":1,"21":2,"22":1,"24":2,"25":1,"26":1,"27":1,"29":1,"32":1,"34":1,"35":1}
+                    "cards":{"robot-guard":1,"humadroid":1,"scout-mech":0,"steroid-implants":0,"f.m.u.":1,"spareparts":1,"supply-mech":2,"commander":0,"trapped-socket":0,"exoskeleton":0,"bionic-arms":0,"e.m.p.":0,"upgrado-mk-i":1,"shieldmech":1,"longshot":1,"conscript":1,"fortimech":2,"modleg-ambusher":0,"web-boss":1,"the-chopper":1,"wastelander":1,"cyberpimp":1,"artificial-intelligence-implants":1,"heavy-mech":1,"cybernetic-arm-cannon":1,"inside-man":1,"reinforced-cranial-implants":1,"gyrodroid":1,"assassinatrix":0,"body-armor":1,"waste-runner":1,"field-medic":1,"full-body-cybernetics-upgrade":0,"adrenalin-injection":1,"vetter":2,"bodyman":1,"cyborg":1
+                    }
                 }
             ]
         }
