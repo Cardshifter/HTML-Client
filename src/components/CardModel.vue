@@ -7,7 +7,6 @@
         <div class="card-name">
             <a @click="selectEntity(card)" :class="{'selected': card.selected, 'targetable': doingAction && targets.indexOf(card.id) !== -1}">{{card.properties.name}}</a>
         </div>
-
     </div>
     <!-- card image -->
     <div style="clear:both;">
@@ -57,19 +56,27 @@
         </div>
         <!-- flavor text -->
         <div v-show="card.properties.flavor" style="float: right; padding: 5px; text-align: center;">
-            <b-btn type="button" class="btn btn-sm btn-dark fa fa-book"
-                    popover-placement="top"
-                    v-b-popover.hover="card.properties.flavor"></b-btn>
+            <b-btn class="btn btn-sm btn-dark fa fa-book" :id="`${card.id}-flavor`"></b-btn>
+            <b-popover :target="`${card.id}-flavor`"
+                :title="card.properties.name"
+                triggers="hover focus"
+                :content="card.properties.flavor"
+                placement="bottomleft">
+            </b-popover>
         </div>
         <!-- effect text -->
         <div v-show="card.properties.effect" style="float: right; padding: 5px; text-align: center;">
-            <b-btn type="button" class="btn btn-sm btn-secondary fa fa-flash"
-                    popover-placement="top"
-                    v-b-popover.hover="card.properties.effect">FX</b-btn>
+            <b-btn class="btn btn-sm btn-secondary fa fa-flash" :id="`${card.id}-effect`">FX</b-btn>
+            <b-popover :target="`${card.id}-effect`"
+                :title="card.properties.name"
+                triggers="hover focus"
+                :content="card.properties.effect"
+                placement="bottomleft">
+            </b-popover>
         </div>
     </div>
     <div class="card-actions">
-        <button class="btn btn-sm btn-navbar csh-button btn-default" v-for="action in actions"
+        <button class="btn btn-sm btn-navbar" v-for="action in actions"
                 :key="action.action"
                 v-if="!doingAction && action.id === card.id"
                 @click="startAction(action)">
