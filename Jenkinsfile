@@ -18,30 +18,14 @@ pipeline {
             }
         }
 
-        stage('Docker Dev Image') {
-            when {
-                branch 'vuejs'
-            }
-            steps {
-                script {
-                    sh 'docker ps -q --filter name="cardshifter_vue_client" | xargs -r docker stop'
-                    sh 'docker run -d --rm --name cardshifter_vue_client -v $(pwd)/dist:/usr/share/nginx/html:ro -p 22740:80 nginx'
-                }
-            }
-        }
-
         stage('Docker Image') {
             when {
                 branch 'master'
             }
             steps {
                 script {
-                    // Stop running containers
-                    sh 'mkdir -p www/assets'
-                    sh 'cp dist/*.js www/assets/'
                     sh 'docker ps -q --filter name="cardshifter_client" | xargs -r docker stop'
-
-                    sh 'docker run -d --rm --name cardshifter_client -v $(pwd)/www:/usr/share/nginx/html:ro -p 22739:80 nginx'
+                    sh 'docker run -d --rm --name cardshifter_client -v $(pwd)/dist:/usr/share/nginx/html:ro -p 22739:80 nginx'
                 }
             }
         }
