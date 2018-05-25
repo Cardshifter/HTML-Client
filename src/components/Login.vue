@@ -1,12 +1,9 @@
 <template>
   <div class="login">
 
-    <!-- LOGIN FORM -->
-
-    <h4>Please log in to continue, or see below for instructions and assistance.</h4>
-
     <!-- Server status -->
-    <div>
+    <h4>Server Status</h4>
+    <div class="server-status">
         <table>
             <!-- Should these be dynamically loaded? -->
             <tr>
@@ -20,29 +17,34 @@
             </tr>
             <tr v-for="server in serverOptions" v-if="server.name !== 'Other...'">
                 <td>{{server.name}}</td>
-                <td>{{server.isOnline}}</td>
-                <td>{{server.userCount}} users</td>
+                <td>{{server.isOnline ? "true" : "false"}}</td>
+                <td>{{!server.userCount ? '-' : `${server.userCount} ${server.userCount === 1 ? 'user' : 'users'}`}}</td>
                 <td>
-                  <ul>
+                  <ul class="server-mod-list">
                     <li v-for="key in server.availableMods">
-                      <router-link :to="'/cards?server=' + server.address + '&mod=' + key">
+                      <router-link :to='`/cards?server=${server.address}&mod=${key}`'>
                         {{ key }}
                       </router-link>
                     </li>
                   </ul>
                 </td>
-                <td>{{server.gamesRunning}} games</td>
-                <td>{{server.ais}} AIs</td>
-                <td>{{server.latency}} ms</td>
+                <td>{{!server.gamesRunning ? '-' : `${server.gamesRunning} ${server.gamesRunning === 1 ? 'game' : 'games'}`}}</td>
+                <td>{{!server.ais ? '-' : `${server.ais} ${server.ais === 1 ? 'AI' : 'AIs'}`}}</td>
+                <td>{{! server.latency ? '-' : `${server.latency} ms`}}</td>
             </tr>
         </table>
-        <input @click="refreshServers()" :disabled="refreshing" type="button" value="Refresh"/>
+        <input @click="refreshServers()" :disabled="refreshing" type="button" value="Refresh" class="btn btn-navbar" style="margin-top: 10px;"/>
         <p v-if="refreshing">Refreshing...</p>
     </div>
 
+    <!-- LOGIN FORM -->
+    <h4>Please log in to continue, or see below for instructions and assistance.</h4>
+
     <form name="login_information" id="login_information" class="login-form">
         <div class="form-group">
-            <label for="server" aria-label="Server">Server:</label>
+            <label for="server" aria-label="Server" class="server-label">
+                Server:
+            </label>
             <select v-model="server" name="server" id="server" class="form-control">
                 <option v-for="server in serverOptions" :value="server.address">{{server.name}}</option>
             </select>
@@ -57,7 +59,9 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="username">Username:</label>
+            <label for="username" class="username-label">
+                Username:
+            </label>
             <input v-model="username" name="username" id="username" type="text" class="form-control" placeholder="Enter name..." />
         </div>
         <div class="form-group">
@@ -67,37 +71,37 @@
 
     <!-- WELCOME AND HELP LINK -->
 
-    <h3>Getting started</h3>
+    <div class="welcome-information">
+        <h3>Getting started</h3>
 
-    <p>To begin playing, first select the server you would like to connect to:</p>
-    <ul>
-        <li><strong>Local Host: </strong>Select this if you are hosting a local game server on your own machine.</li>
-        <li><strong>dwarftowers.com: </strong><a href="http://www.dwarftowers.com">dwarftowers.com</a> server hosted by our development team.</li>
-        <li><strong>zomis.net: </strong><a href="http://www.zomis.net/">Zomis Productions</a> server hosted by our development team.</li>
-        <li><strong>Other: </strong> Enter a server address manually.</li>
-    </ul>
-    <p>Then enter a user name and click <strong>Log in</strong>.</p>
-    <p style="font-style: italic;">Note: You can expand the Server Console below if you would like to see server messages.</p>
+        <p>To begin playing, first select the server you would like to connect to:</p>
+        <ul>
+            <li><strong>Official Server: </strong>A public server hosted by the Cardshifter development team.</li>
+            <li><strong>Local Host: </strong>Select this if you are hosting a local game server on your own machine.</li>
+            <li><strong>Other: </strong> Enter a server address manually.</li>
+        </ul>
+        <p>Then enter a user name and click <strong>Log in</strong>.</p>
 
-    <h3 class="cyborg-font" style="font-weight: bold;">Cyborg Chronicles</h3>
-    <p class="cyborg-font">A dystopian, cyberpunk themed game featuring human factions, war machines and interplanetary conflict.</p>
-    <ul>
-        <li><h4 class="cyborg-font"><a href=#>Game rules</a></h4></li>
-        <li><h4 class="cyborg-font"><a href=#>Cards</a></h4></li>
-    </ul>
+        <h3 class="cyborg-font" style="font-weight: bold;">Cyborg Chronicles</h3>
+        <p class="cyborg-font">A dystopian, cyberpunk themed game featuring human factions, war machines and interplanetary conflict.</p>
+        <!-- <ul>
+            <li><h4 class="cyborg-font"><a href=#>Game rules</a></h4></li>
+            <li><h4 class="cyborg-font"><a href=#>Cards</a></h4></li>
+        </ul> -->
 
-    <h3 class="mythos-font" style="font-weight: bold;">MYTHOS</h3>
-    <p class="mythos-font">Magical and Mythical Creatures clash while Gods, Goddesses and Heroes of Legend fight for human worship.</p>
-    <ul>
-        <li><h4 class="mythos-font"><a href=#>Game rules</a></h4></li>
-        <li><h4 class="mythos-font"><a href=#>Cards</a></h4></li>
-    </ul>
-    <h3 style="text-decoration: underline;">About Cardshifter</h3>
+        <h3 class="mythos-font" style="font-weight: bold;">MYTHOS</h3>
+        <p class="mythos-font">Magical and Mythical Creatures clash while Gods, Goddesses and Heroes of Legend fight for human worship.</p>
+        <!-- <ul>
+            <li><h4 class="mythos-font"><a href=#>Game rules</a></h4></li>
+            <li><h4 class="mythos-font"><a href=#>Cards</a></h4></li>
+        </ul> -->
+        <!-- <h3 style="text-decoration: underline;">About Cardshifter</h3> -->
 
-    <ul>
-        <li><h4><a href="http://stats.zomis.net/io-web">Official Website</a></h4></li>
-        <li><h4><a href="https://github.com/Cardshifter">On GitHub</a></h4></li>
-    </ul>
+        <ul>
+            <!-- <li><h4><a href="http://stats.zomis.net/io-web">Official Website</a></h4></li> -->
+            <li><h4><a href="https://github.com/Cardshifter">On GitHub</a></h4></li>
+        </ul>
+    </div>
   </div>
 </template>
 
@@ -257,5 +261,24 @@ export default {
 .input-group {
   width: 30%;
   margin: auto;
+}
+.server-status {
+    font-size: 0.8em;
+    padding-bottom: 10px;
+}
+.server-mod-list {
+    font-size: 0.9em;
+    padding : 0;
+    margin: 0;
+    list-style-type: none;
+}
+.server-label {
+    font-size: 0.8em;
+}
+.username-label {
+    font-size: 0.8em;
+}
+.welcome-information {
+    font-size: 0.8em;
 }
 </style>
