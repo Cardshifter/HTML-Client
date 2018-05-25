@@ -107,7 +107,6 @@ export default {
         resolveImage(path) {
             return require('../assets/images/cards/' + path);
         },
-
         /**
          * Adjusts the size of the font to be displayed on a CardModel
          * based on the length of the text and whether it is all caps.
@@ -117,6 +116,9 @@ export default {
          */
         adjustFontSize(text) {
             let baselineEm = 1.1;
+            if (!text) {
+                return baselineEm;
+            }
             const isAllCaps = text === text.toUpperCase();
             const length = text.length;
             if (length >= 20) {
