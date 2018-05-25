@@ -1,14 +1,6 @@
 <template>
   <div class="card card-outer"
     :class="{'selected': card.selected, 'targetable': doingAction && targets.indexOf(card.id) !== -1}">
-<!--
-    TODO Add ng-FitText.js fields to elements in this model of which length may vary widely, for example card descriptions and flavor text.
-        The primary fields for FitText are:
-        - data-fittext : Enable FitText for the content inside the tag
-        - data-fittext-min="8pt" : Minimum font size allowed
-        - data-fittext-max="12pt" : Maximum font size allowed
-  -->
-
     <div class="test" v-if="debugMode">doingAction: {{doingAction}} targets: {{targets}} actions: {{actions}} card: {{card}}</div>
     <!-- card name -->
     <div>
@@ -31,43 +23,53 @@
     <!-- card statistics -->
     <div>
         <!-- mana cost -->
-        <div style="float: left; padding: 5px">
-            <button class="btn btn-sm btn-info active fa fa-tint" style="cursor:default">{{card.properties.MANA_COST}}</button>
+        <div style="float: left; padding-left: 5px;">
+            <button class="btn btn-sm btn-info active fa fa-tint" style="cursor:default" title="Mana Cost">
+              {{card.properties.MANA_COST}}
+            </button>
         </div>
-        <div style="float: right; padding: 5px;" class="btn-group">
+        <div style="float: right; padding-right: 5px;" class="btn-group">
             <!-- attack -->
-            <button class="btn btn-sm btn-danger active fa fa-crosshairs" style="cursor:default">{{card.properties.ATTACK || "-"}}</button>
+            <button class="btn btn-sm btn-danger active fa fa-crosshairs" style="cursor:default" title="Attack">
+              {{card.properties.ATTACK || "-"}}
+            </button>
             <!-- health -->
             <div class="card-property">
-                <button class="btn btn-sm btn-success active fa fa-heart" style="cursor:default">{{card.properties.HEALTH || "-"}}</button>
+                <button class="btn btn-sm btn-success active fa fa-heart" style="cursor:default" title="Health">
+                  {{card.properties.HEALTH || "-"}}
+                </button>
                 <!-- <dynamic-animation items="card.animations.HEALTH" /> -->
             </div>
         </div>
     </div>
     <div style="clear: both;">
-        <div style="float: left; padding: 5px; text-align: center;">
+        <div v-if="card.properties.SCRAP_COST" style="float: left; padding: 5px;">
             <!-- scrap cost -->
-            <button v-if="card.properties.SCRAP_COST" class="btn btn-xs btn-primary active fa fa-wrench" style="cursor:default">{{card.properties.SCRAP_COST}}</button>
+            <button class="btn btn-sm btn-primary active fa fa-wrench" style="cursor:default" title="Scrap Cost">
+              {{card.properties.SCRAP_COST}}
+            </button>
         </div>
-        <div v-if="card.properties.SCRAP" style="float: left; padding: 5px; text-align: center;">
+        <div v-if="card.properties.SCRAP" style="float: left; padding: 5px;">
             <!-- scrap value -->
-            <button class="btn btn-xs btn-primary active fa fa-cog" style="cursor:default">{{card.properties.SCRAP}}</button>
+            <button class="btn btn-sm btn-primary active fa fa-cog" style="cursor:default" title="Scrap Value">
+              {{card.properties.SCRAP}}
+            </button>
         </div>
         <!-- flavor text -->
         <div v-show="card.properties.flavor" style="float: right; padding: 5px; text-align: center;">
-            <b-btn type="button" class="btn btn-xs btn-primary fa fa-book"
+            <b-btn type="button" class="btn btn-sm btn-dark fa fa-book"
                     popover-placement="top"
                     v-b-popover.hover="card.properties.flavor"></b-btn>
         </div>
         <!-- effect text -->
         <div v-show="card.properties.effect" style="float: right; padding: 5px; text-align: center;">
-            <b-btn type="button" class="btn btn-xs btn-warning fa fa-flash"
+            <b-btn type="button" class="btn btn-sm btn-secondary fa fa-flash"
                     popover-placement="top"
                     v-b-popover.hover="card.properties.effect">FX</b-btn>
         </div>
     </div>
     <div class="card-actions">
-        <button class="btn btn-xs btn-navbar csh-button btn-default" v-for="action in actions"
+        <button class="btn btn-sm btn-navbar csh-button btn-default" v-for="action in actions"
                 :key="action.action"
                 v-if="!doingAction && action.id === card.id"
                 @click="startAction(action)">
@@ -131,10 +133,10 @@ export default {
 
 .card-name {
     float: left;
-    padding: 5px;
+    padding-left: 5px;
     font-family: Georgia, Times, "Times New Roman", serif;
-    font-size: 1.2em;
-    font-weight: bold;
+    font-size: 0.9em;
+    /* font-weight: bold; */
 }
 
 .card-type {
@@ -142,7 +144,7 @@ export default {
     padding: 5px;
     padding-top: 8px;
     font-family: Georgia, Times, "Times New Roman", serif;
-    font-size: 1.1em;
+    font-size: 0.9em;
 }
 
 .card-actions {
