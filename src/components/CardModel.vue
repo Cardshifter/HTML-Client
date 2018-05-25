@@ -8,7 +8,9 @@
         <div>
             <div class="card-name">
                 <a @click="selectEntity(card)"
-                    :class="{'selected': card.selected, 'targetable': doingAction && targets.indexOf(card.id) !== -1}">{{card.properties.name}}
+                    :class="{'selected': card.selected, 'targetable': doingAction && targets.indexOf(card.id) !== -1}"
+                    :style="`font-size: ${adjustFontSize(card.properties.name)}em`">
+                    {{card.properties.name}}
                 </a>
             </div>
         </div>
@@ -20,7 +22,8 @@
             </div>
         </div>
         <!-- card type -->
-        <div class="card-type">
+        <div class="card-type"
+            :style="`font-size: ${adjustFontSize(card.properties.creatureType)}em`">
             {{card.properties.creatureType}}
         </div>
         <!-- card statistics -->
@@ -103,6 +106,25 @@ export default {
     methods: {
         resolveImage(path) {
             return require('../assets/images/cards/' + path);
+        },
+
+        /**
+         * Adjusts the size of the font to be displayed on a CardModel
+         * based on the length of the text and whether it is all caps.
+         *
+         * @param  {String} text - the text to decide the font size for
+         * @return {Number} - the font size in em units
+         */
+        adjustFontSize(text) {
+            let baselineEm = 1.1;
+            const isAllCaps = text === text.toUpperCase();
+            const length = text.length;
+            if (length >= 20) {
+                baselineEm = isAllCaps ? 0.7 : 0.8;
+            } else if (length >= 18) {
+                baselineEm = isAllCaps ? 0.9 : 1.0;
+            }
+            return baselineEm;
         }
     },
     created() {
