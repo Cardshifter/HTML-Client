@@ -2,7 +2,7 @@
   <table id="lobby">
       <tr id="lobby-headers">
           <td id="lobby-title">Lobby</td>
-          <td id="lobby-deck-builder" width="20%"><button @click="openDeckBuilder()" class="btn btn-navbar csh-button">Deck Builder</button></td>
+          <td id="lobby-deck-builder" width="20%"><button @click="openDeckBuilder()" class="btn btn-navbar csh-button deck-builder-btn">Deck Builder</button></td>
       </tr>
       <tr id="lobby-invite-request" v-if="gotInvite">
           <td colspan="2">
@@ -48,14 +48,14 @@
               <input @click="sendMessage()" :disabled="sending" type="submit" value="Send" class="btn btn-navbar csh-button"/>
           </td>
           <td id="lobby-invite">
-              <input @click="startGame()" type="button" value="Invite to game" class="btn btn-warning"/>
+              <input @click="startGame()" type="button" value="Invite to game!" class="btn btn-success lobby-game-invite-btn"/>
           </td>
       </tr>
       <tr id="lobby-mods">
           <td colspan="2" id="lobby-mod-selection">
               <form class="form-inline" role="form">
                   <div class="form-group">
-                      <label for="mod_selection">Select game type:</label>
+                      <label for="mod_selection" class="lobby-mod-selector-label">Select game type:</label>
                       <div v-for="mod in mods" class="form-control lobby-mod-selector">
                           <label>
                               <input v-model="selected_mod" type="radio" :value="mod"
@@ -315,12 +315,16 @@ export default {
 }
 
 #lobby-title {
-    font-size: 1.5em;
+    font-size: 1.2em;
     font-weight: bold;
 }
 
 #lobby-deck-builder {
     width: 20%;
+}
+
+.deck-builder-btn {
+    font-size: 0.8em;
 }
 
 /* SECTION HEADERS */
@@ -331,9 +335,13 @@ export default {
     text-align: center;
 }
 
-#lobby-message-list-header {}
+#lobby-message-list-header {
+    font-size: 0.9em;
+}
 
-#lobby-users-list-header {}
+#lobby-users-list-header {
+    font-size: 0.8em;
+}
 
 /* MAIN MESSAGE & USERS SECTIONS */
 
@@ -349,6 +357,7 @@ export default {
 #lobby-chat-messages {
     list-style-type: none;
     padding-left: 0;
+    font-size: 0.9em;
 }
 
 /* Alternate background color for chat messages */
@@ -379,6 +388,7 @@ export default {
 }
 /* Each individual user line */
 #lobby-user {
+    font-size: 0.9em;
 }
 
 /* FOOTER SECTIONS */
@@ -388,10 +398,11 @@ export default {
     vertical-align: bottom;
 }
 /* TEXT AREA FOR TYPING CHAT MESSAGES*/
-textarea#lobby-type-chat-message {
+#lobby-chat-text-area {
     outline: none;
     overflow: auto;
     vertical-align: middle;
+    font-size: 0.8em;
 }
 
 #lobby-invite {
@@ -403,9 +414,19 @@ textarea#lobby-type-chat-message {
 
 #lobby-mod-selection {}
 
+.lobby-mod-selector-label {
+    font-size: 0.8em;
+}
+
 /* DIV CONTAINING RADIO BUTTON AND MOD NAME */
-div#lobby-mod-selector {
+.lobby-mod-selector {
     border: 1;
+    font-size: 0.8em;
+    font-weight: bold;
+}
+
+.lobby-game-invite-btn {
+    font-size: 0.8em;
 }
 
 /* Game invite accept dialog */
