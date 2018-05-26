@@ -1,12 +1,12 @@
 <template>
   <div>
     <div v-if="!doneLoading">
-        <h1>Loading Deck Builder...</h1>
+        <h1 class="deckbuilder-deck-name">Loading Deck Builder...</h1>
     </div>
     <div v-if="doneLoading">
         <!-- DECK HEADER -->
-        <h1>Deck name: {{deckName}}</h1>
-        <h2>{{totalSelected}} / {{maxCards}}</h2>
+        <h1 class="deckbuilder-deck-name">Deck name: {{deckName}}</h1>
+        <h2 class="deckbuilder-deck-card-count">{{totalSelected}} / {{maxCards}}</h2>
 
         <!-- Deck manipulation & `Start game` | `Back to lobby` controls -->
         <form>
@@ -48,7 +48,7 @@
                 "SCRAP"               | SCRAP              | n, or empty (for cards n/a)
                 "SCRAP_COST"          | SCRAP_COST         | n, or empty (for cards n/a)
             -->
-        <table>
+        <table class="deckbuilder-card-table">
             <tr>
                 <th>Type</th>
                 <th>Name</th>
@@ -426,5 +426,19 @@ export default {
   text-decoration: none;
   background-color: transparent;
   cursor: pointer;
+  font-size: 0.9em;
+}
+
+.deckbuilder-deck-name {
+    font-size: 1.6em;
+    margin-top: 10px;
+}
+
+.deckbuilder-deck-card-count {
+    font-size: 1.6em;
+}
+
+.deckbuilder-card-table {
+    font-size: 0.9em;
 }
 </style>
