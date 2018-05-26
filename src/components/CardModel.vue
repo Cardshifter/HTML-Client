@@ -104,8 +104,19 @@ export default {
         }
     },
     methods: {
+        /**
+         * Resolves fetching an image file from the file system.
+         *
+         * @param  {String} path - the path to the image
+         * @return {Object} - the image object from the require call
+         */
         resolveImage(path) {
-            return require('../assets/images/cards/' + path);
+            try{
+                return require(`../assets/images/cards/${path}`);
+            } catch(err) {
+                console.log(err);
+                return require(`../assets/images/cards/default.png`);
+            }
         },
         /**
          * Adjusts the size of the font to be displayed on a CardModel
@@ -125,6 +136,8 @@ export default {
                 baselineEm = isAllCaps ? 0.7 : 0.8;
             } else if (length >= 18) {
                 baselineEm = isAllCaps ? 0.9 : 1.0;
+            } else if (length >= 15 && isAllCaps) {
+                baselineEm = 0.9;
             }
             return baselineEm;
         }
