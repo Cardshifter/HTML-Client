@@ -18,7 +18,7 @@
             <tr v-for="server in serverOptions" v-if="server.name !== 'Other...'">
                 <td>{{server.name}}</td>
                 <td>{{server.isOnline ? "true" : "false"}}</td>
-                <td>{{!server.userCount ? '-' : `${server.userCount} ${server.userCount === 1 ? 'user' : 'users'}`}}</td>
+                <td>{{!server.userCount ? '-' : `${server.userCount - 1} ${server.userCount - 1 === 1 ? 'user' : 'users'}`}}</td>
                 <td>
                   <ul class="server-mod-list">
                     <li v-for="key in server.availableMods">
