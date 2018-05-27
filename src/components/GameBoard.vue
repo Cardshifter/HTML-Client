@@ -243,8 +243,7 @@ export default {
         playerInfo.id = player.id;
         playerInfo.name = player.name;
 
-        this.$set(playerInfo, 'properties', playerInfo.properties);
-        this.$set(playerInfo, 'zones', playerInfo.zones);
+        this.$set(playerInfo, 'properties', player.properties);
     },
 
     /**
