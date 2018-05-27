@@ -2,6 +2,11 @@
   <div class="game" :class="'game-' + modName">
       <!-- Player display -->
       <div>
+          <b-alert :show="eliminationResult !== null">
+            <span>{{ eliminationResult }}</span>
+            <button @click="gotoLobby()">Back to Lobby</button>
+          </b-alert>
+
           <b-alert dismissible variant="danger" @dismissed="errorMessage = null" :show="errorMessage !== null">{{ errorMessage }}</b-alert>
 
           <div v-for="(info, type) in playerInfos" class="player" :key="type"
@@ -61,6 +66,7 @@ export default {
   data() {
     return {
       modName: this.currentUser.game.mod.toLowerCase().replace(' ', '-'),
+      eliminationResult: null,
       cardZones: {}, // contains information about what card is where.
       actions: [],
       errorMessage: null,
@@ -119,6 +125,15 @@ export default {
             this.selected[i].selected = false;
         }
         this.selected = [];
+    },
+
+    gotoLobby() {
+        this.$router.push({
+            name: 'Lobby',
+            params: {
+                currentUser: this.currentUser
+            }
+        });
     },
 
     performAction() {
@@ -411,23 +426,7 @@ export default {
         } else {
             results += "lose";
         }
-
-        // var modalInstance = $modal.open({
-        //     animation: true,
-        //     backdrop: 'static',
-        //     template: require('../game_results/game_results.html'),
-        //     controller: 'GameOverMessageController',
-        //     size: 'sm',
-        //     resolve: {
-        //         message: function () {
-        //             return results;
-        //         }
-        //     }
-        // });
-
-        // modalInstance.result.then(function () {
-        //     $location.path("/lobby");
-        // });
+        this.eliminationResult = results;
     },
 
     /**
