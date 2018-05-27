@@ -2,6 +2,8 @@
   <div class="game" :class="'game-' + modName">
       <!-- Player display -->
       <div>
+          <b-alert dismissible variant="danger" @dismissed="errorMessage = null" :show="errorMessage !== null">{{ errorMessage }}</b-alert>
+
           <div v-for="(info, type) in playerInfos" class="player" :key="type"
               :class="{'player-user': info == playerInfos.user, 'player-opponent': info != playerInfos.user}">
 
@@ -61,6 +63,7 @@ export default {
       modName: this.currentUser.game.mod.toLowerCase().replace(' ', '-'),
       cardZones: {}, // contains information about what card is where.
       actions: [],
+      errorMessage: null,
       doingAction: false,
       playerInfos: {
           user: {
@@ -125,7 +128,7 @@ export default {
 		    var maxTargets = this.targetsMessage.max;
 		    if (selected.length < minTargets || selected.length > maxTargets) {
 			      console.log("target(s) required: " + minTargets + " - " + maxTargets + " but chosen " + selected.length);
-			      ErrorCreator.create("target(s) required: " + minTargets + " - " + maxTargets + " but chosen " + selected.length);
+			      this.errorMessage = "target(s) required: " + minTargets + " - " + maxTargets + " but chosen " + selected.length;
             return;
 		    }
 
@@ -492,7 +495,7 @@ export default {
     },
 
     displayError(message) {
-        ErrorCreator.create(message.message);
+        this.errorMessage = message.message;
     }
   },
   created() {
