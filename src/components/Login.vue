@@ -65,6 +65,7 @@
             <input v-model="username" name="username" id="username" type="text" class="form-control" placeholder="Enter name..." />
         </div>
         <div class="form-group">
+            <b-alert dismissible variant="danger" @dismissed="errorMessage = null" :show="errorMessage !== null">{{ errorMessage }}</b-alert>
             <input @click="login()" :disabled="loggedIn" name="submit" id="submit" type="button" value="Log in" class="btn btn-success" />
         </div>
     </form>
@@ -129,6 +130,7 @@ export default {
         { address: "other", name: "Other..." }
       ],
       username: "",
+      errorMessage: null,
       loggedIn: false,
       refreshing: false,
       chosenServer: null
@@ -148,7 +150,7 @@ export default {
     */
     login: function() {
       if (!this.username) {
-        ErrorCreator.create("Please enter a username");
+        this.errorMessage = "Please enter a username";
         return;
       }
       this.loggedIn = true;
@@ -160,10 +162,10 @@ export default {
         CardshifterServerAPI.sendMessage(login);
       }, function() {
           // notify the user that there was an issue logging in (websocket issue)
-          ErrorCreator.create("There was a Websocket-related issue logging in");
+          component.errorMessage = "There was a Websocket-related issue logging in";
 
           console.log("Websocket error(error 1)");
-          this.loggedIn = false;
+          component.loggedIn = false;
       });
     },
     loginResponse: function(welcome) {
