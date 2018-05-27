@@ -107,6 +107,7 @@ export default {
             users: [],
             chatMessages: [],
             user_chat_message: "",
+            errorMessage: null,
             sending: false,
             mods: [],
             selected_mod: null,
@@ -209,7 +210,7 @@ export default {
                 this.$router.push({
                     name: 'DeckBuilder',
                     params: {
-                        currentUser: currentUser
+                        currentUser: this.currentUser
                     }
                 });
             } else {
