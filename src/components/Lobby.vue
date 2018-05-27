@@ -20,6 +20,11 @@
               </div>
           </td>
         </tr>
+        <tr v-if="errorMessage !== null">
+            <td colspan="2">
+                <b-alert dismissible variant="danger" @dismissed="errorMessage = null" :show="errorMessage !== null">{{ errorMessage }}</b-alert>
+            </td>
+        </tr>
         <tr id="lobby-list-headers" class="lobby-list-headers">
           <th id="lobby-message-list-header" class="lobby-message-list-header">Messages</th>
           <th id="lobby-users-list-header" class="lobby-users-list-header">Users Online</th>
@@ -94,10 +99,6 @@ function formatTimeNumber(time) {
     return time < 10 ? "0" + time : time;
 };
 
-function displayError(message) {
-    ErrorCreator.create(message.message);
-}
-
 export default {
     name: "Lobby",
     props: ["currentUser"],
@@ -106,6 +107,7 @@ export default {
             users: [],
             chatMessages: [],
             user_chat_message: "",
+            errorMessage: null,
             sending: false,
             mods: [],
             selected_mod: null,
@@ -157,7 +159,7 @@ export default {
                 CardshifterServerAPI.sendMessage(startGame);
             } else {
                 // Error if user has not chosen a mod or opponent
-                ErrorCreator.create("Select both a game type and an opponent user before you can start a game.");
+                this.errorMessage = "Select both a game type and an opponent user before you can start a game.";
             }
         },
 
@@ -182,6 +184,10 @@ export default {
             this.gotInvite = false;
         },
 
+        displayError(message) {
+            this.errorMessage = message.message;
+        },
+
         /**
          * This function is called once the user has selected a mod
          * and has clicked the "Deck Builder" button near the top of the
@@ -204,11 +210,11 @@ export default {
                 this.$router.push({
                     name: 'DeckBuilder',
                     params: {
-                        currentUser: currentUser
+                        currentUser: this.currentUser
                     }
                 });
             } else {
-                ErrorCreator.create("Select a game type before you can open the deck builder.");
+                this.errorMessage = "Select a game type before you can open the deck builder.";
             }
         },
 

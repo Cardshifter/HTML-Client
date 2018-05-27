@@ -15,6 +15,7 @@
             <input v-model="deckName" type="text" />
             <input @click="saveDeck()" type="button" value="Save Deck" class="btn btn-xs btn-primary"/>
             <br/>
+            <b-alert dismissible variant="danger" @dismissed="errorMessage = null" :show="errorMessage !== null">{{ errorMessage }}</b-alert>
             <input v-if="enteringGame" @click="enterGame()" type="button" value = "Start game" class="btn btn-sm btn-success"/>
             <input v-if="enteringGame" @click="goBack()" type="button" value="Go back to lobby" class="btn btn-sm btn-default"/>
         </form>
@@ -114,6 +115,7 @@ export default {
       doneLoading: false,
       deckConfig: null,
       cards: [],
+      errorMessage: null,
       maxCards: 0,
       minCards: 0,
       currentDeck: {},
@@ -210,12 +212,12 @@ export default {
     */
     saveDeck() {
         if (this.totalSelected < this.minCards) {
-            ErrorCreator.create("Not enough cards");
+            this.errorMessage = "Not enough cards";
             console.log("not enough cards");
             return;
         }
         if (!this.deckName) {
-            ErrorCreator.create("Please enter a name");
+            this.errorMessage = "Please enter a name";
             console.log("enter name");
             return;
         }
@@ -282,7 +284,7 @@ export default {
     * and then redirect to the game board screen.
     */
     enterGame() {
-        if (this.totalSelected === this.minCards) {
+        if (this.totalSelected >= this.minCards && this.totalSelected <= this.maxCards) {
             // remove all .max properties so server does not die
             for (var card in this.deckConfig.configs.Deck.cardData) {
                 delete this.deckConfig.configs.Deck.cardData[card].max;
@@ -301,7 +303,7 @@ export default {
               currentUser: this.currentUser
             }});
         } else {
-            ErrorCreator.create("Not enough cards");
+            this.errorMessage = "Not enough cards";
             console.log("not enough cards");
         }
     },
