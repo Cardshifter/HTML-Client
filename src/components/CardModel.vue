@@ -30,37 +30,17 @@
         <div>
             <!-- mana cost -->
             <div style="float: left; padding-left: 5px;">
-                <button class="btn btn-sm btn-info active fa fa-tint" style="cursor:default" title="Mana Cost">
-                  {{card.properties.MANA_COST}}
-                </button>
+                <Value :value="card.properties.MANA_COST" type="mana-cost" orElse="0" alwaysShow></Value>
             </div>
             <div style="float: right; padding-right: 5px;" class="btn-group">
-                <!-- attack -->
-                <button class="btn btn-sm btn-danger active fa fa-crosshairs" style="cursor:default" title="Attack">
-                  {{card.properties.ATTACK || "-"}}
-                </button>
-                <!-- health -->
-                <div class="card-property">
-                    <button class="btn btn-sm btn-success active fa fa-heart" style="cursor:default" title="Health">
-                      {{card.properties.HEALTH || "-"}}
-                    </button>
-                    <!-- <dynamic-animation items="card.animations.HEALTH" /> -->
-                </div>
+                <Value :value="card.properties.ATTACK" type="attack" alwaysShow></Value>
+                <Value :value="card.properties.HEALTH" type="health" alwaysShow></Value>
             </div>
         </div>
         <div style="clear: both;">
-            <div v-if="card.properties.SCRAP_COST" style="float: left; padding: 5px;">
-                <!-- scrap cost -->
-                <button class="btn btn-sm btn-primary active fa fa-wrench" style="cursor:default" title="Scrap Cost">
-                  {{card.properties.SCRAP_COST}}
-                </button>
-            </div>
-            <div v-if="card.properties.SCRAP" style="float: left; padding: 5px;">
-                <!-- scrap value -->
-                <button class="btn btn-sm btn-primary active fa fa-cog" style="cursor:default" title="Scrap Value">
-                  {{card.properties.SCRAP}}
-                </button>
-            </div>
+            <Value style="float: left; padding: 5px;" :value="card.properties.SCRAP_COST" type="scrap_cost"></Value>
+            <Value style="float: left; padding: 5px;" :value="card.properties.SCRAP" type="scrap"></Value>
+
             <!-- flavor text -->
             <div v-show="card.properties.flavor" style="float: right; padding: 5px; text-align: center;">
                 <b-btn class="btn btn-sm btn-dark fa fa-book" :id="`${card.id}-flavor`"></b-btn>
@@ -94,6 +74,7 @@
 </template>
 <script>
 import CardshifterServerAPI from "../server_interface";
+import Value from "./Value";
 
 export default {
     name: "CardModel",
@@ -102,6 +83,9 @@ export default {
         return {
             debugMode: false
         }
+    },
+    components: {
+      Value
     },
     methods: {
         /**
