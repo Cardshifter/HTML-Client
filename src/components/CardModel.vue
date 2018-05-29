@@ -31,10 +31,11 @@
             <!-- mana cost -->
             <div style="float: left; padding-left: 5px;">
                 <Value :value="card.properties.MANA_COST" type="mana-cost" orElse="0" alwaysShow></Value>
+                <button @click="testChange()">test</button>
             </div>
             <div style="float: right; padding-right: 5px;" class="btn-group">
-                <Value :value="card.properties.ATTACK" type="attack" alwaysShow></Value>
-                <Value :value="card.properties.HEALTH" type="health" alwaysShow></Value>
+                <Value :click="[card.properties, 'ATTACK', 10]" :value="card.properties.ATTACK" type="attack" alwaysShow></Value>
+                <Value :click="[card.properties, 'ATTACK', -10]" :value="card.properties.HEALTH" type="health" alwaysShow></Value>
             </div>
         </div>
         <div style="clear: both;">
@@ -88,6 +89,14 @@ export default {
       Value
     },
     methods: {
+      testChange() {
+        this.card.properties.MANA_COST = this.card.properties.MANA_COST + 10;
+      },
+
+      changeProp(map, prop, diff) {
+        console.log("change map " + prop + " by " + diff);
+        map[prop] += diff;
+      },
         /**
          * Resolves fetching an image file from the file system.
          *

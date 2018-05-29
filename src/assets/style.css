@@ -324,3 +324,24 @@ th {
 .list-complete-leave-active {
   position: absolute;
 }
+
+
+
+
+.diff-once-enter-active {
+  transition: all 10s;
+  position: absolute;
+}
+
+.pos-absolute {
+  position: absolute;
+}
+
+.diff-once-enter {
+  opacity: 1;
+}
+
+.diff-once-enter-to {
+  opacity: 0;
+  transform: translateY(-300px);
+}
