@@ -14,7 +14,7 @@
             <input @click="startAction(action)" v-show="currentAction === null" type="button" :value="action.action"
                    class="btn btn-navbar csh-button"/>
         </div>
-        <div v-show="showActions">
+        <div v-show="showActions && currentAction != null">
             <input @click="cancelAction()" type="button" value="Cancel"
                    class="btn btn-navbar csh-button"/>
             <input @click="performAction()" type="button" :value="currentAction ? currentAction.action : '(None)'"
@@ -26,7 +26,7 @@
 <script>
 export default {
   name: "PlayerInfo",
-  props: ["info", "actions", "showActions", "currentAction", "selectEntity", "startAction", "cancelAction", "performAction"],
+  props: ["info", "actions", "targets", "showActions", "currentAction", "selectEntity", "startAction", "cancelAction", "performAction"],
   filters: {
     formatResourceName: function(input) {
         input = input.replace(/_/g, ' ');

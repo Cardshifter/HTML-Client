@@ -14,8 +14,9 @@
 
               <!-- Player information boxes -->
               <PlayerInfo :info="info" :currentAction="currentAction"
+                :targets="targets"
                 :actions="actions" :selectEntity="selectEntity" :startAction="startAction" :cancelAction="cancelAction" :performAction="performAction"
-                :showActions="doingAction && info == playerInfos.user">
+                :showActions="info == playerInfos.user">
 
               </PlayerInfo>
 
