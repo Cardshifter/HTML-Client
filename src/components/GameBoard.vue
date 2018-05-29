@@ -105,6 +105,7 @@ export default {
 
     cancelAction() {
         this.doingAction = false;
+        this.currentAction = null;
         this.targets = [];
         for (var i = 0; i < this.selected.length; i++) {
             this.selected[i].selected = false;
