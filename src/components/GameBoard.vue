@@ -22,13 +22,13 @@
 
               <!-- Player cards -->
               <div v-for="(zoneInfo, zoneName) in info.zones" class="zone" :class="'zone-' + zoneName" :key="zoneName">
-                  <div v-if="zoneInfo.known">
+                  <transition-group v-if="zoneInfo.known" name="list-complete" tag="div">
                       <!--<h3>{{zoneName}}</h3>-->
-                      <CardModel :card="card" :targets="targets" :doingAction="doingAction"
+                      <CardModel class="list-complete-item" :card="card" :targets="targets" :doingAction="doingAction"
                           :selectEntity="selectEntity" :actions="actions" :startAction="startAction"
                           v-for="(card, id) in zoneInfo.entities" :key="id" v-if="card.properties">
                       </CardModel>
-                  </div>
+                  </transition-group>
 
                   <!-- For opponent's cards. Is there a better way? -->
                   <div v-show="!zoneInfo.known && zoneName==='Hand'">
