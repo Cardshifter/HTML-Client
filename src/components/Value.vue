@@ -1,7 +1,7 @@
 <template>
   <div v-if="value || alwaysShow" class="card-property">
     <button class="btn btn-sm active fa" :class="`btn-${buttonStyle} fa-${faValue}`" style="cursor:default" :title="title">
-      {{value || orElse}}
+      {{ displayText }}
     </button>
     <transition-group name="diff-once" class="pos-absolute" tag="div" @after-enter="removeDiff()">
       <button v-for="(diff, index) in diffs" :key="index"
@@ -20,6 +20,10 @@ export default {
       default: ''
     },
     value: {
+      type: Number,
+      default: undefined
+    },
+    valueMax: {
       type: Number,
       default: undefined
     },
@@ -61,18 +65,23 @@ export default {
       title: style.title
     };
   },
+  computed: {
+    displayText() {
+      if (this.valueMax) {
+        return this.value + " / " + this.valueMax;
+      }
+      return this.value || this.orElse;
+    }
+  },
   methods: {
     removeDiff() {
-      console.log("remove first diff");
       this.diffs.splice(0, 1);
     }
   },
   watch: {
     value: function(newValue, oldValue) {
-      console.log("change value from " + oldValue + " to " + newValue);
       let diff = newValue - oldValue;
       this.diffs.push(diff);
-//      TweenLite.to(this.$data, 0.5, { tweenedNumber: newValue });
     }
   }
 }
