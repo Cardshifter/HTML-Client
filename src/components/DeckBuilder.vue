@@ -1,6 +1,6 @@
 <template>
   <div>
-      <TopNavbar  :username="currentUser.username"></TopNavbar>
+    <TopNavbar  :username="currentUser.username"></TopNavbar>
     <div v-if="!doneLoading">
         <h1 class="deckbuilder-deck-name">Loading Deck Builder...</h1>
     </div>
@@ -39,6 +39,7 @@
                 -------------------------------------------------
                 "SICKNESS"            | SICKNESS           | 1 or 0, or empty (for cards where n/a)
                 "MANA_COST"           | MANA_COST          | n, or empty (for cards n/a)
+                "MANA_UPKEEP"         | MANA_UPKEEP        | n, or empty (for card n/a)
                 "ATTACK"              | ATTACK             | n, or empty (for cards n/a)
                 "HEALTH"              | HEALTH             | n, or empty (for cards n/a)
                 "ATTACK_AVAILABLE"    | ATTACK_AVAILABLE   | 1, or empty (when explicit 0 n/a)
@@ -55,11 +56,12 @@
                 <th>Type</th>
                 <th>Name</th>
                 <th>Count</th>
-                <th>Mana</th>
-                <th style="width: 100px">A / H</th>
-                <th>Sick</th>
-                <th>Akt?</th>
-                <th>FX</th>
+                <th v-if="this.currentUser.game.mod === 'Mythos'">Mana Cost / Upkeep</th>
+                <th v-else>Mana Cost</th>
+                <th style="width: 100px">Attack / Health</th>
+                <th>Sickness</th>
+                <th>Attack?</th>
+                <th>Effect</th>
                 <th>?</th>
             </tr>
             <tr v-for="card in cards">
@@ -76,7 +78,14 @@
                         <button @click="increment(card)" type="button" class="btn btn-xs btn-default fa fa-plus"></button>
                     </div>
                 </td>
-                <td style="text-align: center;">{{card.properties.MANA_COST}}</td>
+                <td style="text-align: center;">
+                    <span v-if="card.properties.MANA_UPKEEP" style="font-size: 1.0em;">
+                        {{`${card.properties.MANA_COST} / ${card.properties.MANA_UPKEEP}`}}
+                    </span>
+                    <span v-else style="font-size: 1.0em;">
+                        {{card.properties.MANA_COST}}
+                    </span>
+                </td>
                 <td style="font-weight: bold; text-align: center;">
                     <span v-if="card.properties.ATTACK" style="font-size: 1.0em;">{{card.properties.ATTACK}}</span>
                     <span v-if="!card.properties.ATTACK" style="font-size: 1.0em; color: red;">-</span>
@@ -86,8 +95,8 @@
                 </td>
                 <td style="text-align: center;">{{card.properties.SICKNESS}}</td>
                 <td style="text-align: center;">
-                    <span v-if="card.properties.ATTACK_AVAILABLE" style="font-size: 0.8em; color: green;">Yes</span>
-                    <span v-if="!card.properties.ATTACK_AVAILABLE" style="font-size: 0.8em; color: red;">No</span>
+                    <span v-if="card.properties.ATTACK_AVAILABLE" style="font-size: 1.0em; color: green;">Yes</span>
+                    <span v-if="!card.properties.ATTACK_AVAILABLE" style="font-size: 1.0em; color: red;">No</span>
                 </td>
                 <td style="text-align: center;">
                     {{card.properties.effect}}
