@@ -28,7 +28,7 @@
             <ul>
                 <CardModel :card="cardInfo" v-if="cardInfo"></CardModel>
             </ul>
-            <b-table show-empty stacked="md" class="deckbuilder-card-table"
+            <b-table show-empty striped hover class="deckbuilder-card-table"
                 :items="cards" :fields="tableFields" :filter="filter"
                 :sort-compare="tableSort"
                 :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" :sort-direction="sortDirection">
