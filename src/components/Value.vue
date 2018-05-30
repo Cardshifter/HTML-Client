@@ -3,6 +3,12 @@
     <button class="btn btn-sm active fa" :class="`btn-${buttonStyle} fa-${faValue}`" style="cursor:default" :title="title">
       {{value || orElse}}
     </button>
+    <transition-group name="diff-once" class="pos-absolute" tag="div" @after-enter="removeDiff()">
+      <button v-for="(diff, index) in diffs" :key="index"
+        class="btn btn-sm active fa diff-once" :class="`btn-${buttonStyle} fa-${faValue}`" style="cursor:default">
+        {{diff}}
+      </button>
+    </transition-group>
   </div>
 </template>
 <script>
@@ -49,10 +55,25 @@ export default {
     }
 
     return {
+      diffs: [],
       buttonStyle: style.buttonStyle,
       faValue: style.fa,
       title: style.title
     };
+  },
+  methods: {
+    removeDiff() {
+      console.log("remove first diff");
+      this.diffs.splice(0, 1);
+    }
+  },
+  watch: {
+    value: function(newValue, oldValue) {
+      console.log("change value from " + oldValue + " to " + newValue);
+      let diff = newValue - oldValue;
+      this.diffs.push(diff);
+//      TweenLite.to(this.$data, 0.5, { tweenedNumber: newValue });
+    }
   }
 }
 
