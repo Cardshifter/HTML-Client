@@ -6,7 +6,7 @@
         </h4>
         <ul style="list-style: none outside none; margin: 0; padding: 0;">
             <!-- HEALTH & MAX_HEALTH -->
-            <li v-for="(value, name) in arrangePlayerData(info.properties)" :key="name">
+            <li v-for="(value, name) in arrangedPlayerData" :key="name">
                 <span v-if="name === 'health'" style="font-weight: bold; font-size: 1.0em;">
                     {{name | formatResourceName}}:
                 </span>
@@ -61,7 +61,7 @@ export default {
         return input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
     }
   },
-  methods: {
+  computed: {
       /**
        * Arranges raw player data from the game server into an object
        * that is easier to query in order to display a player's data, e.g.:
@@ -73,8 +73,8 @@ export default {
        * @param  {Object} playerData Raw player data from the server
        * @return {Object} Data organized by health, mana, and scrap, including current and max values
        */
-      arrangePlayerData(playerData) {
-          const rawData = playerData;
+      arrangedPlayerData() {
+          const rawData = this.info.properties;
           const arrangedData = {
               health: {},
               mana: {},
