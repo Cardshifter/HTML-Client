@@ -215,6 +215,9 @@ export default {
          * @param card:Object -- The card to increment
          */
         increment(card) {
+            if (!this.currentDeck[card.properties.id]) {
+                this.currentDeck[card.properties.id] = 0;
+            }
             if (this.totalSelected < this.maxCards &&
                 this.currentDeck[card.properties.id] !== card.max) {
                 this.currentDeck[card.properties.id]++;
