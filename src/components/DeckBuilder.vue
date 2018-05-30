@@ -35,7 +35,7 @@
 
                 <template slot="creatureType" slot-scope="row">{{ row.item.properties.creatureType }}</template>
                 <template slot="name" slot-scope="row">
-                    <a href @click.prevent="showDetails(card)">{{ row.item.properties.name }}</a>
+                    <a href @click.prevent="showDetails(row.item)">{{ row.item.properties.name }}</a>
                 </template>
                 <template slot="count" slot-scope="row">
                     <!-- Controls to add or remove a card to deck, and counter to show "current / max" count -->
