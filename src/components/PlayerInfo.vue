@@ -68,6 +68,17 @@ export default {
     }
   },
   methods: {
+      /**
+       * Arranges raw player data from the game server into an object
+       * that is easier to query in order to display a player's data, e.g.:
+       *   Health: 25 / 30
+       * instead of
+       *   Health: 25
+       *   Max health: 30
+       *
+       * @param  {Object} playerData Raw player data from the server
+       * @return {Object} Data organized by health, mana, and scrap, including current and max values
+       */
       arrangePlayerData(playerData) {
           const rawData = playerData;
           const arrangedData = {
@@ -76,7 +87,6 @@ export default {
               scrap: {}
           };
           for (let key in rawData) {
-              console.log(key + "=" + rawData[key]);
               if (key === "HEALTH") {
                   arrangedData.health["current"] = rawData[key];
               }
@@ -93,7 +103,6 @@ export default {
                   arrangedData.scrap["current"] = rawData[key];
               }
           }
-          console.log(arrangedData);
           return arrangedData;
       }
   }
