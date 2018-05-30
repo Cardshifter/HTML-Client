@@ -29,6 +29,12 @@ export default {
   data() {
     let type = this.type;
     let style = { buttonStyle: "info", fa: "tint", title: "" };
+    if (type === "mana_cost") {
+        style = { buttonStyle: "info", fa: "tint", title: "Mana Cost" };
+    }
+    if (type === "mana_cost_upkeep") {
+        style = { buttonStyle: "info", fa: "tint", title: "Mana Cost/Upkeep" };
+    }
     if (type === "attack") {
       style = { buttonStyle: "danger", fa: "crosshairs", title: "Attack" };
     }

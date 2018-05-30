@@ -28,9 +28,12 @@
         </div>
         <!-- card statistics -->
         <div>
-            <!-- mana cost -->
+            <!-- mana cost/upkeep -->
             <div style="float: left; padding-left: 5px;">
-                <Value :value="card.properties.MANA_COST" type="mana-cost" orElse="0" alwaysShow></Value>
+                <Value v-if="card.properties.MANA_UPKEEP"
+                    :value="`${card.properties.MANA_COST}/${card.properties.MANA_UPKEEP}`"
+                    type="mana_cost_upkeep" orElse="0"></Value>
+                <Value v-else :value="card.properties.MANA_COST" type="mana_cost" orElse="0"></Value>
             </div>
             <div style="float: right; padding-right: 5px;" class="btn-group">
                 <Value :value="card.properties.ATTACK" type="attack" alwaysShow></Value>
