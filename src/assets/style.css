@@ -328,20 +328,22 @@ th {
 
 
 
-.diff-once-enter-active {
-  transition: all 10s;
+.diff-once-leave-active {
+  transition: all 1s;
   position: absolute;
 }
 
 .pos-absolute {
   position: absolute;
+  top: 0;
+  left: 0;
 }
 
-.diff-once-enter {
+.diff-once-leave {
   opacity: 1;
 }
 
-.diff-once-enter-to {
+.diff-once-leave-to {
   opacity: 0;
-  transform: translateY(-300px);
+  transform: translateY(-30px);
 }
