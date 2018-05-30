@@ -28,72 +28,66 @@
             <ul>
                 <CardModel :card="cardInfo" v-if="cardInfo"></CardModel>
             </ul>
-            <table class="deckbuilder-card-table">
-                <tr>
-                    <th>Type</th>
-                    <th>Name</th>
-                    <th>Count</th>
-                    <th v-if="this.currentUser.game.mod === 'Mythos'">Mana Cost / Upkeep</th>
-                    <th v-else>Mana Cost</th>
-                    <th style="width: 100px">Attack / Health</th>
-                    <th>Sickness</th>
-                    <th>Attack?</th>
-                    <th>Effect</th>
-                    <th>?</th>
-                </tr>
-                <tr v-for="card in cards">
-                    <td>{{card.properties.creatureType}}</td>
-                    <td><a href @click.prevent="showDetails(card)">{{card.properties.name}}</a></td>
-                    <td style="text-align: center;">
-                        <!-- Controls to add or remove a card to deck, and counter to show "current / max" count -->
-                        <div class="btn-group">
-                            <!-- MINUS button -->
-                            <button @click="decrement(card)" type="button" class="btn btn-xs btn-default fa fa-minus"></button>
-                            <!-- How many of each card you selected for this deck, and what the max allowed is -->
-                            <button type="button" class="btn btn-xs btn-default">
-                            <span :data-count="currentDeck[card.properties.id]">
-                            {{currentDeck[card.properties.id] || 0}} / {{card.max}}
-                            </span>
-                            </button>
-                            <!-- PLUS button -->
-                            <button @click="increment(card)" type="button" class="btn btn-xs btn-default fa fa-plus"></button>
-                        </div>
-                    </td>
-                    <td style="text-align: center;">
-                        <span v-if="card.properties.MANA_UPKEEP" style="font-size: 1.0em;">
-                        {{`${card.properties.MANA_COST} / ${card.properties.MANA_UPKEEP}`}}
+            <b-table show-empty stacked="md" class="deckbuilder-card-table"
+                :items="cards" :fields="tableFields" :filter="filter"
+                :sort-compare="tableSort"
+                :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" :sort-direction="sortDirection">
+
+                <template slot="creatureType" slot-scope="row">{{ row.item.properties.creatureType }}</template>
+                <template slot="name" slot-scope="row">
+                    <a href @click.prevent="showDetails(card)">{{ row.item.properties.name }}</a>
+                </template>
+                <template slot="count" slot-scope="row">
+                    <!-- Controls to add or remove a card to deck, and counter to show "current / max" count -->
+                    <div class="btn-group">
+                        <!-- MINUS button -->
+                        <button @click="decrement(row.item)" type="button" class="btn btn-xs btn-default fa fa-minus"></button>
+                        <!-- How many of each card you selected for this deck, and what the max allowed is -->
+                        <button type="button" class="btn btn-xs btn-default">
+                        <span :data-count="currentDeck[row.item.properties.id]">
+                        {{currentDeck[row.item.properties.id] || 0}} / {{row.item.max}}
                         </span>
-                        <span v-else style="font-size: 1.0em;">
-                        {{card.properties.MANA_COST}}
-                        </span>
-                    </td>
-                    <td style="font-weight: bold; text-align: center;">
-                        <span v-if="card.properties.ATTACK" style="font-size: 1.0em;">{{card.properties.ATTACK}}</span>
-                        <span v-if="!card.properties.ATTACK" style="font-size: 1.0em; color: red;">-</span>
-                        <span>/</span>
-                        <span v-if="card.properties.HEALTH" style="font-size: 1.0em;">{{card.properties.HEALTH}}</span>
-                        <span v-if="!card.properties.HEALTH" style="font-size: 1.0em; color: red;">-</span>
-                    </td>
-                    <td style="text-align: center;">{{card.properties.SICKNESS}}</td>
-                    <td style="text-align: center;">
-                        <span v-if="card.properties.ATTACK_AVAILABLE" style="font-size: 1.0em; color: green;">Yes</span>
-                        <span v-if="!card.properties.ATTACK_AVAILABLE" style="font-size: 1.0em; color: red;">No</span>
-                    </td>
-                    <td style="text-align: center;">
-                        {{card.properties.effect}}
-                    </td>
-                    <td style="text-align: center;">
-                        <!-- flavor tooltip -->
-                        <b-btn v-if="card.properties.flavor" class="btn btn-dark fa fa-book" :id="`${card.id}-flavor`"></b-btn>
-                        <b-popover :target="`${card.id}-flavor`"
-                            :title="card.properties.name"
-                            triggers="hover focus"
-                            :content="card.properties.flavor"
-                            placement="right">
-                        </b-popover>
-                    </td>
-                </tr>
-            </table>
+                        </button>
+                        <!-- PLUS button -->
+                        <button @click="increment(row.item)" type="button" class="btn btn-xs btn-default fa fa-plus"></button>
+                    </div>
+                </template>
+                <template slot="mana" slot-scope="row">
+                  <span v-if="row.item.properties.MANA_UPKEEP" style="font-size: 1.0em;">
+                  {{`${row.item.properties.MANA_COST} / ${row.item.properties.MANA_UPKEEP}`}}
+                  </span>
+                  <span v-else style="font-size: 1.0em;">
+                  {{row.item.properties.MANA_COST}}
+                  </span>
+                </template>
+                <template slot="attack_health" slot-scope="row">
+                  <span v-if="row.item.properties.ATTACK" style="font-size: 1.0em;">{{row.item.properties.ATTACK}}</span>
+                  <span v-if="!row.item.properties.ATTACK" style="font-size: 1.0em; color: red;">-</span>
+                  <span>/</span>
+                  <span v-if="row.item.properties.HEALTH" style="font-size: 1.0em;">{{row.item.properties.HEALTH}}</span>
+                  <span v-if="!row.item.properties.HEALTH" style="font-size: 1.0em; color: red;">-</span>
+                </template>
+                <template slot="sickness" slot-scope="row">
+                  {{ row.item.properties.SICKNESS }}
+                </template>
+                <template slot="attack" slot-scope="row">
+                  <span v-if="row.item.properties.ATTACK_AVAILABLE" style="font-size: 1.0em; color: green;">Yes</span>
+                  <span v-if="!row.item.properties.ATTACK_AVAILABLE" style="font-size: 1.0em; color: red;">No</span>
+                </template>
+                <template slot="effect" slot-scope="row">
+                  {{ row.item.properties.effect }}
+                </template>
+                <template slot="flavor" slot-scope="row">
+                  <!-- flavor tooltip -->
+                  <b-btn v-if="row.item.properties.flavor" class="btn btn-dark fa fa-book" :id="`${row.item.id}-flavor`"></b-btn>
+                  <b-popover :target="`${row.item.id}-flavor`"
+                      :title="row.item.properties.name"
+                      triggers="hover focus"
+                      :content="row.item.properties.flavor"
+                      placement="right">
+                  </b-popover>
+                </template>
+            </b-table>
         </div>
     </div>
 </template>
@@ -109,6 +103,11 @@ export default {
     props: ["currentUser"],
     data() {
         return {
+            sortBy: null,
+            sortDesc: false,
+            sortDirection: 'asc',
+            filter: null,
+
             doneLoading: false,
             deckConfig: null,
             cards: [],
@@ -129,6 +128,40 @@ export default {
         CardModel
     },
     methods: {
+        pureSort(valueA, valueB) {
+            if (typeof valueA === 'undefined') {
+                return typeof valueB !== 'undefined' ? -1 : 1;
+            }
+            if (typeof valueB === 'undefined') {
+                return typeof valueA !== 'undefined' ? 1 : -1;
+            }
+            if (valueA > valueB) return 1;
+            if (valueA < valueB) return -1;
+            return 0;
+        },
+        tableSort(a, b, key) {
+            if (key === "count") {
+                return this.pureSort(this.currentDeck[a.properties.id], this.currentDeck[b.properties.id]);
+            } else if (key === "mana") {
+                let valueA = (a.properties.MANA_COST ? a.properties.MANA_COST : 0) + (a.properties.MANA_UPKEEP ? a.properties.MANA_UPKEEP : 0);
+                let valueB = (b.properties.MANA_COST ? b.properties.MANA_COST : 0) + (b.properties.MANA_UPKEEP ? b.properties.MANA_UPKEEP : 0);
+                return this.pureSort(valueA, valueB);
+            } else if (key === "attack_health") {
+                let valueA = (a.properties.ATTACK ? a.properties.ATTACK : 0) + (a.properties.HEALTH ? a.properties.HEALTH : 0);
+                let valueB = (b.properties.ATTACK ? b.properties.ATTACK : 0) + (b.properties.HEALTH ? b.properties.HEALTH : 0);
+                return this.pureSort(valueA, valueB);
+            } else if (key === "attack") {
+                console.log("sort attack " + a.properties.ATTACK_AVAILABLE);
+                return this.pureSort(a.properties.ATTACK_AVAILABLE, b.properties.ATTACK_AVAILABLE);
+            } else if (key === "effect" || key === "name" || key === "creatureType") {
+                console.log("sort effect " + a.properties.ATTACK_AVAILABLE);
+                return this.pureSort(a.properties[key], b.properties[key]);
+            } else {
+                let valueA = a.properties[key.toUpperCase()];
+                let valueB = b.properties[key.toUpperCase()];
+                return this.pureSort(valueA, valueB);
+            }
+        },
         playerconfig(cardInformation) {
             this.deckConfig = cardInformation;
             var deck = cardInformation.configs.Deck;
@@ -406,6 +439,20 @@ export default {
         }
     },
     computed: {
+        tableFields() {
+          let hasUpkeep = this.currentUser.game.mod === "Mythos";
+          return [
+              { key: "creatureType", label: "Type", sortable: true, sortDirection: "desc" },
+              { key: "name", label: "Name", sortable: true, sortDirection: "desc" },
+              { key: "count", label: "Count", sortable: true, sortDirection: "desc" },
+              { key: "mana", label: hasUpkeep ? "Mana Cost / Upkeep" : "Mana Cost", sortable: true, sortDirection: "desc" },
+              { key: "attack_health", label: "Attack / Health", sortable: true, sortDirection: "desc" },
+              { key: "sickness", label: "Sickness", sortable: true, sortDirection: "desc" },
+              { key: "attack", label: "Attack?", sortable: true, sortDirection: "desc" },
+              { key: "effect", label: "Effect", sortable: true, sortDirection: "desc" },
+              { key: "flavor", label: "?", sortable: false }
+          ];
+        },
         totalSelected: function() {
             var total = 0;
             for (var card in this.currentDeck) {
