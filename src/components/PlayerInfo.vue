@@ -13,18 +13,12 @@
                 <span v-if="name === 'health'" style="font-size: 1.0em;">
                     {{value["current"] + " / " + value["max"]}}
                 </span>
-            </li>
-            <!-- MANA & MAX_MANA -->
-            <li v-for="(value, name) in arrangePlayerData(info.properties)" :key="name">
                 <span v-if="name === 'mana'" style="font-weight: bold; font-size: 1.0em;">
                     {{name | formatResourceName}}:
                 </span>
                 <span v-if="name === 'mana'" style="font-size: 1.0em;">
                     {{value["current"] + " / " + value["max"]}}
                 </span>
-            </li>
-            <!-- SCRAP -->
-            <li v-for="(value, name) in arrangePlayerData(info.properties)" :key="name">
                 <span v-if="name === 'scrap'" style="font-weight: bold; font-size: 1.0em;">
                     {{name | formatResourceName}}:
                 </span>
