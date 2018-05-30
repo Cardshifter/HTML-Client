@@ -254,10 +254,8 @@ export default {
             }
 
             var now = new Date();
-
-            var YMD = [formatTimeNumber(now.getFullYear()), formatTimeNumber(now.getMonth() + 1), formatTimeNumber(now.getDate())].join('-');
             var HMS = [formatTimeNumber(now.getHours()), formatTimeNumber(now.getMinutes()), formatTimeNumber(now.getSeconds())].join(':');
-            message.timestamp = YMD + " " + HMS;
+            message.timestamp = HMS;
 
             this.chatMessages.push(message);
         },
