@@ -11,7 +11,6 @@
 
         <!-- Deck manipulation & `Start game` | `Back to lobby` controls -->
         <form>
-            <!-- TODO: {Phrancis} Lay this out in a nice Bootstrap form. -->
             <label>Save deck as:</label>
             <input v-model="deckName" type="text" />
             <input @click="saveDeck()" type="button" value="Save Deck" class="btn btn-xs btn-primary"/>
@@ -21,11 +20,11 @@
             <input v-if="enteringGame" @click="goBack()" type="button" value="Go back to lobby" class="btn btn-sm btn-default"/>
         </form>
 
-        <!-- List of saved decks, with `Delete` button -->
+        <!-- List of saved decks, with a Delete button for each -->
         <ul>
             <li v-for="deck in savedDecks">
                 <span class="load-deck" @click="switchDeck(deck)">{{deck.name}}</span>
-                <input @click="deleteDeck(deck.name)" type="button" value="Delete" class="btn btn-xs btn-danger"/>
+                <input @click="deleteDeck(deck.name)" type="button" value="Delete" class="btn btn-sm btn-danger"/>
             </li>
         </ul>
 
@@ -33,24 +32,6 @@
             <CardModel :card="cardInfo" v-if="cardInfo"></CardModel>
         </ul>
 
-        <!-- LIST OF ALL CARDS - Displays one full row below for every card -->
-            <!-- Available {{card.properties}} values
-                SERVER JSON name      | AngularJS ref name | Note
-                -------------------------------------------------
-                "SICKNESS"            | SICKNESS           | 1 or 0, or empty (for cards where n/a)
-                "MANA_COST"           | MANA_COST          | n, or empty (for cards n/a)
-                "MANA_UPKEEP"         | MANA_UPKEEP        | n, or empty (for card n/a)
-                "ATTACK"              | ATTACK             | n, or empty (for cards n/a)
-                "HEALTH"              | HEALTH             | n, or empty (for cards n/a)
-                "ATTACK_AVAILABLE"    | ATTACK_AVAILABLE   | 1, or empty (when explicit 0 n/a)
-                "flavor"              | flavor             | flavor, or empty
-                "name"                | name               | name (cannot be empty)
-                "description"         | effect             | effect, or empty
-                "type"                | creatureType       | type, or empty (for non-creatures)
-                "MAX_HEALTH"          | MAX_HEALTH         | n, or empty (for cards n/a)
-                "SCRAP"               | SCRAP              | n, or empty (for cards n/a)
-                "SCRAP_COST"          | SCRAP_COST         | n, or empty (for cards n/a)
-            -->
         <table class="deckbuilder-card-table">
             <tr>
                 <th>Type</th>
@@ -68,12 +49,16 @@
                 <td>{{card.properties.creatureType}}</td>
                 <td><a href @click.prevent="showDetails(card)">{{card.properties.name}}</a></td>
                 <td style="text-align: center;">
-                <!-- Controls to add or remove a card to deck, and counter to show "current / max" count -->
+                    <!-- Controls to add or remove a card to deck, and counter to show "current / max" count -->
                     <div class="btn-group">
                         <!-- MINUS button -->
                         <button @click="decrement(card)" type="button" class="btn btn-xs btn-default fa fa-minus"></button>
-                        <!-- How many cards you selected for this deck, and what the max allowed is -->
-                        <button type="button" class="btn btn-xs btn-default"><b :data-count="currentDeck[card.properties.id]">{{currentDeck[card.properties.id] || 0}} / {{card.max}}</b></button>
+                        <!-- How many of each card you selected for this deck, and what the max allowed is -->
+                        <button type="button" class="btn btn-xs btn-default">
+                            <span :data-count="currentDeck[card.properties.id]">
+                                {{currentDeck[card.properties.id] || 0}} / {{card.max}}
+                            </span>
+                        </button>
                         <!-- PLUS button -->
                         <button @click="increment(card)" type="button" class="btn btn-xs btn-default fa fa-plus"></button>
                     </div>
@@ -101,10 +86,15 @@
                 <td style="text-align: center;">
                     {{card.properties.effect}}
                 </td>
-                <td style="text-align: center;"><!-- flavor tooltip -->
-                    <b-btn type="button" class="btn btn-xs btn-default" popover-placement="right"
-                            v-b-popover.hover="card.properties.flavor"
-                            v-if="card.properties.flavor">?</b-btn>
+                <td style="text-align: center;">
+                    <!-- flavor tooltip -->
+                    <b-btn v-if="card.properties.flavor" class="btn btn-dark fa fa-book" :id="`${card.id}-flavor`"></b-btn>
+                    <b-popover :target="`${card.id}-flavor`"
+                        :title="card.properties.name"
+                        triggers="hover focus"
+                        :content="card.properties.flavor"
+                        placement="right">
+                    </b-popover>
                 </td>
             </tr>
         </table>
@@ -264,6 +254,7 @@ export default {
     switchDeck(deck) {
         this.currentDeckName = deck.name;
         this.currentDeck = deck.cards;
+        this.deckName = deck.name;
     },
 
     /**
