@@ -25,8 +25,12 @@ button, input, select, textarea {
 
 .csh-top-link {
     font-family: Georgia, Times, "Times New Roman", serif;
-    color: #FFFFFF;
+    color: #AAAAAA;
     font-size: 2em;
+}
+
+.csh-top-link:hover, .csh-top-link:active {
+    color: #EEEEEE;
 }
 
 a.csh-dropdown-link,

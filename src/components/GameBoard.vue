@@ -1,6 +1,6 @@
 <template>
     <div>
-        <TopNavbar></TopNavbar>
+        <TopNavbar :username="currentUser.username"></TopNavbar>
           <div class="game" :class="'game-' + modName">
               <!-- Player display -->
               <div>

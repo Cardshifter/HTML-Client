@@ -1,6 +1,6 @@
 <template>
   <div>
-      <TopNavbar></TopNavbar>
+      <TopNavbar  :username="currentUser.username"></TopNavbar>
     <div v-if="!doneLoading">
         <h1 class="deckbuilder-deck-name">Loading Deck Builder...</h1>
     </div>

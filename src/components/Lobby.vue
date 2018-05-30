@@ -1,6 +1,6 @@
 <template>
     <div>
-        <TopNavbar></TopNavbar>
+        <TopNavbar :username="currentUser.username"></TopNavbar>
         <table id="lobby" class="lobby">
             <tr id="lobby-headers" class="lobby-headers">
               <td id="lobby-title" class="lobby-title">Lobby</td>
