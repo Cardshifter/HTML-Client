@@ -1,86 +1,90 @@
 <template>
-    <table id="lobby" class="lobby">
-        <tr id="lobby-headers" class="lobby-headers">
-          <td id="lobby-title" class="lobby-title">Lobby</td>
-          <td id="lobby-deck-builder" class="lobby-deck-builder" width="20%">
-              <button @click="openDeckBuilder()" class="btn btn-navbar csh-button deck-builder-btn">
-                  Deck Builder
-              </button>
-          </td>
-        </tr>
-        <tr id="lobby-invite-request"class="lobby-invite-request" v-if="gotInvite">
-          <td colspan="2">
-              <div id="lobby-accept-invite" class="lobby-accept-invite">
-                  Game invite from {{invite.name}} to play {{invite.type}}!<br/>
-                  <input @click="acceptInvite(true)" type="button" value="Accept" class="btn btn-success"/>
-                  <input @click="acceptInvite(false)" type="button" value="Decline" class="btn btn-danger"/>
-                  <audio ref="pingAudio">
-                      <source src="../assets/ping_sound.mp3" type="audio/mpeg">
-                  </audio>
-              </div>
-          </td>
-        </tr>
-        <tr v-if="errorMessage !== null">
-            <td colspan="2">
-                <b-alert dismissible variant="danger" @dismissed="errorMessage = null" :show="errorMessage !== null">{{ errorMessage }}</b-alert>
-            </td>
-        </tr>
-        <tr id="lobby-list-headers" class="lobby-list-headers">
-          <th id="lobby-message-list-header" class="lobby-message-list-header">Messages</th>
-          <th id="lobby-users-list-header" class="lobby-users-list-header">Users Online</th>
-        </tr>
-        <tr id="lobby-lists" class="lobby-lists">
-          <td id="lobby-message-list" class="lobby-message-list">
-              <ul id="lobby-chat-messages" class="lobby-chat-messages">
-                  <li v-for="message in chatMessages" :class="{'user-chat-message lobby-chat-message': message.from === currentUser.username}" id="lobby-chat-message">
-                      <!-- Only display from if there is a from. Errors will not have a from -->
-                      [{{message.timestamp}}] {{message.from ? message.from + ":" : ""}} {{message.message}}
-                  </li>
-              </ul>
-          </td>
-          <td id="lobby-users-list" class="lobby-users-list">
-              <ul id="lobby-users" class="lobby-users">
-                  <li v-for="user in users" id="lobby-user" class="lobby-user">
-                      <label>
-                          <input v-model="selected_opponent" v-if="user.userId != currentUser.id" type="radio"
-                                 :value="user.userId" name="user_selection" /> {{user.name}}
-                      </label>
-                  </li>
-              </ul>
-          </td>
-        </tr>
-        <tr>
-          <td id="lobby-message" class="lobby-message">
-              <textarea v-model="user_chat_message" @keyup.enter="sendMessage($event)"
-                        id="lobby-chat-text-area" class="lobby-chat-text-area" rows="1" cols="75" wrap="off"
-                        placeholder="Enter chat message..."></textarea>
-              <input @click="sendMessage()" :disabled="sending" type="submit" value="Send" class="btn btn-navbar csh-button lobby-chat-send-btn"/>
-          </td>
-          <td id="lobby-invite" class="lobby-invite">
-              <input @click="startGame()" type="button" value="Invite to game!" class="btn btn-success lobby-game-invite-btn"/>
-          </td>
-        </tr>
-        <tr id="lobby-mods" class="lobby-mods">
-          <td colspan="2" id="lobby-mod-selection" class="lobby-mod-selection">
-              <form class="form-inline" role="form">
-                  <div class="form-group">
-                      <label for="mod_selection" class="lobby-mod-selector-label">Select game type:</label>
-                      <div v-for="mod in mods" class="form-control lobby-mod-selector">
-                          <label>
-                              <input v-model="selected_mod" type="radio" :value="mod"
-                                     name="mod_selection" id="mod_selection"/>
-                              {{mod}}
-                          </label>
-                      </div>
+    <div>
+        <TopNavbar></TopNavbar>
+        <table id="lobby" class="lobby">
+            <tr id="lobby-headers" class="lobby-headers">
+              <td id="lobby-title" class="lobby-title">Lobby</td>
+              <td id="lobby-deck-builder" class="lobby-deck-builder" width="20%">
+                  <button @click="openDeckBuilder()" class="btn btn-navbar csh-button deck-builder-btn">
+                      Deck Builder
+                  </button>
+              </td>
+            </tr>
+            <tr id="lobby-invite-request"class="lobby-invite-request" v-if="gotInvite">
+              <td colspan="2">
+                  <div id="lobby-accept-invite" class="lobby-accept-invite">
+                      Game invite from {{invite.name}} to play {{invite.type}}!<br/>
+                      <input @click="acceptInvite(true)" type="button" value="Accept" class="btn btn-success"/>
+                      <input @click="acceptInvite(false)" type="button" value="Decline" class="btn btn-danger"/>
+                      <audio ref="pingAudio">
+                          <source src="../assets/ping_sound.mp3" type="audio/mpeg">
+                      </audio>
                   </div>
-              </form>
-          </td>
-        </tr>
-    </table>
+              </td>
+            </tr>
+            <tr v-if="errorMessage !== null">
+                <td colspan="2">
+                    <b-alert dismissible variant="danger" @dismissed="errorMessage = null" :show="errorMessage !== null">{{ errorMessage }}</b-alert>
+                </td>
+            </tr>
+            <tr id="lobby-list-headers" class="lobby-list-headers">
+              <th id="lobby-message-list-header" class="lobby-message-list-header">Messages</th>
+              <th id="lobby-users-list-header" class="lobby-users-list-header">Users Online</th>
+            </tr>
+            <tr id="lobby-lists" class="lobby-lists">
+              <td id="lobby-message-list" class="lobby-message-list">
+                  <ul id="lobby-chat-messages" class="lobby-chat-messages">
+                      <li v-for="message in chatMessages" :class="{'user-chat-message lobby-chat-message': message.from === currentUser.username}" id="lobby-chat-message">
+                          <!-- Only display from if there is a from. Errors will not have a from -->
+                          [{{message.timestamp}}] {{message.from ? message.from + ":" : ""}} {{message.message}}
+                      </li>
+                  </ul>
+              </td>
+              <td id="lobby-users-list" class="lobby-users-list">
+                  <ul id="lobby-users" class="lobby-users">
+                      <li v-for="user in users" id="lobby-user" class="lobby-user">
+                          <label>
+                              <input v-model="selected_opponent" v-if="user.userId != currentUser.id" type="radio"
+                                     :value="user.userId" name="user_selection" /> {{user.name}}
+                          </label>
+                      </li>
+                  </ul>
+              </td>
+            </tr>
+            <tr>
+              <td id="lobby-message" class="lobby-message">
+                  <textarea v-model="user_chat_message" @keyup.enter="sendMessage($event)"
+                            id="lobby-chat-text-area" class="lobby-chat-text-area" rows="1" cols="75" wrap="off"
+                            placeholder="Enter chat message..."></textarea>
+                  <input @click="sendMessage()" :disabled="sending" type="submit" value="Send" class="btn btn-navbar csh-button lobby-chat-send-btn"/>
+              </td>
+              <td id="lobby-invite" class="lobby-invite">
+                  <input @click="startGame()" type="button" value="Invite to game!" class="btn btn-success lobby-game-invite-btn"/>
+              </td>
+            </tr>
+            <tr id="lobby-mods" class="lobby-mods">
+              <td colspan="2" id="lobby-mod-selection" class="lobby-mod-selection">
+                  <form class="form-inline" role="form">
+                      <div class="form-group">
+                          <label for="mod_selection" class="lobby-mod-selector-label">Select game type:</label>
+                          <div v-for="mod in mods" class="form-control lobby-mod-selector">
+                              <label>
+                                  <input v-model="selected_mod" type="radio" :value="mod"
+                                         name="mod_selection" id="mod_selection"/>
+                                  {{mod}}
+                              </label>
+                          </div>
+                      </div>
+                  </form>
+              </td>
+            </tr>
+        </table>
+    </div>
 </template>
 
 <script>
 import CardshifterServerAPI from "../server_interface";
+import TopNavbar from "./TopNavbar";
 
 var CHAT_FEED_LIMIT = 10;
 var MESSAGE_DELAY = 3000;
@@ -119,6 +123,9 @@ export default {
             },
             gotInvite: false
         }
+    },
+    components: {
+        TopNavbar
     },
     methods: {
         /**

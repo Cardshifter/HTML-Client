@@ -1,5 +1,6 @@
 <template>
   <div>
+      <TopNavbar></TopNavbar>
     <div v-if="!doneLoading">
         <h1 class="deckbuilder-deck-name">Loading Deck Builder...</h1>
     </div>
@@ -103,6 +104,7 @@
 </template>
 <script>
 import CardshifterServerAPI from "../server_interface";
+import TopNavbar from "./TopNavbar";
 import CardModel from "./CardModel"
 
 const DECK_STORAGE = "CARDSHIFTER_DECK_STORAGE";
@@ -128,7 +130,8 @@ export default {
     }
   },
   components: {
-    CardModel
+      TopNavbar,
+      CardModel
   },
   methods: {
     playerconfig(cardInformation) {

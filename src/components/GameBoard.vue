@@ -1,46 +1,50 @@
 <template>
-  <div class="game" :class="'game-' + modName">
-      <!-- Player display -->
-      <div>
-          <b-alert :show="eliminationResult !== null">
-            <span>{{ eliminationResult }}</span>
-            <button @click="gotoLobby()">Back to Lobby</button>
-          </b-alert>
+    <div>
+        <TopNavbar></TopNavbar>
+          <div class="game" :class="'game-' + modName">
+              <!-- Player display -->
+              <div>
+                  <b-alert :show="eliminationResult !== null">
+                    <span>{{ eliminationResult }}</span>
+                    <button @click="gotoLobby()">Back to Lobby</button>
+                  </b-alert>
 
-          <b-alert dismissible variant="danger" @dismissed="errorMessage = null" :show="errorMessage !== null">{{ errorMessage }}</b-alert>
+                  <b-alert dismissible variant="danger" @dismissed="errorMessage = null" :show="errorMessage !== null">{{ errorMessage }}</b-alert>
 
-          <div v-for="(info, type) in playerInfos" class="player" :key="type"
-              :class="{'player-user': info == playerInfos.user, 'player-opponent': info != playerInfos.user}">
+                  <div v-for="(info, type) in playerInfos" class="player" :key="type"
+                      :class="{'player-user': info == playerInfos.user, 'player-opponent': info != playerInfos.user}">
 
-              <!-- Player information boxes -->
-              <PlayerInfo :info="info" :currentAction="currentAction"
-                :targets="targets"
-                :actions="actions" :selectEntity="selectEntity" :startAction="startAction" :cancelAction="cancelAction" :performAction="performAction"
-                :showActions="info == playerInfos.user">
+                      <!-- Player information boxes -->
+                      <PlayerInfo :info="info" :currentAction="currentAction"
+                        :targets="targets"
+                        :actions="actions" :selectEntity="selectEntity" :startAction="startAction" :cancelAction="cancelAction" :performAction="performAction"
+                        :showActions="info == playerInfos.user">
 
-              </PlayerInfo>
+                      </PlayerInfo>
 
-              <!-- Player cards -->
-              <div v-for="(zoneInfo, zoneName) in info.zones" class="zone" :class="'zone-' + zoneName" :key="zoneName">
-                  <transition-group v-if="zoneInfo.known" name="list-complete" tag="div">
-                      <!--<h3>{{zoneName}}</h3>-->
-                      <CardModel class="list-complete-item" :card="card" :targets="targets" :doingAction="doingAction"
-                          :selectEntity="selectEntity" :actions="actions" :startAction="startAction"
-                          v-for="(card, id) in zoneInfo.entities" :key="id" v-if="card.properties">
-                      </CardModel>
-                  </transition-group>
+                      <!-- Player cards -->
+                      <div v-for="(zoneInfo, zoneName) in info.zones" class="zone" :class="'zone-' + zoneName" :key="zoneName">
+                          <transition-group v-if="zoneInfo.known" name="list-complete" tag="div">
+                              <!--<h3>{{zoneName}}</h3>-->
+                              <CardModel class="list-complete-item" :card="card" :targets="targets" :doingAction="doingAction"
+                                  :selectEntity="selectEntity" :actions="actions" :startAction="startAction"
+                                  v-for="(card, id) in zoneInfo.entities" :key="id" v-if="card.properties">
+                              </CardModel>
+                          </transition-group>
 
-                  <!-- For opponent's cards. Is there a better way? -->
-                  <div v-show="!zoneInfo.known && zoneName==='Hand'">
-                      <!--<h3>{{zoneName}}</h3>-->
+                          <!-- For opponent's cards. Is there a better way? -->
+                          <div v-show="!zoneInfo.known && zoneName==='Hand'">
+                              <!--<h3>{{zoneName}}</h3>-->
+                          </div>
+                      </div>
                   </div>
               </div>
           </div>
-      </div>
-  </div>
+        </div>
 </template>
 <script>
 import CardshifterServerAPI from "../server_interface";
+import TopNavbar from "./TopNavbar";
 import CardModel from "./CardModel"
 import PlayerInfo from "./PlayerInfo"
 
@@ -79,8 +83,9 @@ export default {
     }
   },
   components: {
-    PlayerInfo,
-    CardModel
+      TopNavbar,
+      PlayerInfo,
+      CardModel
   },
   methods: {
     startAction(action) {
