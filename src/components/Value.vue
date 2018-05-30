@@ -4,9 +4,9 @@
       {{ displayText }}
     </button>
     <transition-group name="diff-once" class="pos-absolute" tag="div" @after-enter="removeDiff()">
-      <button v-for="(diff, index) in diffs" :key="index"
+      <button v-for="diff in diffs" :key="diff.id"
         class="btn btn-sm active fa diff-once" :class="`btn-${buttonStyle} fa-${faValue}`" style="cursor:default">
-        {{diff}}
+        {{diff.value}}
       </button>
     </transition-group>
   </div>
@@ -63,6 +63,7 @@ export default {
 
     return {
       diffs: [],
+      diffId: 0,
       buttonStyle: style.buttonStyle,
       faValue: style.fa,
       title: style.title
@@ -85,7 +86,8 @@ export default {
     value: function(newValue, oldValue) {
       console.log(typeof newValue);
       let diff = newValue - oldValue;
-      this.diffs.push(diff);
+      this.diffs.push({value: diff, id: this.diffId});
+      this.diffId++;
     }
   }
 }
