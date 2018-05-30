@@ -5,25 +5,15 @@
             {{info.name}}
         </h4>
         <ul style="list-style: none outside none; margin: 0; padding: 0;">
-            <!-- HEALTH & MAX_HEALTH -->
-            <li v-for="(value, name) in arrangedPlayerData" :key="name">
-                <span v-if="name === 'health'" style="font-weight: bold; font-size: 1.0em;">
+            <Value :value="info.properties.HEALTH" :valueMax="info.properties.MAX_HEALTH" type="health" alwaysShow></Value>
+            <Value :value="info.properties.MANA" :valueMax="info.properties.MAX_MANA" type="mana" alwaysShow></Value>
+            <Value :value="info.properties.SCRAP" type="scrap"></Value>
+            <li v-for="(value, name) in otherPlayerData" :key="name">
+                <span style="font-weight: bold; font-size: 1.0em;">
                     {{name | formatResourceName}}:
                 </span>
-                <span v-if="name === 'health'" style="font-size: 1.0em;">
-                    {{value["current"] + " / " + value["max"]}}
-                </span>
-                <span v-if="name === 'mana'" style="font-weight: bold; font-size: 1.0em;">
-                    {{name | formatResourceName}}:
-                </span>
-                <span v-if="name === 'mana'" style="font-size: 1.0em;">
-                    {{value["current"] + " / " + value["max"]}}
-                </span>
-                <span v-if="name === 'scrap'" style="font-weight: bold; font-size: 1.0em;">
-                    {{name | formatResourceName}}:
-                </span>
-                <span v-if="name === 'scrap'" style="font-size: 1.0em;">
-                    {{value["current"]}}
+                <span style="font-size: 1.0em;">
+                    {{value}}
                 </span>
             </li>
             <!-- CARDS -->
@@ -52,6 +42,8 @@
     </div>
 </template>
 <script>
+import Value from "./Value";
+
 export default {
   name: "PlayerInfo",
   props: ["info", "actions", "targets", "showActions", "currentAction", "selectEntity", "startAction", "cancelAction", "performAction"],
@@ -61,43 +53,25 @@ export default {
         return input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
     }
   },
+  components: {
+    Value
+  },
   computed: {
       /**
        * Arranges raw player data from the game server into an object
-       * that is easier to query in order to display a player's data, e.g.:
-       *   Health: 25 / 30
-       * instead of
-       *   Health: 25
-       *   Max health: 30
+       * without the data that has explicit rendering in the template.
+       * For making a generic list of resources.
        *
-       * @param  {Object} playerData Raw player data from the server
-       * @return {Object} Data organized by health, mana, and scrap, including current and max values
+       * @return {Object} Data without health, mana, and scrap
        */
-      arrangedPlayerData() {
-          const rawData = this.info.properties;
-          const arrangedData = {
-              health: {},
-              mana: {},
-              scrap: {}
-          };
-          for (let key in rawData) {
-              if (key === "HEALTH") {
-                  arrangedData.health["current"] = rawData[key];
-              }
-              if (key === "MAX_HEALTH") {
-                  arrangedData.health["max"] = rawData[key];
-              }
-              if (key === "MANA") {
-                  arrangedData.mana["current"] = rawData[key];
-              }
-              if (key === "MAX_MANA") {
-                  arrangedData.mana["max"] = rawData[key];
-              }
-              if (key === "SCRAP") {
-                  arrangedData.scrap["current"] = rawData[key];
-              }
-          }
-          return arrangedData;
+      otherPlayerData() {
+          const result = Object.assign({}, this.info.properties);
+          delete result.HEALTH;
+          delete result.MAX_HEALTH;
+          delete result.MANA;
+          delete result.MAX_MANA;
+          delete result.SCRAP;
+          return result;
       }
   }
 }

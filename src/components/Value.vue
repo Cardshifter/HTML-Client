@@ -39,6 +39,9 @@ export default {
   data() {
     let type = this.type;
     let style = { buttonStyle: "info", fa: "tint", title: "" };
+    if (type === "mana") {
+        style = { buttonStyle: "info", fa: "tint", title: "Mana" };
+    }
     if (type === "mana_cost") {
         style = { buttonStyle: "info", fa: "tint", title: "Mana Cost" };
     }
@@ -80,6 +83,7 @@ export default {
   },
   watch: {
     value: function(newValue, oldValue) {
+      console.log(typeof newValue);
       let diff = newValue - oldValue;
       this.diffs.push(diff);
     }
