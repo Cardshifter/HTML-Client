@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
+import TopNavbar from "@/components/TopNavbar";
 import Login from "@/components/Login";
 import Lobby from "@/components/Lobby";
 import DeckBuilder from "@/components/DeckBuilder";

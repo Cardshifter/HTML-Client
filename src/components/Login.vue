@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-
+      <TopNavbar></TopNavbar>
     <!-- Server status -->
     <h4>Server Status</h4>
     <div class="server-status">
@@ -108,6 +108,7 @@
 
 <script>
 import CardshifterServerAPI from "../server_interface";
+import TopNavbar from "./TopNavbar";
 
 const loginStorageMap = {
     "CARDSHIFTER_LAST_NAME": "username",
@@ -135,6 +136,9 @@ export default {
       refreshing: false,
       chosenServer: null
     };
+  },
+  components :{
+      TopNavbar
   },
   methods: {
     /*
