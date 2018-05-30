@@ -151,10 +151,8 @@ export default {
                 let valueB = (b.properties.ATTACK ? b.properties.ATTACK : 0) + (b.properties.HEALTH ? b.properties.HEALTH : 0);
                 return this.pureSort(valueA, valueB);
             } else if (key === "attack") {
-                console.log("sort attack " + a.properties.ATTACK_AVAILABLE);
                 return this.pureSort(a.properties.ATTACK_AVAILABLE, b.properties.ATTACK_AVAILABLE);
             } else if (key === "effect" || key === "name" || key === "creatureType") {
-                console.log("sort effect " + a.properties.ATTACK_AVAILABLE);
                 return this.pureSort(a.properties[key], b.properties[key]);
             } else {
                 let valueA = a.properties[key.toUpperCase()];
