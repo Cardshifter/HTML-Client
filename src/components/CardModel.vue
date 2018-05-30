@@ -119,11 +119,16 @@ export default {
             }
             const isAllCaps = text === text.toUpperCase();
             const length = text.length;
-            if (length >= 20) {
+            if (length >= 25) {
+                baselineEm = isAllCaps ? 0.5 : 0.6;
+            }
+            else if (length >= 20) {
                 baselineEm = isAllCaps ? 0.7 : 0.8;
-            } else if (length >= 18) {
+            }
+            else if (length >= 18) {
                 baselineEm = isAllCaps ? 0.9 : 1.0;
-            } else if (length >= 15 && isAllCaps) {
+            }
+            else if (length >= 15 && isAllCaps) {
                 baselineEm = 0.9;
             }
             return baselineEm;
