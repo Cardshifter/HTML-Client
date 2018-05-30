@@ -167,6 +167,7 @@ export default {
             var deck = cardInformation.configs.Deck;
 
             for (var card in deck.cardData) {
+                deck.cardData[card]._rowVariant = "";
                 this.cards.push(deck.cardData[card]);
                 if (deck.cardData.hasOwnProperty(card)) {
                     deck.cardData[card].max = deck.max[card] || deck.maxPerCard;
@@ -197,6 +198,9 @@ export default {
             if (this.currentDeck[card.properties.id] > 0) {
                 this.currentDeck[card.properties.id]--;
             }
+            if (this.currentDeck[card.properties.id] <= 0) {
+                card._rowVariant = "";
+            }
         },
         /**
          * This is called when the plus-sign button for a card
@@ -214,6 +218,9 @@ export default {
             if (this.totalSelected < this.maxCards &&
                 this.currentDeck[card.properties.id] !== card.max) {
                 this.currentDeck[card.properties.id]++;
+            }
+            if (this.currentDeck[card.properties.id] > 0) {
+                card._rowVariant = "success";
             }
         },
 
@@ -284,6 +291,11 @@ export default {
             this.currentDeckName = deck.name;
             this.currentDeck = deck.cards;
             this.deckName = deck.name;
+            for (var cardIndex in this.cards) {
+                let card = this.cards[cardIndex];
+                let cardUsed = this.currentDeck[card.properties.id] > 0;
+                card._rowVariant = cardUsed ? "success" : "";
+            }
         },
 
         /**
@@ -317,9 +329,10 @@ export default {
          */
         enterGame() {
             if (this.totalSelected >= this.minCards && this.totalSelected <= this.maxCards) {
-                // remove all .max properties so server does not die
+                // remove some client-only properties so server does not die
                 for (var card in this.deckConfig.configs.Deck.cardData) {
                     delete this.deckConfig.configs.Deck.cardData[card].max;
+                    delete this.deckConfig.configs.Deck.cardData[card]._rowVariant;
                 }
 
                 this.deckConfig.configs.Deck.chosen = this.currentDeck;
