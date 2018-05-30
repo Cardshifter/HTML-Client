@@ -42,7 +42,7 @@
               </td>
               <td id="lobby-users-list" class="lobby-users-list">
                   <ul id="lobby-users" class="lobby-users">
-                      <li v-for="user in users" id="lobby-user" class="lobby-user">
+                      <li v-for="user in sortedUsers" id="lobby-user" class="lobby-user">
                           <label>
                               <input v-model="selected_opponent" v-if="user.userId != currentUser.id" type="radio"
                                      :value="user.userId" name="user_selection" /> {{user.name}}
@@ -305,7 +305,17 @@ export default {
         CardshifterServerAPI.sendMessage(new CardshifterServerAPI.messageTypes.ServerQueryMessage("USERS", ""));
         CardshifterServerAPI.sendMessage(new CardshifterServerAPI.messageTypes.ServerQueryMessage("MODS", ""));
     },
-    computed: {},
+    computed: {
+      sortedUsers() {
+        let list = this.users.slice();
+        list.sort((a, b) => {
+          if (a.name > b.name) return 1;
+          if (a.name < b.name) return -1;
+          return 0;
+        });
+        return list;
+      }
+    },
     beforeDestroy() {
         CardshifterServerAPI.$off("type:userstatus", this.updateUserList);
         CardshifterServerAPI.$off("type:chat", this.addChatMessage);
