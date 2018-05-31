@@ -5,9 +5,17 @@
             {{info.name}}
         </h4>
         <ul style="list-style: none outside none; margin: 0; padding: 0;">
-            <Value :value="info.properties.HEALTH" :valueMax="info.properties.MAX_HEALTH" type="health" alwaysShow></Value>
-            <Value :value="info.properties.MANA" :valueMax="info.properties.MAX_MANA" type="mana" alwaysShow></Value>
-            <Value :value="info.properties.SCRAP" type="scrap"></Value>
+            <div style="display: block; margin: 5px;">
+                <Value :value="info.properties.HEALTH" :valueMax="info.properties.MAX_HEALTH" type="health" alwaysShow></Value>
+            </div>
+            <div style="display: block; margin: 5px;">
+                <Value :value="info.properties.MANA" :valueMax="info.properties.MAX_MANA" type="mana" alwaysShow></Value>
+            </div>
+            <div style="display: block; margin: 5px;">
+                <span v-if="info.properties.SCRAP">
+                    <Value :value="info.properties.SCRAP" type="scrap"></Value>
+                </span>
+            </div>
             <li v-for="(value, name) in otherPlayerData" :key="name">
                 <span style="font-weight: bold; font-size: 1.0em;">
                     {{name | formatResourceName}}:
