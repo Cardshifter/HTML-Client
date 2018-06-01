@@ -2,19 +2,19 @@
   <div>
     <h1>{{ mod }} on server {{ server }}</h1>
     <div>
-      <div v-for="(value, key) in cards">
+      <div v-for="(value, key) in cards" :key="key">
         <CardModel :card="value"></CardModel>
       </div>
     </div>
     <div>
       <table>
           <tr>
-            <th v-for="propertyName in tableKeys">
+            <th v-for="propertyName in tableKeys" :key="propertyName">
               {{ propertyName }}
             </th>
           </tr>
-          <tr v-for="card in cards">
-            <td v-for="propertyName in tableKeys">
+          <tr v-for="(card, cardKey) in cards" :key="cardKey">
+            <td v-for="propertyName in tableKeys" :key="propertyName">
               {{card.properties[propertyName] || '-'}}
             </td>
           </tr>
