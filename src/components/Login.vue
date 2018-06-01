@@ -172,6 +172,10 @@ export default {
           component.loggedIn = false;
       });
     },
+    errorResponse: function(response) {
+      this.errorMessage = response.message;
+      this.loggedIn = false;
+    },
     loginResponse: function(welcome) {
         if (welcome.status === SUCCESS && welcome.message === "OK") {
             let currentUser = {
@@ -193,6 +197,7 @@ export default {
             console.log(currentUser);
             this.$router.push({ name: 'Lobby', params: { currentUser: currentUser }});
         } else {
+            this.errorMessage = welcome.message;
             console.log("server messsage: " + welcome.message);
             this.loggedIn = false;
         }
@@ -248,6 +253,7 @@ export default {
   created() {
     this.chosenServer = this.serverOptions[0];
     CardshifterServerAPI.$on('type:loginresponse', this.loginResponse);
+    CardshifterServerAPI.$on('type:error', this.errorResponse);
     for(var storage in loginStorageMap) {
         if(loginStorageMap.hasOwnProperty(storage)) {
             this[loginStorageMap[storage]] = localStorage.getItem(storage) || "";
@@ -257,6 +263,7 @@ export default {
   },
   beforeDestroy() {
     CardshifterServerAPI.$off('type:loginresponse', this.loginResponse);
+    CardshifterServerAPI.$off('type:error', this.errorResponse);
   }
 };
 </script>
