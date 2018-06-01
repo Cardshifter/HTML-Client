@@ -45,7 +45,7 @@
             <label for="server" aria-label="Server" class="server-label">
                 Server:
             </label>
-            <select v-model="server" name="server" id="server" class="form-control">
+            <select v-model="chosenServer" name="server" id="server" class="form-control">
                 <option v-for="server in serverOptions" :value="server.address">{{server.name}}</option>
             </select>
             <!-- Removing because the functionality doesn't exist and it can confuse users -->
@@ -53,7 +53,7 @@
             <input data-ng-model="is_secure" name="secure" id="secure" type="checkbox" value="secure" />-->
         </div>
         <div class="form-group">
-            <div v-if="server=='other'" id="server_other">
+            <div v-if="chosenServer === 'other'" id="server_other">
                 <label for="server_other_input">Other Server:</label>
                 <input v-model="other_server" name="server_other_input" id="server_other_input" type="text" class="form-control" />
             </div>
@@ -158,7 +158,7 @@ export default {
         return;
       }
       this.loggedIn = true;
-      let finalServer = (this.server === "other" ? this.other_server : this.server);
+      let finalServer = (this.chosenServer === "other" ? this.other_server : this.chosenServer);
 
       let component = this;
       CardshifterServerAPI.init(finalServer, this.is_secure, function() {
