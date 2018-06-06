@@ -2,12 +2,12 @@
 
 Web-based client for Cardshifter game. To play the game, or for more information about the Cardshifter project, see:
 
-- [Official website](http://stats.zomis.net/io-web)
+- [Official website](http://cardshifter.zomis.net/)
 
 - [Primary repository on GitHub](https://github.com/Cardshifter/Cardshifter)
 
 ### Development
-Ensure you have [NodeJS](https://nodejs.org/) and [npm](https://www.npmjs.com/) installed. Then execute the following instructions:
+Ensure you have [NodeJS](https://nodejs.org/) and [npm](https://www.npmjs.com/) installed. Then execute the following instructions using Windows, OS X  or Linux terminal:
 
 ```bash
 # browse to a directory on your local machine to clone the repository to
