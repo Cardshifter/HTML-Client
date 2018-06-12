@@ -93,3 +93,24 @@ export default {
 }
 
 </script>
+<style scoped>
+.diff-once-leave-active {
+  transition: all 1s;
+  position: absolute;
+}
+
+.pos-absolute {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.diff-once-leave {
+  opacity: 1;
+}
+
+.diff-once-leave-to {
+  opacity: 0;
+  transform: translateY(-30px);
+}
+</style>
