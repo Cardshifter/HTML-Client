@@ -44,47 +44,49 @@ export default {
 
 .top-wave {
   position: relative;
-  height: 70px;
-  width: 600px;
+  height: 35px;
+  width: 150px;
   background: white;
 }
+
 .top-wave:before {
   content: "";
   display: block;
   position: absolute;
   border-radius: 100% 50%;
-  width: 340px;
-  height: 80px;
+  width: 85px;
+  height: 40px;
   background-color: gray;
   right: 0;
-  top: 40px;
+  top: 15px;
 }
+
 .top-wave:after {
   content: "";
   display: block;
   position: absolute;
   border-radius: 100% 50%;
-  width: 300px;
-  height: 70px;
+  width: 75px;
+  height: 35px;
   background-color: white;
   left: 0;
-  top: 27px;
+  top: 8px;
 }
 
 .box-top {
-  width: 600px;
-  height: 10px;
+  width: 150px;
+  height: 5px;
 }
 
 .box-bottom {
-  width: 600px;
-  height: 100px;
+  width: 150px;
+  height: 5px;
 }
 
 .bottom-wave {
   position: relative;
-  height: 70px;
-  width: 600px;
+  height: 35px;
+  width: 150px;
 }
 
 .bottom-wave:before {
@@ -92,28 +94,29 @@ export default {
   display: block;
   position: absolute;
   border-radius: 100% 50%;
-  width: 340px;
-  height: 80px;
+  width: 85px;
+  height: 40px;
   background-color: white;
   right: -5px;
-  top: 38px;
+  top: 17px;
 }
+
 .bottom-wave:after {
   content: "";
   display: block;
   position: absolute;
   border-radius: 100% 50%;
-  width: 300px;
+  width: 75px;
   height: 70px;
   background-color: green;
   left: 0;
-  top: 27px;
+  top: -8px;
 }
 
 .oval {
-	width: 200px;
-	height: 100px;
-	border-radius: 33%;
+	width: 120px;
+	height: 70px;
+	border-radius: 35%;
 }
 
 .diamond-narrow {

@@ -1,8 +1,12 @@
 <template>
   <div class="setgame">
-    <SetCard v-for="(card, index) in currentCards" :key="index" :symbol="card.symbol" :count="card.count"
-      :filling="card.filling" :color="card.color">
-    </SetCard>
+    <div class="area">
+      <SetCard v-for="(card, index) in currentCards" :key="index" :symbol="card.symbol" :count="card.count"
+        :filling="card.filling" :color="card.color">
+      </SetCard>
+    </div>
+    <div class="empty"></div>
+    <SetCard symbol="wave" count="1" filling="solid" color="red"></SetCard>
   </div>
 </template>
 <script>
@@ -28,8 +32,12 @@ export default {
 }
 </script>
 <style scoped>
-.setgame {
-  display: grid;
-  grid-template: 300px 300px 300px / 200px 200px 200px 200px;
+.area {
+//  display: grid;
+//  grid-template: 300px 300px 300px / 200px 200px 200px 200px;
+}
+
+.empty {
+  margin-top: 200px;
 }
 </style>
