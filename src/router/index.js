@@ -6,6 +6,7 @@ import Lobby from "@/components/Lobby";
 import DeckBuilder from "@/components/DeckBuilder";
 import CardList from "@/components/CardList";
 import GameBoard from "@/components/GameBoard";
+import SetGame from "@/components/set/SetGame";
 
 import VueAxios from "vue-axios";
 import VueAuthenticate from "vue-authenticate";
@@ -30,6 +31,12 @@ export default new Router({
       path: "/game_board",
       name: "GameBoard",
       component: GameBoard,
+      props: true
+    },
+    {
+      path: "/dev/set",
+      name: "SetGame",
+      component: SetGame,
       props: true
     },
     {
