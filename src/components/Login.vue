@@ -4,7 +4,7 @@
     <!-- Server status -->
     <h4>Server Status</h4>
     <div class="server-status">
-        <ServerStatusGrid></ServerStatusGrid>
+        <ServerStatusGrid :serverOptions="serverOptions"></ServerStatusGrid>
         <!-- <table>
             <tr>
                 <th>Server</th>
@@ -30,7 +30,7 @@
                 </td>
                 <td>{{!server.gamesRunning ? '-' : `${server.gamesRunning} ${server.gamesRunning === 1 ? 'game' : 'games'}`}}</td>
                 <td>{{!server.ais ? '-' : `${server.ais} ${server.ais === 1 ? 'AI' : 'AIs'}`}}</td>
-                <td>{{! server.latency ? '-' : `${server.latency} ms`}}</td>
+                <td>{{!server.latency ? '-' : `${server.latency} ms`}}</td>
             </tr>
         </table> -->
         <input @click="refreshServers()" :disabled="refreshing" type="button" value="Refresh" class="btn btn-navbar" style="margin-top: 10px;"/>
