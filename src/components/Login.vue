@@ -4,8 +4,8 @@
     <!-- Server status -->
     <h4>Server Status</h4>
     <div class="server-status">
-        <table>
-            <!-- Should these be dynamically loaded? -->
+        <ServerStatusGrid></ServerStatusGrid>
+        <!-- <table>
             <tr>
                 <th>Server</th>
                 <th>Online</th>
@@ -32,7 +32,7 @@
                 <td>{{!server.ais ? '-' : `${server.ais} ${server.ais === 1 ? 'AI' : 'AIs'}`}}</td>
                 <td>{{! server.latency ? '-' : `${server.latency} ms`}}</td>
             </tr>
-        </table>
+        </table> -->
         <input @click="refreshServers()" :disabled="refreshing" type="button" value="Refresh" class="btn btn-navbar" style="margin-top: 10px;"/>
         <p v-if="refreshing">Refreshing...</p>
     </div>
@@ -109,6 +109,7 @@
 <script>
 import CardshifterServerAPI from "../server_interface";
 import TopNavbar from "./TopNavbar";
+import ServerStatusGrid from "./css_grid/ServerStatusGrid";
 
 const loginStorageMap = {
     "CARDSHIFTER_LAST_NAME": "username",
@@ -138,7 +139,8 @@ export default {
     };
   },
   components :{
-      TopNavbar
+      TopNavbar,
+      ServerStatusGrid
   },
   methods: {
     /*
