@@ -13,9 +13,14 @@
 
         <css-grid-item
             class="server-status-cell"
-            v-for="(content, index) in getGridCellsContent(serverOptions)"
-            :key="index">
-            {{content}}
+            v-for="(content, i) in getGridCellsContent(serverOptions)"
+            :key="i">
+            <span v-if="content.constructor !== Array">{{content}}</span>
+            <ul v-else>
+                <li v-for="(value, j) in content" :key="j">
+                    {{value}}
+                </li>
+            </ul>
         </css-grid-item>
 
     </css-grid>
@@ -44,6 +49,7 @@ export default {
         getGridCellsContent: function(serverOptions) {
             console.log(serverOptions);
             const allServerValues = [];
+            const allServerAddresses = [];
             const serverValueIndexes = {
                 name: 0,
                 isOnline: 1,
@@ -51,22 +57,24 @@ export default {
                 availableMods: 3,
                 gamesRunning: 4,
                 ais: 5,
-                latency: 6
+                latency: 6,
             };
-            // Skip last value in array because it is for "Other"
+            // Skipping last index because it is for "Other..." server
             for (let server = 0; server < serverOptions.length - 1; server++) {
                 console.log(server);
-                const thisServerValues = [
-                    serverOptions[server].name,
-                    serverOptions[server].isOnline || false,
-                    serverOptions[server].userCount || 0,
-                    serverOptions[server].availableMods || [],
-                    serverOptions[server].gamesRunning || 0,
-                    serverOptions[server].ais || 0,
-                    serverOptions[server].latency || null
-                ];
-                console.log("thisServerValues");
-                console.log(thisServerValues);
+                const thisServerValues = [];
+                if (server.name !== "Other...") {
+                    allServerAddresses.push(serverOptions[server].address);
+                    thisServerValues.push(serverOptions[server].name);
+                    thisServerValues.push(serverOptions[server].isOnline || false);
+                    thisServerValues.push(serverOptions[server].userCount || 0);
+                    thisServerValues.push(serverOptions[server].availableMods || []);
+                    thisServerValues.push(serverOptions[server].gamesRunning || 0);
+                    thisServerValues.push(serverOptions[server].ais || 0);
+                    thisServerValues.push(serverOptions[server].latency || null);
+                    console.log("thisServerValues");
+                    console.log(thisServerValues);
+                }
                 for (let index = 0; index < thisServerValues.length; index++) {
                     switch(index) {
                         case serverValueIndexes.name:
@@ -87,13 +95,9 @@ export default {
                             break;
                         case serverValueIndexes.availableMods:
                             allServerValues.push(
-                                `<ul class="server-mod-list">` +
-                                    `<li>` +
-                                        `<router-link :to="/cards?server=${server.address}&mod=${serverValueIndexes.availableMods}">` +
-                                            `{{ key }}` +
-                                        `</router-link>` +
-                                    `</li>` +
-                                `</ul>`
+                                !thisServerValues[index] || thisServerValues[index].length === 0
+                                    ? "-"
+                                    : thisServerValues[index]
                             );
                             break;
                         case serverValueIndexes.gamesRunning:
@@ -113,7 +117,7 @@ export default {
                             break;
                         case serverValueIndexes.latency:
                             allServerValues.push(
-                                !thisServerValues[index] ? '-' : `${server.latency} ms`
+                                !thisServerValues[index] ? '-' : `${thisServerValues[index]} ms`
                             );
                             break;
                         default:
@@ -125,6 +129,10 @@ export default {
             console.log("allServerValues");
             console.log(allServerValues);
             return allServerValues;
+            // return {
+            //     allServerValues: allServerValues,
+            //     allServerAddresses: allServerAddresses
+            // };
         }
     }
 }
@@ -139,5 +147,13 @@ export default {
     border-collapse: collapse;
     font-weight: bold;
     font-size: 1.2em;
+}
+.server-status-cell {
+    background-color: #FFF;
+    color: #000;
+    padding: 5px;
+    border: 1px solid #000;
+    border-collapse: collapse;
+    font-size: 1.0em;
 }
 </style>
