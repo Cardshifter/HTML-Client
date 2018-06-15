@@ -53,16 +53,20 @@ export default {
                 ais: 5,
                 latency: 6
             };
-            for (let server in serverOptions) {
+            // Skip last value in array because it is for "Other"
+            for (let server = 0; server < serverOptions.length - 1; server++) {
+                console.log(server);
                 const thisServerValues = [
-                    server.name,
-                    server.isOnline,
-                    server.userCount,
-                    server.availableMods,
-                    server.gamesRunning,
-                    server.ais,
-                    server.latency
+                    serverOptions[server].name,
+                    serverOptions[server].isOnline || false,
+                    serverOptions[server].userCount || 0,
+                    serverOptions[server].availableMods || [],
+                    serverOptions[server].gamesRunning || 0,
+                    serverOptions[server].ais || 0,
+                    serverOptions[server].latency || null
                 ];
+                console.log("thisServerValues");
+                console.log(thisServerValues);
                 for (let index = 0; index < thisServerValues.length; index++) {
                     switch(index) {
                         case serverValueIndexes.name:
@@ -115,6 +119,7 @@ export default {
                     }
                 }
             }
+            console.log("allServerValues");
             console.log(allServerValues);
             return allServerValues;
         }
