@@ -70,14 +70,17 @@ export default {
                 for (let index = 0; index < thisServerValues.length; index++) {
                     switch(index) {
                         case serverValueIndexes.name:
-                            allServerValues.push(server[index]);
+                            allServerValues.push(thisServerValues[index]);
                             break;
                         case serverValueIndexes.isOnline:
-                            allServerValues.push(server[index] ? "true" : "false");
+                            allServerValues.push(thisServerValues[index] ? "true" : "false");
+                            break;
                         case serverValueIndexes.userCount:
-                            let realUserCount = parseInt(server.userCount);
-                            realUserCount--;
-                            allServerValues.push(server[index]
+                            let realUserCount = thisServerValues[index];
+                            if (realUserCount !== 0) {
+                                realUserCount--;
+                            }
+                            allServerValues.push(realUserCount < 0 || realUserCount
                                 ? '-'
                                 : `${realUserCount} ${realUserCount === 1 ? 'user' : 'users'}`
                             );
@@ -94,14 +97,14 @@ export default {
                             );
                             break;
                         case serverValueIndexes.gamesRunning:
-                            const gamesRunning = server.gamesRunning;
+                            const gamesRunning = thisServerValues[index];
                             allServerValues.push(!gamesRunning
                                 ? '-'
                                 : `${gamesRunning} ${gamesRunning === 1 ? 'game' : 'games'}`
                             );
                             break;
                         case serverValueIndexes.ais:
-                            const serverAis = server.ais;
+                            const serverAis = thisServerValues[index];
                             allServerValues.push(
                                 !serverAis
                                     ? '-'
@@ -110,7 +113,7 @@ export default {
                             break;
                         case serverValueIndexes.latency:
                             allServerValues.push(
-                                !server.latency ? '-' : `${server.latency} ms`
+                                !thisServerValues[index] ? '-' : `${server.latency} ms`
                             );
                             break;
                         default:
