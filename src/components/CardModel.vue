@@ -56,7 +56,7 @@
             </div>
             <!-- effect text -->
             <div v-show="card.properties.effect" style="float: right; padding: 5px; text-align: center;">
-                <b-btn class="btn btn-sm btn-secondary fa fa-flash" :id="`${card.id}-effect`">FX</b-btn>
+                <b-btn class="btn btn-sm btn-secondary fa fa-flash" :id="`${card.id}-effect`">&nbsp;FX</b-btn>
                 <b-popover :target="`${card.id}-effect`"
                     :title="card.properties.name"
                     triggers="hover focus"
