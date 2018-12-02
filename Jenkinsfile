@@ -25,7 +25,7 @@ pipeline {
             steps {
                 script {
                     sh 'docker ps -q --filter name="cardshifter_client" | xargs -r docker stop'
-                    sh 'docker run -d --rm --name cardshifter_client -v $(pwd)/dist:/usr/share/nginx/html:ro -p 22739:80 nginx'
+                    sh 'docker run -d --rm --name cardshifter_client -v $(pwd)/dist:/usr/share/nginx/html:ro -p 192.168.0.110:22739:80 nginx'
                 }
             }
         }
