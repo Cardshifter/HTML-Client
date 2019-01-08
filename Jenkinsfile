@@ -27,7 +27,7 @@ pipeline {
                     sh 'docker ps -q --filter name="cardshifter_client" | xargs -r docker stop'
 
                     sh 'rm -rf /home/zomis/docker-volumes/cardshifter-client'
-                    sh 'cp -r $(pwd)/games-vue-client/dist /home/zomis/docker-volumes/cardshifter-client'
+                    sh 'cp -r $(pwd)/dist /home/zomis/docker-volumes/cardshifter-client'
                     sh 'docker run -d --rm --name cardshifter_client -v /home/zomis/docker-volumes/cardshifter-client:/usr/share/nginx/html:ro -p 22739:80 nginx'
                 }
             }
